@@ -194,7 +194,7 @@ public class VelocityUtils
         }
         else if (template.contains("service.java.vm"))
         {
-            fileName = StringUtils.format("{}/service/I{}Service.java", javaPath, className);
+            fileName = StringUtils.format("{}/service/{}Service.java", javaPath, className);
         }
         else if (template.contains("serviceImpl.java.vm"))
         {
@@ -260,7 +260,11 @@ public class VelocityUtils
             {
                 importList.add("java.util.Date");
                 importList.add("com.fasterxml.jackson.annotation.JsonFormat");
-            }
+            } else if (!column.isSuperColumn() && GenConstants.TYPE_LOCALDATETIME.equals(column.getJavaType()))
+			{
+				importList.add("java.time.LocalDateTime");
+                importList.add("com.fasterxml.jackson.annotation.JsonFormat");
+			}
             else if (!column.isSuperColumn() && GenConstants.TYPE_BIGDECIMAL.equals(column.getJavaType()))
             {
                 importList.add("java.math.BigDecimal");

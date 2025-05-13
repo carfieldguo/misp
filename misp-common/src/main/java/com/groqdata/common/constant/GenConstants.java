@@ -105,6 +105,9 @@ public class GenConstants
 
     /** 时间类型 */
     public static final String TYPE_DATE = "Date";
+    
+    /** 本地时间类型*/
+    public static final String TYPE_LOCALDATETIME = "LocalDateTime";
 
     /** 模糊查询 */
     public static final String QUERY_LIKE = "LIKE";
