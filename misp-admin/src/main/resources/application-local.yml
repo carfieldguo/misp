@@ -1,13 +1,13 @@
 # 项目相关配置
 misp:
   # 名称
-  name: UWLATS
+  name: MISP
   # 版本
   version: 3.8.8
   # 版权年份
   copyrightYear: 2024
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: /home/uwlats/uploadPath
+  profile: /home/misp/uploadPath
   # 获取ip地址开关
   addressEnabled: false
   # 验证码类型 math 数字计算 char 字符验证
@@ -97,7 +97,7 @@ spring:
               allow:
               url-pattern: /druid/*
               # 控制台管理用户名和密码
-              login-username: uwlats
+              login-username: misp
               login-password: 123456
           filter:
               stat:
