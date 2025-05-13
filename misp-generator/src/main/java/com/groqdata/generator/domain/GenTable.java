@@ -23,6 +23,9 @@ public class GenTable extends BaseEntity
     /** 表名称 */
     @NotBlank(message = "表名称不能为空")
     private String tableName;
+    
+    /** 表名首字母缩写 */
+    private String tableShortName;
 
     /** 表描述 */
     @NotBlank(message = "表描述不能为空")
@@ -118,6 +121,14 @@ public class GenTable extends BaseEntity
         this.tableName = tableName;
     }
 
+    public String getTableShortName() {
+		return tableShortName;
+	}
+
+	public void setTableShortName(String tableShortName) {
+		this.tableShortName = tableShortName;
+	}
+	
     public String getTableComment()
     {
         return tableComment;

@@ -211,6 +211,10 @@ public class GenTableServiceImpl implements IGenTableService
         setSubTable(table);
         // 设置主键列信息
         setPkColumn(table);
+        
+        // 设置表的简写名称
+        setTableShortName(table);
+        
         VelocityInitializer.initVelocity();
 
         VelocityContext context = VelocityUtils.prepareContext(table);
@@ -371,6 +375,9 @@ public class GenTableServiceImpl implements IGenTableService
         setSubTable(table);
         // 设置主键列信息
         setPkColumn(table);
+        
+        // 设置表的简写名称
+        setTableShortName(table);
 
         VelocityInitializer.initVelocity();
 
@@ -399,6 +406,7 @@ public class GenTableServiceImpl implements IGenTableService
             }
         }
     }
+    
 
     /**
      * 修改保存参数校验
@@ -473,6 +481,26 @@ public class GenTableServiceImpl implements IGenTableService
             }
         }
     }
+    
+    /**
+     * 设置表的简写名称
+     * @param table 业务表信息
+     */
+    public void  setTableShortName(GenTable table)
+	{
+		String tableName = table.getTableName();
+		if (StringUtils.isNotEmpty(tableName)) {
+			StringBuilder abbreviation = new StringBuilder();
+			String[] words = tableName.split("_");
+			for (String word : words) {
+				if (!word.isEmpty()) {
+					abbreviation.append(word.charAt(0));
+				}
+			}
+			table.setTableShortName(abbreviation.toString());
+		}
+	}
+
 
     /**
      * 设置主子表信息
