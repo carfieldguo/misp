@@ -106,6 +106,16 @@
           v-hasPermi="['${moduleName}:${businessName}:export']"
         >导出</el-button>
       </el-col>
+		<el-col :span="1.5">
+		  <el-button
+		    type="success"
+		    plain
+		    icon="View"
+		    :disabled="single"
+		    @click="handleView"
+		    v-hasPermi="['${moduleName}:${businessName}:view']"
+		  >查看</el-button>
+		</el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -151,6 +161,7 @@
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['${moduleName}:${businessName}:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['${moduleName}:${businessName}:remove']">删除</el-button>
+          <el-button link type="primary" icon="View" @click="handleView(scope.row)" v-hasPermi="['${moduleName}:${businessName}:view']">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -163,8 +174,31 @@
       @pagination="getList"
     />
 
+ <!-- 查询${functionName}详情对话框 -->
+<el-dialog :title="title" v-model="viewVisible" width="500px" append-to-body>
+  <el-form :model="viewData" label-width="80px">
+    #foreach($column in $columns)
+    <el-form-item label="${column.columnComment}">
+      <span>
+        #if($column.dictType != "")
+        <!-- 显示字典标签 -->
+        <dict-tag :options="${column.dictType}" :value="viewData.${column.javaField}" />
+        #else
+        <!-- 显示普通字段值 -->
+        {{ viewData.${column.javaField} }}
+        #end
+      </span>
+    </el-form-item>
+    #end
+  </el-form>
+  <template #footer>
+    <el-button @click="viewVisible = false">关闭</el-button>
+  </template>
+</el-dialog>
+
+
     <!-- 添加或修改${functionName}对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="500px" append-to-body :close-on-click-modal="false">
       <el-form ref="${businessNameCamel}Ref" :model="form" :rules="rules" label-width="80px">
 #foreach($column in $columns)
 #set($field=$column.javaField)
@@ -367,6 +401,8 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+const viewVisible = ref(false); // 控制查看详情弹窗的显示状态
+const viewData = ref({}); // 存储查看详情的数据
 #foreach ($column in $columns)
 #if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
@@ -503,6 +539,17 @@ function handleUpdate(row) {
   });
 }
 
+/** 查看按钮操作 */
+function handleView(row) {
+  const _${pkColumn.javaField} = row.${pkColumn.javaField} || ids.value ;
+  get${BusinessNameCamel}(_${pkColumn.javaField}).then(response => {
+    viewData.value = response.data; // 赋值数据到viewData
+    viewVisible.value = true; // 打开查看详情弹窗
+    title.value = "查看${functionName}";
+  });
+}
+
+
 /** 提交按钮 */
 function submitForm() {
   proxy.#[[$]]#refs["${businessNameCamel}Ref"].validate(valid => {
@@ -561,6 +608,7 @@ function handleAdd${subClassName}() {
   ${subclassName}List.value.push(obj);
 }
 
+
 /** ${subTable.functionName}删除按钮操作 */
 function handleDelete${subClassName}() {
   if (checked${subClassName}.value.length == 0) {
@@ -589,3 +637,4 @@ function handleExport() {
 
 getList();
 </script>
+
