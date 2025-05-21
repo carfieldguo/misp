@@ -180,9 +180,6 @@ public class VelocityUtils
         // 业务名称
         String businessName = genTable.getBusinessName();
         
-        // 业务驼峰名称
-        String businessNameCamel = StringUtils.convertToCamelCase(genTable.getBusinessName(), "-", false);
-        
 
         String javaPath = PROJECT_PATH + "/" + StringUtils.replace(packageName, ".", "/");
         String mybatisPath = MYBATIS_PATH + "/" + moduleName;
@@ -222,7 +219,7 @@ public class VelocityUtils
         }
         else if (template.contains("api.js.vm"))
         {
-            fileName = StringUtils.format("{}/api/{}/{}.js", vuePath, moduleName, businessNameCamel);
+            fileName = StringUtils.format("{}/api/{}/{}.js", vuePath, moduleName, businessName);
         }
         else if (template.contains("index.vue.vm"))
         {

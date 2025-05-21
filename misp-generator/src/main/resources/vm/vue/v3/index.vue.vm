@@ -344,7 +344,7 @@
 </template>
 
 <script setup name="${BusinessNameCamel}">
-import { list${BusinessNameCamel}, get${BusinessNameCamel}, del${BusinessNameCamel}, add${BusinessNameCamel}, update${BusinessNameCamel} } from "@/api/${moduleName}/${businessNameCamel}";
+import { list${BusinessNameCamel}, get${BusinessNameCamel}, del${BusinessNameCamel}, add${BusinessNameCamel}, update${BusinessNameCamel} } from "@/api/${moduleName}/${businessName}";
 
 const { proxy } = getCurrentInstance();
 #if(${dicts} != '')
