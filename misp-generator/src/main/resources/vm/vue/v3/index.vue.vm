@@ -17,12 +17,13 @@
           v-model="queryParams.${column.javaField}"
           placeholder="请输入${comment}"
           clearable
+          style="width: 240px"
           @keyup.enter="handleQuery"
         />
       </el-form-item>
 #elseif(($column.htmlType == "select" || $column.htmlType == "radio") && "" != $dictType)
       <el-form-item label="${comment}" prop="${column.javaField}">
-        <el-select v-model="queryParams.${column.javaField}" placeholder="请选择${comment}" clearable>
+        <el-select v-model="queryParams.${column.javaField}" placeholder="请选择${comment}"  style="width: 240px" clearable>
           <el-option
             v-for="dict in ${dictType}"
             :key="dict.value"
@@ -33,12 +34,12 @@
       </el-form-item>
 #elseif(($column.htmlType == "select" || $column.htmlType == "radio") && $dictType)
       <el-form-item label="${comment}" prop="${column.javaField}">
-        <el-select v-model="queryParams.${column.javaField}" placeholder="请选择${comment}" clearable>
+        <el-select v-model="queryParams.${column.javaField}" placeholder="请选择${comment}"  style="width: 240px" clearable>
           <el-option label="请选择字典生成" value="" />
         </el-select>
       </el-form-item>
 #elseif($column.htmlType == "datetime" && $column.queryType != "BETWEEN")
-      <el-form-item label="${comment}" prop="${column.javaField}">
+      <el-form-item label="${comment}" prop="${column.javaField}"  style="width: 308px">
         <el-date-picker clearable
           v-model="queryParams.${column.javaField}"
           type="date"
@@ -108,7 +109,7 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="${businessName}List" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="${businessNameCamel}List" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
 #foreach($column in $columns)
 #set($javaField=$column.javaField)
@@ -164,7 +165,7 @@
 
     <!-- 添加或修改${functionName}对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="${businessName}Ref" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="${businessNameCamel}Ref" :model="form" :rules="rules" label-width="80px">
 #foreach($column in $columns)
 #set($field=$column.javaField)
 #if($column.insert && !$column.pk)
@@ -176,7 +177,7 @@
 #set($comment=$column.columnComment)
 #end
 #set($dictType=$column.dictType)
-#if($column.htmlType == "input")
+#if(!$column.htmlType || $column.htmlType == "" || $column.htmlType == "input")
         <el-form-item label="${comment}" prop="${field}">
           <el-input v-model="form.${field}" placeholder="请输入${comment}" />
         </el-form-item>
@@ -342,8 +343,8 @@
   </div>
 </template>
 
-<script setup name="${BusinessName}">
-import { list${BusinessName}, get${BusinessName}, del${BusinessName}, add${BusinessName}, update${BusinessName} } from "@/api/${moduleName}/${businessName}";
+<script setup name="${BusinessNameCamel}">
+import { list${BusinessNameCamel}, get${BusinessNameCamel}, del${BusinessNameCamel}, add${BusinessNameCamel}, update${BusinessNameCamel} } from "@/api/${moduleName}/${businessNameCamel}";
 
 const { proxy } = getCurrentInstance();
 #if(${dicts} != '')
@@ -351,7 +352,7 @@ const { proxy } = getCurrentInstance();
 const { ${dictsNoSymbol} } = proxy.useDict(${dicts});
 #end
 
-const ${businessName}List = ref([]);
+const ${businessNameCamel}List = ref([]);
 #if($table.sub)
 const ${subclassName}List = ref([]);
 #end
@@ -421,8 +422,8 @@ function getList() {
   }
 #end
 #end
-  list${BusinessName}(queryParams.value).then(response => {
-    ${businessName}List.value = response.rows;
+  list${BusinessNameCamel}(queryParams.value).then(response => {
+    ${businessNameCamel}List.value = response.rows;
     total.value = response.total;
     loading.value = false;
   });
@@ -448,7 +449,7 @@ function reset() {
 #if($table.sub)
   ${subclassName}List.value = [];
 #end
-  proxy.resetForm("${businessName}Ref");
+  proxy.resetForm("${businessNameCamel}Ref");
 }
 
 /** 搜索按钮操作 */
@@ -487,7 +488,7 @@ function handleAdd() {
 function handleUpdate(row) {
   reset();
   const _${pkColumn.javaField} = row.${pkColumn.javaField} || ids.value
-  get${BusinessName}(_${pkColumn.javaField}).then(response => {
+  get${BusinessNameCamel}(_${pkColumn.javaField}).then(response => {
     form.value = response.data;
 #foreach ($column in $columns)
 #if($column.htmlType == "checkbox")
@@ -504,7 +505,7 @@ function handleUpdate(row) {
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.#[[$]]#refs["${businessName}Ref"].validate(valid => {
+  proxy.#[[$]]#refs["${businessNameCamel}Ref"].validate(valid => {
     if (valid) {
 #foreach ($column in $columns)
 #if($column.htmlType == "checkbox")
@@ -515,13 +516,13 @@ function submitForm() {
       form.value.${subclassName}List = ${subclassName}List.value;
 #end
       if (form.value.${pkColumn.javaField} != null) {
-        update${BusinessName}(form.value).then(response => {
+        update${BusinessNameCamel}(form.value).then(response => {
           proxy.#[[$modal]]#.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        add${BusinessName}(form.value).then(response => {
+        add${BusinessNameCamel}(form.value).then(response => {
           proxy.#[[$modal]]#.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -535,7 +536,7 @@ function submitForm() {
 function handleDelete(row) {
   const _${pkColumn.javaField}s = row.${pkColumn.javaField} || ids.value;
   proxy.#[[$modal]]#.confirm('是否确认删除${functionName}编号为"' + _${pkColumn.javaField}s + '"的数据项？').then(function() {
-    return del${BusinessName}(_${pkColumn.javaField}s);
+    return del${BusinessNameCamel}(_${pkColumn.javaField}s);
   }).then(() => {
     getList();
     proxy.#[[$modal]]#.msgSuccess("删除成功");
@@ -583,7 +584,7 @@ function handle${subClassName}SelectionChange(selection) {
 function handleExport() {
   proxy.download('${moduleName}/${businessName}/export', {
     ...queryParams.value
-  }, `${businessName}_#[[${new Date().getTime()}]]#.xlsx`)
+  }, `${functionName}_#[[${new Date().getTime()}]]#.xlsx`)
 }
 
 getList();

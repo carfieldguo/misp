@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groqdata.consumer.mapper.ConsumerEnterpriseInfoMapper">
+    
+    <resultMap type="ConsumerEnterpriseInfo" id="ConsumerEnterpriseInfoResult">
+        <result property="id"    column="id"    />
+        <result property="entName"    column="ent_name"    />
+        <result property="entUscc"    column="ent_uscc"    />
+        <result property="entLicenseUrl"    column="ent_license_url"    />
+        <result property="entLogoUrl"    column="ent_logo_url"    />
+        <result property="consumerAccount"    column="consumer_account"    />
+        <result property="auditStatus"    column="audit_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectConsumerEnterpriseInfoVo">
+        select  cei.id, cei.ent_name, cei.ent_uscc, cei.ent_license_url, cei.ent_logo_url, cei.consumer_account, cei.audit_status, cei.create_time, cei.create_by, cei.update_time, cei.update_by 
+        from consumer_enterprise_info cei
+    </sql>
+
+    <select id="selectConsumerEnterpriseInfoList" parameterType="ConsumerEnterpriseInfo" resultMap="ConsumerEnterpriseInfoResult">
+        <include refid="selectConsumerEnterpriseInfoVo"/>
+        <where>  
+            <if test="entName != null  and entName != ''"> and cei.ent_name like concat('%', #{entName}, '%')</if>
+            <if test="entUscc != null  and entUscc != ''"> and cei.ent_uscc = #{entUscc}</if>
+            <if test="entLicenseUrl != null  and entLicenseUrl != ''"> and cei.ent_license_url = #{entLicenseUrl}</if>
+            <if test="entLogoUrl != null  and entLogoUrl != ''"> and cei.ent_logo_url = #{entLogoUrl}</if>
+            <if test="consumerAccount != null  and consumerAccount != ''"> and cei.consumer_account = #{consumerAccount}</if>
+            <if test="auditStatus != null  and auditStatus != ''"> and cei.audit_status = #{auditStatus}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and cei.create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+        order by cei.create_time desc
+    </select>
+    
+    <select id="selectConsumerEnterpriseInfoById" parameterType="Long" resultMap="ConsumerEnterpriseInfoResult">
+        <include refid="selectConsumerEnterpriseInfoVo"/>
+        where cei.id = #{id}
+    </select>
+
+    <insert id="insertConsumerEnterpriseInfo" parameterType="ConsumerEnterpriseInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into consumer_enterprise_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entName != null and entName != ''">ent_name,</if>
+            <if test="entUscc != null and entUscc != ''">ent_uscc,</if>
+            <if test="entLicenseUrl != null">ent_license_url,</if>
+            <if test="entLogoUrl != null">ent_logo_url,</if>
+            <if test="consumerAccount != null and consumerAccount != ''">consumer_account,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entName != null and entName != ''">#{entName},</if>
+            <if test="entUscc != null and entUscc != ''">#{entUscc},</if>
+            <if test="entLicenseUrl != null">#{entLicenseUrl},</if>
+            <if test="entLogoUrl != null">#{entLogoUrl},</if>
+            <if test="consumerAccount != null and consumerAccount != ''">#{consumerAccount},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateConsumerEnterpriseInfo" parameterType="ConsumerEnterpriseInfo">
+        update consumer_enterprise_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="entName != null and entName != ''">ent_name = #{entName},</if>
+            <if test="entUscc != null and entUscc != ''">ent_uscc = #{entUscc},</if>
+            <if test="entLicenseUrl != null">ent_license_url = #{entLicenseUrl},</if>
+            <if test="entLogoUrl != null">ent_logo_url = #{entLogoUrl},</if>
+            <if test="consumerAccount != null and consumerAccount != ''">consumer_account = #{consumerAccount},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteConsumerEnterpriseInfoById" parameterType="Long">
+        delete from consumer_enterprise_info where id = #{id}
+    </delete>
+
+    <delete id="deleteConsumerEnterpriseInfoByIds" parameterType="String">
+        delete from consumer_enterprise_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

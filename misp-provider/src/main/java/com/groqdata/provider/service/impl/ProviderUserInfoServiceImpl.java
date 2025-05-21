@@ -1,0 +1,96 @@
+package com.groqdata.provider.service.impl;
+
+import java.util.List;
+import com.groqdata.common.utils.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.groqdata.provider.mapper.ProviderUserInfoMapper;
+import com.groqdata.provider.domain.ProviderUserInfo;
+import com.groqdata.provider.service.ProviderUserInfoService;
+
+/**
+ * 服务提供方-账号信息Service业务层处理
+ * 
+ * @author carfield
+ * @date 2025-05-21
+ */
+@Service
+public class ProviderUserInfoServiceImpl implements ProviderUserInfoService 
+{
+    @Autowired
+    private ProviderUserInfoMapper providerUserInfoMapper;
+
+    /**
+     * 查询服务提供方-账号信息
+     * 
+     * @param id 服务提供方-账号信息主键
+     * @return 服务提供方-账号信息
+     */
+    @Override
+    public ProviderUserInfo selectProviderUserInfoById(Long id)
+    {
+        return providerUserInfoMapper.selectProviderUserInfoById(id);
+    }
+
+    /**
+     * 查询服务提供方-账号信息列表
+     * 
+     * @param providerUserInfo 服务提供方-账号信息
+     * @return 服务提供方-账号信息
+     */
+    @Override
+    public List<ProviderUserInfo> selectProviderUserInfoList(ProviderUserInfo providerUserInfo)
+    {
+        return providerUserInfoMapper.selectProviderUserInfoList(providerUserInfo);
+    }
+
+    /**
+     * 新增服务提供方-账号信息
+     * 
+     * @param providerUserInfo 服务提供方-账号信息
+     * @return 结果
+     */
+    @Override
+    public int insertProviderUserInfo(ProviderUserInfo providerUserInfo)
+    {
+        providerUserInfo.setCreateTime(DateUtils.getNowDate());
+        return providerUserInfoMapper.insertProviderUserInfo(providerUserInfo);
+    }
+
+    /**
+     * 修改服务提供方-账号信息
+     * 
+     * @param providerUserInfo 服务提供方-账号信息
+     * @return 结果
+     */
+    @Override
+    public int updateProviderUserInfo(ProviderUserInfo providerUserInfo)
+    {
+        providerUserInfo.setUpdateTime(DateUtils.getNowDate());
+        return providerUserInfoMapper.updateProviderUserInfo(providerUserInfo);
+    }
+
+    /**
+     * 批量删除服务提供方-账号信息
+     * 
+     * @param ids 需要删除的服务提供方-账号信息主键
+     * @return 结果
+     */
+    @Override
+    public int deleteProviderUserInfoByIds(Long[] ids)
+    {
+        return providerUserInfoMapper.deleteProviderUserInfoByIds(ids);
+    }
+
+    /**
+     * 删除服务提供方-账号信息信息
+     * 
+     * @param id 服务提供方-账号信息主键
+     * @return 结果
+     */
+    @Override
+    public int deleteProviderUserInfoById(Long id)
+    {
+        return providerUserInfoMapper.deleteProviderUserInfoById(id);
+    }
+}

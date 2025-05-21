@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groqdata.consumer.mapper.ConsumerPersonalInfoMapper">
+    
+    <resultMap type="ConsumerPersonalInfo" id="ConsumerPersonalInfoResult">
+        <result property="id"    column="id"    />
+        <result property="cardType"    column="card_type"    />
+        <result property="cardNo"    column="card_no"    />
+        <result property="personName"    column="person_name"    />
+        <result property="consumerAccount"    column="consumer_account"    />
+        <result property="auditStatus"    column="audit_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectConsumerPersonalInfoVo">
+        select  cpi.id, cpi.card_type, cpi.card_no, cpi.person_name, cpi.consumer_account, cpi.audit_status, cpi.create_time, cpi.create_by, cpi.update_time, cpi.update_by 
+        from consumer_personal_info cpi
+    </sql>
+
+    <select id="selectConsumerPersonalInfoList" parameterType="ConsumerPersonalInfo" resultMap="ConsumerPersonalInfoResult">
+        <include refid="selectConsumerPersonalInfoVo"/>
+        <where>  
+            <if test="cardType != null  and cardType != ''"> and cpi.card_type = #{cardType}</if>
+            <if test="cardNo != null  and cardNo != ''"> and cpi.card_no = #{cardNo}</if>
+            <if test="personName != null  and personName != ''"> and cpi.person_name like concat('%', #{personName}, '%')</if>
+            <if test="consumerAccount != null  and consumerAccount != ''"> and cpi.consumer_account = #{consumerAccount}</if>
+            <if test="auditStatus != null  and auditStatus != ''"> and cpi.audit_status = #{auditStatus}</if>
+        </where>
+        order by cpi.create_time desc
+    </select>
+    
+    <select id="selectConsumerPersonalInfoById" parameterType="Long" resultMap="ConsumerPersonalInfoResult">
+        <include refid="selectConsumerPersonalInfoVo"/>
+        where cpi.id = #{id}
+    </select>
+
+    <insert id="insertConsumerPersonalInfo" parameterType="ConsumerPersonalInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into consumer_personal_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cardType != null">card_type,</if>
+            <if test="cardNo != null">card_no,</if>
+            <if test="personName != null">person_name,</if>
+            <if test="consumerAccount != null and consumerAccount != ''">consumer_account,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cardType != null">#{cardType},</if>
+            <if test="cardNo != null">#{cardNo},</if>
+            <if test="personName != null">#{personName},</if>
+            <if test="consumerAccount != null and consumerAccount != ''">#{consumerAccount},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateConsumerPersonalInfo" parameterType="ConsumerPersonalInfo">
+        update consumer_personal_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cardType != null">card_type = #{cardType},</if>
+            <if test="cardNo != null">card_no = #{cardNo},</if>
+            <if test="personName != null">person_name = #{personName},</if>
+            <if test="consumerAccount != null and consumerAccount != ''">consumer_account = #{consumerAccount},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteConsumerPersonalInfoById" parameterType="Long">
+        delete from consumer_personal_info where id = #{id}
+    </delete>
+
+    <delete id="deleteConsumerPersonalInfoByIds" parameterType="String">
+        delete from consumer_personal_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

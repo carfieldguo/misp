@@ -61,6 +61,18 @@
             <groupId>com.groqdata</groupId>
             <artifactId>misp-generator</artifactId>
         </dependency>
+        
+        <!-- 服务提供方模块-->
+        <dependency>
+            <groupId>com.groqdata</groupId>
+            <artifactId>misp-provider</artifactId>
+        </dependency>
+
+        <!-- 服务购买方模块-->
+        <dependency>
+            <groupId>com.groqdata</groupId>
+            <artifactId>misp-consumer</artifactId>
+        </dependency>
 
     </dependencies>
 
@@ -124,6 +136,14 @@
 						<include>
 							<groupId>${project.groupId}</groupId>
 							<artifactId>misp-system</artifactId>
+						</include>
+						<include>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>misp-consumer</artifactId>
+						</include>
+						<include>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>misp-provider</artifactId>
 						</include>
 					</includes>
 				</configuration>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groqdata.consumer.mapper.ConsumerAppInfoMapper">
+    
+    <resultMap type="ConsumerAppInfo" id="ConsumerAppInfoResult">
+        <result property="id"    column="id"    />
+        <result property="appId"    column="app_id"    />
+        <result property="appName"    column="app_name"    />
+        <result property="appDesc"    column="app_desc"    />
+        <result property="appSecret"    column="app_secret"    />
+        <result property="consumerAccount"    column="consumer_account"    />
+        <result property="whiteIps"    column="white_ips"    />
+        <result property="appStatus"    column="app_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectConsumerAppInfoVo">
+        select  cai.id, cai.app_id, cai.app_name, cai.app_desc, cai.app_secret, cai.consumer_account, cai.white_ips, cai.app_status, cai.create_time, cai.create_by, cai.update_time, cai.update_by 
+        from consumer_app_info cai
+    </sql>
+
+    <select id="selectConsumerAppInfoList" parameterType="ConsumerAppInfo" resultMap="ConsumerAppInfoResult">
+        <include refid="selectConsumerAppInfoVo"/>
+        <where>  
+            <if test="appId != null  and appId != ''"> and cai.app_id = #{appId}</if>
+            <if test="appName != null  and appName != ''"> and cai.app_name like concat('%', #{appName}, '%')</if>
+            <if test="appDesc != null  and appDesc != ''"> and cai.app_desc = #{appDesc}</if>
+            <if test="appSecret != null  and appSecret != ''"> and cai.app_secret = #{appSecret}</if>
+            <if test="consumerAccount != null  and consumerAccount != ''"> and cai.consumer_account = #{consumerAccount}</if>
+            <if test="whiteIps != null  and whiteIps != ''"> and cai.white_ips = #{whiteIps}</if>
+            <if test="appStatus != null  and appStatus != ''"> and cai.app_status = #{appStatus}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and cai.create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+        order by cai.create_time desc
+    </select>
+    
+    <select id="selectConsumerAppInfoById" parameterType="Long" resultMap="ConsumerAppInfoResult">
+        <include refid="selectConsumerAppInfoVo"/>
+        where cai.id = #{id}
+    </select>
+
+    <insert id="insertConsumerAppInfo" parameterType="ConsumerAppInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into consumer_app_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appId != null and appId != ''">app_id,</if>
+            <if test="appName != null and appName != ''">app_name,</if>
+            <if test="appDesc != null">app_desc,</if>
+            <if test="appSecret != null">app_secret,</if>
+            <if test="consumerAccount != null and consumerAccount != ''">consumer_account,</if>
+            <if test="whiteIps != null">white_ips,</if>
+            <if test="appStatus != null and appStatus != ''">app_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appId != null and appId != ''">#{appId},</if>
+            <if test="appName != null and appName != ''">#{appName},</if>
+            <if test="appDesc != null">#{appDesc},</if>
+            <if test="appSecret != null">#{appSecret},</if>
+            <if test="consumerAccount != null and consumerAccount != ''">#{consumerAccount},</if>
+            <if test="whiteIps != null">#{whiteIps},</if>
+            <if test="appStatus != null and appStatus != ''">#{appStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateConsumerAppInfo" parameterType="ConsumerAppInfo">
+        update consumer_app_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appId != null and appId != ''">app_id = #{appId},</if>
+            <if test="appName != null and appName != ''">app_name = #{appName},</if>
+            <if test="appDesc != null">app_desc = #{appDesc},</if>
+            <if test="appSecret != null">app_secret = #{appSecret},</if>
+            <if test="consumerAccount != null and consumerAccount != ''">consumer_account = #{consumerAccount},</if>
+            <if test="whiteIps != null">white_ips = #{whiteIps},</if>
+            <if test="appStatus != null and appStatus != ''">app_status = #{appStatus},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteConsumerAppInfoById" parameterType="Long">
+        delete from consumer_app_info where id = #{id}
+    </delete>
+
+    <delete id="deleteConsumerAppInfoByIds" parameterType="String">
+        delete from consumer_app_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

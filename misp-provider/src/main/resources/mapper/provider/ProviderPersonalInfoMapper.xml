@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groqdata.provider.mapper.ProviderPersonalInfoMapper">
+    
+    <resultMap type="ProviderPersonalInfo" id="ProviderPersonalInfoResult">
+        <result property="id"    column="id"    />
+        <result property="cardType"    column="card_type"    />
+        <result property="cardNo"    column="card_no"    />
+        <result property="personName"    column="person_name"    />
+        <result property="providerAccount"    column="provider_account"    />
+        <result property="auditStatus"    column="audit_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectProviderPersonalInfoVo">
+        select  ppi.id, ppi.card_type, ppi.card_no, ppi.person_name, ppi.provider_account, ppi.audit_status, ppi.create_time, ppi.create_by, ppi.update_time, ppi.update_by 
+        from provider_personal_info ppi
+    </sql>
+
+    <select id="selectProviderPersonalInfoList" parameterType="ProviderPersonalInfo" resultMap="ProviderPersonalInfoResult">
+        <include refid="selectProviderPersonalInfoVo"/>
+        <where>  
+            <if test="cardType != null  and cardType != ''"> and ppi.card_type = #{cardType}</if>
+            <if test="cardNo != null  and cardNo != ''"> and ppi.card_no = #{cardNo}</if>
+            <if test="personName != null  and personName != ''"> and ppi.person_name like concat('%', #{personName}, '%')</if>
+            <if test="providerAccount != null  and providerAccount != ''"> and ppi.provider_account = #{providerAccount}</if>
+            <if test="auditStatus != null  and auditStatus != ''"> and ppi.audit_status = #{auditStatus}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and ppi.create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+        order by ppi.create_time desc
+    </select>
+    
+    <select id="selectProviderPersonalInfoById" parameterType="Long" resultMap="ProviderPersonalInfoResult">
+        <include refid="selectProviderPersonalInfoVo"/>
+        where ppi.id = #{id}
+    </select>
+
+    <insert id="insertProviderPersonalInfo" parameterType="ProviderPersonalInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into provider_personal_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cardType != null">card_type,</if>
+            <if test="cardNo != null">card_no,</if>
+            <if test="personName != null">person_name,</if>
+            <if test="providerAccount != null and providerAccount != ''">provider_account,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cardType != null">#{cardType},</if>
+            <if test="cardNo != null">#{cardNo},</if>
+            <if test="personName != null">#{personName},</if>
+            <if test="providerAccount != null and providerAccount != ''">#{providerAccount},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProviderPersonalInfo" parameterType="ProviderPersonalInfo">
+        update provider_personal_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cardType != null">card_type = #{cardType},</if>
+            <if test="cardNo != null">card_no = #{cardNo},</if>
+            <if test="personName != null">person_name = #{personName},</if>
+            <if test="providerAccount != null and providerAccount != ''">provider_account = #{providerAccount},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProviderPersonalInfoById" parameterType="Long">
+        delete from provider_personal_info where id = #{id}
+    </delete>
+
+    <delete id="deleteProviderPersonalInfoByIds" parameterType="String">
+        delete from provider_personal_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

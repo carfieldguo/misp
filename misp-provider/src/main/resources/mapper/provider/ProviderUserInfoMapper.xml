@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groqdata.provider.mapper.ProviderUserInfoMapper">
+    
+    <resultMap type="ProviderUserInfo" id="ProviderUserInfoResult">
+        <result property="id"    column="id"    />
+        <result property="account"    column="account"    />
+        <result property="password"    column="password"    />
+        <result property="accountType"    column="account_type"    />
+        <result property="certifyStatus"    column="certify_status"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="avator"    column="avator"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="email"    column="email"    />
+        <result property="accountStatus"    column="account_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectProviderUserInfoVo">
+        select  pui.id, pui.account, pui.password, pui.account_type, pui.certify_status, pui.nickname, pui.avator, pui.mobile, pui.email, pui.account_status, pui.create_time, pui.create_by, pui.update_time, pui.update_by 
+        from provider_user_info pui
+    </sql>
+
+    <select id="selectProviderUserInfoList" parameterType="ProviderUserInfo" resultMap="ProviderUserInfoResult">
+        <include refid="selectProviderUserInfoVo"/>
+        <where>  
+            <if test="account != null  and account != ''"> and pui.account = #{account}</if>
+            <if test="password != null  and password != ''"> and pui.password = #{password}</if>
+            <if test="accountType != null  and accountType != ''"> and pui.account_type = #{accountType}</if>
+            <if test="certifyStatus != null  and certifyStatus != ''"> and pui.certify_status = #{certifyStatus}</if>
+            <if test="nickname != null  and nickname != ''"> and pui.nickname like concat('%', #{nickname}, '%')</if>
+            <if test="avator != null  and avator != ''"> and pui.avator = #{avator}</if>
+            <if test="mobile != null  and mobile != ''"> and pui.mobile = #{mobile}</if>
+            <if test="email != null  and email != ''"> and pui.email = #{email}</if>
+            <if test="accountStatus != null  and accountStatus != ''"> and pui.account_status = #{accountStatus}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and pui.create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+        order by pui.create_time desc
+    </select>
+    
+    <select id="selectProviderUserInfoById" parameterType="Long" resultMap="ProviderUserInfoResult">
+        <include refid="selectProviderUserInfoVo"/>
+        where pui.id = #{id}
+    </select>
+
+    <insert id="insertProviderUserInfo" parameterType="ProviderUserInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into provider_user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="account != null and account != ''">account,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="accountType != null">account_type,</if>
+            <if test="certifyStatus != null and certifyStatus != ''">certify_status,</if>
+            <if test="nickname != null">nickname,</if>
+            <if test="avator != null">avator,</if>
+            <if test="mobile != null">mobile,</if>
+            <if test="email != null">email,</if>
+            <if test="accountStatus != null and accountStatus != ''">account_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="account != null and account != ''">#{account},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="accountType != null">#{accountType},</if>
+            <if test="certifyStatus != null and certifyStatus != ''">#{certifyStatus},</if>
+            <if test="nickname != null">#{nickname},</if>
+            <if test="avator != null">#{avator},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="email != null">#{email},</if>
+            <if test="accountStatus != null and accountStatus != ''">#{accountStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProviderUserInfo" parameterType="ProviderUserInfo">
+        update provider_user_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="account != null and account != ''">account = #{account},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="accountType != null">account_type = #{accountType},</if>
+            <if test="certifyStatus != null and certifyStatus != ''">certify_status = #{certifyStatus},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="avator != null">avator = #{avator},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="accountStatus != null and accountStatus != ''">account_status = #{accountStatus},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProviderUserInfoById" parameterType="Long">
+        delete from provider_user_info where id = #{id}
+    </delete>
+
+    <delete id="deleteProviderUserInfoByIds" parameterType="String">
+        delete from provider_user_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

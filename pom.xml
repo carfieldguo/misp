@@ -182,6 +182,20 @@
                 <version>${misp.version}</version>
             </dependency>
 
+            <!-- 服务购买方-->
+            <dependency>
+                <groupId>com.groqdata</groupId>
+                <artifactId>misp-consumer</artifactId>
+                <version>${misp.version}</version>
+            </dependency>
+
+            <!-- 服务提供方 -->
+            <dependency>
+                <groupId>com.groqdata</groupId>
+                <artifactId>misp-provider</artifactId>
+                <version>${misp.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -192,6 +206,8 @@
         <module>misp-quartz</module>
         <module>misp-generator</module>
         <module>misp-common</module>
+        <module>misp-consumer</module>
+        <module>misp-provider</module>
     </modules>
     <packaging>pom</packaging>
 

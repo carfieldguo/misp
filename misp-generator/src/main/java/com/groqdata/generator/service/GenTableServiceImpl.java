@@ -215,6 +215,7 @@ public class GenTableServiceImpl implements IGenTableService
         // 设置表的简写名称
         setTableShortName(table);
         
+        
         VelocityInitializer.initVelocity();
 
         VelocityContext context = VelocityUtils.prepareContext(table);

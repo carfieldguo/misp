@@ -1,0 +1,96 @@
+package com.groqdata.consumer.service.impl;
+
+import java.util.List;
+import com.groqdata.common.utils.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.groqdata.consumer.mapper.ConsumerEnterpriseInfoMapper;
+import com.groqdata.consumer.domain.ConsumerEnterpriseInfo;
+import com.groqdata.consumer.service.ConsumerEnterpriseInfoService;
+
+/**
+ * 服务购买方-企业信息Service业务层处理
+ * 
+ * @author carfield
+ * @date 2025-05-21
+ */
+@Service
+public class ConsumerEnterpriseInfoServiceImpl implements ConsumerEnterpriseInfoService 
+{
+    @Autowired
+    private ConsumerEnterpriseInfoMapper consumerEnterpriseInfoMapper;
+
+    /**
+     * 查询服务购买方-企业信息
+     * 
+     * @param id 服务购买方-企业信息主键
+     * @return 服务购买方-企业信息
+     */
+    @Override
+    public ConsumerEnterpriseInfo selectConsumerEnterpriseInfoById(Long id)
+    {
+        return consumerEnterpriseInfoMapper.selectConsumerEnterpriseInfoById(id);
+    }
+
+    /**
+     * 查询服务购买方-企业信息列表
+     * 
+     * @param consumerEnterpriseInfo 服务购买方-企业信息
+     * @return 服务购买方-企业信息
+     */
+    @Override
+    public List<ConsumerEnterpriseInfo> selectConsumerEnterpriseInfoList(ConsumerEnterpriseInfo consumerEnterpriseInfo)
+    {
+        return consumerEnterpriseInfoMapper.selectConsumerEnterpriseInfoList(consumerEnterpriseInfo);
+    }
+
+    /**
+     * 新增服务购买方-企业信息
+     * 
+     * @param consumerEnterpriseInfo 服务购买方-企业信息
+     * @return 结果
+     */
+    @Override
+    public int insertConsumerEnterpriseInfo(ConsumerEnterpriseInfo consumerEnterpriseInfo)
+    {
+        consumerEnterpriseInfo.setCreateTime(DateUtils.getNowDate());
+        return consumerEnterpriseInfoMapper.insertConsumerEnterpriseInfo(consumerEnterpriseInfo);
+    }
+
+    /**
+     * 修改服务购买方-企业信息
+     * 
+     * @param consumerEnterpriseInfo 服务购买方-企业信息
+     * @return 结果
+     */
+    @Override
+    public int updateConsumerEnterpriseInfo(ConsumerEnterpriseInfo consumerEnterpriseInfo)
+    {
+        consumerEnterpriseInfo.setUpdateTime(DateUtils.getNowDate());
+        return consumerEnterpriseInfoMapper.updateConsumerEnterpriseInfo(consumerEnterpriseInfo);
+    }
+
+    /**
+     * 批量删除服务购买方-企业信息
+     * 
+     * @param ids 需要删除的服务购买方-企业信息主键
+     * @return 结果
+     */
+    @Override
+    public int deleteConsumerEnterpriseInfoByIds(Long[] ids)
+    {
+        return consumerEnterpriseInfoMapper.deleteConsumerEnterpriseInfoByIds(ids);
+    }
+
+    /**
+     * 删除服务购买方-企业信息信息
+     * 
+     * @param id 服务购买方-企业信息主键
+     * @return 结果
+     */
+    @Override
+    public int deleteConsumerEnterpriseInfoById(Long id)
+    {
+        return consumerEnterpriseInfoMapper.deleteConsumerEnterpriseInfoById(id);
+    }
+}

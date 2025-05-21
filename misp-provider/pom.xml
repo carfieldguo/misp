@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.groqdata</groupId>
+    <artifactId>misp</artifactId>
+    <version>3.8.8</version>
+  </parent>
+  <artifactId>misp-provider</artifactId>
+  
+    <description>
+        misp 服务提供方相关信息模块
+    </description>
+
+    <dependencies>
+
+        <!-- 通用工具-->
+        <dependency>
+            <groupId>com.groqdata</groupId>
+            <artifactId>misp-common</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>

@@ -52,6 +52,10 @@ public class VelocityUtils
         velocityContext.put("moduleName", genTable.getModuleName());
         velocityContext.put("BusinessName", StringUtils.capitalize(genTable.getBusinessName()));
         velocityContext.put("businessName", genTable.getBusinessName());
+        // 业务名称驼峰命名,首字母大写
+        velocityContext.put("BusinessNameCamel", StringUtils.capitalize(StringUtils.convertToCamelCase(genTable.getBusinessName(), "-", true)));
+        // 业务名称驼峰命名,首字母小写
+        velocityContext.put("businessNameCamel", StringUtils.convertToCamelCase(genTable.getBusinessName(), "-", false));
         velocityContext.put("basePackage", getPackagePrefix(packageName));
         velocityContext.put("packageName", packageName);
         velocityContext.put("author", genTable.getFunctionAuthor());
@@ -175,6 +179,10 @@ public class VelocityUtils
         String className = genTable.getClassName();
         // 业务名称
         String businessName = genTable.getBusinessName();
+        
+        // 业务驼峰名称
+        String businessNameCamel = StringUtils.convertToCamelCase(genTable.getBusinessName(), "-", false);
+        
 
         String javaPath = PROJECT_PATH + "/" + StringUtils.replace(packageName, ".", "/");
         String mybatisPath = MYBATIS_PATH + "/" + moduleName;
@@ -214,7 +222,7 @@ public class VelocityUtils
         }
         else if (template.contains("api.js.vm"))
         {
-            fileName = StringUtils.format("{}/api/{}/{}.js", vuePath, moduleName, businessName);
+            fileName = StringUtils.format("{}/api/{}/{}.js", vuePath, moduleName, businessNameCamel);
         }
         else if (template.contains("index.vue.vm"))
         {

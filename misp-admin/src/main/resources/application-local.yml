@@ -37,7 +37,7 @@ logging:
     com.groqdata: debug
     org.springframework: warn
   file:
-    path: /data/logs
+    path: /data/logs/misp
 
 
 # 用户配置
