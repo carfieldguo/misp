@@ -7,7 +7,7 @@ import com.groqdata.consumer.domain.ConsumerPersonalInfo;
  * 服务购买方-个人信息Service接口
  * 
  * @author carfield
- * @date 2025-05-21
+ * @date 2025-05-22
  */
 public interface ConsumerPersonalInfoService 
 {

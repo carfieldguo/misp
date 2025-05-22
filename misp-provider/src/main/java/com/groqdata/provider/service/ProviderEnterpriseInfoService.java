@@ -7,7 +7,7 @@ import com.groqdata.provider.domain.ProviderEnterpriseInfo;
  * 服务提供方-企业信息Service接口
  * 
  * @author carfield
- * @date 2025-05-21
+ * @date 2025-05-22
  */
 public interface ProviderEnterpriseInfoService 
 {

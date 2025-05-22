@@ -12,7 +12,7 @@ import com.groqdata.consumer.service.ConsumerAppInfoService;
  * 服务购买方-应用信息Service业务层处理
  * 
  * @author carfield
- * @date 2025-05-21
+ * @date 2025-05-22
  */
 @Service
 public class ConsumerAppInfoServiceImpl implements ConsumerAppInfoService 

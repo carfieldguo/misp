@@ -40,6 +40,9 @@ public class GenConstants
     /** 数据库时间类型 */
     public static final String[] COLUMNTYPE_TIME = { "datetime", "time", "date", "timestamp" };
 
+    /** 数据库时间戳类型 */
+    public static final String[] COLUMNTYPE_TIMESTAMP = { "timestamp without time zone", "timestamp with time zone" };
+
     /** 数据库数字类型 */
     public static final String[] COLUMNTYPE_NUMBER = { "tinyint", "smallint", "mediumint", "int", "number", "integer",
             "bit", "bigint", "float", "double", "decimal" };

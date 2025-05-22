@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * 服务提供方-个人信息对象 provider_personal_info
  * 
  * @author carfield
- * @date 2025-05-21
+ * @date 2025-05-22
  */
 @ApiModel("服务提供方-个人信息对象")
 public class ProviderPersonalInfo extends BaseEntity
@@ -37,15 +37,20 @@ public class ProviderPersonalInfo extends BaseEntity
     @ApiModelProperty("证件名称")
     private String personName;
 
-    /** 关联服务提供方账号，页面不显示此字段，只做鉴权用 */
-    @Excel(name = "关联服务提供方账号，页面不显示此字段，只做鉴权用")
-    @ApiModelProperty("关联服务提供方账号，页面不显示此字段，只做鉴权用")
+    /** 关联服务提供方账号 */
+    @Excel(name = "关联服务提供方账号")
+    @ApiModelProperty("关联服务提供方账号")
     private String providerAccount;
 
     /** 信息审核状态 */
     @Excel(name = "信息审核状态")
     @ApiModelProperty("信息审核状态")
     private String auditStatus;
+
+    /** 记录状态 */
+    @Excel(name = "记录状态")
+    @ApiModelProperty("记录状态")
+    private String recordStatus;
 
     public void setId(Long id) 
     {
@@ -101,6 +106,15 @@ public class ProviderPersonalInfo extends BaseEntity
     {
         return auditStatus;
     }
+    public void setRecordStatus(String recordStatus) 
+    {
+        this.recordStatus = recordStatus;
+    }
+
+    public String getRecordStatus() 
+    {
+        return recordStatus;
+    }
 
     @Override
     public String toString() {
@@ -111,6 +125,7 @@ public class ProviderPersonalInfo extends BaseEntity
             .append("personName", getPersonName())
             .append("providerAccount", getProviderAccount())
             .append("auditStatus", getAuditStatus())
+            .append("recordStatus", getRecordStatus())
             .append("createTime", getCreateTime())
             .append("createBy", getCreateBy())
             .append("updateTime", getUpdateTime())

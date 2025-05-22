@@ -12,7 +12,7 @@ import com.groqdata.provider.service.ProviderUserInfoService;
  * 服务提供方-账号信息Service业务层处理
  * 
  * @author carfield
- * @date 2025-05-21
+ * @date 2025-05-22
  */
 @Service
 public class ProviderUserInfoServiceImpl implements ProviderUserInfoService 

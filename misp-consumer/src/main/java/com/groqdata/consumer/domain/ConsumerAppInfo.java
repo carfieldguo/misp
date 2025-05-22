@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * 服务购买方-应用信息对象 consumer_app_info
  * 
  * @author carfield
- * @date 2025-05-21
+ * @date 2025-05-22
  */
 @ApiModel("服务购买方-应用信息对象")
 public class ConsumerAppInfo extends BaseEntity
@@ -42,9 +42,9 @@ public class ConsumerAppInfo extends BaseEntity
     @ApiModelProperty("对接秘钥")
     private String appSecret;
 
-    /** 关联服务购买方账号，页面不显示此字段，只做鉴权用 */
-    @Excel(name = "关联服务购买方账号，页面不显示此字段，只做鉴权用")
-    @ApiModelProperty("关联服务购买方账号，页面不显示此字段，只做鉴权用")
+    /** 关联服务购买方账号 */
+    @Excel(name = "关联服务购买方账号")
+    @ApiModelProperty("关联服务购买方账号")
     private String consumerAccount;
 
     /** 白名单IP */
@@ -56,6 +56,11 @@ public class ConsumerAppInfo extends BaseEntity
     @Excel(name = "应用状态")
     @ApiModelProperty("应用状态")
     private String appStatus;
+
+    /** 记录状态 */
+    @Excel(name = "记录状态")
+    @ApiModelProperty("记录状态")
+    private String recordStatus;
 
     public void setId(Long id) 
     {
@@ -129,6 +134,15 @@ public class ConsumerAppInfo extends BaseEntity
     {
         return appStatus;
     }
+    public void setRecordStatus(String recordStatus) 
+    {
+        this.recordStatus = recordStatus;
+    }
+
+    public String getRecordStatus() 
+    {
+        return recordStatus;
+    }
 
     @Override
     public String toString() {
@@ -141,6 +155,7 @@ public class ConsumerAppInfo extends BaseEntity
             .append("consumerAccount", getConsumerAccount())
             .append("whiteIps", getWhiteIps())
             .append("appStatus", getAppStatus())
+            .append("recordStatus", getRecordStatus())
             .append("createTime", getCreateTime())
             .append("createBy", getCreateBy())
             .append("updateTime", getUpdateTime())

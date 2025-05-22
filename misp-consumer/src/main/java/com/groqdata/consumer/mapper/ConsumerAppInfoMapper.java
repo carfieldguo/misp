@@ -7,7 +7,7 @@ import com.groqdata.consumer.domain.ConsumerAppInfo;
  * 服务购买方-应用信息Mapper接口
  * 
  * @author carfield
- * @date 2025-05-21
+ * @date 2025-05-22
  */
 public interface ConsumerAppInfoMapper 
 {

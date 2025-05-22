@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.groqdata.common.core.controller.BaseController;
-import com.groqdata.common.core.domain.R;
+import com.groqdata.common.core.domain.Resp;
 import com.groqdata.common.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -40,24 +40,24 @@ public class TestController extends BaseController
 
     @ApiOperation("获取用户列表")
     @GetMapping("/list")
-    public R<List<UserEntity>> userList()
+    public Resp<List<UserEntity>> userList()
     {
         List<UserEntity> userList = new ArrayList<UserEntity>(users.values());
-        return R.ok(userList);
+        return Resp.ok(userList);
     }
 
     @ApiOperation("获取用户详细")
     @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "int", paramType = "path", dataTypeClass = Integer.class)
     @GetMapping("/{userId}")
-    public R<UserEntity> getUser(@PathVariable Integer userId)
+    public Resp<UserEntity> getUser(@PathVariable Integer userId)
     {
         if (!users.isEmpty() && users.containsKey(userId))
         {
-            return R.ok(users.get(userId));
+            return Resp.ok(users.get(userId));
         }
         else
         {
-            return R.fail("用户不存在");
+            return Resp.fail("用户不存在");
         }
     }
 
@@ -69,46 +69,46 @@ public class TestController extends BaseController
         @ApiImplicitParam(name = "mobile", value = "用户手机", dataType = "String", dataTypeClass = String.class)
     })
     @PostMapping("/save")
-    public R<String> save(UserEntity user)
+    public Resp<String> save(UserEntity user)
     {
         if (StringUtils.isNull(user) || StringUtils.isNull(user.getUserId()))
         {
-            return R.fail("用户ID不能为空");
+            return Resp.fail("用户ID不能为空");
         }
         users.put(user.getUserId(), user);
-        return R.ok();
+        return Resp.ok();
     }
 
     @ApiOperation("更新用户")
     @PutMapping("/update")
-    public R<String> update(@RequestBody UserEntity user)
+    public Resp<String> update(@RequestBody UserEntity user)
     {
         if (StringUtils.isNull(user) || StringUtils.isNull(user.getUserId()))
         {
-            return R.fail("用户ID不能为空");
+            return Resp.fail("用户ID不能为空");
         }
         if (users.isEmpty() || !users.containsKey(user.getUserId()))
         {
-            return R.fail("用户不存在");
+            return Resp.fail("用户不存在");
         }
         users.remove(user.getUserId());
         users.put(user.getUserId(), user);
-        return R.ok();
+        return Resp.ok();
     }
 
     @ApiOperation("删除用户信息")
     @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "int", paramType = "path", dataTypeClass = Integer.class)
     @DeleteMapping("/{userId}")
-    public R<String> delete(@PathVariable Integer userId)
+    public Resp<String> delete(@PathVariable Integer userId)
     {
         if (!users.isEmpty() && users.containsKey(userId))
         {
             users.remove(userId);
-            return R.ok();
+            return Resp.ok();
         }
         else
         {
-            return R.fail("用户不存在");
+            return Resp.fail("用户不存在");
         }
     }
 }

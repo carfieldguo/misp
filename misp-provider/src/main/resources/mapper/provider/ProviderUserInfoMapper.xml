@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.groqdata.provider.mapper.ProviderUserInfoMapper">
     
+    <!-- 服务提供方-账号信息ProviderUserInfo对象字段映射 -->
     <resultMap type="ProviderUserInfo" id="ProviderUserInfoResult">
         <result property="id"    column="id"    />
         <result property="account"    column="account"    />
@@ -15,17 +16,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="mobile"    column="mobile"    />
         <result property="email"    column="email"    />
         <result property="accountStatus"    column="account_status"    />
+        <result property="recordStatus"    column="record_status"    />
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
     </resultMap>
 
+    <!-- 服务提供方-账号信息ProviderUserInfo对象列表VO -->
     <sql id="selectProviderUserInfoVo">
-        select  pui.id, pui.account, pui.password, pui.account_type, pui.certify_status, pui.nickname, pui.avator, pui.mobile, pui.email, pui.account_status, pui.create_time, pui.create_by, pui.update_time, pui.update_by 
+        select  pui.id, pui.account, pui.password, pui.account_type, pui.certify_status, pui.nickname, pui.avator, pui.mobile, pui.email, pui.account_status, pui.record_status, pui.create_time, pui.create_by, pui.update_time, pui.update_by 
         from provider_user_info pui
     </sql>
 
+    <!-- 通用查询服务提供方-账号信息ProviderUserInfo列表 -->
     <select id="selectProviderUserInfoList" parameterType="ProviderUserInfo" resultMap="ProviderUserInfoResult">
         <include refid="selectProviderUserInfoVo"/>
         <where>  
@@ -38,16 +42,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="mobile != null  and mobile != ''"> and pui.mobile = #{mobile}</if>
             <if test="email != null  and email != ''"> and pui.email = #{email}</if>
             <if test="accountStatus != null  and accountStatus != ''"> and pui.account_status = #{accountStatus}</if>
-            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and pui.create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+            <if test="recordStatus != null  and recordStatus != ''"> and pui.record_status = #{recordStatus}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> 
+                    and pui.create_time between #{params.beginCreateTime} and #{params.endCreateTime}
+            </if> 
         </where>
         order by pui.create_time desc
     </select>
     
+    
+    <!-- 根据主键ID查询服务提供方-账号信息ProviderUserInfo对象 -->
     <select id="selectProviderUserInfoById" parameterType="Long" resultMap="ProviderUserInfoResult">
         <include refid="selectProviderUserInfoVo"/>
         where pui.id = #{id}
     </select>
 
+    <!-- 新增服务提供方-账号信息ProviderUserInfo对象 -->
     <insert id="insertProviderUserInfo" parameterType="ProviderUserInfo" useGeneratedKeys="true" keyProperty="id">
         insert into provider_user_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -60,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="mobile != null">mobile,</if>
             <if test="email != null">email,</if>
             <if test="accountStatus != null and accountStatus != ''">account_status,</if>
+            <if test="recordStatus != null">record_status,</if>
             <if test="createTime != null">create_time,</if>
             <if test="createBy != null">create_by,</if>
             <if test="updateTime != null">update_time,</if>
@@ -75,6 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="mobile != null">#{mobile},</if>
             <if test="email != null">#{email},</if>
             <if test="accountStatus != null and accountStatus != ''">#{accountStatus},</if>
+            <if test="recordStatus != null">#{recordStatus},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
@@ -82,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
+    <!-- 更新服务提供方-账号信息ProviderUserInfo对象 -->
     <update id="updateProviderUserInfo" parameterType="ProviderUserInfo">
         update provider_user_info
         <trim prefix="SET" suffixOverrides=",">
@@ -94,6 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="mobile != null">mobile = #{mobile},</if>
             <if test="email != null">email = #{email},</if>
             <if test="accountStatus != null and accountStatus != ''">account_status = #{accountStatus},</if>
+            <if test="recordStatus != null">record_status = #{recordStatus},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
@@ -102,12 +116,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
+    <!-- 根据主键删除服务提供方-账号信息ProviderUserInfo对象 -->
     <delete id="deleteProviderUserInfoById" parameterType="Long">
+        <!-- 物理删除$服务提供方-账号信息ProviderUserInfo 
         delete from provider_user_info where id = #{id}
+        -->
+        <!-- 逻辑删除服务提供方-账号信息ProviderUserInfo -->
+        update provider_user_info set record_status = 'DELETED' 
+        where id = #{id}
     </delete>
 
+    <!-- 根据主键批量删除服务提供方-账号信息ProviderUserInfo对象 -->
     <delete id="deleteProviderUserInfoByIds" parameterType="String">
+        <!-- 物理删除服务提供方-账号信息ProviderUserInfo
         delete from provider_user_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        -->
+        <!-- 逻辑删除服务提供方-账号信息ProviderUserInfo -->
+        update provider_user_info set record_status = 'DELETED' 
+        where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

@@ -7,7 +7,7 @@ import com.groqdata.consumer.domain.ConsumerUserInfo;
  * 服务购买方-账号信息Mapper接口
  * 
  * @author carfield
- * @date 2025-05-21
+ * @date 2025-05-22
  */
 public interface ConsumerUserInfoMapper 
 {

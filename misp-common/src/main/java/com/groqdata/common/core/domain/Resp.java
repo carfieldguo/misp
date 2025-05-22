@@ -8,7 +8,7 @@ import com.groqdata.common.constant.HttpStatus;
  *
  * @author ruoyi
  */
-public class R<T> implements Serializable
+public class Resp<T> implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
@@ -24,49 +24,49 @@ public class R<T> implements Serializable
 
     private T data;
 
-    public static <T> R<T> ok()
+    public static <T> Resp<T> ok()
     {
         return restResult(null, SUCCESS, "操作成功");
     }
 
-    public static <T> R<T> ok(T data)
+    public static <T> Resp<T> ok(T data)
     {
         return restResult(data, SUCCESS, "操作成功");
     }
 
-    public static <T> R<T> ok(T data, String msg)
+    public static <T> Resp<T> ok(T data, String msg)
     {
         return restResult(data, SUCCESS, msg);
     }
 
-    public static <T> R<T> fail()
+    public static <T> Resp<T> fail()
     {
         return restResult(null, FAIL, "操作失败");
     }
 
-    public static <T> R<T> fail(String msg)
+    public static <T> Resp<T> fail(String msg)
     {
         return restResult(null, FAIL, msg);
     }
 
-    public static <T> R<T> fail(T data)
+    public static <T> Resp<T> fail(T data)
     {
         return restResult(data, FAIL, "操作失败");
     }
 
-    public static <T> R<T> fail(T data, String msg)
+    public static <T> Resp<T> fail(T data, String msg)
     {
         return restResult(data, FAIL, msg);
     }
 
-    public static <T> R<T> fail(int code, String msg)
+    public static <T> Resp<T> fail(int code, String msg)
     {
         return restResult(null, code, msg);
     }
 
-    private static <T> R<T> restResult(T data, int code, String msg)
+    private static <T> Resp<T> restResult(T data, int code, String msg)
     {
-        R<T> apiResult = new R<>();
+        Resp<T> apiResult = new Resp<>();
         apiResult.setCode(code);
         apiResult.setData(data);
         apiResult.setMsg(msg);
@@ -103,13 +103,13 @@ public class R<T> implements Serializable
         this.data = data;
     }
 
-    public static <T> Boolean isError(R<T> ret)
+    public static <T> Boolean isError(Resp<T> ret)
     {
         return !isSuccess(ret);
     }
 
-    public static <T> Boolean isSuccess(R<T> ret)
+    public static <T> Boolean isSuccess(Resp<T> ret)
     {
-        return R.SUCCESS == ret.getCode();
+        return Resp.SUCCESS == ret.getCode();
     }
 }

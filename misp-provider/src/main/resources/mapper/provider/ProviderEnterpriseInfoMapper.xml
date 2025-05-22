@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.groqdata.provider.mapper.ProviderEnterpriseInfoMapper">
     
+    <!-- 服务提供方-企业信息ProviderEnterpriseInfo对象字段映射 -->
     <resultMap type="ProviderEnterpriseInfo" id="ProviderEnterpriseInfoResult">
         <result property="id"    column="id"    />
         <result property="entName"    column="ent_name"    />
@@ -12,36 +13,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="entLogoUrl"    column="ent_logo_url"    />
         <result property="providerAccount"    column="provider_account"    />
         <result property="auditStatus"    column="audit_status"    />
+        <result property="recordStatus"    column="record_status"    />
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
     </resultMap>
 
+    <!-- 服务提供方-企业信息ProviderEnterpriseInfo对象列表VO -->
     <sql id="selectProviderEnterpriseInfoVo">
-        select  pei.id, pei.ent_name, pei.ent_uscc, pei.ent_license_url, pei.ent_logo_url, pei.provider_account, pei.audit_status, pei.create_time, pei.create_by, pei.update_time, pei.update_by 
+        select  pei.id, pei.ent_name, pei.ent_uscc, pei.ent_license_url, pei.ent_logo_url, pei.provider_account, pei.audit_status, pei.record_status, pei.create_time, pei.create_by, pei.update_time, pei.update_by 
         from provider_enterprise_info pei
     </sql>
 
+    <!-- 通用查询服务提供方-企业信息ProviderEnterpriseInfo列表 -->
     <select id="selectProviderEnterpriseInfoList" parameterType="ProviderEnterpriseInfo" resultMap="ProviderEnterpriseInfoResult">
         <include refid="selectProviderEnterpriseInfoVo"/>
         <where>  
             <if test="entName != null  and entName != ''"> and pei.ent_name like concat('%', #{entName}, '%')</if>
-            <if test="entUscc != null  and entUscc != ''"> and pei.ent_uscc = #{entUscc}</if>
+            <if test="entUscc != null  and entUscc != ''"> and pei.ent_uscc like concat('%', #{entUscc}, '%')</if>
             <if test="entLicenseUrl != null  and entLicenseUrl != ''"> and pei.ent_license_url = #{entLicenseUrl}</if>
             <if test="entLogoUrl != null  and entLogoUrl != ''"> and pei.ent_logo_url = #{entLogoUrl}</if>
             <if test="providerAccount != null  and providerAccount != ''"> and pei.provider_account = #{providerAccount}</if>
             <if test="auditStatus != null  and auditStatus != ''"> and pei.audit_status = #{auditStatus}</if>
-            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and pei.create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+            <if test="recordStatus != null  and recordStatus != ''"> and pei.record_status = #{recordStatus}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> 
+                    and pei.create_time between #{params.beginCreateTime} and #{params.endCreateTime}
+            </if> 
         </where>
         order by pei.create_time desc
     </select>
     
+    
+    <!-- 根据主键ID查询服务提供方-企业信息ProviderEnterpriseInfo对象 -->
     <select id="selectProviderEnterpriseInfoById" parameterType="Long" resultMap="ProviderEnterpriseInfoResult">
         <include refid="selectProviderEnterpriseInfoVo"/>
         where pei.id = #{id}
     </select>
 
+    <!-- 新增服务提供方-企业信息ProviderEnterpriseInfo对象 -->
     <insert id="insertProviderEnterpriseInfo" parameterType="ProviderEnterpriseInfo" useGeneratedKeys="true" keyProperty="id">
         insert into provider_enterprise_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -51,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="entLogoUrl != null">ent_logo_url,</if>
             <if test="providerAccount != null and providerAccount != ''">provider_account,</if>
             <if test="auditStatus != null">audit_status,</if>
+            <if test="recordStatus != null">record_status,</if>
             <if test="createTime != null">create_time,</if>
             <if test="createBy != null">create_by,</if>
             <if test="updateTime != null">update_time,</if>
@@ -63,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="entLogoUrl != null">#{entLogoUrl},</if>
             <if test="providerAccount != null and providerAccount != ''">#{providerAccount},</if>
             <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="recordStatus != null">#{recordStatus},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
@@ -70,6 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
+    <!-- 更新服务提供方-企业信息ProviderEnterpriseInfo对象 -->
     <update id="updateProviderEnterpriseInfo" parameterType="ProviderEnterpriseInfo">
         update provider_enterprise_info
         <trim prefix="SET" suffixOverrides=",">
@@ -79,6 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="entLogoUrl != null">ent_logo_url = #{entLogoUrl},</if>
             <if test="providerAccount != null and providerAccount != ''">provider_account = #{providerAccount},</if>
             <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="recordStatus != null">record_status = #{recordStatus},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
@@ -87,12 +101,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
+    <!-- 根据主键删除服务提供方-企业信息ProviderEnterpriseInfo对象 -->
     <delete id="deleteProviderEnterpriseInfoById" parameterType="Long">
+        <!-- 物理删除$服务提供方-企业信息ProviderEnterpriseInfo 
         delete from provider_enterprise_info where id = #{id}
+        -->
+        <!-- 逻辑删除服务提供方-企业信息ProviderEnterpriseInfo -->
+        update provider_enterprise_info set record_status = 'DELETED' 
+        where id = #{id}
     </delete>
 
+    <!-- 根据主键批量删除服务提供方-企业信息ProviderEnterpriseInfo对象 -->
     <delete id="deleteProviderEnterpriseInfoByIds" parameterType="String">
+        <!-- 物理删除服务提供方-企业信息ProviderEnterpriseInfo
         delete from provider_enterprise_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        -->
+        <!-- 逻辑删除服务提供方-企业信息ProviderEnterpriseInfo -->
+        update provider_enterprise_info set record_status = 'DELETED' 
+        where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

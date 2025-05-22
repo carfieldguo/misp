@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * 服务提供方-账号信息对象 provider_user_info
  * 
  * @author carfield
- * @date 2025-05-21
+ * @date 2025-05-22
  */
 @ApiModel("服务提供方-账号信息对象")
 public class ProviderUserInfo extends BaseEntity
@@ -32,14 +32,14 @@ public class ProviderUserInfo extends BaseEntity
     @ApiModelProperty("密码")
     private String password;
 
-    /** 账号类型：个人账号还是企业账号，或者政府事业单位账号，决定了子表使用哪个 */
-    @Excel(name = "账号类型：个人账号还是企业账号，或者政府事业单位账号，决定了子表使用哪个")
-    @ApiModelProperty("账号类型：个人账号还是企业账号，或者政府事业单位账号，决定了子表使用哪个")
+    /** 账号类型 */
+    @Excel(name = "账号类型")
+    @ApiModelProperty("账号类型")
     private String accountType;
 
-    /** 认证审核状态，只有认证了的账号才能开展业务 */
-    @Excel(name = "认证审核状态，只有认证了的账号才能开展业务")
-    @ApiModelProperty("认证审核状态，只有认证了的账号才能开展业务")
+    /** 认证审核状态 */
+    @Excel(name = "认证审核状态")
+    @ApiModelProperty("认证审核状态")
     private String certifyStatus;
 
     /** 昵称 */
@@ -52,9 +52,9 @@ public class ProviderUserInfo extends BaseEntity
     @ApiModelProperty("头像地址")
     private String avator;
 
-    /** 手机号码，即微信号码 */
-    @Excel(name = "手机号码，即微信号码")
-    @ApiModelProperty("手机号码，即微信号码")
+    /** 手机号码 */
+    @Excel(name = "手机号码")
+    @ApiModelProperty("手机号码")
     private String mobile;
 
     /** 邮箱地址 */
@@ -66,6 +66,11 @@ public class ProviderUserInfo extends BaseEntity
     @Excel(name = "账号状态")
     @ApiModelProperty("账号状态")
     private String accountStatus;
+
+    /** 状态 */
+    @Excel(name = "状态")
+    @ApiModelProperty("状态")
+    private String recordStatus;
 
     public void setId(Long id) 
     {
@@ -157,6 +162,15 @@ public class ProviderUserInfo extends BaseEntity
     {
         return accountStatus;
     }
+    public void setRecordStatus(String recordStatus) 
+    {
+        this.recordStatus = recordStatus;
+    }
+
+    public String getRecordStatus() 
+    {
+        return recordStatus;
+    }
 
     @Override
     public String toString() {
@@ -171,6 +185,7 @@ public class ProviderUserInfo extends BaseEntity
             .append("mobile", getMobile())
             .append("email", getEmail())
             .append("accountStatus", getAccountStatus())
+            .append("recordStatus", getRecordStatus())
             .append("createTime", getCreateTime())
             .append("createBy", getCreateBy())
             .append("updateTime", getUpdateTime())

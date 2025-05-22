@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.groqdata.consumer.mapper.ConsumerPersonalInfoMapper">
     
+    <!-- 服务购买方-个人信息ConsumerPersonalInfo对象字段映射 -->
     <resultMap type="ConsumerPersonalInfo" id="ConsumerPersonalInfoResult">
         <result property="id"    column="id"    />
         <result property="cardType"    column="card_type"    />
@@ -11,34 +12,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="personName"    column="person_name"    />
         <result property="consumerAccount"    column="consumer_account"    />
         <result property="auditStatus"    column="audit_status"    />
+        <result property="recordStatus"    column="record_status"    />
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
     </resultMap>
 
+    <!-- 服务购买方-个人信息ConsumerPersonalInfo对象列表VO -->
     <sql id="selectConsumerPersonalInfoVo">
-        select  cpi.id, cpi.card_type, cpi.card_no, cpi.person_name, cpi.consumer_account, cpi.audit_status, cpi.create_time, cpi.create_by, cpi.update_time, cpi.update_by 
+        select  cpi.id, cpi.card_type, cpi.card_no, cpi.person_name, cpi.consumer_account, cpi.audit_status, cpi.record_status, cpi.create_time, cpi.create_by, cpi.update_time, cpi.update_by 
         from consumer_personal_info cpi
     </sql>
 
+    <!-- 通用查询服务购买方-个人信息ConsumerPersonalInfo列表 -->
     <select id="selectConsumerPersonalInfoList" parameterType="ConsumerPersonalInfo" resultMap="ConsumerPersonalInfoResult">
         <include refid="selectConsumerPersonalInfoVo"/>
         <where>  
             <if test="cardType != null  and cardType != ''"> and cpi.card_type = #{cardType}</if>
-            <if test="cardNo != null  and cardNo != ''"> and cpi.card_no = #{cardNo}</if>
+            <if test="cardNo != null  and cardNo != ''"> and cpi.card_no like concat('%', #{cardNo}, '%')</if>
             <if test="personName != null  and personName != ''"> and cpi.person_name like concat('%', #{personName}, '%')</if>
             <if test="consumerAccount != null  and consumerAccount != ''"> and cpi.consumer_account = #{consumerAccount}</if>
             <if test="auditStatus != null  and auditStatus != ''"> and cpi.audit_status = #{auditStatus}</if>
+            <if test="recordStatus != null  and recordStatus != ''"> and cpi.record_status = #{recordStatus}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> 
+                    and cpi.create_time between #{params.beginCreateTime} and #{params.endCreateTime}
+            </if> 
         </where>
         order by cpi.create_time desc
     </select>
     
+    
+    <!-- 根据主键ID查询服务购买方-个人信息ConsumerPersonalInfo对象 -->
     <select id="selectConsumerPersonalInfoById" parameterType="Long" resultMap="ConsumerPersonalInfoResult">
         <include refid="selectConsumerPersonalInfoVo"/>
         where cpi.id = #{id}
     </select>
 
+    <!-- 新增服务购买方-个人信息ConsumerPersonalInfo对象 -->
     <insert id="insertConsumerPersonalInfo" parameterType="ConsumerPersonalInfo" useGeneratedKeys="true" keyProperty="id">
         insert into consumer_personal_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -47,6 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="personName != null">person_name,</if>
             <if test="consumerAccount != null and consumerAccount != ''">consumer_account,</if>
             <if test="auditStatus != null">audit_status,</if>
+            <if test="recordStatus != null">record_status,</if>
             <if test="createTime != null">create_time,</if>
             <if test="createBy != null">create_by,</if>
             <if test="updateTime != null">update_time,</if>
@@ -58,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="personName != null">#{personName},</if>
             <if test="consumerAccount != null and consumerAccount != ''">#{consumerAccount},</if>
             <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="recordStatus != null">#{recordStatus},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
@@ -65,6 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
+    <!-- 更新服务购买方-个人信息ConsumerPersonalInfo对象 -->
     <update id="updateConsumerPersonalInfo" parameterType="ConsumerPersonalInfo">
         update consumer_personal_info
         <trim prefix="SET" suffixOverrides=",">
@@ -73,6 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="personName != null">person_name = #{personName},</if>
             <if test="consumerAccount != null and consumerAccount != ''">consumer_account = #{consumerAccount},</if>
             <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="recordStatus != null">record_status = #{recordStatus},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
@@ -81,12 +96,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
+    <!-- 根据主键删除服务购买方-个人信息ConsumerPersonalInfo对象 -->
     <delete id="deleteConsumerPersonalInfoById" parameterType="Long">
+        <!-- 物理删除$服务购买方-个人信息ConsumerPersonalInfo 
         delete from consumer_personal_info where id = #{id}
+        -->
+        <!-- 逻辑删除服务购买方-个人信息ConsumerPersonalInfo -->
+        update consumer_personal_info set record_status = 'DELETED' 
+        where id = #{id}
     </delete>
 
+    <!-- 根据主键批量删除服务购买方-个人信息ConsumerPersonalInfo对象 -->
     <delete id="deleteConsumerPersonalInfoByIds" parameterType="String">
+        <!-- 物理删除服务购买方-个人信息ConsumerPersonalInfo
         delete from consumer_personal_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        -->
+        <!-- 逻辑删除服务购买方-个人信息ConsumerPersonalInfo -->
+        update consumer_personal_info set record_status = 'DELETED' 
+        where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
