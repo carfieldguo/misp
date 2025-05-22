@@ -35,8 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="consumerAccount != null  and consumerAccount != ''"> and cpi.consumer_account = #{consumerAccount}</if>
             <if test="auditStatus != null  and auditStatus != ''"> and cpi.audit_status = #{auditStatus}</if>
             <if test="recordStatus != null  and recordStatus != ''"> and cpi.record_status = #{recordStatus}</if>
-            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> 
-                    and cpi.create_time between #{params.beginCreateTime} and #{params.endCreateTime}
+            <if test="params.beginCreateTime != null and params.endCreateTime != null "> 
+                    and cpi.create_time between CAST(#{params.beginCreateTime}  AS TIMESTAMP) and CAST(#{params.endCreateTime} AS TIMESTAMP)
             </if> 
         </where>
         order by cpi.create_time desc

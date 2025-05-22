@@ -39,8 +39,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="whiteIps != null  and whiteIps != ''"> and cai.white_ips = #{whiteIps}</if>
             <if test="appStatus != null  and appStatus != ''"> and cai.app_status = #{appStatus}</if>
             <if test="recordStatus != null  and recordStatus != ''"> and cai.record_status = #{recordStatus}</if>
-            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> 
-                    and cai.create_time between #{params.beginCreateTime} and #{params.endCreateTime}
+            <if test="params.beginCreateTime != null and params.endCreateTime != null "> 
+                    and cai.create_time between CAST(#{params.beginCreateTime}  AS TIMESTAMP) and CAST(#{params.endCreateTime} AS TIMESTAMP)
             </if> 
         </where>
         order by cai.create_time desc

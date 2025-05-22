@@ -37,8 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="providerAccount != null  and providerAccount != ''"> and pei.provider_account = #{providerAccount}</if>
             <if test="auditStatus != null  and auditStatus != ''"> and pei.audit_status = #{auditStatus}</if>
             <if test="recordStatus != null  and recordStatus != ''"> and pei.record_status = #{recordStatus}</if>
-            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> 
-                    and pei.create_time between #{params.beginCreateTime} and #{params.endCreateTime}
+            <if test="params.beginCreateTime != null and params.endCreateTime != null "> 
+                    and pei.create_time between CAST(#{params.beginCreateTime}  AS TIMESTAMP) and CAST(#{params.endCreateTime} AS TIMESTAMP)
             </if> 
         </where>
         order by pei.create_time desc

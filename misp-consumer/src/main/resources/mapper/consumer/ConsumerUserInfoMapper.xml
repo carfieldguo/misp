@@ -43,8 +43,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="email != null  and email != ''"> and cui.email = #{email}</if>
             <if test="accountStatus != null  and accountStatus != ''"> and cui.account_status = #{accountStatus}</if>
             <if test="recordStatus != null  and recordStatus != ''"> and cui.record_status = #{recordStatus}</if>
-            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> 
-                    and cui.create_time between #{params.beginCreateTime} and #{params.endCreateTime}
+            <if test="params.beginCreateTime != null and params.endCreateTime != null "> 
+                    and cui.create_time between CAST(#{params.beginCreateTime}  AS TIMESTAMP) and CAST(#{params.endCreateTime} AS TIMESTAMP)
             </if> 
         </where>
         order by cui.create_time desc
