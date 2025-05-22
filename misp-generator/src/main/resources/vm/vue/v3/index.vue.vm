@@ -181,10 +181,8 @@
     <el-form-item label="${column.columnComment}">
       <span>
         #if($column.dictType != "")
-        <!-- 显示字典标签 -->
         <dict-tag :options="${column.dictType}" :value="viewData.${column.javaField}" />
         #else
-        <!-- 显示普通字段值 -->
         {{ viewData.${column.javaField} }}
         #end
       </span>

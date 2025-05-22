@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${packageName}.mapper.${ClassName}Mapper">
     
+    <!-- ${functionName}${ClassName}对象字段映射 -->
     <resultMap type="${ClassName}" id="${ClassName}Result">
 #foreach ($column in $columns)
         <result property="${column.javaField}"    column="${column.columnName}"    />
@@ -22,11 +23,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 #end
 
+    <!-- ${functionName}${ClassName}对象列表VO -->
     <sql id="select${ClassName}Vo">
         select #foreach($column in $columns) ${tableShortName}.$column.columnName#if($foreach.count != $columns.size()),#end#end 
         from ${tableName} ${tableShortName}
     </sql>
 
+    <!-- 通用查询${functionName}${ClassName}列表 -->
     <select id="select${ClassName}List" parameterType="${ClassName}" resultMap="${ClassName}Result">
         <include refid="select${ClassName}Vo"/>
         <where>  
@@ -52,7 +55,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 #elseif($queryType == "LIKE")
             <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end"> and ${tableShortName}.$columnName like concat('%', #{$javaField}, '%')</if>
 #elseif($queryType == "BETWEEN")
-            <if test="params.begin$AttrName != null and params.begin$AttrName != '' and params.end$AttrName != null and params.end$AttrName != ''"> and ${tableShortName}.$columnName between #{params.begin$AttrName} and #{params.end$AttrName}</if>
+            #if($javaType == 'Date')
+            <if test="params.begin$AttrName != null and params.end$AttrName != null "> 
+                    and ${tableShortName}.$columnName between #{params.begin$AttrName} and #{params.end$AttrName}
+            </if> 
+            #else
+            <if test="params.begin$AttrName != null and params.begin$AttrName != '' and params.end$AttrName != null and params.end$AttrName != ''"> 
+                    and ${tableShortName}.$columnName between #{params.begin$AttrName} and #{params.end$AttrName}
+            </if> 
+            #end
 #end
 #end
 #end
@@ -60,6 +71,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by ${tableShortName}.create_time desc
     </select>
     
+    
+    <!-- 根据主键ID查询${functionName}${ClassName}对象 -->
     <select id="select${ClassName}By${pkColumn.capJavaField}" parameterType="${pkColumn.javaType}" resultMap="#if($table.sub)${ClassName}${subClassName}Result#else${ClassName}Result#end">
 #if($table.crud || $table.tree)
         <include refid="select${ClassName}Vo"/>
@@ -79,6 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 #end
 
+    <!-- 新增${functionName}${ClassName}对象 -->
     <insert id="insert${ClassName}" parameterType="${ClassName}"#if($pkColumn.increment) useGeneratedKeys="true" keyProperty="$pkColumn.javaField"#end>
         insert into ${tableName}
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -97,6 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
+    <!-- 更新${functionName}${ClassName}对象 -->
     <update id="update${ClassName}" parameterType="${ClassName}">
         update ${tableName}
         <trim prefix="SET" suffixOverrides=",">
@@ -109,12 +124,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where ${pkColumn.columnName} = #{${pkColumn.javaField}}
     </update>
 
+    <!-- 根据主键删除${functionName}${ClassName}对象 -->
     <delete id="delete${ClassName}By${pkColumn.capJavaField}" parameterType="${pkColumn.javaType}">
+        <!-- 物理删除$${functionName}${ClassName} 
         delete from ${tableName} where ${pkColumn.columnName} = #{${pkColumn.javaField}}
+        -->
+        <!-- 逻辑删除${functionName}${ClassName} -->
+        update ${tableName} set record_status = 'DELETED' 
+        where ${pkColumn.columnName} = #{${pkColumn.javaField}}
     </delete>
 
+    <!-- 根据主键批量删除${functionName}${ClassName}对象 -->
     <delete id="delete${ClassName}By${pkColumn.capJavaField}s" parameterType="String">
+        <!-- 物理删除${functionName}${ClassName}
         delete from ${tableName} where ${pkColumn.columnName} in 
+        <foreach item="${pkColumn.javaField}" collection="array" open="(" separator="," close=")">
+            #{${pkColumn.javaField}}
+        </foreach>
+        -->
+        <!-- 逻辑删除${functionName}${ClassName} -->
+        update ${tableName} set record_status = 'DELETED' 
+        where ${pkColumn.columnName} in
         <foreach item="${pkColumn.javaField}" collection="array" open="(" separator="," close=")">
             #{${pkColumn.javaField}}
         </foreach>

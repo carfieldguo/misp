@@ -100,6 +100,19 @@ public class GenTableColumn extends BaseEntity
 
     public void setColumnComment(String columnComment)
     {
+    	// 定义需要清除的分隔符数组
+        char[] separators = { ':',  '：', '，', ',', '（', '(', '【', '[' };
+        
+        // 遍历分隔符，找到第一个出现的位置
+        int index = -1;
+        for (char separator : separators) {
+            int pos = columnComment.indexOf(separator);
+            if (pos != -1 && (index == -1 || pos < index)) {
+                index = pos;
+            }
+        }
+        // 如果找到了分隔符，则截取字符串
+        columnComment = (index != -1) ? columnComment.substring(0, index) : columnComment;
         this.columnComment = columnComment;
     }
 

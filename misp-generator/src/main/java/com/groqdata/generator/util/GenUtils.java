@@ -56,6 +56,11 @@ public class GenUtils
             column.setJavaType(GenConstants.TYPE_DATE);
             column.setHtmlType(GenConstants.HTML_DATETIME);
         }
+        else if (arraysContains(GenConstants.COLUMNTYPE_TIMESTAMP, dataType))
+		{
+			column.setJavaType(GenConstants.TYPE_LOCALDATETIME);
+			column.setHtmlType(GenConstants.HTML_DATETIME);
+		}
         else if (arraysContains(GenConstants.COLUMNTYPE_NUMBER, dataType))
         {
             column.setHtmlType(GenConstants.HTML_INPUT);
