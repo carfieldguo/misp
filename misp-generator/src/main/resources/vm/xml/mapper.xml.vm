@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from ${tableName} ${tableShortName}
     </sql>
 
-    <!-- 通用查询${functionName}${ClassName}列表 -->
+    <!-- 查询${functionName}${ClassName}列表 -->
     <select id="select${ClassName}List" parameterType="${ClassName}" resultMap="${ClassName}Result">
         <include refid="select${ClassName}Vo"/>
         <where>  
