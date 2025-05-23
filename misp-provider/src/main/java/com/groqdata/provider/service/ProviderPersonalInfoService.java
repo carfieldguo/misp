@@ -58,4 +58,6 @@ public interface ProviderPersonalInfoService
      * @return 结果
      */
     public int deleteProviderPersonalInfoById(Long id);
+
+	public ProviderPersonalInfo selectProviderUserInfoByAccount(String account);
 }

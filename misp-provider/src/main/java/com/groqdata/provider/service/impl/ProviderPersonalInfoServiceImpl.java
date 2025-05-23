@@ -93,4 +93,9 @@ public class ProviderPersonalInfoServiceImpl implements ProviderPersonalInfoServ
     {
         return providerPersonalInfoMapper.deleteProviderPersonalInfoById(id);
     }
+
+	@Override
+	public ProviderPersonalInfo selectProviderUserInfoByAccount(String account) {
+		return providerPersonalInfoMapper.selectProviderUserInfoByAccount(account);
+	}
 }

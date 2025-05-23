@@ -93,4 +93,9 @@ public class ProviderUserInfoServiceImpl implements ProviderUserInfoService
     {
         return providerUserInfoMapper.deleteProviderUserInfoById(id);
     }
+
+	@Override
+	public ProviderUserInfo selectProviderUserInfoByAccount(String account) {
+		return providerUserInfoMapper.selectProviderUserInfoByAccount(account);
+	}
 }

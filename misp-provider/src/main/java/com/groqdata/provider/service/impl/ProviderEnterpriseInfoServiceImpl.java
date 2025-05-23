@@ -93,4 +93,9 @@ public class ProviderEnterpriseInfoServiceImpl implements ProviderEnterpriseInfo
     {
         return providerEnterpriseInfoMapper.deleteProviderEnterpriseInfoById(id);
     }
+
+	@Override
+	public ProviderEnterpriseInfo selectProviderUserInfoByAccount(String account) {
+		return providerEnterpriseInfoMapper.selectProviderUserInfoByAccount(account);
+	}
 }

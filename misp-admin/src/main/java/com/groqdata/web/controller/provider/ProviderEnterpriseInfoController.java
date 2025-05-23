@@ -82,7 +82,19 @@ public class ProviderEnterpriseInfoController extends BaseController
     {
         return success(providerEnterpriseInfoService.selectProviderEnterpriseInfoById(id));
     }
-
+    
+    /**
+     * 获取服务提供方-账号信息详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('provider:provider-user-info:query')")
+    @ApiOperation("获取服务提供方-企业信息详细信息")
+    @ApiImplicitParam(name = "id", value = "服务提供方-账号信息主键", required = true, dataType = "Long", paramType = "path")
+    @GetMapping(value = "/find-by-account/{account}")
+    public AjaxResult getInfoByAccount(@PathVariable("account") String account)
+    {
+        return success(providerEnterpriseInfoService.selectProviderUserInfoByAccount(account));
+    }
+    
     /**
      * 新增服务提供方-企业信息
      */

@@ -58,4 +58,6 @@ public interface ProviderEnterpriseInfoMapper
      * @return 结果
      */
     public int deleteProviderEnterpriseInfoByIds(Long[] ids);
+
+	public ProviderEnterpriseInfo selectProviderUserInfoByAccount(String account);
 }

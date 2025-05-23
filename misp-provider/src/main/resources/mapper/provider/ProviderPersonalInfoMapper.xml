@@ -48,6 +48,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectProviderPersonalInfoVo"/>
         where ppi.id = #{id}
     </select>
+    
+    
+    <!-- 根据Account查询服务提供方-个人信息ProviderPersonalInfo对象 -->
+    <select id="selectProviderUserInfoByAccount" parameterType="String" resultMap="ProviderPersonalInfoResult">
+        <include refid="selectProviderPersonalInfoVo"/>
+        where ppi.provider_account = #{account}
+        limit 1
+    </select>
 
     <!-- 新增服务提供方-个人信息ProviderPersonalInfo对象 -->
     <insert id="insertProviderPersonalInfo" parameterType="ProviderPersonalInfo" useGeneratedKeys="true" keyProperty="id">

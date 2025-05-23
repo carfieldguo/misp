@@ -58,4 +58,6 @@ public interface ProviderPersonalInfoMapper
      * @return 结果
      */
     public int deleteProviderPersonalInfoByIds(Long[] ids);
+
+	public ProviderPersonalInfo selectProviderUserInfoByAccount(String account);
 }

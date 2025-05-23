@@ -84,6 +84,18 @@ public class ProviderPersonalInfoController extends BaseController
     }
 
     /**
+     * 获取服务提供方-账号信息详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('provider:provider-user-info:query')")
+    @ApiOperation("获取服务提供方-个人信息详细信息")
+    @ApiImplicitParam(name = "account", value = "服务提供方账号", required = true, dataType = "Long", paramType = "path")
+    @GetMapping(value = "/find-by-account/{account}")
+    public AjaxResult getInfoByAccount(@PathVariable("account") String account)
+    {
+        return success(providerPersonalInfoService.selectProviderUserInfoByAccount(account));
+    }
+    
+    /**
      * 新增服务提供方-个人信息
      */
     @PreAuthorize("@ss.hasPermi('provider:provider-personal-info:add')")
