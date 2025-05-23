@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectGenTableColumnListByTableId" parameterType="Long" resultMap="GenTableColumnResult">
         <include refid="selectGenTableColumnVo"/>
-        where table_id::bigint = #{tableId}
+        where CAST(table_id AS bigint) = #{tableId}
         order by sort
     </select>
 
@@ -110,14 +110,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteGenTableColumnByIds" parameterType="Long">
-        delete from gen_table_column where table_id::bigint in
+        delete from gen_table_column where CAST(table_id AS bigint) in
         <foreach collection="array" item="tableId" open="(" separator="," close=")">
             #{tableId}
         </foreach>
     </delete>
 
     <delete id="deleteGenTableColumns">
-        delete from gen_table_column where column_id::bigint in
+        delete from gen_table_column where CAST(column_id AS bigint) in
         <foreach collection="list" item="item" open="(" separator="," close=")">
             #{item.columnId}
         </foreach>

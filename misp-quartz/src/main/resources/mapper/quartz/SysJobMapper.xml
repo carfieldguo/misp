@@ -57,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	</delete>
 
  	<delete id="deleteJobByIds" parameterType="Long">
- 		delete from sys_job where job_id::bigint in
+ 		delete from sys_job where CAST(job_id AS bigint) in
  		<foreach collection="array" item="jobId" open="(" separator="," close=")">
  			#{jobId}
         </foreach>

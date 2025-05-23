@@ -88,10 +88,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND lower(table_comment) like lower(concat('%', #{tableComment}, '%'))
 		</if>
 		<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-			and create_time::date &gt;= to_date(#{params.beginTime},'yyyy-MM-dd')
+			and CAST(create_time AS date) &gt;= to_date(#{params.beginTime},'yyyy-MM-dd')
 		</if>
 		<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-			and create_time::date &lt;= to_date(#{params.endTime},'yyyy-MM-dd')
+			and CAST(create_time AS date) &lt;= to_date(#{params.endTime},'yyyy-MM-dd')
 		</if>
         order by create_time desc
 	</select>
@@ -116,7 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    SELECT t.table_id, t.table_name, t.table_comment, t.sub_table_name, t.sub_table_fk_name, t.class_name, t.tpl_category,t.tpl_web_type, t.package_name, t.module_name, t.business_name, t.function_name, t.function_author, t.gen_type, t.gen_path, t.options, t.remark,
 			   c.column_id, c.column_name, c.column_comment, c.column_type, c.java_type, c.java_field, c.is_pk, c.is_increment, c.is_required, c.is_insert, c.is_edit, c.is_list, c.is_query, c.query_type, c.html_type, c.dict_type, c.sort
 		FROM gen_table t
-			 LEFT JOIN gen_table_column c ON t.table_id = c.table_id::bigint
+			 LEFT JOIN gen_table_column c ON t.table_id = CAST(c.table_id AS bigint)
 		where t.table_id = #{tableId} order by c.sort
 	</select>
 	
@@ -124,7 +124,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    SELECT t.table_id, t.table_name, t.table_comment, t.sub_table_name, t.sub_table_fk_name, t.class_name, t.tpl_category,t.tpl_web_type, t.package_name, t.module_name, t.business_name, t.function_name, t.function_author, t.gen_type, t.gen_path, t.options, t.remark,
 			   c.column_id, c.column_name, c.column_comment, c.column_type, c.java_type, c.java_field, c.is_pk, c.is_increment, c.is_required, c.is_insert, c.is_edit, c.is_list, c.is_query, c.query_type, c.html_type, c.dict_type, c.sort
 		FROM gen_table t
-			 LEFT JOIN gen_table_column c ON t.table_id = c.table_id::bigint
+			 LEFT JOIN gen_table_column c ON t.table_id = CAST(c.table_id AS bigint)
 		where t.table_name = #{tableName} order by c.sort
 	</select>
 	
@@ -132,7 +132,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    SELECT t.table_id, t.table_name, t.table_comment, t.sub_table_name, t.sub_table_fk_name, t.class_name, t.tpl_category,t.tpl_web_type, t.package_name, t.module_name, t.business_name, t.function_name, t.function_author, t.options, t.remark,
 			   c.column_id, c.column_name, c.column_comment, c.column_type, c.java_type, c.java_field, c.is_pk, c.is_increment, c.is_required, c.is_insert, c.is_edit, c.is_list, c.is_query, c.query_type, c.html_type, c.dict_type, c.sort
 		FROM gen_table t
-			 LEFT JOIN gen_table_column c ON t.table_id = c.table_id::bigint
+			 LEFT JOIN gen_table_column c ON t.table_id = CAST(c.table_id AS bigint)
 		order by c.sort
 	</select>
 	
@@ -196,7 +196,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
     
     <delete id="deleteGenTableByIds" parameterType="Long">
-        delete from gen_table where table_id::bigint in
+        delete from gen_table where  CAST(table_id AS bigint) in
         <foreach collection="array" item="tableId" open="(" separator="," close=")">
             #{tableId}
         </foreach>

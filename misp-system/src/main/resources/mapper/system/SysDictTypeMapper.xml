@@ -33,10 +33,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				AND dict_type like concat('%', #{dictType}, '%')
 			</if>
 			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-				and create_time::date &gt;= to_date(#{params.beginTime},'yyyy-MM-dd')
+				and CAST(create_time AS date) &gt;= to_date(#{params.beginTime},'yyyy-MM-dd')
 			</if>
 			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-				and create_time::Date &lt;= to_date(#{params.endTime},'yyyy-MM-dd')
+				and CAST(create_time AS date) &lt;= to_date(#{params.endTime},'yyyy-MM-dd')
 			</if>
 	    </where>
 	</select>
@@ -65,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	</delete>
 
  	<delete id="deleteDictTypeByIds" parameterType="Long">
- 		delete from sys_dict_type where dict_id::bigint in
+ 		delete from sys_dict_type where CAST(dict_id AS bigint) in
  		<foreach collection="array" item="dictId" open="(" separator="," close=")">
  			#{dictId}
         </foreach>

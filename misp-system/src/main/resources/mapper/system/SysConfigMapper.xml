@@ -108,7 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteConfigByIds" parameterType="Long">
-        delete from sys_config where config_id::bigint in
+        delete from sys_config where CAST(config_id AS bigint) in
         <foreach item="configId" collection="array" open="(" separator="," close=")">
         	#{configId}
         </foreach>

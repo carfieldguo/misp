@@ -377,6 +377,7 @@
 
 <script setup name="${BusinessNameCamel}">
 import { list${BusinessNameCamel}, get${BusinessNameCamel}, del${BusinessNameCamel}, add${BusinessNameCamel}, update${BusinessNameCamel} } from "@/api/${moduleName}/${businessName}";
+import {parseTime } from  '@/utils/common'
 
 const { proxy } = getCurrentInstance();
 #if(${dicts} != '')
@@ -628,9 +629,10 @@ function handle${subClassName}SelectionChange(selection) {
 #end
 /** 导出按钮操作 */
 function handleExport() {
+  const formattedTime = parseTime(new Date(), '{y}{m}{d}{h}{i}{s}');
   proxy.download('${moduleName}/${businessName}/export', {
     ...queryParams.value
-  }, `${functionName}_#[[${new Date().getTime()}]]#.xlsx`)
+  }, `${functionName}_#[[${formattedTime}]]#.xlsx`)
 }
 
 getList();
