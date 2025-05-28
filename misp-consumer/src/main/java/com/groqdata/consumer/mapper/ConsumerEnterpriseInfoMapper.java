@@ -58,4 +58,6 @@ public interface ConsumerEnterpriseInfoMapper
      * @return 结果
      */
     public int deleteConsumerEnterpriseInfoByIds(Long[] ids);
+
+	public ConsumerEnterpriseInfo selectConsumerUserInfoByAccount(String account);
 }

@@ -82,7 +82,21 @@ public class ConsumerPersonalInfoController extends BaseController
     {
         return success(consumerPersonalInfoService.selectConsumerPersonalInfoById(id));
     }
+    
+    /**
+     * 根据账号获取服务购买方-个人信息详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('consumer:consumer-personal-info:query')")
+    @ApiOperation("根据账号获取服务购买方-个人信息详细信息")
+    @ApiImplicitParam(name = "account", value = "服务服务购买方账号信息", required = true, dataType = "String", paramType = "path")
+    @GetMapping(value = "/find-by-account/{account}")
+    public AjaxResult getInfoByAccount(@PathVariable("account") String account)
+    {
+        return success(consumerPersonalInfoService.selectConsumerUserInfoByAccount(account));
+    }
 
+    
+    
     /**
      * 新增服务购买方-个人信息
      */

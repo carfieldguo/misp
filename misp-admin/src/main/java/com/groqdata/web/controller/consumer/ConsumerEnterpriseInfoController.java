@@ -84,6 +84,18 @@ public class ConsumerEnterpriseInfoController extends BaseController
     }
 
     /**
+     * 获取服务购买方-账号信息详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('provider:provider-user-info:query')")
+    @ApiOperation("根据账号获取服务购买方-企业信息详细信息")
+    @ApiImplicitParam(name = "account", value = "服务服务购买方账号信息", required = true, dataType = "String", paramType = "path")
+    @GetMapping(value = "/find-by-account/{account}")
+    public AjaxResult getInfoByAccount(@PathVariable("account") String account)
+    {
+        return success(consumerEnterpriseInfoService.selectConsumerUserInfoByAccount(account));
+    }
+    
+    /**
      * 新增服务购买方-企业信息
      */
     @PreAuthorize("@ss.hasPermi('consumer:consumer-enterprise-info:add')")

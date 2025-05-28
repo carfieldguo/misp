@@ -93,4 +93,9 @@ public class ConsumerPersonalInfoServiceImpl implements ConsumerPersonalInfoServ
     {
         return consumerPersonalInfoMapper.deleteConsumerPersonalInfoById(id);
     }
+
+	@Override
+	public ConsumerPersonalInfo selectConsumerUserInfoByAccount(String account) {
+		return consumerPersonalInfoMapper.selectConsumerUserInfoByAccount(account);
+	}
 }

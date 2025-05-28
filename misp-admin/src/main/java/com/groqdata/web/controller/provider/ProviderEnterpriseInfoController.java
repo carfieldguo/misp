@@ -87,8 +87,8 @@ public class ProviderEnterpriseInfoController extends BaseController
      * 获取服务提供方-账号信息详细信息
      */
     @PreAuthorize("@ss.hasPermi('provider:provider-user-info:query')")
-    @ApiOperation("获取服务提供方-企业信息详细信息")
-    @ApiImplicitParam(name = "id", value = "服务提供方-账号信息主键", required = true, dataType = "Long", paramType = "path")
+    @ApiOperation("根据账号获取服务提供方-企业信息详细信息")
+    @ApiImplicitParam(name = "account", value = "服务提供方账号信息", required = true, dataType = "String", paramType = "path")
     @GetMapping(value = "/find-by-account/{account}")
     public AjaxResult getInfoByAccount(@PathVariable("account") String account)
     {

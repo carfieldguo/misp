@@ -58,4 +58,12 @@ public interface ConsumerEnterpriseInfoService
      * @return 结果
      */
     public int deleteConsumerEnterpriseInfoById(Long id);
+
+    /**
+	 * 根据账号获取服务购买方-企业信息详细信息
+	 * 
+	 * @param account 账号
+	 * @return 服务提供方-账号信息
+	 */
+	public ConsumerEnterpriseInfo selectConsumerUserInfoByAccount(String account);
 }

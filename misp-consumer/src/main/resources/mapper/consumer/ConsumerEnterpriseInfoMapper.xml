@@ -50,6 +50,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectConsumerEnterpriseInfoVo"/>
         where cei.id = #{id}
     </select>
+    
+    <!-- 根据用户账号查询服务购买方-企业信息ConsumerEnterpriseInfo对象 -->
+    <select id="selectConsumerUserInfoByAccount" parameterType="String" resultMap="ConsumerEnterpriseInfoResult">
+        <include refid="selectConsumerEnterpriseInfoVo"/>
+        where cei.consumer_account = #{account}
+        limit 1
+    </select>
 
     <!-- 新增服务购买方-企业信息ConsumerEnterpriseInfo对象 -->
     <insert id="insertConsumerEnterpriseInfo" parameterType="ConsumerEnterpriseInfo" useGeneratedKeys="true" keyProperty="id">

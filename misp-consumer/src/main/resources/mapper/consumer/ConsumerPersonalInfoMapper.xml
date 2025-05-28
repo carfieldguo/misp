@@ -48,6 +48,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectConsumerPersonalInfoVo"/>
         where cpi.id = #{id}
     </select>
+    
+    
+    <!-- 根据Account查询服务购买方-个人信息ConsumerPersonalInfo对象 -->
+    <select id="selectConsumerUserInfoByAccount" parameterType="String" resultMap="ConsumerPersonalInfoResult">
+        <include refid="selectConsumerPersonalInfoVo"/>
+        where cpi.consumer_account = #{account}
+        limit 1
+    </select>
 
     <!-- 新增服务购买方-个人信息ConsumerPersonalInfo对象 -->
     <insert id="insertConsumerPersonalInfo" parameterType="ConsumerPersonalInfo" useGeneratedKeys="true" keyProperty="id">

@@ -93,4 +93,9 @@ public class ConsumerEnterpriseInfoServiceImpl implements ConsumerEnterpriseInfo
     {
         return consumerEnterpriseInfoMapper.deleteConsumerEnterpriseInfoById(id);
     }
+
+	@Override
+	public ConsumerEnterpriseInfo selectConsumerUserInfoByAccount(String account) {
+		return consumerEnterpriseInfoMapper.selectConsumerUserInfoByAccount(account);
+	}
 }
