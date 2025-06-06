@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="cardNo"    column="card_no"    />
         <result property="personName"    column="person_name"    />
         <result property="consumerAccount"    column="consumer_account"    />
+        <result property="consumerNickname"    column="consumer_nickname"    />
         <result property="auditStatus"    column="audit_status"    />
         <result property="recordStatus"    column="record_status"    />
         <result property="createTime"    column="create_time"    />
@@ -21,8 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 服务购买方-个人信息ConsumerPersonalInfo对象列表VO -->
     <sql id="selectConsumerPersonalInfoVo">
-        select  cpi.id, cpi.card_type, cpi.card_no, cpi.person_name, cpi.consumer_account, cpi.audit_status, cpi.record_status, cpi.create_time, cpi.create_by, cpi.update_time, cpi.update_by 
-        from consumer_personal_info cpi
+        select  cpi.id, cpi.card_type, cpi.card_no, cpi.person_name, cpi.consumer_account, cui.nickname as consumer_nickname, 
+                cpi.audit_status, cpi.record_status, cpi.create_time, cpi.create_by, cpi.update_time, cpi.update_by
+        from consumer_personal_info cpi 
+        left join consumer_user_info cui on cpi.consumer_account = cui.account
     </sql>
 
     <!-- 通用查询服务购买方-个人信息ConsumerPersonalInfo列表 -->

@@ -41,6 +41,11 @@ public class ConsumerPersonalInfo extends BaseEntity
     @Excel(name = "关联服务购买方账号")
     @ApiModelProperty("关联服务购买方账号")
     private String consumerAccount;
+    
+    /** 账号名称 */
+    @Excel(name = "账号名称")
+    @ApiModelProperty("账号名称")
+    private String consumerNickname;
 
     /** 信息审核状态 */
     @Excel(name = "信息审核状态")
@@ -97,7 +102,16 @@ public class ConsumerPersonalInfo extends BaseEntity
     {
         return consumerAccount;
     }
-    public void setAuditStatus(String auditStatus) 
+    
+    public String getConsumerNickname() {
+		return consumerNickname;
+	}
+
+	public void setConsumerNickname(String consumerNickname) {
+		this.consumerNickname = consumerNickname;
+	}
+
+	public void setAuditStatus(String auditStatus) 
     {
         this.auditStatus = auditStatus;
     }
