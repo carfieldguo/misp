@@ -9,7 +9,7 @@ import com.groqdata.provider.domain.ProviderEnterpriseInfo;
 import com.groqdata.provider.service.ProviderEnterpriseInfoService;
 
 /**
- * 服务提供方-企业信息Service业务层处理
+ * 企业信息Service业务层处理
  * 
  * @author carfield
  * @date 2025-05-22
@@ -21,10 +21,10 @@ public class ProviderEnterpriseInfoServiceImpl implements ProviderEnterpriseInfo
     private ProviderEnterpriseInfoMapper providerEnterpriseInfoMapper;
 
     /**
-     * 查询服务提供方-企业信息
+     * 查询企业信息
      * 
-     * @param id 服务提供方-企业信息主键
-     * @return 服务提供方-企业信息
+     * @param id 企业信息主键
+     * @return 企业信息
      */
     @Override
     public ProviderEnterpriseInfo selectProviderEnterpriseInfoById(Long id)
@@ -33,10 +33,10 @@ public class ProviderEnterpriseInfoServiceImpl implements ProviderEnterpriseInfo
     }
 
     /**
-     * 查询服务提供方-企业信息列表
+     * 查询企业信息列表
      * 
-     * @param providerEnterpriseInfo 服务提供方-企业信息
-     * @return 服务提供方-企业信息
+     * @param providerEnterpriseInfo 企业信息
+     * @return 企业信息
      */
     @Override
     public List<ProviderEnterpriseInfo> selectProviderEnterpriseInfoList(ProviderEnterpriseInfo providerEnterpriseInfo)
@@ -45,9 +45,9 @@ public class ProviderEnterpriseInfoServiceImpl implements ProviderEnterpriseInfo
     }
 
     /**
-     * 新增服务提供方-企业信息
+     * 新增企业信息
      * 
-     * @param providerEnterpriseInfo 服务提供方-企业信息
+     * @param providerEnterpriseInfo 企业信息
      * @return 结果
      */
     @Override
@@ -58,9 +58,9 @@ public class ProviderEnterpriseInfoServiceImpl implements ProviderEnterpriseInfo
     }
 
     /**
-     * 修改服务提供方-企业信息
+     * 修改企业信息
      * 
-     * @param providerEnterpriseInfo 服务提供方-企业信息
+     * @param providerEnterpriseInfo 企业信息
      * @return 结果
      */
     @Override
@@ -71,9 +71,9 @@ public class ProviderEnterpriseInfoServiceImpl implements ProviderEnterpriseInfo
     }
 
     /**
-     * 批量删除服务提供方-企业信息
+     * 批量删除企业信息
      * 
-     * @param ids 需要删除的服务提供方-企业信息主键
+     * @param ids 需要删除的企业信息主键
      * @return 结果
      */
     @Override
@@ -83,9 +83,9 @@ public class ProviderEnterpriseInfoServiceImpl implements ProviderEnterpriseInfo
     }
 
     /**
-     * 删除服务提供方-企业信息信息
+     * 删除企业信息信息
      * 
-     * @param id 服务提供方-企业信息主键
+     * @param id 企业信息主键
      * @return 结果
      */
     @Override

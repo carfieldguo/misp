@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.groqdata.provider.mapper.ProviderPersonalInfoMapper">
     
-    <!-- 服务提供方-个人信息ProviderPersonalInfo对象字段映射 -->
+    <!-- 个人信息ProviderPersonalInfo对象字段映射 -->
     <resultMap type="ProviderPersonalInfo" id="ProviderPersonalInfoResult">
         <result property="id"    column="id"    />
         <result property="cardType"    column="card_type"    />
@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
     </resultMap>
 
-    <!-- 服务提供方-个人信息ProviderPersonalInfo对象列表VO -->
+    <!-- 个人信息ProviderPersonalInfo对象列表VO -->
     <sql id="selectProviderPersonalInfoVo">
         select  ppi.id, ppi.card_type, ppi.card_no, ppi.person_name, ppi.provider_account, pui.nickname as provider_nickname,
         ppi.audit_status, ppi.record_status, ppi.create_time, ppi.create_by, ppi.update_time, ppi.update_by 
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join provider_user_info pui on ppi.provider_account = pui.account
     </sql>
 
-    <!-- 通用查询服务提供方-个人信息ProviderPersonalInfo列表 -->
+    <!-- 通用查询个人信息ProviderPersonalInfo列表 -->
     <select id="selectProviderPersonalInfoList" parameterType="ProviderPersonalInfo" resultMap="ProviderPersonalInfoResult">
         <include refid="selectProviderPersonalInfoVo"/>
         <where>  
@@ -46,21 +46,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     
-    <!-- 根据主键ID查询服务提供方-个人信息ProviderPersonalInfo对象 -->
+    <!-- 根据主键ID查询个人信息ProviderPersonalInfo对象 -->
     <select id="selectProviderPersonalInfoById" parameterType="Long" resultMap="ProviderPersonalInfoResult">
         <include refid="selectProviderPersonalInfoVo"/>
         where ppi.id = #{id}
     </select>
     
     
-    <!-- 根据Account查询服务提供方-个人信息ProviderPersonalInfo对象 -->
+    <!-- 根据Account查询个人信息ProviderPersonalInfo对象 -->
     <select id="selectProviderUserInfoByAccount" parameterType="String" resultMap="ProviderPersonalInfoResult">
         <include refid="selectProviderPersonalInfoVo"/>
         where ppi.provider_account = #{account}
         limit 1
     </select>
 
-    <!-- 新增服务提供方-个人信息ProviderPersonalInfo对象 -->
+    <!-- 新增个人信息ProviderPersonalInfo对象 -->
     <insert id="insertProviderPersonalInfo" parameterType="ProviderPersonalInfo" useGeneratedKeys="true" keyProperty="id">
         insert into provider_personal_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <!-- 更新服务提供方-个人信息ProviderPersonalInfo对象 -->
+    <!-- 更新个人信息ProviderPersonalInfo对象 -->
     <update id="updateProviderPersonalInfo" parameterType="ProviderPersonalInfo">
         update provider_personal_info
         <trim prefix="SET" suffixOverrides=",">
@@ -107,25 +107,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <!-- 根据主键删除服务提供方-个人信息ProviderPersonalInfo对象 -->
+    <!-- 根据主键删除个人信息ProviderPersonalInfo对象 -->
     <delete id="deleteProviderPersonalInfoById" parameterType="Long">
-        <!-- 物理删除$服务提供方-个人信息ProviderPersonalInfo 
+        <!-- 物理删除$个人信息ProviderPersonalInfo 
         delete from provider_personal_info where id = #{id}
         -->
-        <!-- 逻辑删除服务提供方-个人信息ProviderPersonalInfo -->
+        <!-- 逻辑删除个人信息ProviderPersonalInfo -->
         update provider_personal_info set record_status = 'DELETED' 
         where id = #{id}
     </delete>
 
-    <!-- 根据主键批量删除服务提供方-个人信息ProviderPersonalInfo对象 -->
+    <!-- 根据主键批量删除个人信息ProviderPersonalInfo对象 -->
     <delete id="deleteProviderPersonalInfoByIds" parameterType="String">
-        <!-- 物理删除服务提供方-个人信息ProviderPersonalInfo
+        <!-- 物理删除个人信息ProviderPersonalInfo
         delete from provider_personal_info where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
         -->
-        <!-- 逻辑删除服务提供方-个人信息ProviderPersonalInfo -->
+        <!-- 逻辑删除个人信息ProviderPersonalInfo -->
         update provider_personal_info set record_status = 'DELETED' 
         where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">

@@ -9,7 +9,7 @@ import com.groqdata.consumer.domain.ConsumerAppInfo;
 import com.groqdata.consumer.service.ConsumerAppInfoService;
 
 /**
- * 服务购买方-应用信息Service业务层处理
+ * 应用信息Service业务层处理
  * 
  * @author carfield
  * @date 2025-05-22
@@ -21,10 +21,10 @@ public class ConsumerAppInfoServiceImpl implements ConsumerAppInfoService
     private ConsumerAppInfoMapper consumerAppInfoMapper;
 
     /**
-     * 查询服务购买方-应用信息
+     * 查询应用信息
      * 
-     * @param id 服务购买方-应用信息主键
-     * @return 服务购买方-应用信息
+     * @param id 应用信息主键
+     * @return 应用信息
      */
     @Override
     public ConsumerAppInfo selectConsumerAppInfoById(Long id)
@@ -33,10 +33,10 @@ public class ConsumerAppInfoServiceImpl implements ConsumerAppInfoService
     }
 
     /**
-     * 查询服务购买方-应用信息列表
+     * 查询应用信息列表
      * 
-     * @param consumerAppInfo 服务购买方-应用信息
-     * @return 服务购买方-应用信息
+     * @param consumerAppInfo 应用信息
+     * @return 应用信息
      */
     @Override
     public List<ConsumerAppInfo> selectConsumerAppInfoList(ConsumerAppInfo consumerAppInfo)
@@ -45,9 +45,9 @@ public class ConsumerAppInfoServiceImpl implements ConsumerAppInfoService
     }
 
     /**
-     * 新增服务购买方-应用信息
+     * 新增应用信息
      * 
-     * @param consumerAppInfo 服务购买方-应用信息
+     * @param consumerAppInfo 应用信息
      * @return 结果
      */
     @Override
@@ -58,9 +58,9 @@ public class ConsumerAppInfoServiceImpl implements ConsumerAppInfoService
     }
 
     /**
-     * 修改服务购买方-应用信息
+     * 修改应用信息
      * 
-     * @param consumerAppInfo 服务购买方-应用信息
+     * @param consumerAppInfo 应用信息
      * @return 结果
      */
     @Override
@@ -71,9 +71,9 @@ public class ConsumerAppInfoServiceImpl implements ConsumerAppInfoService
     }
 
     /**
-     * 批量删除服务购买方-应用信息
+     * 批量删除应用信息
      * 
-     * @param ids 需要删除的服务购买方-应用信息主键
+     * @param ids 需要删除的应用信息主键
      * @return 结果
      */
     @Override
@@ -83,9 +83,9 @@ public class ConsumerAppInfoServiceImpl implements ConsumerAppInfoService
     }
 
     /**
-     * 删除服务购买方-应用信息信息
+     * 删除应用信息信息
      * 
-     * @param id 服务购买方-应用信息主键
+     * @param id 应用信息主键
      * @return 结果
      */
     @Override

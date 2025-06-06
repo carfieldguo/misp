@@ -8,12 +8,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * 服务购买方-企业信息对象 consumer_enterprise_info
+ * 企业信息对象 consumer_enterprise_info
  * 
  * @author carfield
  * @date 2025-05-22
  */
-@ApiModel("服务购买方-企业信息对象")
+@ApiModel("企业信息对象")
 public class ConsumerEnterpriseInfo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

@@ -9,7 +9,7 @@ import com.groqdata.provider.domain.ProviderPersonalInfo;
 import com.groqdata.provider.service.ProviderPersonalInfoService;
 
 /**
- * 服务提供方-个人信息Service业务层处理
+ * 个人信息Service业务层处理
  * 
  * @author carfield
  * @date 2025-05-22
@@ -21,10 +21,10 @@ public class ProviderPersonalInfoServiceImpl implements ProviderPersonalInfoServ
     private ProviderPersonalInfoMapper providerPersonalInfoMapper;
 
     /**
-     * 查询服务提供方-个人信息
+     * 查询个人信息
      * 
-     * @param id 服务提供方-个人信息主键
-     * @return 服务提供方-个人信息
+     * @param id 个人信息主键
+     * @return 个人信息
      */
     @Override
     public ProviderPersonalInfo selectProviderPersonalInfoById(Long id)
@@ -33,10 +33,10 @@ public class ProviderPersonalInfoServiceImpl implements ProviderPersonalInfoServ
     }
 
     /**
-     * 查询服务提供方-个人信息列表
+     * 查询个人信息列表
      * 
-     * @param providerPersonalInfo 服务提供方-个人信息
-     * @return 服务提供方-个人信息
+     * @param providerPersonalInfo 个人信息
+     * @return 个人信息
      */
     @Override
     public List<ProviderPersonalInfo> selectProviderPersonalInfoList(ProviderPersonalInfo providerPersonalInfo)
@@ -45,9 +45,9 @@ public class ProviderPersonalInfoServiceImpl implements ProviderPersonalInfoServ
     }
 
     /**
-     * 新增服务提供方-个人信息
+     * 新增个人信息
      * 
-     * @param providerPersonalInfo 服务提供方-个人信息
+     * @param providerPersonalInfo 个人信息
      * @return 结果
      */
     @Override
@@ -58,9 +58,9 @@ public class ProviderPersonalInfoServiceImpl implements ProviderPersonalInfoServ
     }
 
     /**
-     * 修改服务提供方-个人信息
+     * 修改个人信息
      * 
-     * @param providerPersonalInfo 服务提供方-个人信息
+     * @param providerPersonalInfo 个人信息
      * @return 结果
      */
     @Override
@@ -71,9 +71,9 @@ public class ProviderPersonalInfoServiceImpl implements ProviderPersonalInfoServ
     }
 
     /**
-     * 批量删除服务提供方-个人信息
+     * 批量删除个人信息
      * 
-     * @param ids 需要删除的服务提供方-个人信息主键
+     * @param ids 需要删除的个人信息主键
      * @return 结果
      */
     @Override
@@ -83,9 +83,9 @@ public class ProviderPersonalInfoServiceImpl implements ProviderPersonalInfoServ
     }
 
     /**
-     * 删除服务提供方-个人信息信息
+     * 删除个人信息信息
      * 
-     * @param id 服务提供方-个人信息主键
+     * @param id 个人信息主键
      * @return 结果
      */
     @Override

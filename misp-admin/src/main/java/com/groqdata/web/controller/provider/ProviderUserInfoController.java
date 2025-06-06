@@ -27,13 +27,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 服务提供方-账号信息Controller
+ * 账号信息Controller
  * 
  * @author carfield
  * @date 2025-05-21
  */
 @RestController
-@Api(tags = "服务提供方-账号信息", value = "服务提供方-账号信息管理")
+@Api(tags = "服务提供方》账号信息", value = "账号信息管理")
 @RequestMapping("/provider/user-info")
 public class ProviderUserInfoController extends BaseController
 {
@@ -41,10 +41,10 @@ public class ProviderUserInfoController extends BaseController
     private ProviderUserInfoService providerUserInfoService;
 
     /**
-     * 查询服务提供方-账号信息列表
+     * 查询账号信息列表
      */
     @PreAuthorize("@ss.hasPermi('provider:user-info:list')")
-    @ApiOperation("查询服务提供方-账号信息列表")
+    @ApiOperation("查询账号信息列表")
     @GetMapping("/list")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
@@ -58,25 +58,25 @@ public class ProviderUserInfoController extends BaseController
     }
 
     /**
-     * 导出服务提供方-账号信息列表
+     * 导出账号信息列表
      */
     @PreAuthorize("@ss.hasPermi('provider:user-info:export')")
-    @ApiOperation("导出服务提供方-账号信息列表")
-    @Log(title = "服务提供方-账号信息", businessType = BusinessType.EXPORT)
+    @ApiOperation("导出账号信息列表")
+    @Log(title = "账号信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ProviderUserInfo providerUserInfo)
     {
         List<ProviderUserInfo> list = providerUserInfoService.selectProviderUserInfoList(providerUserInfo);
         ExcelUtil<ProviderUserInfo> util = new ExcelUtil<ProviderUserInfo>(ProviderUserInfo.class);
-        util.exportExcel(response, list, "服务提供方-账号信息数据");
+        util.exportExcel(response, list, "账号信息数据");
     }
 
     /**
-     * 获取服务提供方-账号信息详细信息
+     * 获取账号信息详细信息
      */
     @PreAuthorize("@ss.hasPermi('provider:user-info:query')")
-    @ApiOperation("获取服务提供方-账号信息详细信息")
-    @ApiImplicitParam(name = "id", value = "服务提供方-账号信息主键", required = true, dataType = "Long", paramType = "path")
+    @ApiOperation("获取账号信息详细信息")
+    @ApiImplicitParam(name = "id", value = "账号信息主键", required = true, dataType = "Long", paramType = "path")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -86,11 +86,11 @@ public class ProviderUserInfoController extends BaseController
     
     
     /**
-     * 获取服务提供方-账号信息详细信息
+     * 获取账号信息详细信息
      */
     @PreAuthorize("@ss.hasPermi('provider:user-info:query')")
-    @ApiOperation("获取服务提供方-账号信息详细信息")
-    @ApiImplicitParam(name = "id", value = "服务提供方-账号信息主键", required = true, dataType = "Long", paramType = "path")
+    @ApiOperation("获取账号信息详细信息")
+    @ApiImplicitParam(name = "id", value = "账号信息主键", required = true, dataType = "Long", paramType = "path")
     @GetMapping(value = "/find-by-account/{account}")
     public AjaxResult getInfoByAccount(@PathVariable("account") String account)
     {
@@ -99,11 +99,11 @@ public class ProviderUserInfoController extends BaseController
     
 
     /**
-     * 新增服务提供方-账号信息
+     * 新增账号信息
      */
     @PreAuthorize("@ss.hasPermi('provider:user-info:add')")
-    @ApiOperation("新增服务提供方-账号信息")
-    @Log(title = "服务提供方-账号信息", businessType = BusinessType.INSERT)
+    @ApiOperation("新增账号信息")
+    @Log(title = "账号信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ProviderUserInfo providerUserInfo)
     {
@@ -112,11 +112,11 @@ public class ProviderUserInfoController extends BaseController
     }
 
     /**
-     * 修改服务提供方-账号信息
+     * 修改账号信息
      */
     @PreAuthorize("@ss.hasPermi('provider:user-info:edit')")
-    @ApiOperation("修改服务提供方-账号信息")
-    @Log(title = "服务提供方-账号信息", businessType = BusinessType.UPDATE)
+    @ApiOperation("修改账号信息")
+    @Log(title = "账号信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ProviderUserInfo providerUserInfo)
     {
@@ -125,12 +125,12 @@ public class ProviderUserInfoController extends BaseController
     }
 
     /**
-     * 删除服务提供方-账号信息
+     * 删除账号信息
      */
     @PreAuthorize("@ss.hasPermi('provider:user-info:remove')")
-    @ApiOperation("删除服务提供方-账号信息")
-    @ApiImplicitParam(name = "ids", value = "服务提供方-账号信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
-    @Log(title = "服务提供方-账号信息", businessType = BusinessType.DELETE)
+    @ApiOperation("删除账号信息")
+    @ApiImplicitParam(name = "ids", value = "账号信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
+    @Log(title = "账号信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {

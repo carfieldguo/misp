@@ -31,13 +31,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 服务提供方-企业信息Controller
+ * 企业信息Controller
  * 
  * @author carfield
  * @date 2025-05-21
  */
 @RestController
-@Api(tags = "服务提供方-企业信息", value = "服务提供方-企业信息管理")
+@Api(tags = "服务提供方》企业信息", value = "企业信息管理")
 @RequestMapping("/provider/enterprise-info")
 public class ProviderEnterpriseInfoController extends BaseController
 {
@@ -45,10 +45,10 @@ public class ProviderEnterpriseInfoController extends BaseController
     private ProviderEnterpriseInfoService providerEnterpriseInfoService;
 
     /**
-     * 查询服务提供方-企业信息列表
+     * 查询企业信息列表
      */
     @PreAuthorize("@ss.hasPermi('provider:enterprise-info:list')")
-    @ApiOperation("查询服务提供方-企业信息列表")
+    @ApiOperation("查询企业信息列表")
     @GetMapping("/list")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
@@ -62,25 +62,25 @@ public class ProviderEnterpriseInfoController extends BaseController
     }
 
     /**
-     * 导出服务提供方-企业信息列表
+     * 导出企业信息列表
      */
     @PreAuthorize("@ss.hasPermi('provider:enterprise-info:export')")
-    @ApiOperation("导出服务提供方-企业信息列表")
-    @Log(title = "服务提供方-企业信息", businessType = BusinessType.EXPORT)
+    @ApiOperation("导出企业信息列表")
+    @Log(title = "企业信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ProviderEnterpriseInfo providerEnterpriseInfo)
     {
         List<ProviderEnterpriseInfo> list = providerEnterpriseInfoService.selectProviderEnterpriseInfoList(providerEnterpriseInfo);
         ExcelUtil<ProviderEnterpriseInfo> util = new ExcelUtil<ProviderEnterpriseInfo>(ProviderEnterpriseInfo.class);
-        util.exportExcel(response, list, "服务提供方-企业信息数据");
+        util.exportExcel(response, list, "企业信息数据");
     }
 
     /**
-     * 获取服务提供方-企业信息详细信息
+     * 获取企业信息详细信息
      */
     @PreAuthorize("@ss.hasPermi('provider:enterprise-info:query')")
-    @ApiOperation("获取服务提供方-企业信息详细信息")
-    @ApiImplicitParam(name = "id", value = "服务提供方-企业信息主键", required = true, dataType = "Long", paramType = "path")
+    @ApiOperation("获取企业信息详细信息")
+    @ApiImplicitParam(name = "id", value = "企业信息主键", required = true, dataType = "Long", paramType = "path")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -88,10 +88,10 @@ public class ProviderEnterpriseInfoController extends BaseController
     }
     
     /**
-     * 获取服务提供方-账号信息详细信息
+     * 获取账号信息详细信息
      */
     @PreAuthorize("@ss.hasPermi('provider:user-info:query')")
-    @ApiOperation("根据账号获取服务提供方-企业信息详细信息")
+    @ApiOperation("根据账号获取企业信息详细信息")
     @ApiImplicitParam(name = "account", value = "服务提供方账号信息", required = true, dataType = "String", paramType = "path")
     @GetMapping(value = "/find-by-account/{account}")
     public AjaxResult getInfoByAccount(@PathVariable("account") String account)
@@ -100,11 +100,11 @@ public class ProviderEnterpriseInfoController extends BaseController
     }
     
     /**
-     * 新增服务提供方-企业信息
+     * 新增企业信息
      */
     @PreAuthorize("@ss.hasPermi('provider:enterprise-info:add')")
-    @ApiOperation("新增服务提供方-企业信息")
-    @Log(title = "服务提供方-企业信息", businessType = BusinessType.INSERT)
+    @ApiOperation("新增企业信息")
+    @Log(title = "企业信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ProviderEnterpriseInfo providerEnterpriseInfo)
     {
@@ -113,11 +113,11 @@ public class ProviderEnterpriseInfoController extends BaseController
     }
 
     /**
-     * 修改服务提供方-企业信息
+     * 修改企业信息
      */
     @PreAuthorize("@ss.hasPermi('provider:enterprise-info:edit')")
-    @ApiOperation("修改服务提供方-企业信息")
-    @Log(title = "服务提供方-企业信息", businessType = BusinessType.UPDATE)
+    @ApiOperation("修改企业信息")
+    @Log(title = "企业信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ProviderEnterpriseInfo providerEnterpriseInfo)
     {
@@ -127,11 +127,11 @@ public class ProviderEnterpriseInfoController extends BaseController
     
 
     /**
-     * 审核通过服务提供方-企业信息
+     * 审核通过企业信息
      */
     @PreAuthorize("@ss.hasPermi('consumer:enterprise-info:audit')")
-    @ApiOperation("审核通过服务提供方-企业信息")
-    @ApiImplicitParam(name = "id", value = "服务提供方-企业信息主键", required = true, dataType = "Long", paramType = "path")
+    @ApiOperation("审核通过企业信息")
+    @ApiImplicitParam(name = "id", value = "企业信息主键", required = true, dataType = "Long", paramType = "path")
     @PutMapping("/audit-pass/{id}")
     public AjaxResult auditPass(@PathVariable("id") Long id)
 	{
@@ -142,11 +142,11 @@ public class ProviderEnterpriseInfoController extends BaseController
 	}
     
     /**
-     * 审核驳回服务提供方-企业信息
+     * 审核驳回企业信息
      */
     @PreAuthorize("@ss.hasPermi('consumer:enterprise-info:audit')")
-    @ApiOperation("审核驳回服务提供方-企业信息")
-    @ApiImplicitParam(name = "id", value = "服务提供方-企业信息主键", required = true, dataType = "Long", paramType = "path")
+    @ApiOperation("审核驳回企业信息")
+    @ApiImplicitParam(name = "id", value = "企业信息主键", required = true, dataType = "Long", paramType = "path")
     @PutMapping("/audit-reject/{id}")
     public AjaxResult auditReject(@PathVariable("id") Long id)
 	{
@@ -158,12 +158,12 @@ public class ProviderEnterpriseInfoController extends BaseController
     
 
     /**
-     * 删除服务提供方-企业信息
+     * 删除企业信息
      */
     @PreAuthorize("@ss.hasPermi('provider:enterprise-info:remove')")
-    @ApiOperation("删除服务提供方-企业信息")
-    @ApiImplicitParam(name = "ids", value = "服务提供方-企业信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
-    @Log(title = "服务提供方-企业信息", businessType = BusinessType.DELETE)
+    @ApiOperation("删除企业信息")
+    @ApiImplicitParam(name = "ids", value = "企业信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
+    @Log(title = "企业信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {

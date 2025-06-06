@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.groqdata.consumer.mapper.ConsumerUserInfoMapper">
     
-    <!-- 服务购买方-账号信息ConsumerUserInfo对象字段映射 -->
+    <!-- 账号信息ConsumerUserInfo对象字段映射 -->
     <resultMap type="ConsumerUserInfo" id="ConsumerUserInfoResult">
         <result property="id"    column="id"    />
         <result property="account"    column="account"    />
@@ -23,13 +23,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
     </resultMap>
 
-    <!-- 服务购买方-账号信息ConsumerUserInfo对象列表VO -->
+    <!-- 账号信息ConsumerUserInfo对象列表VO -->
     <sql id="selectConsumerUserInfoVo">
         select  cui.id, cui.account, cui.password, cui.account_type, cui.certify_status, cui.nickname, cui.avator, cui.mobile, cui.email, cui.account_status, cui.record_status, cui.create_time, cui.create_by, cui.update_time, cui.update_by 
         from consumer_user_info cui
     </sql>
 
-    <!-- 通用查询服务购买方-账号信息ConsumerUserInfo列表 -->
+    <!-- 通用查询账号信息ConsumerUserInfo列表 -->
     <select id="selectConsumerUserInfoList" parameterType="ConsumerUserInfo" resultMap="ConsumerUserInfoResult">
         <include refid="selectConsumerUserInfoVo"/>
         <where>  
@@ -51,13 +51,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     
-    <!-- 根据主键ID查询服务购买方-账号信息ConsumerUserInfo对象 -->
+    <!-- 根据主键ID查询账号信息ConsumerUserInfo对象 -->
     <select id="selectConsumerUserInfoById" parameterType="Long" resultMap="ConsumerUserInfoResult">
         <include refid="selectConsumerUserInfoVo"/>
         where cui.id = #{id}
     </select>
 
-    <!-- 新增服务购买方-账号信息ConsumerUserInfo对象 -->
+    <!-- 新增账号信息ConsumerUserInfo对象 -->
     <insert id="insertConsumerUserInfo" parameterType="ConsumerUserInfo" useGeneratedKeys="true" keyProperty="id">
         insert into consumer_user_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -94,7 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <!-- 更新服务购买方-账号信息ConsumerUserInfo对象 -->
+    <!-- 更新账号信息ConsumerUserInfo对象 -->
     <update id="updateConsumerUserInfo" parameterType="ConsumerUserInfo">
         update consumer_user_info
         <trim prefix="SET" suffixOverrides=",">
@@ -116,25 +116,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <!-- 根据主键删除服务购买方-账号信息ConsumerUserInfo对象 -->
+    <!-- 根据主键删除账号信息ConsumerUserInfo对象 -->
     <delete id="deleteConsumerUserInfoById" parameterType="Long">
-        <!-- 物理删除$服务购买方-账号信息ConsumerUserInfo 
+        <!-- 物理删除$账号信息ConsumerUserInfo 
         delete from consumer_user_info where id = #{id}
         -->
-        <!-- 逻辑删除服务购买方-账号信息ConsumerUserInfo -->
+        <!-- 逻辑删除账号信息ConsumerUserInfo -->
         update consumer_user_info set record_status = 'DELETED' 
         where id = #{id}
     </delete>
 
-    <!-- 根据主键批量删除服务购买方-账号信息ConsumerUserInfo对象 -->
+    <!-- 根据主键批量删除账号信息ConsumerUserInfo对象 -->
     <delete id="deleteConsumerUserInfoByIds" parameterType="String">
-        <!-- 物理删除服务购买方-账号信息ConsumerUserInfo
+        <!-- 物理删除账号信息ConsumerUserInfo
         delete from consumer_user_info where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
         -->
-        <!-- 逻辑删除服务购买方-账号信息ConsumerUserInfo -->
+        <!-- 逻辑删除账号信息ConsumerUserInfo -->
         update consumer_user_info set record_status = 'DELETED' 
         where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">

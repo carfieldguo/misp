@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.groqdata.provider.mapper.ProviderUserInfoMapper">
     
-    <!-- 服务提供方-账号信息ProviderUserInfo对象字段映射 -->
+    <!-- 账号信息ProviderUserInfo对象字段映射 -->
     <resultMap type="ProviderUserInfo" id="ProviderUserInfoResult">
         <result property="id"    column="id"    />
         <result property="account"    column="account"    />
@@ -23,13 +23,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
     </resultMap>
 
-    <!-- 服务提供方-账号信息ProviderUserInfo对象列表VO -->
+    <!-- 账号信息ProviderUserInfo对象列表VO -->
     <sql id="selectProviderUserInfoVo">
         select  pui.id, pui.account, pui.password, pui.account_type, pui.certify_status, pui.nickname, pui.avator, pui.mobile, pui.email, pui.account_status, pui.record_status, pui.create_time, pui.create_by, pui.update_time, pui.update_by 
         from provider_user_info pui
     </sql>
 
-    <!-- 通用查询服务提供方-账号信息ProviderUserInfo列表 -->
+    <!-- 通用查询账号信息ProviderUserInfo列表 -->
     <select id="selectProviderUserInfoList" parameterType="ProviderUserInfo" resultMap="ProviderUserInfoResult">
         <include refid="selectProviderUserInfoVo"/>
         <where>  
@@ -51,20 +51,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     
-    <!-- 根据主键ID查询服务提供方-账号信息ProviderUserInfo对象 -->
+    <!-- 根据主键ID查询账号信息ProviderUserInfo对象 -->
     <select id="selectProviderUserInfoById" parameterType="Long" resultMap="ProviderUserInfoResult">
         <include refid="selectProviderUserInfoVo"/>
         where pui.id = #{id}
     </select>
     
-    <!-- 根据主键ID查询服务提供方-账号信息ProviderUserInfo对象 -->
+    <!-- 根据主键ID查询账号信息ProviderUserInfo对象 -->
     <select id="selectProviderUserInfoByAccount" parameterType="String" resultMap="ProviderUserInfoResult">
         <include refid="selectProviderUserInfoVo"/>
         where pui.account = #{account}
         limit 1
     </select>
 
-    <!-- 新增服务提供方-账号信息ProviderUserInfo对象 -->
+    <!-- 新增账号信息ProviderUserInfo对象 -->
     <insert id="insertProviderUserInfo" parameterType="ProviderUserInfo" useGeneratedKeys="true" keyProperty="id">
         insert into provider_user_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -101,7 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <!-- 更新服务提供方-账号信息ProviderUserInfo对象 -->
+    <!-- 更新账号信息ProviderUserInfo对象 -->
     <update id="updateProviderUserInfo" parameterType="ProviderUserInfo">
         update provider_user_info
         <trim prefix="SET" suffixOverrides=",">
@@ -123,25 +123,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <!-- 根据主键删除服务提供方-账号信息ProviderUserInfo对象 -->
+    <!-- 根据主键删除账号信息ProviderUserInfo对象 -->
     <delete id="deleteProviderUserInfoById" parameterType="Long">
-        <!-- 物理删除$服务提供方-账号信息ProviderUserInfo 
+        <!-- 物理删除$账号信息ProviderUserInfo 
         delete from provider_user_info where id = #{id}
         -->
-        <!-- 逻辑删除服务提供方-账号信息ProviderUserInfo -->
+        <!-- 逻辑删除账号信息ProviderUserInfo -->
         update provider_user_info set record_status = 'DELETED' 
         where id = #{id}
     </delete>
 
-    <!-- 根据主键批量删除服务提供方-账号信息ProviderUserInfo对象 -->
+    <!-- 根据主键批量删除账号信息ProviderUserInfo对象 -->
     <delete id="deleteProviderUserInfoByIds" parameterType="String">
-        <!-- 物理删除服务提供方-账号信息ProviderUserInfo
+        <!-- 物理删除账号信息ProviderUserInfo
         delete from provider_user_info where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
         -->
-        <!-- 逻辑删除服务提供方-账号信息ProviderUserInfo -->
+        <!-- 逻辑删除账号信息ProviderUserInfo -->
         update provider_user_info set record_status = 'DELETED' 
         where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
