@@ -38,7 +38,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api(tags = "服务提供方-企业信息", value = "服务提供方-企业信息管理")
-@RequestMapping("/provider/provider-enterprise-info")
+@RequestMapping("/provider/enterprise-info")
 public class ProviderEnterpriseInfoController extends BaseController
 {
     @Autowired
@@ -47,7 +47,7 @@ public class ProviderEnterpriseInfoController extends BaseController
     /**
      * 查询服务提供方-企业信息列表
      */
-    @PreAuthorize("@ss.hasPermi('provider:provider-enterprise-info:list')")
+    @PreAuthorize("@ss.hasPermi('provider:enterprise-info:list')")
     @ApiOperation("查询服务提供方-企业信息列表")
     @GetMapping("/list")
     @ApiImplicitParams({
@@ -64,7 +64,7 @@ public class ProviderEnterpriseInfoController extends BaseController
     /**
      * 导出服务提供方-企业信息列表
      */
-    @PreAuthorize("@ss.hasPermi('provider:provider-enterprise-info:export')")
+    @PreAuthorize("@ss.hasPermi('provider:enterprise-info:export')")
     @ApiOperation("导出服务提供方-企业信息列表")
     @Log(title = "服务提供方-企业信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
@@ -78,7 +78,7 @@ public class ProviderEnterpriseInfoController extends BaseController
     /**
      * 获取服务提供方-企业信息详细信息
      */
-    @PreAuthorize("@ss.hasPermi('provider:provider-enterprise-info:query')")
+    @PreAuthorize("@ss.hasPermi('provider:enterprise-info:query')")
     @ApiOperation("获取服务提供方-企业信息详细信息")
     @ApiImplicitParam(name = "id", value = "服务提供方-企业信息主键", required = true, dataType = "Long", paramType = "path")
     @GetMapping(value = "/{id}")
@@ -90,7 +90,7 @@ public class ProviderEnterpriseInfoController extends BaseController
     /**
      * 获取服务提供方-账号信息详细信息
      */
-    @PreAuthorize("@ss.hasPermi('provider:provider-user-info:query')")
+    @PreAuthorize("@ss.hasPermi('provider:user-info:query')")
     @ApiOperation("根据账号获取服务提供方-企业信息详细信息")
     @ApiImplicitParam(name = "account", value = "服务提供方账号信息", required = true, dataType = "String", paramType = "path")
     @GetMapping(value = "/find-by-account/{account}")
@@ -102,7 +102,7 @@ public class ProviderEnterpriseInfoController extends BaseController
     /**
      * 新增服务提供方-企业信息
      */
-    @PreAuthorize("@ss.hasPermi('provider:provider-enterprise-info:add')")
+    @PreAuthorize("@ss.hasPermi('provider:enterprise-info:add')")
     @ApiOperation("新增服务提供方-企业信息")
     @Log(title = "服务提供方-企业信息", businessType = BusinessType.INSERT)
     @PostMapping
@@ -115,7 +115,7 @@ public class ProviderEnterpriseInfoController extends BaseController
     /**
      * 修改服务提供方-企业信息
      */
-    @PreAuthorize("@ss.hasPermi('provider:provider-enterprise-info:edit')")
+    @PreAuthorize("@ss.hasPermi('provider:enterprise-info:edit')")
     @ApiOperation("修改服务提供方-企业信息")
     @Log(title = "服务提供方-企业信息", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -129,7 +129,7 @@ public class ProviderEnterpriseInfoController extends BaseController
     /**
      * 审核通过服务提供方-企业信息
      */
-    @PreAuthorize("@ss.hasPermi('consumer:provider-enterprise-info:audit')")
+    @PreAuthorize("@ss.hasPermi('consumer:enterprise-info:audit')")
     @ApiOperation("审核通过服务提供方-企业信息")
     @ApiImplicitParam(name = "id", value = "服务提供方-企业信息主键", required = true, dataType = "Long", paramType = "path")
     @PutMapping("/audit-pass/{id}")
@@ -144,7 +144,7 @@ public class ProviderEnterpriseInfoController extends BaseController
     /**
      * 审核驳回服务提供方-企业信息
      */
-    @PreAuthorize("@ss.hasPermi('consumer:provider-enterprise-info:audit')")
+    @PreAuthorize("@ss.hasPermi('consumer:enterprise-info:audit')")
     @ApiOperation("审核驳回服务提供方-企业信息")
     @ApiImplicitParam(name = "id", value = "服务提供方-企业信息主键", required = true, dataType = "Long", paramType = "path")
     @PutMapping("/audit-reject/{id}")
@@ -160,7 +160,7 @@ public class ProviderEnterpriseInfoController extends BaseController
     /**
      * 删除服务提供方-企业信息
      */
-    @PreAuthorize("@ss.hasPermi('provider:provider-enterprise-info:remove')")
+    @PreAuthorize("@ss.hasPermi('provider:enterprise-info:remove')")
     @ApiOperation("删除服务提供方-企业信息")
     @ApiImplicitParam(name = "ids", value = "服务提供方-企业信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
     @Log(title = "服务提供方-企业信息", businessType = BusinessType.DELETE)

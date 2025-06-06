@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api(tags = "服务购买方-应用信息", value = "服务购买方-应用信息管理")
-@RequestMapping("/consumer/consumer-app-info")
+@RequestMapping("/consumer/app-info")
 public class ConsumerAppInfoController extends BaseController
 {
     @Autowired
@@ -43,7 +43,7 @@ public class ConsumerAppInfoController extends BaseController
     /**
      * 查询服务购买方-应用信息列表
      */
-    @PreAuthorize("@ss.hasPermi('consumer:consumer-app-info:list')")
+    @PreAuthorize("@ss.hasPermi('consumer:app-info:list')")
     @ApiOperation("查询服务购买方-应用信息列表")
     @GetMapping("/list")
     @ApiImplicitParams({
@@ -60,7 +60,7 @@ public class ConsumerAppInfoController extends BaseController
     /**
      * 导出服务购买方-应用信息列表
      */
-    @PreAuthorize("@ss.hasPermi('consumer:consumer-app-info:export')")
+    @PreAuthorize("@ss.hasPermi('consumer:app-info:export')")
     @ApiOperation("导出服务购买方-应用信息列表")
     @Log(title = "服务购买方-应用信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
@@ -74,7 +74,7 @@ public class ConsumerAppInfoController extends BaseController
     /**
      * 获取服务购买方-应用信息详细信息
      */
-    @PreAuthorize("@ss.hasPermi('consumer:consumer-app-info:query')")
+    @PreAuthorize("@ss.hasPermi('consumer:app-info:query')")
     @ApiOperation("获取服务购买方-应用信息详细信息")
     @ApiImplicitParam(name = "id", value = "服务购买方-应用信息主键", required = true, dataType = "Long", paramType = "path")
     @GetMapping(value = "/{id}")
@@ -86,7 +86,7 @@ public class ConsumerAppInfoController extends BaseController
     /**
      * 新增服务购买方-应用信息
      */
-    @PreAuthorize("@ss.hasPermi('consumer:consumer-app-info:add')")
+    @PreAuthorize("@ss.hasPermi('consumer:app-info:add')")
     @ApiOperation("新增服务购买方-应用信息")
     @Log(title = "服务购买方-应用信息", businessType = BusinessType.INSERT)
     @PostMapping
@@ -99,7 +99,7 @@ public class ConsumerAppInfoController extends BaseController
     /**
      * 修改服务购买方-应用信息
      */
-    @PreAuthorize("@ss.hasPermi('consumer:consumer-app-info:edit')")
+    @PreAuthorize("@ss.hasPermi('consumer:app-info:edit')")
     @ApiOperation("修改服务购买方-应用信息")
     @Log(title = "服务购买方-应用信息", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -112,7 +112,7 @@ public class ConsumerAppInfoController extends BaseController
     /**
      * 删除服务购买方-应用信息
      */
-    @PreAuthorize("@ss.hasPermi('consumer:consumer-app-info:remove')")
+    @PreAuthorize("@ss.hasPermi('consumer:app-info:remove')")
     @ApiOperation("删除服务购买方-应用信息")
     @ApiImplicitParam(name = "ids", value = "服务购买方-应用信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
     @Log(title = "服务购买方-应用信息", businessType = BusinessType.DELETE)

@@ -12,7 +12,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="appDesc"    column="app_desc"    />
         <result property="appSecret"    column="app_secret"    />
         <result property="consumerAccount"    column="consumer_account"    />
+        <result property="consumerNickname"    column="consumer_nickname"    />
         <result property="whiteIps"    column="white_ips"    />
+        <result property="auditStatus"    column="audit_status"    />
         <result property="appStatus"    column="app_status"    />
         <result property="recordStatus"    column="record_status"    />
         <result property="createTime"    column="create_time"    />
@@ -23,8 +25,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 服务购买方-应用信息ConsumerAppInfo对象列表VO -->
     <sql id="selectConsumerAppInfoVo">
-        select  cai.id, cai.app_id, cai.app_name, cai.app_desc, cai.app_secret, cai.consumer_account, cai.white_ips, cai.app_status, cai.record_status, cai.create_time, cai.create_by, cai.update_time, cai.update_by 
+        select  cai.id, cai.app_id, cai.app_name, cai.app_desc, cai.app_secret, cai.consumer_account, cui.nickname as consumer_nickname,  cai.white_ips, 
+        cai..audit_status, cai.app_status, cai.record_status, cai.create_time, cai.create_by, cai.update_time, cai.update_by 
         from consumer_app_info cai
+        left join consumer_user_info cui on cai.consumer_account = cui.account
     </sql>
 
     <!-- 通用查询服务购买方-应用信息ConsumerAppInfo列表 -->
@@ -37,6 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="appSecret != null  and appSecret != ''"> and cai.app_secret = #{appSecret}</if>
             <if test="consumerAccount != null  and consumerAccount != ''"> and cai.consumer_account = #{consumerAccount}</if>
             <if test="whiteIps != null  and whiteIps != ''"> and cai.white_ips = #{whiteIps}</if>
+            <if test="auditStatus != null  and auditStatus != ''"> and cai.audit_status = #{auditStatus}</if>
             <if test="appStatus != null  and appStatus != ''"> and cai.app_status = #{appStatus}</if>
             <if test="recordStatus != null  and recordStatus != ''"> and cai.record_status = #{recordStatus}</if>
             <if test="params.beginCreateTime != null and params.endCreateTime != null "> 
@@ -64,6 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="consumerAccount != null and consumerAccount != ''">consumer_account,</if>
             <if test="whiteIps != null">white_ips,</if>
             <if test="appStatus != null and appStatus != ''">app_status,</if>
+            <if test="auditStatus != null">audit_status,</if>
             <if test="recordStatus != null">record_status,</if>
             <if test="createTime != null">create_time,</if>
             <if test="createBy != null">create_by,</if>
@@ -78,6 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="consumerAccount != null and consumerAccount != ''">#{consumerAccount},</if>
             <if test="whiteIps != null">#{whiteIps},</if>
             <if test="appStatus != null and appStatus != ''">#{appStatus},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
             <if test="recordStatus != null">#{recordStatus},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="createBy != null">#{createBy},</if>
@@ -97,6 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="consumerAccount != null and consumerAccount != ''">consumer_account = #{consumerAccount},</if>
             <if test="whiteIps != null">white_ips = #{whiteIps},</if>
             <if test="appStatus != null and appStatus != ''">app_status = #{appStatus},</if>
+            <if test="auditStatus != null and auditStatus != ''">audit_status = #{auditStatus},</if>
             <if test="recordStatus != null">record_status = #{recordStatus},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="createBy != null">create_by = #{createBy},</if>

@@ -33,12 +33,10 @@ public class ConsumerAppInfo extends BaseEntity
     private String appName;
 
     /** 应用描述 */
-    @Excel(name = "应用描述")
     @ApiModelProperty("应用描述")
     private String appDesc;
 
     /** 对接秘钥 */
-    @Excel(name = "对接秘钥")
     @ApiModelProperty("对接秘钥")
     private String appSecret;
 
@@ -46,11 +44,21 @@ public class ConsumerAppInfo extends BaseEntity
     @Excel(name = "关联服务购买方账号")
     @ApiModelProperty("关联服务购买方账号")
     private String consumerAccount;
+    
+    /** 账号名称 */
+    @Excel(name = "账号名称")
+    @ApiModelProperty("账号名称")
+    private String consumerNickname;
 
     /** 白名单IP */
     @Excel(name = "白名单IP")
     @ApiModelProperty("白名单IP")
     private String whiteIps;
+    
+    /** 数据审核状态 */
+    @Excel(name = "数据审核状态")
+    @ApiModelProperty("数据审核状态")
+    private String auditStatus;
 
     /** 应用状态 */
     @Excel(name = "应用状态")
@@ -134,7 +142,24 @@ public class ConsumerAppInfo extends BaseEntity
     {
         return appStatus;
     }
-    public void setRecordStatus(String recordStatus) 
+    
+    public String getConsumerNickname() {
+		return consumerNickname;
+	}
+
+	public void setConsumerNickname(String consumerNickname) {
+		this.consumerNickname = consumerNickname;
+	}
+
+	public String getAuditStatus() {
+		return auditStatus;
+	}
+
+	public void setAuditStatus(String auditStatus) {
+		this.auditStatus = auditStatus;
+	}
+
+	public void setRecordStatus(String recordStatus) 
     {
         this.recordStatus = recordStatus;
     }
