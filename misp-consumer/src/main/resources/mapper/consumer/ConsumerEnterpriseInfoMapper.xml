@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="entLicenseUrl"    column="ent_license_url"    />
         <result property="entLogoUrl"    column="ent_logo_url"    />
         <result property="consumerAccount"    column="consumer_account"    />
+        <result property="consumerNickname"    column="consumer_nickname"    />
         <result property="auditStatus"    column="audit_status"    />
         <result property="recordStatus"    column="record_status"    />
         <result property="createTime"    column="create_time"    />
@@ -22,8 +23,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 服务购买方-企业信息ConsumerEnterpriseInfo对象列表VO -->
     <sql id="selectConsumerEnterpriseInfoVo">
-        select  cei.id, cei.ent_name, cei.ent_uscc, cei.ent_license_url, cei.ent_logo_url, cei.consumer_account, cei.audit_status, cei.record_status, cei.create_time, cei.create_by, cei.update_time, cei.update_by 
+        select  cei.id, cei.ent_name, cei.ent_uscc, cei.ent_license_url, cei.ent_logo_url, cei.consumer_account, cui.nickname as consumer_nickname,
+        cei.audit_status, cei.record_status, cei.create_time, cei.create_by, cei.update_time, cei.update_by 
         from consumer_enterprise_info cei
+        left join consumer_user_info cui on cei.consumer_account = cui.account
     </sql>
 
     <!-- 通用查询服务购买方-企业信息ConsumerEnterpriseInfo列表 -->

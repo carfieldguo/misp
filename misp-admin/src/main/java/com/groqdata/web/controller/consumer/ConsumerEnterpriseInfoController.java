@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.groqdata.common.annotation.Log;
 import com.groqdata.common.core.controller.BaseController;
 import com.groqdata.common.core.domain.AjaxResult;
+import com.groqdata.common.enums.AuditStatus;
 import com.groqdata.common.enums.BusinessType;
 import com.groqdata.consumer.domain.ConsumerEnterpriseInfo;
 import com.groqdata.consumer.service.ConsumerEnterpriseInfoService;
@@ -121,6 +122,37 @@ public class ConsumerEnterpriseInfoController extends BaseController
         return toAjax(consumerEnterpriseInfoService.updateConsumerEnterpriseInfo(consumerEnterpriseInfo));
     }
 
+    /**
+     * 审核通过服务购买方-企业信息
+     */
+    @PreAuthorize("@ss.hasPermi('consumer:consumer-enterprise-info:audit')")
+    @ApiOperation("审核通过服务购买方-企业信息")
+    @ApiImplicitParam(name = "id", value = "服务购买方-企业信息主键", required = true, dataType = "Long", paramType = "path")
+    @PutMapping("/audit-pass/{id}")
+    public AjaxResult auditPass(@PathVariable("id") Long id)
+	{
+    	ConsumerEnterpriseInfo consumerEnterpriseInfo = consumerEnterpriseInfoService.selectConsumerEnterpriseInfoById(id);
+    	consumerEnterpriseInfo.setUpdateBy(getUsername());
+    	consumerEnterpriseInfo.setAuditStatus(AuditStatus.APPROVED.getCode());
+    	return toAjax(consumerEnterpriseInfoService.updateConsumerEnterpriseInfo(consumerEnterpriseInfo));
+	}
+    
+    /**
+     * 审核驳回服务购买方-企业信息
+     */
+    @PreAuthorize("@ss.hasPermi('consumer:consumer-enterprise-info:audit')")
+    @ApiOperation("审核驳回服务购买方-企业信息")
+    @ApiImplicitParam(name = "id", value = "服务购买方-企业信息主键", required = true, dataType = "Long", paramType = "path")
+    @PutMapping("/audit-reject/{id}")
+    public AjaxResult auditReject(@PathVariable("id") Long id)
+	{
+    	ConsumerEnterpriseInfo consumerEnterpriseInfo = consumerEnterpriseInfoService.selectConsumerEnterpriseInfoById(id);
+    	consumerEnterpriseInfo.setUpdateBy(getUsername());
+    	consumerEnterpriseInfo.setAuditStatus(AuditStatus.REJECTED.getCode());
+    	return toAjax(consumerEnterpriseInfoService.updateConsumerEnterpriseInfo(consumerEnterpriseInfo));
+	}
+    
+    
     /**
      * 删除服务购买方-企业信息
      */
