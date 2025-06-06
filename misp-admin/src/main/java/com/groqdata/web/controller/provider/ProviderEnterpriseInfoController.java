@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiOperation;
  * @date 2025-05-21
  */
 @RestController
-@Api(tags = "服务提供方》企业信息", value = "企业信息管理")
+@Api(tags = "企业信息", value = "企业信息管理")
 @RequestMapping("/provider/enterprise-info")
 public class ProviderEnterpriseInfoController extends BaseController
 {

@@ -32,7 +32,7 @@ public class SwaggerConfig
 {
     /** 系统基础配置 */
     @Autowired
-    private MispConfig ruoyiConfig;
+    private MispConfig mispConfig;
 
     /** 是否开启swagger */
     @Value("${swagger.enabled}")
@@ -46,19 +46,21 @@ public class SwaggerConfig
      * 创建API
      */
     @Bean
-    public Docket createRestApi()
+    public Docket createSystemRestApi()
     {
         return new Docket(DocumentationType.OAS_30)
                 // 是否启用Swagger
                 .enable(enabled)
                 // 用来创建该API的基本信息，展示在文档的页面中（自定义展示的信息）
                 .apiInfo(apiInfo())
+                // 设置分组名称
+                .groupName("系统模块")
                 // 设置哪些接口暴露给Swagger展示
                 .select()
                 // 扫描所有有注解的api，用这种方式更灵活
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 // 扫描指定包中的swagger注解
-                // .apis(RequestHandlerSelectors.basePackage("com.groqdata.project.tool.swagger"))
+                 .apis(RequestHandlerSelectors.basePackage("com.groqdata.web.controller.system"))
                 // 扫描所有 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build()
@@ -68,6 +70,57 @@ public class SwaggerConfig
                 .pathMapping(pathMapping);
     }
 
+    @Bean
+    public Docket createConsumerRestApi()
+    {
+        return new Docket(DocumentationType.OAS_30)
+                // 是否启用Swagger
+                .enable(enabled)
+                // 用来创建该API的基本信息，展示在文档的页面中（自定义展示的信息）
+                .apiInfo(apiInfo())
+                // 设置分组名称
+                .groupName("服务购买者模块")
+                // 设置哪些接口暴露给Swagger展示
+                .select()
+                // 扫描所有有注解的api，用这种方式更灵活
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                // 扫描指定包中的swagger注解
+                 .apis(RequestHandlerSelectors.basePackage("com.groqdata.web.controller.consumer"))
+                // 扫描所有 .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build()
+                /* 设置安全模式，swagger可以设置访问token */
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts())
+                .pathMapping(pathMapping);
+    }
+    
+    @Bean
+    public Docket createProviderRestApi()
+    {
+        return new Docket(DocumentationType.OAS_30)
+                // 是否启用Swagger
+                .enable(enabled)
+                // 用来创建该API的基本信息，展示在文档的页面中（自定义展示的信息）
+                .apiInfo(apiInfo())
+                // 设置分组名称
+                .groupName("服务提供者模块")
+                // 设置哪些接口暴露给Swagger展示
+                .select()
+                // 扫描所有有注解的api，用这种方式更灵活
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                // 扫描指定包中的swagger注解
+                 .apis(RequestHandlerSelectors.basePackage("com.groqdata.web.controller.provider"))
+                // 扫描所有 .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build()
+                /* 设置安全模式，swagger可以设置访问token */
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts())
+                .pathMapping(pathMapping);
+    }
+    
+    
     /**
      * 安全模式，这里指定token通过Authorization头请求头传递
      */
@@ -113,13 +166,13 @@ public class SwaggerConfig
         // 用ApiInfoBuilder进行定制
         return new ApiInfoBuilder()
                 // 设置标题
-                .title("标题：若依管理系统_接口文档")
+                .title("MISP管理系统_接口文档")
                 // 描述
-                .description("描述：用于管理集团旗下公司的人员信息,具体包括XXX,XXX模块...")
+                .description("用于管理MISP系统的接口文档，提供了所有API的详细信息和使用方法。")
                 // 作者信息
-                .contact(new Contact(ruoyiConfig.getName(), null, null))
+                .contact(new Contact(mispConfig.getName(), null, null))
                 // 版本
-                .version("版本号:" + ruoyiConfig.getVersion())
+                .version(mispConfig.getVersion())
                 .build();
     }
 }

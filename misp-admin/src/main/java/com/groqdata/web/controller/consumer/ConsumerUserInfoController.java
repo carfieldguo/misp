@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
  * @date 2025-05-21
  */
 @RestController
-@Api(tags = "服务购买方》账号信息", value = "账号信息管理")
+@Api(tags = "账号信息", value = "账号信息管理")
 @RequestMapping("/consumer/user-info")
 public class ConsumerUserInfoController extends BaseController
 {

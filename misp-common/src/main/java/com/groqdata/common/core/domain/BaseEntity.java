@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Entity基类
  * 
@@ -22,24 +24,30 @@ public class BaseEntity implements Serializable
     private String searchValue;
 
     /** 创建者 */
+    @ApiModelProperty("创建者")
     private String createBy;
 
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty("创建时间")
     private Date createTime;
 
     /** 更新者 */
+    @ApiModelProperty("更新者")
     private String updateBy;
 
     /** 更新时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty("更新时间")
     private Date updateTime;
 
     /** 备注 */
+    @ApiModelProperty("备注")
     private String remark;
 
     /** 请求参数 */
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @ApiModelProperty("其他费对象格式的请求参数,Map格式")
     private Map<String, Object> params;
 
     public String getSearchValue()
