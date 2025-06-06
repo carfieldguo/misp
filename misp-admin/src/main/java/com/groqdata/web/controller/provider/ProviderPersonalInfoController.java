@@ -1,25 +1,29 @@
 package com.groqdata.web.controller.provider;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.groqdata.common.annotation.Log;
 import com.groqdata.common.core.controller.BaseController;
 import com.groqdata.common.core.domain.AjaxResult;
+import com.groqdata.common.core.page.TableDataInfo;
+import com.groqdata.common.enums.AuditStatus;
 import com.groqdata.common.enums.BusinessType;
+import com.groqdata.common.utils.poi.ExcelUtil;
 import com.groqdata.provider.domain.ProviderPersonalInfo;
 import com.groqdata.provider.service.ProviderPersonalInfoService;
-import com.groqdata.common.utils.poi.ExcelUtil;
-import com.groqdata.common.core.page.TableDataInfo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -121,6 +125,39 @@ public class ProviderPersonalInfoController extends BaseController
         return toAjax(providerPersonalInfoService.updateProviderPersonalInfo(providerPersonalInfo));
     }
 
+    /**
+     * 审核通过服务提供方-个人信息
+     */
+    @PreAuthorize("@ss.hasPermi('consumer:provider-personal-info:audit')")
+    @ApiOperation("审核通过服务提供方-个人信息")
+    @ApiImplicitParam(name = "id", value = "服务提供方-个人信息主键", required = true, dataType = "Long", paramType = "path")
+    @PutMapping("/audit-pass/{id}")
+    public AjaxResult auditPass(@PathVariable("id") Long id)
+	{
+    	ProviderPersonalInfo providerPersonalInfo = providerPersonalInfoService.selectProviderPersonalInfoById(id);
+    	providerPersonalInfo.setUpdateBy(getUsername());
+    	providerPersonalInfo.setAuditStatus(AuditStatus.APPROVED.getCode());
+    	return toAjax(providerPersonalInfoService.updateProviderPersonalInfo(providerPersonalInfo));
+	}
+    
+    /**
+     * 审核驳回服务提供方-个人信息
+     */
+    @PreAuthorize("@ss.hasPermi('consumer:provider-personal-info:audit')")
+    @ApiOperation("审核驳回服务提供方-个人信息")
+    @ApiImplicitParam(name = "id", value = "服务提供方-个人信息主键", required = true, dataType = "Long", paramType = "path")
+    @PutMapping("/audit-reject/{id}")
+    public AjaxResult auditReject(@PathVariable("id") Long id)
+	{
+    	ProviderPersonalInfo providerPersonalInfo = providerPersonalInfoService.selectProviderPersonalInfoById(id);
+    	providerPersonalInfo.setUpdateBy(getUsername());
+    	providerPersonalInfo.setAuditStatus(AuditStatus.REJECTED.getCode());
+    	return toAjax(providerPersonalInfoService.updateProviderPersonalInfo(providerPersonalInfo));
+	}
+    
+
+    
+    
     /**
      * 删除服务提供方-个人信息
      */

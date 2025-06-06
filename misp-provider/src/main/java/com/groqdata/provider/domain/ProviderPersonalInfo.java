@@ -42,6 +42,12 @@ public class ProviderPersonalInfo extends BaseEntity
     @ApiModelProperty("关联服务提供方账号")
     private String providerAccount;
 
+    
+    /** 账号名称 */
+    @Excel(name = "账号名称")
+    @ApiModelProperty("账号名称")
+    private String providerNickname;
+    
     /** 信息审核状态 */
     @Excel(name = "信息审核状态")
     @ApiModelProperty("信息审核状态")
@@ -97,7 +103,16 @@ public class ProviderPersonalInfo extends BaseEntity
     {
         return providerAccount;
     }
-    public void setAuditStatus(String auditStatus) 
+    
+    public String getProviderNickname() {
+		return providerNickname;
+	}
+
+	public void setProviderNickname(String providerNickname) {
+		this.providerNickname = providerNickname;
+	}
+
+	public void setAuditStatus(String auditStatus) 
     {
         this.auditStatus = auditStatus;
     }

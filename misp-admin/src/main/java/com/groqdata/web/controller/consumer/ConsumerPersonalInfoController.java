@@ -131,7 +131,7 @@ public class ConsumerPersonalInfoController extends BaseController
     /**
      * 审核通过服务购买方-个人信息
      */
-    @PreAuthorize("@ss.hasPermi('consumer:consumer-enterprise-info:audit')")
+    @PreAuthorize("@ss.hasPermi('consumer:consumer-personal-info:audit')")
     @ApiOperation("审核通过服务购买方-个人信息")
     @ApiImplicitParam(name = "id", value = "服务购买方-个人信息主键", required = true, dataType = "Long", paramType = "path")
     @PutMapping("/audit-pass/{id}")
@@ -146,7 +146,7 @@ public class ConsumerPersonalInfoController extends BaseController
     /**
      * 审核驳回服务购买方-个人信息
      */
-    @PreAuthorize("@ss.hasPermi('consumer:consumer-enterprise-info:audit')")
+    @PreAuthorize("@ss.hasPermi('consumer:consumer-personal-info:audit')")
     @ApiOperation("审核驳回服务购买方-个人信息")
     @ApiImplicitParam(name = "id", value = "服务购买方-个人信息主键", required = true, dataType = "Long", paramType = "path")
     @PutMapping("/audit-reject/{id}")

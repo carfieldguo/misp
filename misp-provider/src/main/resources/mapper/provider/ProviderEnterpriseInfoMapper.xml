@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="entLicenseUrl"    column="ent_license_url"    />
         <result property="entLogoUrl"    column="ent_logo_url"    />
         <result property="providerAccount"    column="provider_account"    />
+        <result property="providerNickname"    column="provider_nickname"    />
         <result property="auditStatus"    column="audit_status"    />
         <result property="recordStatus"    column="record_status"    />
         <result property="createTime"    column="create_time"    />
@@ -22,8 +23,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 服务提供方-企业信息ProviderEnterpriseInfo对象列表VO -->
     <sql id="selectProviderEnterpriseInfoVo">
-        select  pei.id, pei.ent_name, pei.ent_uscc, pei.ent_license_url, pei.ent_logo_url, pei.provider_account, pei.audit_status, pei.record_status, pei.create_time, pei.create_by, pei.update_time, pei.update_by 
+        select  pei.id, pei.ent_name, pei.ent_uscc, pei.ent_license_url, pei.ent_logo_url, pei.provider_account, pui.nickname as provider_nickname,
+        	pei.audit_status, pei.record_status, pei.create_time, pei.create_by, pei.update_time, pei.update_by 
         from provider_enterprise_info pei
+        left join provider_user_info pui on pei.provider_account = pui.account
     </sql>
 
     <!-- 通用查询服务提供方-企业信息ProviderEnterpriseInfo列表 -->

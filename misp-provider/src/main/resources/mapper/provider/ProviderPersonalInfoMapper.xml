@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="cardNo"    column="card_no"    />
         <result property="personName"    column="person_name"    />
         <result property="providerAccount"    column="provider_account"    />
+        <result property="providerNickname"    column="provider_nickname"    />
         <result property="auditStatus"    column="audit_status"    />
         <result property="recordStatus"    column="record_status"    />
         <result property="createTime"    column="create_time"    />
@@ -21,8 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 服务提供方-个人信息ProviderPersonalInfo对象列表VO -->
     <sql id="selectProviderPersonalInfoVo">
-        select  ppi.id, ppi.card_type, ppi.card_no, ppi.person_name, ppi.provider_account, ppi.audit_status, ppi.record_status, ppi.create_time, ppi.create_by, ppi.update_time, ppi.update_by 
+        select  ppi.id, ppi.card_type, ppi.card_no, ppi.person_name, ppi.provider_account, pui.nickname as provider_nickname,
+        ppi.audit_status, ppi.record_status, ppi.create_time, ppi.create_by, ppi.update_time, ppi.update_by 
         from provider_personal_info ppi
+        left join provider_user_info pui on ppi.provider_account = pui.account
     </sql>
 
     <!-- 通用查询服务提供方-个人信息ProviderPersonalInfo列表 -->
