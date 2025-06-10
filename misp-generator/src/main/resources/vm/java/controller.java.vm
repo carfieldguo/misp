@@ -40,8 +40,13 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/${moduleName}/${businessName}")
 public class ${ClassName}Controller extends BaseController
 {
-    @Autowired
+    
     private ${ClassName}Service ${className}Service;
+    
+    @Autowired
+    public void set${ClassName}Service(${ClassName}Service ${className}Service) {
+        this.${className}Service = ${className}Service;
+    }
 
     /**
      * 查询${functionName}列表

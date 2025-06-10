@@ -32,11 +32,21 @@ import com.groqdata.system.service.ISysUserOnlineService;
 @RequestMapping("/monitor/online")
 public class SysUserOnlineController extends BaseController
 {
-    @Autowired
+    
     private ISysUserOnlineService userOnlineService;
-
+    
     @Autowired
+    public void setUserOnlineService(ISysUserOnlineService userOnlineService) {
+		this.userOnlineService = userOnlineService;
+	}
+
+    
     private RedisCache redisCache;
+    
+    @Autowired
+    public void setRedisCache(RedisCache redisCache) {
+    	this.redisCache = redisCache;
+    }
 
     @PreAuthorize("@ss.hasPermi('monitor:online:list')")
     @GetMapping("/list")

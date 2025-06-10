@@ -15,8 +15,13 @@ import com.groqdata.system.service.ISysOperLogService;
 @Service
 public class SysOperLogServiceImpl implements ISysOperLogService
 {
-    @Autowired
+    
     private SysOperLogMapper operLogMapper;
+    
+    @Autowired
+    public void setOperLogMapper(SysOperLogMapper operLogMapper) {
+		this.operLogMapper = operLogMapper;
+	}
 
     /**
      * 新增操作日志

@@ -31,8 +31,13 @@ import com.groqdata.system.domain.SysCache;
 @RequestMapping("/monitor/cache")
 public class CacheController
 {
-    @Autowired
+    
     private RedisTemplate<String, String> redisTemplate;
+    
+    @Autowired
+    public void setRedisTemplate(RedisTemplate<String, String> redisTemplate) {
+		this.redisTemplate = redisTemplate;
+	}
 
     private final static List<SysCache> caches = new ArrayList<SysCache>();
     {

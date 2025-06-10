@@ -42,8 +42,13 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/consumer/app-info")
 public class ConsumerAppInfoController extends BaseController
 {
-    @Autowired
+    
     private ConsumerAppInfoService consumerAppInfoService;
+    
+    @Autowired
+    public void setConsumerAppInfoService(ConsumerAppInfoService consumerAppInfoService) {
+		this.consumerAppInfoService = consumerAppInfoService;
+	}
 
     /**
      * 查询应用信息列表

@@ -1,11 +1,13 @@
 package com.groqdata.provider.service.impl;
 
 import java.util.List;
-import com.groqdata.common.utils.DateUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.groqdata.provider.mapper.ProviderEnterpriseInfoMapper;
+
+import com.groqdata.common.utils.DateUtils;
 import com.groqdata.provider.domain.ProviderEnterpriseInfo;
+import com.groqdata.provider.mapper.ProviderEnterpriseInfoMapper;
 import com.groqdata.provider.service.ProviderEnterpriseInfoService;
 
 /**
@@ -17,8 +19,14 @@ import com.groqdata.provider.service.ProviderEnterpriseInfoService;
 @Service
 public class ProviderEnterpriseInfoServiceImpl implements ProviderEnterpriseInfoService 
 {
-    @Autowired
+    
     private ProviderEnterpriseInfoMapper providerEnterpriseInfoMapper;
+    
+    @Autowired
+    public void setProviderEnterpriseInfoMapper(ProviderEnterpriseInfoMapper providerEnterpriseInfoMapper) {
+		this.providerEnterpriseInfoMapper = providerEnterpriseInfoMapper;
+	}
+    
 
     /**
      * 查询企业信息

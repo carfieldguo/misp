@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.groqdata.common.annotation.DataScope;
 import com.groqdata.common.constant.UserConstants;
 import com.groqdata.common.core.domain.TreeSelect;
@@ -29,11 +31,21 @@ import com.groqdata.system.service.ISysDeptService;
 @Service
 public class SysDeptServiceImpl implements ISysDeptService
 {
-    @Autowired
+    
     private SysDeptMapper deptMapper;
-
+    
     @Autowired
+    public void setDeptMapper(SysDeptMapper deptMapper) {
+		this.deptMapper = deptMapper;
+	}
+
+    
     private SysRoleMapper roleMapper;
+    
+    @Autowired
+    public void setRoleMapper(SysRoleMapper roleMapper) {
+    	this.roleMapper = roleMapper;
+    }
 
     /**
      * 查询部门管理数据

@@ -32,11 +32,21 @@ import com.groqdata.system.service.ISysUserService;
 @RequestMapping("/system/user/profile")
 public class SysProfileController extends BaseController
 {
-    @Autowired
+    
     private ISysUserService userService;
-
+    
     @Autowired
+    public void setUserService(ISysUserService userService) {
+		this.userService = userService;
+	}
+
+    
     private TokenService tokenService;
+    
+    @Autowired
+    public void setTokenService(TokenService tokenService) {
+    	this.tokenService = tokenService;
+    }
 
     /**
      * 个人信息

@@ -19,11 +19,21 @@ import com.groqdata.system.service.ISysConfigService;
 @RestController
 public class SysRegisterController extends BaseController
 {
-    @Autowired
+    
     private SysRegisterService registerService;
-
+    
     @Autowired
+    public void setRegisterService(SysRegisterService registerService) {
+		this.registerService = registerService;
+	}
+
+    
     private ISysConfigService configService;
+    
+    @Autowired
+    public void setConfigService(ISysConfigService configService) {
+    	this.configService = configService;
+    }
 
     @PostMapping("/register")
     public AjaxResult register(@RequestBody RegisterBody user)

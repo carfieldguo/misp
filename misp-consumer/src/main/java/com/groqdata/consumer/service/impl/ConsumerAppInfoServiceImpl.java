@@ -17,8 +17,13 @@ import com.groqdata.consumer.service.ConsumerAppInfoService;
 @Service
 public class ConsumerAppInfoServiceImpl implements ConsumerAppInfoService 
 {
-    @Autowired
+    
     private ConsumerAppInfoMapper consumerAppInfoMapper;
+    
+    @Autowired
+    public void setConsumerAppInfoMapper(ConsumerAppInfoMapper consumerAppInfoMapper) {
+		this.consumerAppInfoMapper = consumerAppInfoMapper;
+	}
 
     /**
      * 查询应用信息

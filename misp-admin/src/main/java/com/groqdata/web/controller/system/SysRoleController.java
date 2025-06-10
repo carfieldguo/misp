@@ -40,20 +40,45 @@ import com.groqdata.system.service.ISysUserService;
 @RequestMapping("/system/role")
 public class SysRoleController extends BaseController
 {
-    @Autowired
+    
     private ISysRoleService roleService;
-
+    
     @Autowired
+    public void setRoleService(ISysRoleService roleService) {
+		this.roleService = roleService;
+	}
+
+    
     private TokenService tokenService;
-
+    
     @Autowired
+    public void setTokenService(TokenService tokenService) {
+    	this.tokenService = tokenService;
+    }
+
+    
     private SysPermissionService permissionService;
-
+    
     @Autowired
+    public void setPermissionService(SysPermissionService permissionService) {
+		this.permissionService = permissionService;
+	}
+
+    
     private ISysUserService userService;
-
+    
     @Autowired
+    public void setUserService(ISysUserService userService) {
+    	this.userService = userService;
+    }
+
+    
     private ISysDeptService deptService;
+    
+    @Autowired
+    public void setDeptService(ISysDeptService deptService) {
+		this.deptService = deptService;
+	}
 
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @GetMapping("/list")

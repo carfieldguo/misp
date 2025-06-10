@@ -29,8 +29,13 @@ import com.groqdata.system.service.ISysNoticeService;
 @RequestMapping("/system/notice")
 public class SysNoticeController extends BaseController
 {
-    @Autowired
+    
     private ISysNoticeService noticeService;
+    
+    @Autowired
+    public void setNoticeService(ISysNoticeService noticeService) {
+		this.noticeService = noticeService;
+	}
 
     /**
      * 获取通知公告列表

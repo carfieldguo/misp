@@ -15,8 +15,13 @@ import com.groqdata.common.utils.StringUtils;
 public class SysIndexController
 {
     /** 系统基础配置 */
-    @Autowired
+    
     private MispConfig ruoyiConfig;
+    
+    @Autowired
+    public void setRuoyiConfig(MispConfig ruoyiConfig) {
+		this.ruoyiConfig = ruoyiConfig;
+	}
 
     /**
      * 访问首页，提示语

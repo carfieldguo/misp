@@ -16,8 +16,12 @@ import com.groqdata.system.service.ISysLogininforService;
 public class SysLogininforServiceImpl implements ISysLogininforService
 {
 
-    @Autowired
     private SysLogininforMapper logininforMapper;
+    
+    @Autowired
+    public void setLogininforMapper(SysLogininforMapper logininforMapper) {
+		this.logininforMapper = logininforMapper;
+	}
 
     /**
      * 新增系统登录日志

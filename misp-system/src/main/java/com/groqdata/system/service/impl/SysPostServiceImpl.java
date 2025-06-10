@@ -19,11 +19,21 @@ import com.groqdata.system.service.ISysPostService;
 @Service
 public class SysPostServiceImpl implements ISysPostService
 {
-    @Autowired
+    
     private SysPostMapper postMapper;
-
+    
     @Autowired
+    public void setPostMapper(SysPostMapper postMapper) {
+		this.postMapper = postMapper;
+	}
+    
+    
     private SysUserPostMapper userPostMapper;
+    
+    @Autowired
+    public void setUserPostMapper(SysUserPostMapper userPostMapper) {
+		this.userPostMapper = userPostMapper;
+	}
 
     /**
      * 查询岗位信息集合

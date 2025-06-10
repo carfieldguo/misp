@@ -31,8 +31,14 @@ import com.groqdata.system.service.ISysConfigService;
 @RequestMapping("/system/config")
 public class SysConfigController extends BaseController
 {
-    @Autowired
+    
     private ISysConfigService configService;
+    
+    @Autowired
+    public void setConfigService(ISysConfigService configService) {
+		this.configService = configService;
+	}
+    
 
     /**
      * 获取参数配置列表

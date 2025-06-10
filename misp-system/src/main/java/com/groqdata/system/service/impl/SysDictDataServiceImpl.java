@@ -1,8 +1,10 @@
 package com.groqdata.system.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.groqdata.common.core.domain.entity.SysDictData;
 import com.groqdata.common.utils.DictUtils;
 import com.groqdata.system.mapper.SysDictDataMapper;
@@ -16,8 +18,13 @@ import com.groqdata.system.service.ISysDictDataService;
 @Service
 public class SysDictDataServiceImpl implements ISysDictDataService
 {
-    @Autowired
+    
     private SysDictDataMapper dictDataMapper;
+    
+    @Autowired
+    public void setDictDataMapper(SysDictDataMapper dictDataMapper) {
+		this.dictDataMapper = dictDataMapper;
+	}
 
     /**
      * 根据条件分页查询字典数据

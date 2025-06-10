@@ -25,14 +25,29 @@ import com.groqdata.system.service.ISysMenuService;
 @RestController
 public class SysLoginController
 {
-    @Autowired
+    
     private SysLoginService loginService;
-
+    
     @Autowired
+    public void setLoginService(SysLoginService loginService) {
+		this.loginService = loginService;
+	}
+
+    
     private ISysMenuService menuService;
-
+    
     @Autowired
+    public void setMenuService(ISysMenuService menuService) {
+    	this.menuService = menuService;
+    }
+
+    
     private SysPermissionService permissionService;
+    
+    @Autowired
+    public void setPermissionService(SysPermissionService permissionService) {
+    	this.permissionService = permissionService;
+    }
 
     /**
      * 登录方法

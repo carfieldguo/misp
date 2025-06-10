@@ -41,8 +41,13 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/provider/enterprise-info")
 public class ProviderEnterpriseInfoController extends BaseController
 {
-    @Autowired
+    
     private ProviderEnterpriseInfoService providerEnterpriseInfoService;
+    
+    @Autowired
+    public void setProviderEnterpriseInfoService(ProviderEnterpriseInfoService providerEnterpriseInfoService) {
+		this.providerEnterpriseInfoService = providerEnterpriseInfoService;
+	}
 
     /**
      * 查询企业信息列表

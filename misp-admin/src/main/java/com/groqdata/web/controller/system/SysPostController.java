@@ -31,8 +31,13 @@ import com.groqdata.system.service.ISysPostService;
 @RequestMapping("/system/post")
 public class SysPostController extends BaseController
 {
-    @Autowired
+    
     private ISysPostService postService;
+    
+    @Autowired
+    public void setPostService(ISysPostService postService) {
+		this.postService = postService;
+	}
 
     /**
      * 获取岗位列表

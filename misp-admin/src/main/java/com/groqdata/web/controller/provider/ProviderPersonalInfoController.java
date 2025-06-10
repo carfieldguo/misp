@@ -41,8 +41,13 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/provider/personal-info")
 public class ProviderPersonalInfoController extends BaseController
 {
-    @Autowired
+    
     private ProviderPersonalInfoService providerPersonalInfoService;
+    
+    @Autowired
+    public void setProviderPersonalInfoService(ProviderPersonalInfoService providerPersonalInfoService) {
+    	this.providerPersonalInfoService = providerPersonalInfoService;
+    }
 
     /**
      * 查询个人信息列表

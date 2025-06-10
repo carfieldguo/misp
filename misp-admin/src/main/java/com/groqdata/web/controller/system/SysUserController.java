@@ -41,17 +41,37 @@ import com.groqdata.system.service.ISysUserService;
 @RequestMapping("/system/user")
 public class SysUserController extends BaseController
 {
-    @Autowired
+    
     private ISysUserService userService;
-
+    
     @Autowired
+    public void setUserService(ISysUserService userService) {
+		this.userService = userService;
+	}
+
+    
     private ISysRoleService roleService;
-
+    
     @Autowired
+    public void setRoleService(ISysRoleService roleService) {
+    	this.roleService = roleService;
+    }
+
+    
     private ISysDeptService deptService;
-
+    
     @Autowired
+    public void setDeptService(ISysDeptService deptService) {
+    	this.deptService = deptService;
+    }
+
+    
     private ISysPostService postService;
+    
+    @Autowired
+    public void setPostService(ISysPostService postService) {
+		this.postService = postService;
+	}
 
     /**
      * 获取用户列表

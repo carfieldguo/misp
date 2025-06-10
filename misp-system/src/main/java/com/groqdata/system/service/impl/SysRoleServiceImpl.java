@@ -33,17 +33,37 @@ import com.groqdata.system.service.ISysRoleService;
 @Service
 public class SysRoleServiceImpl implements ISysRoleService
 {
-    @Autowired
+    
     private SysRoleMapper roleMapper;
-
+    
     @Autowired
+    public void setRoleMapper(SysRoleMapper roleMapper) {
+		this.roleMapper = roleMapper;
+	}
+
+    
     private SysRoleMenuMapper roleMenuMapper;
-
+    
     @Autowired
+    public void setRoleMenuMapper(SysRoleMenuMapper roleMenuMapper) {
+    	this.roleMenuMapper = roleMenuMapper;
+    }
+
+    
     private SysUserRoleMapper userRoleMapper;
-
+    
     @Autowired
+    public void setUserRoleMapper(SysUserRoleMapper userRoleMapper) {
+    	this.userRoleMapper = userRoleMapper;
+    }
+
+    
     private SysRoleDeptMapper roleDeptMapper;
+    
+    @Autowired
+    public void setRoleDeptMapper(SysRoleDeptMapper roleDeptMapper) {
+		this.roleDeptMapper = roleDeptMapper;
+	}
 
     /**
      * 根据条件分页查询角色数据

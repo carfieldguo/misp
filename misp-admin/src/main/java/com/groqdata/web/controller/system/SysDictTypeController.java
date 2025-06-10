@@ -31,8 +31,13 @@ import com.groqdata.system.service.ISysDictTypeService;
 @RequestMapping("/system/dict/type")
 public class SysDictTypeController extends BaseController
 {
-    @Autowired
+    
     private ISysDictTypeService dictTypeService;
+    
+    @Autowired
+    public void setDictTypeService(ISysDictTypeService dictTypeService) {
+		this.dictTypeService = dictTypeService;
+	}
 
     @PreAuthorize("@ss.hasPermi('system:dict:list')")
     @GetMapping("/list")

@@ -41,29 +41,69 @@ public class SysUserServiceImpl implements ISysUserService
 {
     private static final Logger log = LoggerFactory.getLogger(SysUserServiceImpl.class);
 
-    @Autowired
+    
     private SysUserMapper userMapper;
-
+    
     @Autowired
+    public void setUserMapper(SysUserMapper userMapper) {
+		this.userMapper = userMapper;
+	}
+
+    
     private SysRoleMapper roleMapper;
-
+    
     @Autowired
+    public void setRoleMapper(SysRoleMapper roleMapper) {
+    	this.roleMapper = roleMapper;
+    }
+
+    
     private SysPostMapper postMapper;
-
+    
     @Autowired
+    public void setPostMapper(SysPostMapper postMapper) {
+    	this.postMapper = postMapper;
+    }
+
+    
     private SysUserRoleMapper userRoleMapper;
-
+    
     @Autowired
+    public void setUserRoleMapper(SysUserRoleMapper userRoleMapper) {
+    	this.userRoleMapper = userRoleMapper;
+    }
+
+    
     private SysUserPostMapper userPostMapper;
-
+    
     @Autowired
+    public void setUserPostMapper(SysUserPostMapper userPostMapper) {
+		this.userPostMapper = userPostMapper;
+	}
+
+    
     private ISysConfigService configService;
-
+    
     @Autowired
+    public void setConfigService(ISysConfigService configService) {
+		this.configService = configService;
+	}
+
+    
     private ISysDeptService deptService;
-
+    
     @Autowired
+    public void setDeptService(ISysDeptService deptService) {
+    	this.deptService = deptService;
+    }
+
+    
     protected Validator validator;
+    
+    @Autowired
+    public void setValidator(Validator validator) {
+		this.validator = validator;
+	}
 
     /**
      * 根据条件分页查询用户列表

@@ -15,8 +15,13 @@ import com.groqdata.system.service.ISysNoticeService;
 @Service
 public class SysNoticeServiceImpl implements ISysNoticeService
 {
-    @Autowired
+    
     private SysNoticeMapper noticeMapper;
+    
+    @Autowired
+    public void setNoticeMapper(SysNoticeMapper noticeMapper) {
+		this.noticeMapper = noticeMapper;
+	}
 
     /**
      * 查询公告信息

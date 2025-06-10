@@ -29,11 +29,21 @@ import com.groqdata.system.service.ISysLogininforService;
 @RequestMapping("/monitor/logininfor")
 public class SysLogininforController extends BaseController
 {
-    @Autowired
+    
     private ISysLogininforService logininforService;
-
+    
     @Autowired
+    public void setLogininforService(ISysLogininforService logininforService) {
+		this.logininforService = logininforService;
+	}
+
+    
     private SysPasswordService passwordService;
+    
+    @Autowired
+    public void setPasswordService(SysPasswordService passwordService) {
+    	this.passwordService = passwordService;
+    }
 
     @PreAuthorize("@ss.hasPermi('monitor:logininfor:list')")
     @GetMapping("/list")

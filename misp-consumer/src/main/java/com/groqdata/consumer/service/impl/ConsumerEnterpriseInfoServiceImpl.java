@@ -17,8 +17,13 @@ import com.groqdata.consumer.service.ConsumerEnterpriseInfoService;
 @Service
 public class ConsumerEnterpriseInfoServiceImpl implements ConsumerEnterpriseInfoService 
 {
-    @Autowired
+    
     private ConsumerEnterpriseInfoMapper consumerEnterpriseInfoMapper;
+    
+    @Autowired
+    public void setConsumerEnterpriseInfoMapper(ConsumerEnterpriseInfoMapper consumerEnterpriseInfoMapper) {
+    	this.consumerEnterpriseInfoMapper = consumerEnterpriseInfoMapper;
+    }
 
     /**
      * 查询企业信息

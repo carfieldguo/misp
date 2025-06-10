@@ -28,8 +28,13 @@ import ${packageName}.service.${ClassName}Service;
 @Service
 public class ${ClassName}ServiceImpl implements ${ClassName}Service 
 {
-    @Autowired
+    
     private ${ClassName}Mapper ${className}Mapper;
+    
+    @Autowired
+    public void set${ClassName}Mapper(${ClassName}Mapper ${className}Mapper) {
+        this.${className}Mapper = ${className}Mapper;
+    }
 
     /**
      * 查询${functionName}

@@ -30,8 +30,13 @@ import com.groqdata.system.service.ISysMenuService;
 @RequestMapping("/system/menu")
 public class SysMenuController extends BaseController
 {
-    @Autowired
+    
     private ISysMenuService menuService;
+    
+    @Autowired
+    public void setMenuService(ISysMenuService menuService) {
+		this.menuService = menuService;
+	}
 
     /**
      * 获取菜单列表

@@ -31,8 +31,13 @@ import com.groqdata.system.service.ISysDeptService;
 @RequestMapping("/system/dept")
 public class SysDeptController extends BaseController
 {
-    @Autowired
+    
     private ISysDeptService deptService;
+    
+    @Autowired
+    public void setDeptService(ISysDeptService deptService) {
+		this.deptService = deptService;
+	}
 
     /**
      * 获取部门列表

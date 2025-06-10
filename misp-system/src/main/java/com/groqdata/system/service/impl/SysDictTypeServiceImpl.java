@@ -4,10 +4,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.groqdata.common.constant.UserConstants;
 import com.groqdata.common.core.domain.entity.SysDictData;
 import com.groqdata.common.core.domain.entity.SysDictType;
@@ -26,11 +29,21 @@ import com.groqdata.system.service.ISysDictTypeService;
 @Service
 public class SysDictTypeServiceImpl implements ISysDictTypeService
 {
-    @Autowired
+    
     private SysDictTypeMapper dictTypeMapper;
-
+    
     @Autowired
+    public void setDictTypeMapper(SysDictTypeMapper dictTypeMapper) {
+		this.dictTypeMapper = dictTypeMapper;
+	}
+
+    
     private SysDictDataMapper dictDataMapper;
+    
+    @Autowired
+    public void setDictDataMapper(SysDictDataMapper dictDataMapper) {
+    	this.dictDataMapper = dictDataMapper;
+    }
 
     /**
      * 项目启动时，初始化字典到缓存

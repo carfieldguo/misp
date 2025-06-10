@@ -2,9 +2,12 @@ package com.groqdata.system.service.impl;
 
 import java.util.Collection;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.groqdata.common.annotation.DataSource;
 import com.groqdata.common.constant.CacheConstants;
 import com.groqdata.common.constant.UserConstants;
@@ -25,11 +28,21 @@ import com.groqdata.system.service.ISysConfigService;
 @Service
 public class SysConfigServiceImpl implements ISysConfigService
 {
-    @Autowired
+    
     private SysConfigMapper configMapper;
-
+    
     @Autowired
+    public void setConfigMapper(SysConfigMapper configMapper) {
+		this.configMapper = configMapper;
+	}
+
+    
     private RedisCache redisCache;
+    
+    @Autowired
+    public void setRedisCache(RedisCache redisCache) {
+    	this.redisCache = redisCache;
+    }
 
     /**
      * 项目启动时，初始化参数到缓存

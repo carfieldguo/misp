@@ -35,14 +35,27 @@ public class SysMenuServiceImpl implements ISysMenuService
 {
     public static final String PREMISSION_STRING = "perms[\"{0}\"]";
 
-    @Autowired
     private SysMenuMapper menuMapper;
-
+    
     @Autowired
+    public void setMenuMapper(SysMenuMapper menuMapper) {
+		this.menuMapper = menuMapper;
+	}
+
     private SysRoleMapper roleMapper;
-
+    
     @Autowired
+    public void setRoleMapper(SysRoleMapper roleMapper) {
+    	this.roleMapper = roleMapper;
+    }
+
     private SysRoleMenuMapper roleMenuMapper;
+    
+    @Autowired
+    public void setRoleMenuMapper(SysRoleMenuMapper roleMenuMapper) {
+		this.roleMenuMapper = roleMenuMapper;
+	}
+    
 
     /**
      * 根据用户查询系统菜单列表

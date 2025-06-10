@@ -17,8 +17,13 @@ import com.groqdata.consumer.service.ConsumerPersonalInfoService;
 @Service
 public class ConsumerPersonalInfoServiceImpl implements ConsumerPersonalInfoService 
 {
-    @Autowired
+    
     private ConsumerPersonalInfoMapper consumerPersonalInfoMapper;
+    
+    @Autowired
+    public void setConsumerPersonalInfoMapper(ConsumerPersonalInfoMapper consumerPersonalInfoMapper) {
+    	this.consumerPersonalInfoMapper = consumerPersonalInfoMapper;
+    }
 
     /**
      * 查询个人信息

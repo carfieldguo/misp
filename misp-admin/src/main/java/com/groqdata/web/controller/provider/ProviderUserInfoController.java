@@ -37,8 +37,13 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/provider/user-info")
 public class ProviderUserInfoController extends BaseController
 {
-    @Autowired
+    
     private ProviderUserInfoService providerUserInfoService;
+    
+    @Autowired
+    public void setProviderUserInfoService(ProviderUserInfoService providerUserInfoService) {
+		this.providerUserInfoService = providerUserInfoService;
+	}
 
     /**
      * 查询账号信息列表

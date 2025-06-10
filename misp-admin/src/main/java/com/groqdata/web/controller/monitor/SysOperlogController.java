@@ -28,8 +28,13 @@ import com.groqdata.system.service.ISysOperLogService;
 @RequestMapping("/monitor/operlog")
 public class SysOperlogController extends BaseController
 {
-    @Autowired
+    
     private ISysOperLogService operLogService;
+    
+    @Autowired
+    public void setOperLogService(ISysOperLogService operLogService) {
+		this.operLogService = operLogService;
+	}
 
     @PreAuthorize("@ss.hasPermi('monitor:operlog:list')")
     @GetMapping("/list")

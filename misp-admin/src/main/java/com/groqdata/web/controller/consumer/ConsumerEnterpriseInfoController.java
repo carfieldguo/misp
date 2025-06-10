@@ -38,8 +38,13 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/consumer/enterprise-info")
 public class ConsumerEnterpriseInfoController extends BaseController
 {
-    @Autowired
+    
     private ConsumerEnterpriseInfoService consumerEnterpriseInfoService;
+    
+    @Autowired
+    public void setConsumerEnterpriseInfoService(ConsumerEnterpriseInfoService consumerEnterpriseInfoService) {
+		this.consumerEnterpriseInfoService = consumerEnterpriseInfoService;
+	}
 
     /**
      * 查询企业信息列表
