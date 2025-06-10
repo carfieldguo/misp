@@ -8,8 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.constant.UserConstants;
 import com.groqdata.common.core.domain.TreeSelect;
@@ -225,6 +227,9 @@ public class SysMenuServiceImpl implements ISysMenuService
         }
         return routers;
     }
+    
+   
+    
 
     /**
      * 构建前端所需要树结构
@@ -372,7 +377,39 @@ public class SysMenuServiceImpl implements ISysMenuService
         {
             return StringUtils.EMPTY;
         }
-        return getRouteName(menu.getRouteName(), menu.getPath());
+        
+        // 如果已手动设置 route_name，则直接使用
+        if (StringUtils.isNotBlank(menu.getRouteName())) {
+            return menu.getRouteName();
+        }
+        
+        // 构建全路径（父路径 + 当前路径）
+        StringBuilder fullPath = new StringBuilder();
+        
+        // 递归查找所有父菜单路径
+        SysMenu current = menu;
+        List<String> pathSegments = new ArrayList<>();
+        
+        while (current != null && current.getParentId() != null) {
+            // 跳过顶级菜单（通常为 Layout）
+            if (current.getMenuId() != 0) {
+                pathSegments.add(0, current.getPath());
+            }
+            current = menuMapper.selectMenuById(current.getParentId());
+        }
+        
+        // 拼接完整路径作为路由名称
+        for (String segment : pathSegments) {
+            fullPath.append(segment).append("/");
+        }
+        
+        // 移除最后一个斜杠
+        if (fullPath.length() > 0) {
+            fullPath.deleteCharAt(fullPath.length() - 1);
+        }
+        
+        
+        return fullPath.toString();
     }
 
     /**
