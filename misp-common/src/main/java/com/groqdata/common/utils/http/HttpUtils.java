@@ -10,20 +10,23 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
+import java.security.SecureRandom;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.groqdata.common.constant.Constants;
-import com.groqdata.common.utils.StringUtils;
+
 
 /**
  * 通用http发送方法
@@ -34,7 +37,10 @@ public class HttpUtils {
     private static final String ACCEPT = "*/*";
     private static final String CONNECTION = "Keep-Alive";
     private static final String CHARSET = "utf-8";
-
+    
+    private static final String RECEIVED_RESPONSE_MSG = "Received response: {}";
+    
+    
     private HttpUtils() {
         throw new IllegalStateException("Utility class");
     }
@@ -88,7 +94,7 @@ public class HttpUtils {
             }
             
             if (log.isDebugEnabled()) {
-                log.debug("Received response: {}", result);
+                log.debug(RECEIVED_RESPONSE_MSG, result);
             }
         } catch (Exception e) {
             logHttpError("GET", url, param, e);
@@ -128,7 +134,7 @@ public class HttpUtils {
             }
 
             if (log.isDebugEnabled()) {
-                log.debug("Received response: {}", result);
+                log.debug(RECEIVED_RESPONSE_MSG, result);
             }
         } catch (Exception e) {
             logHttpError("POST", url, param, e);
@@ -170,7 +176,7 @@ public class HttpUtils {
             }
 
             if (log.isDebugEnabled()) {
-                log.debug("Received response: {}", result);
+                log.debug(RECEIVED_RESPONSE_MSG, result);
             }
             conn.disconnect();
         } catch (Exception e) {
@@ -199,33 +205,29 @@ public class HttpUtils {
         }
     }
 
-    private static SSLContext createSSLContext() throws NoSuchAlgorithmException, KeyManagementException {
-        SSLContext sc = SSLContext.getInstance("TLS");
-        sc.init(null, new TrustManager[]{new TrustAnyTrustManager()}, new java.security.SecureRandom());
-        return sc;
+    private static SSLContext createSSLContext() throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+        SSLContext sslContext = SSLContext.getInstance("TLSv1.3"); // 使用现代TLS协议
+        // 初始化SSL上下文时使用系统默认的信任管理器
+        sslContext.init(null, getSystemTrustManagers(), new SecureRandom());
+        return sslContext;
     }
 
     private static HostnameVerifier createHostnameVerifier() {
-        return (hostname, session) -> true;
+        // 使用默认的主机名验证器作为基础
+        HostnameVerifier defaultVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
+        
+        return defaultVerifier::verify;
+    }
+    
+ // 获取系统默认的信任管理器
+    private static TrustManager[] getSystemTrustManagers() throws NoSuchAlgorithmException, KeyStoreException {
+        // 使用默认算法获取信任管理器工厂
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
+            TrustManagerFactory.getDefaultAlgorithm()
+        );
+        // 初始化工厂，使用系统默认的信任存储
+        trustManagerFactory.init((KeyStore) null);
+        return trustManagerFactory.getTrustManagers();
     }
 
-    /**
-     * 信任所有证书的TrustManager
-     */
-    private static class TrustAnyTrustManager implements X509TrustManager {
-        @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType) {
-            // Trust all client certificates
-        }
-
-        @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType) {
-            // Trust all server certificates
-        }
-
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-            return new X509Certificate[0];
-        }
-    }
 }
