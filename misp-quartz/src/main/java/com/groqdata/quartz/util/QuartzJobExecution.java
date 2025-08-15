@@ -9,11 +9,9 @@ import com.groqdata.quartz.domain.SysJob;
  * @author ruoyi
  *
  */
-public class QuartzJobExecution extends AbstractQuartzJob
-{
-    @Override
-    protected void doExecute(JobExecutionContext context, SysJob sysJob) throws Exception
-    {
-        JobInvokeUtil.invokeMethod(sysJob);
-    }
+public class QuartzJobExecution extends AbstractQuartzJob {
+	@Override
+	protected void doExecute(JobExecutionContext context, SysJob sysJob) throws Exception {
+		JobInvokeUtil.invokeMethod(sysJob);
+	}
 }

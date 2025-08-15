@@ -11,21 +11,21 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * 
  * @author ruoyi
  */
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class MispApplication {
-    private static final Logger logger = LoggerFactory.getLogger(MispApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(MispApplication.class);
 
-    public static void main(String[] args) {
-	SpringApplication.run(MispApplication.class, args);
-	logger.info("""
+	public static void main(String[] args) {
+		SpringApplication.run(MispApplication.class, args);
+		logger.info("""
 
-		 (♥◠‿◠)ﾉﾞ  MISP启动成功   ლ(´ڡ`ლ)ﾞ
-		 __  __    ___     ___      ___
-		|  \\/  |  |_ _|   / __|    | _ \\
-		| |\\/| |   | |    \\__ \\    |  _/
-		|_|  |_|  |___|   |___/   _|_|_
-		_|"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"|_| \"\"\" |
-		"\"`-0-0-'\"`-0-0-'\"`-0-0-'\"`-0-0-'
-		""");
-    }
+			 (♥◠‿◠)ﾉﾞ  MISP启动成功   ლ(´ڡ`ლ)ﾞ
+			 __  __    ___     ___      ___
+			|  \\/  |  |_ _|   / __|    | _ \\
+			| |\\/| |   | |    \\__ \\    |  _/
+			|_|  |_|  |___|   |___/   _|_|_
+			_|"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"|_| \"\"\" |
+			"\"`-0-0-'\"`-0-0-'\"`-0-0-'\"`-0-0-'
+			""");
+	}
 }

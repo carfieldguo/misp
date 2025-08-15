@@ -24,50 +24,47 @@ import com.groqdata.common.annotation.Anonymous;
  * @author ruoyi
  */
 @Configuration
-public class PermitAllUrlProperties implements InitializingBean, ApplicationContextAware
-{
-    private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
+public class PermitAllUrlProperties implements InitializingBean, ApplicationContextAware {
+	private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
 
-    private ApplicationContext applicationContext;
+	private ApplicationContext applicationContext;
 
-    private List<String> urls = new ArrayList<>();
+	private List<String> urls = new ArrayList<>();
 
-    public String ASTERISK = "*";
+	public String ASTERISK = "*";
 
-    @Override
-    public void afterPropertiesSet()
-    {
-        RequestMappingHandlerMapping mapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
-        Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
+	@Override
+	public void afterPropertiesSet() {
+		RequestMappingHandlerMapping mapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
+		Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 
-        map.keySet().forEach(info -> {
-            HandlerMethod handlerMethod = map.get(info);
+		map.keySet().forEach(info -> {
+			HandlerMethod handlerMethod = map.get(info);
 
-            // 获取方法上边的注解 替代path variable 为 *
-            Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
-            Optional.ofNullable(method).ifPresent(anonymous -> Objects.requireNonNull(info.getPatternsCondition().getPatterns())
-                    .forEach(url -> urls.add(RegExUtils.replaceAll(url, PATTERN, ASTERISK))));
+			// 获取方法上边的注解 替代path variable 为 *
+			Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
+			Optional.ofNullable(method)
+				.ifPresent(anonymous -> Objects.requireNonNull(info.getPatternsCondition().getPatterns())
+					.forEach(url -> urls.add(RegExUtils.replaceAll(url, PATTERN, ASTERISK))));
 
-            // 获取类上边的注解, 替代path variable 为 *
-            Anonymous controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Anonymous.class);
-            Optional.ofNullable(controller).ifPresent(anonymous -> Objects.requireNonNull(info.getPatternsCondition().getPatterns())
-                    .forEach(url -> urls.add(RegExUtils.replaceAll(url, PATTERN, ASTERISK))));
-        });
-    }
+			// 获取类上边的注解, 替代path variable 为 *
+			Anonymous controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Anonymous.class);
+			Optional.ofNullable(controller)
+				.ifPresent(anonymous -> Objects.requireNonNull(info.getPatternsCondition().getPatterns())
+					.forEach(url -> urls.add(RegExUtils.replaceAll(url, PATTERN, ASTERISK))));
+		});
+	}
 
-    @Override
-    public void setApplicationContext(ApplicationContext context) throws BeansException
-    {
-        this.applicationContext = context;
-    }
+	@Override
+	public void setApplicationContext(ApplicationContext context) throws BeansException {
+		this.applicationContext = context;
+	}
 
-    public List<String> getUrls()
-    {
-        return urls;
-    }
+	public List<String> getUrls() {
+		return urls;
+	}
 
-    public void setUrls(List<String> urls)
-    {
-        this.urls = urls;
-    }
+	public void setUrls(List<String> urls) {
+		this.urls = urls;
+	}
 }

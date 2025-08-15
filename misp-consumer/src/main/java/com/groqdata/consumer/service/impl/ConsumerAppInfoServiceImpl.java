@@ -16,87 +16,80 @@ import com.groqdata.consumer.service.ConsumerAppInfoService;
  * @date 2025-05-22
  */
 @Service
-public class ConsumerAppInfoServiceImpl implements ConsumerAppInfoService 
-{
-    
-    private ConsumerAppInfoMapper consumerAppInfoMapper;
-    
-    @Autowired
-    public void setConsumerAppInfoMapper(ConsumerAppInfoMapper consumerAppInfoMapper) {
+public class ConsumerAppInfoServiceImpl implements ConsumerAppInfoService {
+
+	private ConsumerAppInfoMapper consumerAppInfoMapper;
+
+	@Autowired
+	public void setConsumerAppInfoMapper(ConsumerAppInfoMapper consumerAppInfoMapper) {
 		this.consumerAppInfoMapper = consumerAppInfoMapper;
 	}
 
-    /**
-     * 查询应用信息
-     * 
-     * @param id 应用信息主键
-     * @return 应用信息
-     */
-    @Override
-    public ConsumerAppInfo selectConsumerAppInfoById(Long id)
-    {
-        return consumerAppInfoMapper.selectConsumerAppInfoById(id);
-    }
+	/**
+	 * 查询应用信息
+	 * 
+	 * @param id 应用信息主键
+	 * @return 应用信息
+	 */
+	@Override
+	public ConsumerAppInfo selectConsumerAppInfoById(Long id) {
+		return consumerAppInfoMapper.selectConsumerAppInfoById(id);
+	}
 
-    /**
-     * 查询应用信息列表
-     * 
-     * @param consumerAppInfo 应用信息
-     * @return 应用信息
-     */
-    @Override
-    public List<ConsumerAppInfo> selectConsumerAppInfoList(ConsumerAppInfo consumerAppInfo)
-    {
-        return consumerAppInfoMapper.selectConsumerAppInfoList(consumerAppInfo);
-    }
+	/**
+	 * 查询应用信息列表
+	 * 
+	 * @param consumerAppInfo 应用信息
+	 * @return 应用信息
+	 */
+	@Override
+	public List<ConsumerAppInfo> selectConsumerAppInfoList(ConsumerAppInfo consumerAppInfo) {
+		return consumerAppInfoMapper.selectConsumerAppInfoList(consumerAppInfo);
+	}
 
-    /**
-     * 新增应用信息
-     * 
-     * @param consumerAppInfo 应用信息
-     * @return 结果
-     */
-    @Override
-    public int insertConsumerAppInfo(ConsumerAppInfo consumerAppInfo)
-    {
-        consumerAppInfo.setCreateTime(DateHelper.getNowDate());
-        return consumerAppInfoMapper.insertConsumerAppInfo(consumerAppInfo);
-    }
+	/**
+	 * 新增应用信息
+	 * 
+	 * @param consumerAppInfo 应用信息
+	 * @return 结果
+	 */
+	@Override
+	public int insertConsumerAppInfo(ConsumerAppInfo consumerAppInfo) {
+		consumerAppInfo.setCreateTime(DateHelper.getNowDate());
+		return consumerAppInfoMapper.insertConsumerAppInfo(consumerAppInfo);
+	}
 
-    /**
-     * 修改应用信息
-     * 
-     * @param consumerAppInfo 应用信息
-     * @return 结果
-     */
-    @Override
-    public int updateConsumerAppInfo(ConsumerAppInfo consumerAppInfo)
-    {
-        consumerAppInfo.setUpdateTime(DateHelper.getNowDate());
-        return consumerAppInfoMapper.updateConsumerAppInfo(consumerAppInfo);
-    }
+	/**
+	 * 修改应用信息
+	 * 
+	 * @param consumerAppInfo 应用信息
+	 * @return 结果
+	 */
+	@Override
+	public int updateConsumerAppInfo(ConsumerAppInfo consumerAppInfo) {
+		consumerAppInfo.setUpdateTime(DateHelper.getNowDate());
+		return consumerAppInfoMapper.updateConsumerAppInfo(consumerAppInfo);
+	}
 
-    /**
-     * 批量删除应用信息
-     * 
-     * @param ids 需要删除的应用信息主键
-     * @return 结果
-     */
-    @Override
-    public int deleteConsumerAppInfoByIds(Long[] ids)
-    {
-        return consumerAppInfoMapper.deleteConsumerAppInfoByIds(ids);
-    }
+	/**
+	 * 批量删除应用信息
+	 * 
+	 * @param ids 需要删除的应用信息主键
+	 * @return 结果
+	 */
+	@Override
+	public int deleteConsumerAppInfoByIds(Long[] ids) {
+		return consumerAppInfoMapper.deleteConsumerAppInfoByIds(ids);
+	}
 
-    /**
-     * 删除应用信息信息
-     * 
-     * @param id 应用信息主键
-     * @return 结果
-     */
-    @Override
-    public int deleteConsumerAppInfoById(Long id)
-    {
-        return consumerAppInfoMapper.deleteConsumerAppInfoById(id);
-    }
+	/**
+	 * 删除应用信息信息
+	 * 
+	 * @param id 应用信息主键
+	 * @return 结果
+	 */
+	@Override
+	public int deleteConsumerAppInfoById(Long id) {
+		return consumerAppInfoMapper.deleteConsumerAppInfoById(id);
+	}
 }

@@ -35,100 +35,90 @@ import com.groqdata.system.service.ISysDictTypeService;
  */
 @RestController
 @RequestMapping("/system/dict/data")
-public class SysDictDataController extends BaseController
-{
-    
-    private ISysDictDataService dictDataService;
-    
-    @Autowired
-    public void setDictDataService(ISysDictDataService dictDataService) {
+public class SysDictDataController extends BaseController {
+
+	private ISysDictDataService dictDataService;
+
+	@Autowired
+	public void setDictDataService(ISysDictDataService dictDataService) {
 		this.dictDataService = dictDataService;
 	}
 
-    
-    private ISysDictTypeService dictTypeService;
-    
-    @Autowired
-    public void setDictTypeService(ISysDictTypeService dictTypeService) {
-    	this.dictTypeService = dictTypeService;
-    }
+	private ISysDictTypeService dictTypeService;
 
-    @PreAuthorize("@ss.hasPermi('system:dict:list')")
-    @GetMapping("/list")
-    public TableDataInfo list(SysDictData dictData)
-    {
-        startPage();
-        List<SysDictData> list = dictDataService.selectDictDataList(dictData);
-        return getDataTable(list);
-    }
+	@Autowired
+	public void setDictTypeService(ISysDictTypeService dictTypeService) {
+		this.dictTypeService = dictTypeService;
+	}
 
-    @Log(title = "字典数据", businessType = BusinessType.EXPORT)
-    @PreAuthorize("@ss.hasPermi('system:dict:export')")
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, SysDictData dictData)
-    {
-        List<SysDictData> list = dictDataService.selectDictDataList(dictData);
-        ExcelUtil<SysDictData> util = new ExcelUtil<SysDictData>(SysDictData.class);
-        util.exportExcel(response, list, "字典数据");
-    }
+	@PreAuthorize("@ss.hasPermi('system:dict:list')")
+	@GetMapping("/list")
+	public TableDataInfo list(SysDictData dictData) {
+		startPage();
+		List<SysDictData> list = dictDataService.selectDictDataList(dictData);
+		return getDataTable(list);
+	}
 
-    /**
-     * 查询字典数据详细
-     */
-    @PreAuthorize("@ss.hasPermi('system:dict:query')")
-    @GetMapping(value = "/{dictCode}")
-    public AjaxResult getInfo(@PathVariable Long dictCode)
-    {
-        return success(dictDataService.selectDictDataById(dictCode));
-    }
+	@Log(title = "字典数据", businessType = BusinessType.EXPORT)
+	@PreAuthorize("@ss.hasPermi('system:dict:export')")
+	@PostMapping("/export")
+	public void export(HttpServletResponse response, SysDictData dictData) {
+		List<SysDictData> list = dictDataService.selectDictDataList(dictData);
+		ExcelUtil<SysDictData> util = new ExcelUtil<SysDictData>(SysDictData.class);
+		util.exportExcel(response, list, "字典数据");
+	}
 
-    /**
-     * 根据字典类型查询字典数据信息
-     */
-    @GetMapping(value = "/type/{dictType}")
-    public AjaxResult dictType(@PathVariable String dictType)
-    {
-        List<SysDictData> data = dictTypeService.selectDictDataByType(dictType);
-        if (StringHelper.isNull(data))
-        {
-            data = new ArrayList<SysDictData>();
-        }
-        return success(data);
-    }
+	/**
+	 * 查询字典数据详细
+	 */
+	@PreAuthorize("@ss.hasPermi('system:dict:query')")
+	@GetMapping(value = "/{dictCode}")
+	public AjaxResult getInfo(@PathVariable Long dictCode) {
+		return success(dictDataService.selectDictDataById(dictCode));
+	}
 
-    /**
-     * 新增字典类型
-     */
-    @PreAuthorize("@ss.hasPermi('system:dict:add')")
-    @Log(title = "字典数据", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@Validated @RequestBody SysDictData dict)
-    {
-        dict.setCreateBy(getUsername());
-        return toAjax(dictDataService.insertDictData(dict));
-    }
+	/**
+	 * 根据字典类型查询字典数据信息
+	 */
+	@GetMapping(value = "/type/{dictType}")
+	public AjaxResult dictType(@PathVariable String dictType) {
+		List<SysDictData> data = dictTypeService.selectDictDataByType(dictType);
+		if (StringHelper.isNull(data)) {
+			data = new ArrayList<SysDictData>();
+		}
+		return success(data);
+	}
 
-    /**
-     * 修改保存字典类型
-     */
-    @PreAuthorize("@ss.hasPermi('system:dict:edit')")
-    @Log(title = "字典数据", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@Validated @RequestBody SysDictData dict)
-    {
-        dict.setUpdateBy(getUsername());
-        return toAjax(dictDataService.updateDictData(dict));
-    }
+	/**
+	 * 新增字典类型
+	 */
+	@PreAuthorize("@ss.hasPermi('system:dict:add')")
+	@Log(title = "字典数据", businessType = BusinessType.INSERT)
+	@PostMapping
+	public AjaxResult add(@Validated @RequestBody SysDictData dict) {
+		dict.setCreateBy(getUsername());
+		return toAjax(dictDataService.insertDictData(dict));
+	}
 
-    /**
-     * 删除字典类型
-     */
-    @PreAuthorize("@ss.hasPermi('system:dict:remove')")
-    @Log(title = "字典类型", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{dictCodes}")
-    public AjaxResult remove(@PathVariable Long[] dictCodes)
-    {
-        dictDataService.deleteDictDataByIds(dictCodes);
-        return success();
-    }
+	/**
+	 * 修改保存字典类型
+	 */
+	@PreAuthorize("@ss.hasPermi('system:dict:edit')")
+	@Log(title = "字典数据", businessType = BusinessType.UPDATE)
+	@PutMapping
+	public AjaxResult edit(@Validated @RequestBody SysDictData dict) {
+		dict.setUpdateBy(getUsername());
+		return toAjax(dictDataService.updateDictData(dict));
+	}
+
+	/**
+	 * 删除字典类型
+	 */
+	@PreAuthorize("@ss.hasPermi('system:dict:remove')")
+	@Log(title = "字典类型", businessType = BusinessType.DELETE)
+	@DeleteMapping("/{dictCodes}")
+	public AjaxResult remove(@PathVariable Long[] dictCodes) {
+		dictDataService.deleteDictDataByIds(dictCodes);
+		return success();
+	}
 }

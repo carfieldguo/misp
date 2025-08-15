@@ -27,66 +27,59 @@ import com.groqdata.system.service.ISysLogininforService;
  */
 @RestController
 @RequestMapping("/monitor/logininfor")
-public class SysLogininforController extends BaseController
-{
-    
-    private ISysLogininforService logininforService;
-    
-    @Autowired
-    public void setLogininforService(ISysLogininforService logininforService) {
+public class SysLogininforController extends BaseController {
+
+	private ISysLogininforService logininforService;
+
+	@Autowired
+	public void setLogininforService(ISysLogininforService logininforService) {
 		this.logininforService = logininforService;
 	}
 
-    
-    private SysPasswordService passwordService;
-    
-    @Autowired
-    public void setPasswordService(SysPasswordService passwordService) {
-    	this.passwordService = passwordService;
-    }
+	private SysPasswordService passwordService;
 
-    @PreAuthorize("@ss.hasPermi('monitor:logininfor:list')")
-    @GetMapping("/list")
-    public TableDataInfo list(SysLogininfor logininfor)
-    {
-        startPage();
-        List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
-        return getDataTable(list);
-    }
+	@Autowired
+	public void setPasswordService(SysPasswordService passwordService) {
+		this.passwordService = passwordService;
+	}
 
-    @Log(title = "登录日志", businessType = BusinessType.EXPORT)
-    @PreAuthorize("@ss.hasPermi('monitor:logininfor:export')")
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, SysLogininfor logininfor)
-    {
-        List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
-        ExcelUtil<SysLogininfor> util = new ExcelUtil<SysLogininfor>(SysLogininfor.class);
-        util.exportExcel(response, list, "登录日志");
-    }
+	@PreAuthorize("@ss.hasPermi('monitor:logininfor:list')")
+	@GetMapping("/list")
+	public TableDataInfo list(SysLogininfor logininfor) {
+		startPage();
+		List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
+		return getDataTable(list);
+	}
 
-    @PreAuthorize("@ss.hasPermi('monitor:logininfor:remove')")
-    @Log(title = "登录日志", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{infoIds}")
-    public AjaxResult remove(@PathVariable Long[] infoIds)
-    {
-        return toAjax(logininforService.deleteLogininforByIds(infoIds));
-    }
+	@Log(title = "登录日志", businessType = BusinessType.EXPORT)
+	@PreAuthorize("@ss.hasPermi('monitor:logininfor:export')")
+	@PostMapping("/export")
+	public void export(HttpServletResponse response, SysLogininfor logininfor) {
+		List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
+		ExcelUtil<SysLogininfor> util = new ExcelUtil<SysLogininfor>(SysLogininfor.class);
+		util.exportExcel(response, list, "登录日志");
+	}
 
-    @PreAuthorize("@ss.hasPermi('monitor:logininfor:remove')")
-    @Log(title = "登录日志", businessType = BusinessType.CLEAN)
-    @DeleteMapping("/clean")
-    public AjaxResult clean()
-    {
-        logininforService.cleanLogininfor();
-        return success();
-    }
+	@PreAuthorize("@ss.hasPermi('monitor:logininfor:remove')")
+	@Log(title = "登录日志", businessType = BusinessType.DELETE)
+	@DeleteMapping("/{infoIds}")
+	public AjaxResult remove(@PathVariable Long[] infoIds) {
+		return toAjax(logininforService.deleteLogininforByIds(infoIds));
+	}
 
-    @PreAuthorize("@ss.hasPermi('monitor:logininfor:unlock')")
-    @Log(title = "账户解锁", businessType = BusinessType.OTHER)
-    @GetMapping("/unlock/{userName}")
-    public AjaxResult unlock(@PathVariable("userName") String userName)
-    {
-        passwordService.clearLoginRecordCache(userName);
-        return success();
-    }
+	@PreAuthorize("@ss.hasPermi('monitor:logininfor:remove')")
+	@Log(title = "登录日志", businessType = BusinessType.CLEAN)
+	@DeleteMapping("/clean")
+	public AjaxResult clean() {
+		logininforService.cleanLogininfor();
+		return success();
+	}
+
+	@PreAuthorize("@ss.hasPermi('monitor:logininfor:unlock')")
+	@Log(title = "账户解锁", businessType = BusinessType.OTHER)
+	@GetMapping("/unlock/{userName}")
+	public AjaxResult unlock(@PathVariable("userName") String userName) {
+		passwordService.clearLoginRecordCache(userName);
+		return success();
+	}
 }

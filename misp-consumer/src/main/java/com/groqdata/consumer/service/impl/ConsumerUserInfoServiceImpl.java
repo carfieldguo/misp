@@ -17,88 +17,80 @@ import com.groqdata.consumer.service.ConsumerUserInfoService;
  * @date 2025-05-22
  */
 @Service
-public class ConsumerUserInfoServiceImpl implements ConsumerUserInfoService 
-{
-    
-    private ConsumerUserInfoMapper consumerUserInfoMapper;
-    
-    @Autowired
-    public void setConsumerUserInfoMapper(ConsumerUserInfoMapper consumerUserInfoMapper) {
+public class ConsumerUserInfoServiceImpl implements ConsumerUserInfoService {
+
+	private ConsumerUserInfoMapper consumerUserInfoMapper;
+
+	@Autowired
+	public void setConsumerUserInfoMapper(ConsumerUserInfoMapper consumerUserInfoMapper) {
 		this.consumerUserInfoMapper = consumerUserInfoMapper;
 	}
-    
 
-    /**
-     * 查询账号信息
-     * 
-     * @param id 账号信息主键
-     * @return 账号信息
-     */
-    @Override
-    public ConsumerUserInfo selectConsumerUserInfoById(Long id)
-    {
-        return consumerUserInfoMapper.selectConsumerUserInfoById(id);
-    }
+	/**
+	 * 查询账号信息
+	 * 
+	 * @param id 账号信息主键
+	 * @return 账号信息
+	 */
+	@Override
+	public ConsumerUserInfo selectConsumerUserInfoById(Long id) {
+		return consumerUserInfoMapper.selectConsumerUserInfoById(id);
+	}
 
-    /**
-     * 查询账号信息列表
-     * 
-     * @param consumerUserInfo 账号信息
-     * @return 账号信息
-     */
-    @Override
-    public List<ConsumerUserInfo> selectConsumerUserInfoList(ConsumerUserInfo consumerUserInfo)
-    {
-        return consumerUserInfoMapper.selectConsumerUserInfoList(consumerUserInfo);
-    }
+	/**
+	 * 查询账号信息列表
+	 * 
+	 * @param consumerUserInfo 账号信息
+	 * @return 账号信息
+	 */
+	@Override
+	public List<ConsumerUserInfo> selectConsumerUserInfoList(ConsumerUserInfo consumerUserInfo) {
+		return consumerUserInfoMapper.selectConsumerUserInfoList(consumerUserInfo);
+	}
 
-    /**
-     * 新增账号信息
-     * 
-     * @param consumerUserInfo 账号信息
-     * @return 结果
-     */
-    @Override
-    public int insertConsumerUserInfo(ConsumerUserInfo consumerUserInfo)
-    {
-        consumerUserInfo.setCreateTime(DateHelper.getNowDate());
-        return consumerUserInfoMapper.insertConsumerUserInfo(consumerUserInfo);
-    }
+	/**
+	 * 新增账号信息
+	 * 
+	 * @param consumerUserInfo 账号信息
+	 * @return 结果
+	 */
+	@Override
+	public int insertConsumerUserInfo(ConsumerUserInfo consumerUserInfo) {
+		consumerUserInfo.setCreateTime(DateHelper.getNowDate());
+		return consumerUserInfoMapper.insertConsumerUserInfo(consumerUserInfo);
+	}
 
-    /**
-     * 修改账号信息
-     * 
-     * @param consumerUserInfo 账号信息
-     * @return 结果
-     */
-    @Override
-    public int updateConsumerUserInfo(ConsumerUserInfo consumerUserInfo)
-    {
-        consumerUserInfo.setUpdateTime(DateHelper.getNowDate());
-        return consumerUserInfoMapper.updateConsumerUserInfo(consumerUserInfo);
-    }
+	/**
+	 * 修改账号信息
+	 * 
+	 * @param consumerUserInfo 账号信息
+	 * @return 结果
+	 */
+	@Override
+	public int updateConsumerUserInfo(ConsumerUserInfo consumerUserInfo) {
+		consumerUserInfo.setUpdateTime(DateHelper.getNowDate());
+		return consumerUserInfoMapper.updateConsumerUserInfo(consumerUserInfo);
+	}
 
-    /**
-     * 批量删除账号信息
-     * 
-     * @param ids 需要删除的账号信息主键
-     * @return 结果
-     */
-    @Override
-    public int deleteConsumerUserInfoByIds(Long[] ids)
-    {
-        return consumerUserInfoMapper.deleteConsumerUserInfoByIds(ids);
-    }
+	/**
+	 * 批量删除账号信息
+	 * 
+	 * @param ids 需要删除的账号信息主键
+	 * @return 结果
+	 */
+	@Override
+	public int deleteConsumerUserInfoByIds(Long[] ids) {
+		return consumerUserInfoMapper.deleteConsumerUserInfoByIds(ids);
+	}
 
-    /**
-     * 删除账号信息信息
-     * 
-     * @param id 账号信息主键
-     * @return 结果
-     */
-    @Override
-    public int deleteConsumerUserInfoById(Long id)
-    {
-        return consumerUserInfoMapper.deleteConsumerUserInfoById(id);
-    }
+	/**
+	 * 删除账号信息信息
+	 * 
+	 * @param id 账号信息主键
+	 * @return 结果
+	 */
+	@Override
+	public int deleteConsumerUserInfoById(Long id) {
+		return consumerUserInfoMapper.deleteConsumerUserInfoById(id);
+	}
 }

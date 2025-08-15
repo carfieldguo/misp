@@ -39,142 +39,129 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(tags = "个人信息", value = "个人信息管理")
 @RequestMapping("/consumer/personal-info")
-public class ConsumerPersonalInfoController extends BaseController
-{
-    
-    private ConsumerPersonalInfoService consumerPersonalInfoService;
-    
-    @Autowired
-    public void setConsumerPersonalInfoService(ConsumerPersonalInfoService consumerPersonalInfoService) {
+public class ConsumerPersonalInfoController extends BaseController {
+
+	private ConsumerPersonalInfoService consumerPersonalInfoService;
+
+	@Autowired
+	public void setConsumerPersonalInfoService(ConsumerPersonalInfoService consumerPersonalInfoService) {
 		this.consumerPersonalInfoService = consumerPersonalInfoService;
 	}
-    
 
-    /**
-     * 查询个人信息列表
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:personal-info:list')")
-    @ApiOperation("查询个人信息列表")
-    @GetMapping("/list")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageSize", value = "每页条数",   defaultValue = "10"),
-    })
-    public TableDataInfo list(ConsumerPersonalInfo consumerPersonalInfo)
-    {
-        startPage();
-        List<ConsumerPersonalInfo> list = consumerPersonalInfoService.selectConsumerPersonalInfoList(consumerPersonalInfo);
-        return getDataTable(list);
-    }
-
-    /**
-     * 导出个人信息列表
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:personal-info:export')")
-    @ApiOperation("导出个人信息列表")
-    @Log(title = "个人信息", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, ConsumerPersonalInfo consumerPersonalInfo)
-    {
-        List<ConsumerPersonalInfo> list = consumerPersonalInfoService.selectConsumerPersonalInfoList(consumerPersonalInfo);
-        ExcelUtil<ConsumerPersonalInfo> util = new ExcelUtil<ConsumerPersonalInfo>(ConsumerPersonalInfo.class);
-        util.exportExcel(response, list, "个人信息数据");
-    }
-
-    /**
-     * 获取个人信息详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:personal-info:query')")
-    @ApiOperation("获取个人信息详细信息")
-    @ApiImplicitParam(name = "id", value = "个人信息主键", required = true, dataType = "Long", paramType = "path")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
-        return success(consumerPersonalInfoService.selectConsumerPersonalInfoById(id));
-    }
-    
-    /**
-     * 根据账号获取个人信息详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:personal-info:query')")
-    @ApiOperation("根据账号获取个人信息详细信息")
-    @ApiImplicitParam(name = "account", value = "服务服务购买方账号信息", required = true, dataType = "String", paramType = "path")
-    @GetMapping(value = "/find-by-account/{account}")
-    public AjaxResult getInfoByAccount(@PathVariable("account") String account)
-    {
-        return success(consumerPersonalInfoService.selectConsumerUserInfoByAccount(account));
-    }
-
-    
-    
-    /**
-     * 新增个人信息
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:personal-info:add')")
-    @ApiOperation("新增个人信息")
-    @Log(title = "个人信息", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody ConsumerPersonalInfo consumerPersonalInfo)
-    {
-    	consumerPersonalInfo.setCreateBy(getUsername());
-        return toAjax(consumerPersonalInfoService.insertConsumerPersonalInfo(consumerPersonalInfo));
-    }
-
-    /**
-     * 修改个人信息
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:personal-info:edit')")
-    @ApiOperation("修改个人信息")
-    @Log(title = "个人信息", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody ConsumerPersonalInfo consumerPersonalInfo)
-    {
-        consumerPersonalInfo.setUpdateBy(getUsername());
-        return toAjax(consumerPersonalInfoService.updateConsumerPersonalInfo(consumerPersonalInfo));
-    }
-    
-
-    /**
-     * 审核通过个人信息
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:personal-info:audit')")
-    @ApiOperation("审核通过个人信息")
-    @ApiImplicitParam(name = "id", value = "个人信息主键", required = true, dataType = "Long", paramType = "path")
-    @PutMapping("/audit-pass/{id}")
-    public AjaxResult auditPass(@PathVariable("id") Long id)
-	{
-    	ConsumerPersonalInfo consumerPersonalInfo = consumerPersonalInfoService.selectConsumerPersonalInfoById(id);
-    	consumerPersonalInfo.setUpdateBy(getUsername());
-    	consumerPersonalInfo.setAuditStatus(AuditStatus.APPROVED.getCode());
-    	return toAjax(consumerPersonalInfoService.updateConsumerPersonalInfo(consumerPersonalInfo));
+	/**
+	 * 查询个人信息列表
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:personal-info:list')")
+	@ApiOperation("查询个人信息列表")
+	@GetMapping("/list")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
+			@ApiImplicitParam(name = "pageSize", value = "每页条数", defaultValue = "10"),
+	})
+	public TableDataInfo list(ConsumerPersonalInfo consumerPersonalInfo) {
+		startPage();
+		List<ConsumerPersonalInfo> list = consumerPersonalInfoService
+			.selectConsumerPersonalInfoList(consumerPersonalInfo);
+		return getDataTable(list);
 	}
-    
-    /**
-     * 审核驳回个人信息
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:personal-info:audit')")
-    @ApiOperation("审核驳回个人信息")
-    @ApiImplicitParam(name = "id", value = "个人信息主键", required = true, dataType = "Long", paramType = "path")
-    @PutMapping("/audit-reject/{id}")
-    public AjaxResult auditReject(@PathVariable("id") Long id)
-	{
-    	ConsumerPersonalInfo consumerPersonalInfo = consumerPersonalInfoService.selectConsumerPersonalInfoById(id);
-    	consumerPersonalInfo.setUpdateBy(getUsername());
-    	consumerPersonalInfo.setAuditStatus(AuditStatus.REJECTED.getCode());
-    	return toAjax(consumerPersonalInfoService.updateConsumerPersonalInfo(consumerPersonalInfo));
-	}
-    
 
-    /**
-     * 删除个人信息
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:personal-info:remove')")
-    @ApiOperation("删除个人信息")
-    @ApiImplicitParam(name = "ids", value = "个人信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
-    @Log(title = "个人信息", businessType = BusinessType.DELETE)
+	/**
+	 * 导出个人信息列表
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:personal-info:export')")
+	@ApiOperation("导出个人信息列表")
+	@Log(title = "个人信息", businessType = BusinessType.EXPORT)
+	@PostMapping("/export")
+	public void export(HttpServletResponse response, ConsumerPersonalInfo consumerPersonalInfo) {
+		List<ConsumerPersonalInfo> list = consumerPersonalInfoService
+			.selectConsumerPersonalInfoList(consumerPersonalInfo);
+		ExcelUtil<ConsumerPersonalInfo> util = new ExcelUtil<ConsumerPersonalInfo>(ConsumerPersonalInfo.class);
+		util.exportExcel(response, list, "个人信息数据");
+	}
+
+	/**
+	 * 获取个人信息详细信息
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:personal-info:query')")
+	@ApiOperation("获取个人信息详细信息")
+	@ApiImplicitParam(name = "id", value = "个人信息主键", required = true, dataType = "Long", paramType = "path")
+	@GetMapping(value = "/{id}")
+	public AjaxResult getInfo(@PathVariable("id") Long id) {
+		return success(consumerPersonalInfoService.selectConsumerPersonalInfoById(id));
+	}
+
+	/**
+	 * 根据账号获取个人信息详细信息
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:personal-info:query')")
+	@ApiOperation("根据账号获取个人信息详细信息")
+	@ApiImplicitParam(name = "account", value = "服务服务购买方账号信息", required = true, dataType = "String", paramType = "path")
+	@GetMapping(value = "/find-by-account/{account}")
+	public AjaxResult getInfoByAccount(@PathVariable("account") String account) {
+		return success(consumerPersonalInfoService.selectConsumerUserInfoByAccount(account));
+	}
+
+	/**
+	 * 新增个人信息
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:personal-info:add')")
+	@ApiOperation("新增个人信息")
+	@Log(title = "个人信息", businessType = BusinessType.INSERT)
+	@PostMapping
+	public AjaxResult add(@RequestBody ConsumerPersonalInfo consumerPersonalInfo) {
+		consumerPersonalInfo.setCreateBy(getUsername());
+		return toAjax(consumerPersonalInfoService.insertConsumerPersonalInfo(consumerPersonalInfo));
+	}
+
+	/**
+	 * 修改个人信息
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:personal-info:edit')")
+	@ApiOperation("修改个人信息")
+	@Log(title = "个人信息", businessType = BusinessType.UPDATE)
+	@PutMapping
+	public AjaxResult edit(@RequestBody ConsumerPersonalInfo consumerPersonalInfo) {
+		consumerPersonalInfo.setUpdateBy(getUsername());
+		return toAjax(consumerPersonalInfoService.updateConsumerPersonalInfo(consumerPersonalInfo));
+	}
+
+	/**
+	 * 审核通过个人信息
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:personal-info:audit')")
+	@ApiOperation("审核通过个人信息")
+	@ApiImplicitParam(name = "id", value = "个人信息主键", required = true, dataType = "Long", paramType = "path")
+	@PutMapping("/audit-pass/{id}")
+	public AjaxResult auditPass(@PathVariable("id") Long id) {
+		ConsumerPersonalInfo consumerPersonalInfo = consumerPersonalInfoService.selectConsumerPersonalInfoById(id);
+		consumerPersonalInfo.setUpdateBy(getUsername());
+		consumerPersonalInfo.setAuditStatus(AuditStatus.APPROVED.getCode());
+		return toAjax(consumerPersonalInfoService.updateConsumerPersonalInfo(consumerPersonalInfo));
+	}
+
+	/**
+	 * 审核驳回个人信息
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:personal-info:audit')")
+	@ApiOperation("审核驳回个人信息")
+	@ApiImplicitParam(name = "id", value = "个人信息主键", required = true, dataType = "Long", paramType = "path")
+	@PutMapping("/audit-reject/{id}")
+	public AjaxResult auditReject(@PathVariable("id") Long id) {
+		ConsumerPersonalInfo consumerPersonalInfo = consumerPersonalInfoService.selectConsumerPersonalInfoById(id);
+		consumerPersonalInfo.setUpdateBy(getUsername());
+		consumerPersonalInfo.setAuditStatus(AuditStatus.REJECTED.getCode());
+		return toAjax(consumerPersonalInfoService.updateConsumerPersonalInfo(consumerPersonalInfo));
+	}
+
+	/**
+	 * 删除个人信息
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:personal-info:remove')")
+	@ApiOperation("删除个人信息")
+	@ApiImplicitParam(name = "ids", value = "个人信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
+	@Log(title = "个人信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
-        return toAjax(consumerPersonalInfoService.deleteConsumerPersonalInfoByIds(ids));
-    }
+	public AjaxResult remove(@PathVariable Long[] ids) {
+		return toAjax(consumerPersonalInfoService.deleteConsumerPersonalInfoByIds(ids));
+	}
 }

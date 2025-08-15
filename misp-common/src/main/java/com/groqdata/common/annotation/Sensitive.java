@@ -18,7 +18,6 @@ import com.groqdata.common.enums.DesensitizedType;
 @Target(ElementType.FIELD)
 @JacksonAnnotationsInside
 @JsonSerialize(using = SensitiveJsonSerializer.class)
-public @interface Sensitive
-{
-    DesensitizedType desensitizedType();
+public @interface Sensitive {
+	DesensitizedType desensitizedType();
 }

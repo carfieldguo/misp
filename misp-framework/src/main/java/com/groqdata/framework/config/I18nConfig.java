@@ -15,29 +15,25 @@ import com.groqdata.common.constant.Constants;
  * @author ruoyi
  */
 @Configuration
-public class I18nConfig implements WebMvcConfigurer
-{
-    @Bean
-    public LocaleResolver localeResolver()
-    {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        // 默认语言
-        slr.setDefaultLocale(Constants.DEFAULT_LOCALE);
-        return slr;
-    }
+public class I18nConfig implements WebMvcConfigurer {
+	@Bean
+	public LocaleResolver localeResolver() {
+		SessionLocaleResolver slr = new SessionLocaleResolver();
+		// 默认语言
+		slr.setDefaultLocale(Constants.DEFAULT_LOCALE);
+		return slr;
+	}
 
-    @Bean
-    public LocaleChangeInterceptor localeChangeInterceptor()
-    {
-        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        // 参数名
-        lci.setParamName("lang");
-        return lci;
-    }
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+		LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+		// 参数名
+		lci.setParamName("lang");
+		return lci;
+	}
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry)
-    {
-        registry.addInterceptor(localeChangeInterceptor());
-    }
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(localeChangeInterceptor());
+	}
 }

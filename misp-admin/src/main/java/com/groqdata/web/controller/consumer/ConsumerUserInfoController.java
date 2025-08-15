@@ -35,95 +35,88 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(tags = "账号信息", value = "账号信息管理")
 @RequestMapping("/consumer/user-info")
-public class ConsumerUserInfoController extends BaseController
-{
-    
-    private ConsumerUserInfoService consumerUserInfoService;
-    
-    @Autowired
-    public void setConsumerUserInfoService(ConsumerUserInfoService consumerUserInfoService) {
+public class ConsumerUserInfoController extends BaseController {
+
+	private ConsumerUserInfoService consumerUserInfoService;
+
+	@Autowired
+	public void setConsumerUserInfoService(ConsumerUserInfoService consumerUserInfoService) {
 		this.consumerUserInfoService = consumerUserInfoService;
 	}
 
-    /**
-     * 查询账号信息列表
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:user-info:list')")
-    @ApiOperation("查询账号信息列表")
-    @GetMapping("/list")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageSize", value = "每页条数",   defaultValue = "10"),
-    })
-    public TableDataInfo list(ConsumerUserInfo consumerUserInfo)
-    {
-        startPage();
-        List<ConsumerUserInfo> list = consumerUserInfoService.selectConsumerUserInfoList(consumerUserInfo);
-        return getDataTable(list);
-    }
+	/**
+	 * 查询账号信息列表
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:user-info:list')")
+	@ApiOperation("查询账号信息列表")
+	@GetMapping("/list")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
+			@ApiImplicitParam(name = "pageSize", value = "每页条数", defaultValue = "10"),
+	})
+	public TableDataInfo list(ConsumerUserInfo consumerUserInfo) {
+		startPage();
+		List<ConsumerUserInfo> list = consumerUserInfoService.selectConsumerUserInfoList(consumerUserInfo);
+		return getDataTable(list);
+	}
 
-    /**
-     * 导出账号信息列表
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:user-info:export')")
-    @ApiOperation("导出账号信息列表")
-    @Log(title = "账号信息", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, ConsumerUserInfo consumerUserInfo)
-    {
-        List<ConsumerUserInfo> list = consumerUserInfoService.selectConsumerUserInfoList(consumerUserInfo);
-        ExcelUtil<ConsumerUserInfo> util = new ExcelUtil<ConsumerUserInfo>(ConsumerUserInfo.class);
-        util.exportExcel(response, list, "账号信息数据");
-    }
+	/**
+	 * 导出账号信息列表
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:user-info:export')")
+	@ApiOperation("导出账号信息列表")
+	@Log(title = "账号信息", businessType = BusinessType.EXPORT)
+	@PostMapping("/export")
+	public void export(HttpServletResponse response, ConsumerUserInfo consumerUserInfo) {
+		List<ConsumerUserInfo> list = consumerUserInfoService.selectConsumerUserInfoList(consumerUserInfo);
+		ExcelUtil<ConsumerUserInfo> util = new ExcelUtil<ConsumerUserInfo>(ConsumerUserInfo.class);
+		util.exportExcel(response, list, "账号信息数据");
+	}
 
-    /**
-     * 获取账号信息详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:user-info:query')")
-    @ApiOperation("获取账号信息详细信息")
-    @ApiImplicitParam(name = "id", value = "账号信息主键", required = true, dataType = "Long", paramType = "path")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
-        return success(consumerUserInfoService.selectConsumerUserInfoById(id));
-    }
+	/**
+	 * 获取账号信息详细信息
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:user-info:query')")
+	@ApiOperation("获取账号信息详细信息")
+	@ApiImplicitParam(name = "id", value = "账号信息主键", required = true, dataType = "Long", paramType = "path")
+	@GetMapping(value = "/{id}")
+	public AjaxResult getInfo(@PathVariable("id") Long id) {
+		return success(consumerUserInfoService.selectConsumerUserInfoById(id));
+	}
 
-    /**
-     * 新增账号信息
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:user-info:add')")
-    @ApiOperation("新增账号信息")
-    @Log(title = "账号信息", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody ConsumerUserInfo consumerUserInfo)
-    {
-    	consumerUserInfo.setCreateBy(getUsername());
-        return toAjax(consumerUserInfoService.insertConsumerUserInfo(consumerUserInfo));
-    }
+	/**
+	 * 新增账号信息
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:user-info:add')")
+	@ApiOperation("新增账号信息")
+	@Log(title = "账号信息", businessType = BusinessType.INSERT)
+	@PostMapping
+	public AjaxResult add(@RequestBody ConsumerUserInfo consumerUserInfo) {
+		consumerUserInfo.setCreateBy(getUsername());
+		return toAjax(consumerUserInfoService.insertConsumerUserInfo(consumerUserInfo));
+	}
 
-    /**
-     * 修改账号信息
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:user-info:edit')")
-    @ApiOperation("修改账号信息")
-    @Log(title = "账号信息", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody ConsumerUserInfo consumerUserInfo)
-    {
-        consumerUserInfo.setUpdateBy(getUsername());
-        return toAjax(consumerUserInfoService.updateConsumerUserInfo(consumerUserInfo));
-    }
+	/**
+	 * 修改账号信息
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:user-info:edit')")
+	@ApiOperation("修改账号信息")
+	@Log(title = "账号信息", businessType = BusinessType.UPDATE)
+	@PutMapping
+	public AjaxResult edit(@RequestBody ConsumerUserInfo consumerUserInfo) {
+		consumerUserInfo.setUpdateBy(getUsername());
+		return toAjax(consumerUserInfoService.updateConsumerUserInfo(consumerUserInfo));
+	}
 
-    /**
-     * 删除账号信息
-     */
-    @PreAuthorize("@ss.hasPermi('consumer:user-info:remove')")
-    @ApiOperation("删除账号信息")
-    @ApiImplicitParam(name = "ids", value = "账号信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
-    @Log(title = "账号信息", businessType = BusinessType.DELETE)
+	/**
+	 * 删除账号信息
+	 */
+	@PreAuthorize("@ss.hasPermi('consumer:user-info:remove')")
+	@ApiOperation("删除账号信息")
+	@ApiImplicitParam(name = "ids", value = "账号信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
+	@Log(title = "账号信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
-        return toAjax(consumerUserInfoService.deleteConsumerUserInfoByIds(ids));
-    }
+	public AjaxResult remove(@PathVariable Long[] ids) {
+		return toAjax(consumerUserInfoService.deleteConsumerUserInfoByIds(ids));
+	}
 }

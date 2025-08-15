@@ -18,50 +18,39 @@ import com.groqdata.common.utils.SecurityUtils;
  *
  * @author ruoyi
  */
-public class SensitiveJsonSerializer extends JsonSerializer<String> implements ContextualSerializer
-{
-    private DesensitizedType desensitizedType;
+public class SensitiveJsonSerializer extends JsonSerializer<String> implements ContextualSerializer {
+	private DesensitizedType desensitizedType;
 
-    @Override
-    public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) throws IOException
-    {
-        if (desensitization())
-        {
-            gen.writeString(desensitizedType.desensitizer().apply(value));
-        }
-        else
-        {
-            gen.writeString(value);
-        }
-    }
+	@Override
+	public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+		if (desensitization()) {
+			gen.writeString(desensitizedType.desensitizer().apply(value));
+		} else {
+			gen.writeString(value);
+		}
+	}
 
-    @Override
-    public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property)
-            throws JsonMappingException
-    {
-        Sensitive annotation = property.getAnnotation(Sensitive.class);
-        if (Objects.nonNull(annotation) && Objects.equals(String.class, property.getType().getRawClass()))
-        {
-            this.desensitizedType = annotation.desensitizedType();
-            return this;
-        }
-        return prov.findValueSerializer(property.getType(), property);
-    }
+	@Override
+	public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property)
+		throws JsonMappingException {
+		Sensitive annotation = property.getAnnotation(Sensitive.class);
+		if (Objects.nonNull(annotation) && Objects.equals(String.class, property.getType().getRawClass())) {
+			this.desensitizedType = annotation.desensitizedType();
+			return this;
+		}
+		return prov.findValueSerializer(property.getType(), property);
+	}
 
-    /**
-     * 是否需要脱敏处理
-     */
-    private boolean desensitization()
-    {
-        try
-        {
-            LoginUser securityUser = SecurityUtils.getLoginUser();
-            // 管理员不脱敏
-            return !securityUser.getUser().isAdmin();
-        }
-        catch (Exception e)
-        {
-            return true;
-        }
-    }
+	/**
+	 * 是否需要脱敏处理
+	 */
+	private boolean desensitization() {
+		try {
+			LoginUser securityUser = SecurityUtils.getLoginUser();
+			// 管理员不脱敏
+			return !securityUser.getUser().isAdmin();
+		} catch (Exception e) {
+			return true;
+		}
+	}
 }

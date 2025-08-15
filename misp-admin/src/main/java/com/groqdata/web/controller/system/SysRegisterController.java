@@ -17,32 +17,28 @@ import com.groqdata.system.service.ISysConfigService;
  * @author ruoyi
  */
 @RestController
-public class SysRegisterController extends BaseController
-{
-    
-    private SysRegisterService registerService;
-    
-    @Autowired
-    public void setRegisterService(SysRegisterService registerService) {
+public class SysRegisterController extends BaseController {
+
+	private SysRegisterService registerService;
+
+	@Autowired
+	public void setRegisterService(SysRegisterService registerService) {
 		this.registerService = registerService;
 	}
 
-    
-    private ISysConfigService configService;
-    
-    @Autowired
-    public void setConfigService(ISysConfigService configService) {
-    	this.configService = configService;
-    }
+	private ISysConfigService configService;
 
-    @PostMapping("/register")
-    public AjaxResult register(@RequestBody RegisterBody user)
-    {
-        if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
-        {
-            return error("当前系统没有开启注册功能！");
-        }
-        String msg = registerService.register(user);
-        return StringUtils.isEmpty(msg) ? success() : error(msg);
-    }
+	@Autowired
+	public void setConfigService(ISysConfigService configService) {
+		this.configService = configService;
+	}
+
+	@PostMapping("/register")
+	public AjaxResult register(@RequestBody RegisterBody user) {
+		if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser")))) {
+			return error("当前系统没有开启注册功能！");
+		}
+		String msg = registerService.register(user);
+		return StringUtils.isEmpty(msg) ? success() : error(msg);
+	}
 }
