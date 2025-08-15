@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.groqdata.common.utils.StringHelper;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * spring工具类 方便在非spring管理环境中获取bean
  * 

@@ -1,7 +1,6 @@
 package com.groqdata.consumer.service.impl;
 
 import java.util.List;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.groqdata.consumer.mapper.ConsumerAppInfoMapper;

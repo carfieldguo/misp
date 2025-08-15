@@ -37,31 +37,34 @@
         <setting id="org.eclipse.jdt.core.formatter.insert_space_before_opening_parenthesis_in_method_invocation" value="do not insert"/>
         <setting id="org.eclipse.jdt.core.formatter.insert_space_after_period_in_method_invocation" value="do not insert"/>
         
-        <!-- 导入设置 -->
+        <!-- 导入管理核心设置 -->
         <setting id="org.eclipse.jdt.core.formatter.blank_lines_after_imports" value="1"/>
         <setting id="org.eclipse.jdt.core.organize_imports.sort_static_imports_separately" value="true"/>
+        <setting id="org.eclipse.jdt.core.organize_imports.import_order" value="java.,javax.,org.,com.,"/>
+        <setting id="org.eclipse.jdt.core.organize_imports.ignore_blank_lines_between_imports" value="false"/>
+        <setting id="org.eclipse.jdt.core.organize_imports.ignore_case_for_import_order" value="true"/>
         
         <!-- 空白行设置 -->
         <setting id="org.eclipse.jdt.core.formatter.blank_lines_after_package" value="1"/>
         <setting id="org.eclipse.jdt.core.formatter.blank_lines_between_type_declarations" value="1"/>
         <setting id="org.eclipse.jdt.core.formatter.preserve_blank_lines_between_statements" value="1"/>
         
-        <!-- 关键：注释设置（完全禁用自动换行和格式化） -->
+        <!-- 注释设置（保持不换行） -->
         <setting id="org.eclipse.jdt.core.formatter.format_line_comments" value="false"/>
         <setting id="org.eclipse.jdt.core.formatter.format_block_comments" value="false"/>
         <setting id="org.eclipse.jdt.core.formatter.comment.format_javadoc_comments" value="false"/>
-        <setting id="org.eclipse.jdt.core.formatter.comment.line_length" value="9999"/> <!-- 使用极大值替代0，避免某些版本兼容性问题 -->
+        <setting id="org.eclipse.jdt.core.formatter.comment.line_length" value="9999"/>
         <setting id="org.eclipse.jdt.core.formatter.comment.wrap_line_length" value="9999"/>
         <setting id="org.eclipse.jdt.core.formatter.comment.new_lines_at_block_boundaries" value="false"/>
         <setting id="org.eclipse.jdt.core.formatter.comment.new_lines_at_javadoc_boundaries" value="false"/>
         <setting id="org.eclipse.jdt.core.formatter.comment.indent_parameter_description" value="false"/>
         <setting id="org.eclipse.jdt.core.formatter.comment.indent_root_tags" value="false"/>
+        <setting id="org.eclipse.jdt.core.formatter.align_comment_with_code" value="false"/>
         
-        <!-- 其他重要设置 -->
+        <!-- 其他设置 -->
         <setting id="org.eclipse.jdt.core.formatter.keep_imple_empty_lines" value="false"/>
         <setting id="org.eclipse.jdt.core.formatter.insert_space_before_closing_brace_in_array_initializer" value="insert"/>
         <setting id="org.eclipse.jdt.core.formatter.use_on_off_tags" value="false"/>
-        <!-- 禁用注释与代码的自动对齐 -->
-        <setting id="org.eclipse.jdt.core.formatter.align_comment_with_code" value="false"/>
     </profile>
 </profiles>
+    
