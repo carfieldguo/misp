@@ -3,7 +3,7 @@ package ${packageName}.service.impl;
 import java.util.List;
 #foreach ($column in $columns)
 #if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
-import com.groqdata.common.utils.DateUtils;
+import com.groqdata.common.utils.DateHelper;
 #break
 #end
 #end
@@ -74,7 +74,7 @@ public class ${ClassName}ServiceImpl implements ${ClassName}Service
     {
 #foreach ($column in $columns)
 #if($column.javaField == 'createTime')
-        ${className}.setCreateTime(DateUtils.getNowDate());
+        ${className}.setCreateTime(DateHelper.getNowDate());
 #end
 #end
 #if($table.sub)
@@ -100,7 +100,7 @@ public class ${ClassName}ServiceImpl implements ${ClassName}Service
     {
 #foreach ($column in $columns)
 #if($column.javaField == 'updateTime')
-        ${className}.setUpdateTime(DateUtils.getNowDate());
+        ${className}.setUpdateTime(DateHelper.getNowDate());
 #end
 #end
 #if($table.sub)

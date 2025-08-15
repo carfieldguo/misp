@@ -1,11 +1,13 @@
 package com.groqdata.consumer.service.impl;
 
 import java.util.List;
-import com.groqdata.common.utils.DateUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.groqdata.consumer.mapper.ConsumerEnterpriseInfoMapper;
+
+import com.groqdata.common.utils.DateHelper;
 import com.groqdata.consumer.domain.ConsumerEnterpriseInfo;
+import com.groqdata.consumer.mapper.ConsumerEnterpriseInfoMapper;
 import com.groqdata.consumer.service.ConsumerEnterpriseInfoService;
 
 /**
@@ -58,7 +60,7 @@ public class ConsumerEnterpriseInfoServiceImpl implements ConsumerEnterpriseInfo
     @Override
     public int insertConsumerEnterpriseInfo(ConsumerEnterpriseInfo consumerEnterpriseInfo)
     {
-        consumerEnterpriseInfo.setCreateTime(DateUtils.getNowDate());
+        consumerEnterpriseInfo.setCreateTime(DateHelper.getNowDate());
         return consumerEnterpriseInfoMapper.insertConsumerEnterpriseInfo(consumerEnterpriseInfo);
     }
 
@@ -71,7 +73,7 @@ public class ConsumerEnterpriseInfoServiceImpl implements ConsumerEnterpriseInfo
     @Override
     public int updateConsumerEnterpriseInfo(ConsumerEnterpriseInfo consumerEnterpriseInfo)
     {
-        consumerEnterpriseInfo.setUpdateTime(DateUtils.getNowDate());
+        consumerEnterpriseInfo.setUpdateTime(DateHelper.getNowDate());
         return consumerEnterpriseInfoMapper.updateConsumerEnterpriseInfo(consumerEnterpriseInfo);
     }
 

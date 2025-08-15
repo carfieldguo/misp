@@ -1,8 +1,9 @@
 package com.groqdata.framework.web.domain.server;
 
 import java.lang.management.ManagementFactory;
+
 import com.groqdata.common.utils.ArithUtils;
-import com.groqdata.common.utils.DateUtils;
+import com.groqdata.common.utils.DateHelper;
 
 /**
  * JVM相关信息
@@ -109,7 +110,7 @@ public class Jvm
      */
     public String getStartTime()
     {
-        return DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD_HH_MM_SS, DateUtils.getServerStartDate());
+        return DateHelper.parseDateToStr(DateHelper.YYYY_MM_DD_HH_MM_SS, DateHelper.getServerStartDate());
     }
 
     /**
@@ -117,7 +118,7 @@ public class Jvm
      */
     public String getRunTime()
     {
-        return DateUtils.timeDistance(DateUtils.getNowDate(), DateUtils.getServerStartDate());
+        return DateHelper.timeDistance(DateHelper.getNowDate(), DateHelper.getServerStartDate());
     }
 
     /**

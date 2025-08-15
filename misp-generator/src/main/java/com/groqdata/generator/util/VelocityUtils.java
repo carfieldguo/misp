@@ -11,7 +11,9 @@ import org.apache.velocity.VelocityContext;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.groqdata.common.constant.GenConstants;
-import com.groqdata.common.utils.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
+
+import com.groqdata.common.utils.DateHelper;
 import com.groqdata.common.utils.StringHelper;
 import com.groqdata.generator.domain.GenTable;
 import com.groqdata.generator.domain.GenTableColumn;
@@ -62,7 +64,7 @@ public class VelocityUtils
         velocityContext.put("basePackage", getPackagePrefix(packageName));
         velocityContext.put("packageName", packageName);
         velocityContext.put("author", genTable.getFunctionAuthor());
-        velocityContext.put("datetime", DateUtils.getDate());
+        velocityContext.put("datetime", DateHelper.getDate());
         velocityContext.put("pkColumn", genTable.getPkColumn());
         velocityContext.put("importList", getImportList(genTable));
         velocityContext.put("permissionPrefix", getPermissionPrefix(moduleName, businessName));

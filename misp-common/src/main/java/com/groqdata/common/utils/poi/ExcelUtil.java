@@ -30,6 +30,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFPicture;
 import org.apache.poi.hssf.usermodel.HSSFPictureData;
@@ -82,7 +83,7 @@ import com.groqdata.common.config.MispConfig;
 import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.core.text.Convert;
 import com.groqdata.common.exception.UtilException;
-import com.groqdata.common.utils.DateUtils;
+import com.groqdata.common.utils.DateHelper;
 import com.groqdata.common.utils.DictUtils;
 import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.file.FileTypeUtils;
@@ -451,7 +452,7 @@ public class ExcelUtil<T>
                     {
                         if (val instanceof String)
                         {
-                            val = DateUtils.parseDate(val);
+                            val = DateHelper.parseDate(val);
                         }
                         else if (val instanceof Double)
                         {
@@ -1740,15 +1741,15 @@ public class ExcelUtil<T>
         String str;
         if (val instanceof Date)
         {
-            str = DateUtils.parseDateToStr(dateFormat, (Date) val);
+            str = DateHelper.parseDateToStr(dateFormat, (Date) val);
         }
         else if (val instanceof LocalDateTime)
         {
-            str = DateUtils.parseDateToStr(dateFormat, DateUtils.toDate((LocalDateTime) val));
+            str = DateHelper.parseDateToStr(dateFormat, DateHelper.toDate((LocalDateTime) val));
         }
         else if (val instanceof LocalDate)
         {
-            str = DateUtils.parseDateToStr(dateFormat, DateUtils.toDate((LocalDate) val));
+            str = DateHelper.parseDateToStr(dateFormat, DateHelper.toDate((LocalDate) val));
         }
         else
         {

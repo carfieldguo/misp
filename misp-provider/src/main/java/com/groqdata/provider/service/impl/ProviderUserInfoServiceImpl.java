@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.groqdata.common.utils.DateUtils;
+import com.groqdata.common.utils.DateHelper;
 import com.groqdata.provider.domain.ProviderUserInfo;
 import com.groqdata.provider.mapper.ProviderUserInfoMapper;
 import com.groqdata.provider.service.ProviderUserInfoService;
@@ -60,7 +60,7 @@ public class ProviderUserInfoServiceImpl implements ProviderUserInfoService
     @Override
     public int insertProviderUserInfo(ProviderUserInfo providerUserInfo)
     {
-        providerUserInfo.setCreateTime(DateUtils.getNowDate());
+        providerUserInfo.setCreateTime(DateHelper.getNowDate());
         return providerUserInfoMapper.insertProviderUserInfo(providerUserInfo);
     }
 
@@ -73,7 +73,7 @@ public class ProviderUserInfoServiceImpl implements ProviderUserInfoService
     @Override
     public int updateProviderUserInfo(ProviderUserInfo providerUserInfo)
     {
-        providerUserInfo.setUpdateTime(DateUtils.getNowDate());
+        providerUserInfo.setUpdateTime(DateHelper.getNowDate());
         return providerUserInfoMapper.updateProviderUserInfo(providerUserInfo);
     }
 

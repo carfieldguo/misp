@@ -10,13 +10,14 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 /**
  * 时间工具类
  * 
  * @author ruoyi
  */
-public class DateUtils extends org.apache.commons.lang3.time.DateUtils
+public class DateHelper
 {
     public static String YYYY = "yyyy";
 
@@ -119,7 +120,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         }
         try
         {
-            return parseDate(str.toString(), parsePatterns);
+            return DateUtils.parseDate(str.toString(), parsePatterns);
         }
         catch (ParseException e)
         {

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
@@ -18,7 +19,7 @@ import com.groqdata.common.core.domain.model.LoginUser;
 import com.groqdata.common.core.page.PageDomain;
 import com.groqdata.common.core.page.TableDataInfo;
 import com.groqdata.common.core.page.TableSupport;
-import com.groqdata.common.utils.DateUtils;
+import com.groqdata.common.utils.DateHelper;
 import com.groqdata.common.utils.PageUtils;
 import com.groqdata.common.utils.SecurityUtils;
 import com.groqdata.common.utils.StringHelper;
@@ -45,7 +46,7 @@ public class BaseController
             @Override
             public void setAsText(String text)
             {
-                setValue(DateUtils.parseDate(text));
+                setValue(DateHelper.parseDate(text));
             }
         });
     }

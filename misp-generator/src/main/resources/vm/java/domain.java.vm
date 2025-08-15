@@ -67,6 +67,7 @@ public class ${ClassName} extends ${Entity}
 #else
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
 #end
+
     public void set${AttrName}($column.javaType $column.javaField) 
     {
         this.$column.javaField = $column.javaField;

@@ -4,17 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Objects;
+
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.groqdata.common.config.MispConfig;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.exception.file.FileNameLengthLimitExceededException;
 import com.groqdata.common.exception.file.FileSizeLimitExceededException;
 import com.groqdata.common.exception.file.InvalidExtensionException;
-import com.groqdata.common.utils.DateUtils;
+import com.groqdata.common.utils.DateHelper;
 import com.groqdata.common.utils.StringHelper;
-
-import org.apache.commons.lang3.StringUtils;
 import com.groqdata.common.utils.uuid.Seq;
 
 /**
@@ -124,7 +125,7 @@ public class FileUploadUtils
      */
     public static final String extractFilename(MultipartFile file)
     {
-        return StringHelper.format("{}/{}_{}.{}", DateUtils.datePath(),
+        return StringHelper.format("{}/{}_{}.{}", DateHelper.datePath(),
                 FilenameUtils.getBaseName(file.getOriginalFilename()), Seq.getId(Seq.uploadSeqType), getExtension(file));
     }
 

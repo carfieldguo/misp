@@ -9,15 +9,18 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import com.groqdata.common.config.MispConfig;
-import com.groqdata.common.utils.DateUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import com.groqdata.common.config.MispConfig;
+import com.groqdata.common.utils.DateHelper;
 import com.groqdata.common.utils.uuid.IdUtils;
-import org.apache.commons.io.FilenameUtils;
 
 /**
  * 文件处理工具类
@@ -91,7 +94,7 @@ public class FileUtils
         try
         {
             String extension = getFileExtendName(data);
-            pathName = DateUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
+            pathName = DateHelper.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
             File file = FileUploadUtils.getAbsoluteFile(uploadDir, pathName);
             fos = new FileOutputStream(file);
             fos.write(data);

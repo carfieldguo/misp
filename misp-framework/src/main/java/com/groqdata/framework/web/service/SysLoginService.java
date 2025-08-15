@@ -22,7 +22,7 @@ import com.groqdata.common.exception.user.CaptchaException;
 import com.groqdata.common.exception.user.CaptchaExpireException;
 import com.groqdata.common.exception.user.UserNotExistsException;
 import com.groqdata.common.exception.user.UserPasswordNotMatchException;
-import com.groqdata.common.utils.DateUtils;
+import com.groqdata.common.utils.DateHelper;
 import com.groqdata.common.utils.MessageUtils;
 import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.ip.IpUtils;
@@ -178,7 +178,7 @@ public class SysLoginService
         SysUser sysUser = new SysUser();
         sysUser.setUserId(userId);
         sysUser.setLoginIp(IpUtils.getIpAddr());
-        sysUser.setLoginDate(DateUtils.getNowDate());
+        sysUser.setLoginDate(DateHelper.getNowDate());
         userService.updateUserProfile(sysUser);
     }
 }

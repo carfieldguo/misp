@@ -2,7 +2,7 @@ package com.groqdata.common.utils.uuid;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.groqdata.common.utils.DateUtils;
+import com.groqdata.common.utils.DateHelper;
 import com.groqdata.common.utils.StringHelper;
 
 /**
@@ -59,7 +59,7 @@ public class Seq
      */
     public static String getId(AtomicInteger atomicInt, int length)
     {
-        String result = DateUtils.dateTimeNow();
+        String result = DateHelper.dateTimeNow();
         result += machineCode;
         result += getSeq(atomicInt, length);
         return result;
