@@ -4,7 +4,7 @@ import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
-import com.groqdata.common.utils.Arith;
+import com.groqdata.common.utils.ArithUtils;
 import com.groqdata.common.utils.ip.IpUtils;
 import com.groqdata.framework.web.domain.server.Cpu;
 import com.groqdata.framework.web.domain.server.Jvm;
@@ -202,7 +202,7 @@ public class Server
             sysFile.setTotal(convertFileSize(total));
             sysFile.setFree(convertFileSize(free));
             sysFile.setUsed(convertFileSize(used));
-            sysFile.setUsage(Arith.mul(Arith.div(used, total, 4), 100));
+            sysFile.setUsage(ArithUtils.mul(ArithUtils.div(used, total, 4), 100));
             sysFiles.add(sysFile);
         }
     }
