@@ -1,7 +1,7 @@
 package com.groqdata.framework.config.p6spy;
 
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class CustomP6SpyLogger implements MessageFormattingStrategy {
     private static final String PURPLE = "\u001B[35m";

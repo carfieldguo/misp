@@ -1,6 +1,6 @@
 package com.groqdata.common.utils.html;
 
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 转义和反转义工具类

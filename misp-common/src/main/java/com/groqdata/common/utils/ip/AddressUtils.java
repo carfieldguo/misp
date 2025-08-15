@@ -6,7 +6,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.groqdata.common.config.MispConfig;
 import com.groqdata.common.constant.Constants;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.groqdata.common.utils.http.HttpUtils;
 
 /**

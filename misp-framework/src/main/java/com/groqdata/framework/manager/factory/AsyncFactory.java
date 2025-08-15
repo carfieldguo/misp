@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.utils.LogUtils;
 import com.groqdata.common.utils.ServletUtils;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.groqdata.common.utils.ip.AddressUtils;
 import com.groqdata.common.utils.ip.IpUtils;
 import com.groqdata.common.utils.spring.SpringUtils;

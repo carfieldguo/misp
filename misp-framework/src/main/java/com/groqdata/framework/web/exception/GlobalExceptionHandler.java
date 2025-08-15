@@ -1,6 +1,8 @@
 package com.groqdata.framework.web.exception;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -11,12 +13,13 @@ import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
 import com.groqdata.common.constant.HttpStatus;
 import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.core.text.Convert;
 import com.groqdata.common.exception.DemoModeException;
 import com.groqdata.common.exception.ServiceException;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.html.EscapeUtil;
 
 /**
@@ -60,7 +63,7 @@ public class GlobalExceptionHandler
     {
         log.error(e.getMessage(), e);
         Integer code = e.getCode();
-        return StringUtils.isNotNull(code) ? AjaxResult.error(code, e.getMessage()) : AjaxResult.error(e.getMessage());
+        return StringHelper.isNotNull(code) ? AjaxResult.error(code, e.getMessage()) : AjaxResult.error(e.getMessage());
     }
 
     /**

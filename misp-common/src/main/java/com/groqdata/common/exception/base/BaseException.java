@@ -1,7 +1,7 @@
 package com.groqdata.common.exception.base;
 
 import com.groqdata.common.utils.MessageUtils;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 基础异常

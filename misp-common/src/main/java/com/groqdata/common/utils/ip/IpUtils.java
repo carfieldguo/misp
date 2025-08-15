@@ -4,7 +4,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.servlet.http.HttpServletRequest;
 import com.groqdata.common.utils.ServletUtils;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 获取IP方法
@@ -88,7 +90,7 @@ public class IpUtils
      */
     private static boolean internalIp(byte[] addr)
     {
-        if (StringUtils.isNull(addr) || addr.length < 2)
+        if (StringHelper.isNull(addr) || addr.length < 2)
         {
             return true;
         }

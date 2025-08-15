@@ -2,8 +2,11 @@ package com.groqdata.web.controller.system;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.groqdata.common.annotation.Log;
 import com.groqdata.common.core.controller.BaseController;
 import com.groqdata.common.core.domain.AjaxResult;
@@ -25,7 +29,7 @@ import com.groqdata.common.core.domain.entity.SysUser;
 import com.groqdata.common.core.page.TableDataInfo;
 import com.groqdata.common.enums.BusinessType;
 import com.groqdata.common.utils.SecurityUtils;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.poi.ExcelUtil;
 import com.groqdata.system.service.ISysDeptService;
 import com.groqdata.system.service.ISysPostService;
@@ -126,7 +130,7 @@ public class SysUserController extends BaseController
         List<SysRole> roles = roleService.selectRoleAll();
         ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
         ajax.put("posts", postService.selectPostAll());
-        if (StringUtils.isNotNull(userId))
+        if (StringHelper.isNotNull(userId))
         {
             SysUser sysUser = userService.selectUserById(userId);
             ajax.put(AjaxResult.DATA_TAG, sysUser);

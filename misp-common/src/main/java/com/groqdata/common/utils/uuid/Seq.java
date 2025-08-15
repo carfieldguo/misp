@@ -1,8 +1,9 @@
 package com.groqdata.common.utils.uuid;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
 import com.groqdata.common.utils.DateUtils;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 
 /**
  * @author ruoyi 序列生成类
@@ -81,6 +82,6 @@ public class Seq
             atomicInt.set(1);
         }
         // 转字符串，用0左补齐
-        return StringUtils.padl(value, length);
+        return StringHelper.padl(value, length);
     }
 }

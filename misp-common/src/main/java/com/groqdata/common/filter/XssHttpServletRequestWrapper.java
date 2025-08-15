@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.groqdata.common.utils.html.EscapeUtil;
 
 /**

@@ -2,6 +2,8 @@ package com.groqdata.common.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**

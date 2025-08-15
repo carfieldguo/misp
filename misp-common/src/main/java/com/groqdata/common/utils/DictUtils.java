@@ -2,6 +2,9 @@ package com.groqdata.common.utils;
 
 import java.util.Collection;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.alibaba.fastjson2.JSONArray;
 import com.groqdata.common.constant.CacheConstants;
 import com.groqdata.common.core.domain.entity.SysDictData;
@@ -40,7 +43,7 @@ public class DictUtils
     public static List<SysDictData> getDictCache(String key)
     {
         JSONArray arrayCache = SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
-        if (StringUtils.isNotNull(arrayCache))
+        if (StringHelper.isNotNull(arrayCache))
         {
             return arrayCache.toList(SysDictData.class);
         }
@@ -91,7 +94,7 @@ public class DictUtils
     {
         StringBuilder propertyString = new StringBuilder();
         List<SysDictData> datas = getDictCache(dictType);
-        if (StringUtils.isNull(datas))
+        if (StringHelper.isNull(datas))
         {
             return StringUtils.EMPTY;
         }
@@ -134,7 +137,7 @@ public class DictUtils
     {
         StringBuilder propertyString = new StringBuilder();
         List<SysDictData> datas = getDictCache(dictType);
-        if (StringUtils.isNull(datas))
+        if (StringHelper.isNull(datas))
         {
             return StringUtils.EMPTY;
         }
@@ -175,7 +178,7 @@ public class DictUtils
     {
         StringBuilder propertyString = new StringBuilder();
         List<SysDictData> datas = getDictCache(dictType);
-        if (StringUtils.isNull(datas))
+        if (StringHelper.isNull(datas))
         {
             return StringUtils.EMPTY;
         }
@@ -196,7 +199,7 @@ public class DictUtils
     {
         StringBuilder propertyString = new StringBuilder();
         List<SysDictData> datas = getDictCache(dictType);
-        if (StringUtils.isNull(datas))
+        if (StringHelper.isNull(datas))
         {
             return StringUtils.EMPTY;
         }

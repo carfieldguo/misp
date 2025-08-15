@@ -3,6 +3,7 @@ package com.groqdata.common.filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,8 +12,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.groqdata.common.utils.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.groqdata.common.enums.HttpMethod;
+import com.groqdata.common.utils.StringHelper;
 
 /**
  * 防止XSS攻击的过滤器
@@ -64,7 +68,7 @@ public class XssFilter implements Filter
         {
             return true;
         }
-        return StringUtils.matches(url, excludes);
+        return StringHelper.matches(url, excludes);
     }
 
     @Override

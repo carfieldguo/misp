@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.groqdata.common.constant.CacheConstants;
 import com.groqdata.common.core.domain.AjaxResult;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.groqdata.system.domain.SysCache;
 
 /**

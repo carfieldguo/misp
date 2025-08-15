@@ -2,7 +2,7 @@ package com.groqdata.generator.domain;
 
 import javax.validation.constraints.NotBlank;
 import com.groqdata.common.core.domain.BaseEntity;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 代码生成业务字段表 gen_table_column

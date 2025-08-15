@@ -1,7 +1,9 @@
 package com.groqdata.framework.web.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import com.groqdata.common.constant.CacheConstants;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.constant.UserConstants;
@@ -12,7 +14,7 @@ import com.groqdata.common.exception.user.CaptchaException;
 import com.groqdata.common.exception.user.CaptchaExpireException;
 import com.groqdata.common.utils.MessageUtils;
 import com.groqdata.common.utils.SecurityUtils;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.framework.manager.AsyncManager;
 import com.groqdata.framework.manager.factory.AsyncFactory;
 import com.groqdata.system.service.ISysConfigService;
@@ -100,7 +102,7 @@ public class SysRegisterService
      */
     public void validateCaptcha(String username, String code, String uuid)
     {
-        String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + StringUtils.nvl(uuid, "");
+        String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + StringHelper.nvl(uuid, "");
         String captcha = redisCache.getCacheObject(verifyKey);
         redisCache.deleteObject(verifyKey);
         if (captcha == null)

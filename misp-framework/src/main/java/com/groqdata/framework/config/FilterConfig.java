@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.groqdata.common.filter.RepeatableFilter;
 import com.groqdata.common.filter.XssFilter;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Filter配置

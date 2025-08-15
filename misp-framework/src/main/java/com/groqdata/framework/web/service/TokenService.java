@@ -3,21 +3,26 @@ package com.groqdata.framework.web.service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import com.groqdata.common.constant.CacheConstants;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.core.domain.model.LoginUser;
 import com.groqdata.common.core.redis.RedisCache;
 import com.groqdata.common.utils.ServletUtils;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.ip.AddressUtils;
 import com.groqdata.common.utils.ip.IpUtils;
 import com.groqdata.common.utils.uuid.IdUtils;
+
 import eu.bitwalker.useragentutils.UserAgent;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -87,7 +92,7 @@ public class TokenService
      */
     public void setLoginUser(LoginUser loginUser)
     {
-        if (StringUtils.isNotNull(loginUser) && StringUtils.isNotEmpty(loginUser.getToken()))
+        if (StringHelper.isNotNull(loginUser) && StringUtils.isNotEmpty(loginUser.getToken()))
         {
             refreshToken(loginUser);
         }

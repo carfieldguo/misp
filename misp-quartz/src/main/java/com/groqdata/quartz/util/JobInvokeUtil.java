@@ -4,7 +4,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
-import com.groqdata.common.utils.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.spring.SpringUtils;
 import com.groqdata.quartz.domain.SysJob;
 
@@ -50,7 +53,7 @@ public class JobInvokeUtil
             throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException
     {
-        if (StringUtils.isNotNull(methodParams) && methodParams.size() > 0)
+        if (StringHelper.isNotNull(methodParams) && methodParams.size() > 0)
         {
             Method method = bean.getClass().getMethod(methodName, getMethodParamsType(methodParams));
             method.invoke(bean, getMethodParamsValue(methodParams));

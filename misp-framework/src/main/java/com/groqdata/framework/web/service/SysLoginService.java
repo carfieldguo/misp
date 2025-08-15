@@ -1,12 +1,15 @@
 package com.groqdata.framework.web.service;
 
 import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
 import com.groqdata.common.constant.CacheConstants;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.constant.UserConstants;
@@ -21,7 +24,7 @@ import com.groqdata.common.exception.user.UserNotExistsException;
 import com.groqdata.common.exception.user.UserPasswordNotMatchException;
 import com.groqdata.common.utils.DateUtils;
 import com.groqdata.common.utils.MessageUtils;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.ip.IpUtils;
 import com.groqdata.framework.manager.AsyncManager;
 import com.groqdata.framework.manager.factory.AsyncFactory;
@@ -113,7 +116,7 @@ public class SysLoginService
         boolean captchaEnabled = configService.selectCaptchaEnabled();
         if (captchaEnabled)
         {
-            String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + StringUtils.nvl(uuid, "");
+            String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + StringHelper.nvl(uuid, "");
             String captcha = redisCache.getCacheObject(verifyKey);
             if (captcha == null)
             {

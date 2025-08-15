@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.AntPathMatcher;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.core.text.StrFormatter;
@@ -15,7 +17,7 @@ import com.groqdata.common.core.text.StrFormatter;
  * 
  * @author ruoyi
  */
-public class StringUtils extends org.apache.commons.lang3.StringUtils
+public class StringHelper
 {
     /** 空字符串 */
     private static final String NULLSTR = "";
@@ -176,7 +178,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
      */
     public static String hide(CharSequence str, int startInclude, int endExclude)
     {
-        if (isEmpty(str))
+        if (StringUtils.isEmpty(str))
         {
             return NULLSTR;
         }
@@ -367,7 +369,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
     public static final List<String> str2List(String str, String sep, boolean filterBlank, boolean trim)
     {
         List<String> list = new ArrayList<String>();
-        if (StringUtils.isEmpty(str))
+        if (StringHelper.isEmpty(str))
         {
             return list;
         }
@@ -429,13 +431,13 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
      */
     public static boolean containsAnyIgnoreCase(CharSequence cs, CharSequence... searchCharSequences)
     {
-        if (isEmpty(cs) || isEmpty(searchCharSequences))
+        if (StringUtils.isEmpty(cs) || isEmpty(searchCharSequences))
         {
             return false;
         }
         for (CharSequence testStr : searchCharSequences)
         {
-            if (containsIgnoreCase(cs, testStr))
+            if (StringUtils.containsIgnoreCase(cs, testStr))
             {
                 return true;
             }

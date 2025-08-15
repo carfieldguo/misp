@@ -3,10 +3,13 @@ package com.groqdata.common.core.controller;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.groqdata.common.constant.HttpStatus;
@@ -18,7 +21,7 @@ import com.groqdata.common.core.page.TableSupport;
 import com.groqdata.common.utils.DateUtils;
 import com.groqdata.common.utils.PageUtils;
 import com.groqdata.common.utils.SecurityUtils;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.sql.SqlUtil;
 
 /**
@@ -165,7 +168,7 @@ public class BaseController
      */
     public String redirect(String url)
     {
-        return StringUtils.format("redirect:{}", url);
+        return StringHelper.format("redirect:{}", url);
     }
 
     /**

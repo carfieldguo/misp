@@ -1,7 +1,7 @@
 package com.groqdata.common.utils.sql;
 
 import com.groqdata.common.exception.UtilException;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * sql操作工具类

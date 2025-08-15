@@ -1,8 +1,10 @@
 package com.groqdata.system.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+
 import com.groqdata.common.core.domain.model.LoginUser;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.system.domain.SysUserOnline;
 import com.groqdata.system.service.ISysUserOnlineService;
 
@@ -75,7 +77,7 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService
     @Override
     public SysUserOnline loginUserToUserOnline(LoginUser user)
     {
-        if (StringUtils.isNull(user) || StringUtils.isNull(user.getUser()))
+        if (StringHelper.isNull(user) || StringHelper.isNull(user.getUser()))
         {
             return null;
         }
@@ -87,7 +89,7 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService
         sysUserOnline.setBrowser(user.getBrowser());
         sysUserOnline.setOs(user.getOs());
         sysUserOnline.setLoginTime(user.getLoginTime());
-        if (StringUtils.isNotNull(user.getUser().getDept()))
+        if (StringHelper.isNotNull(user.getUser().getDept()))
         {
             sysUserOnline.setDeptName(user.getUser().getDept().getDeptName());
         }

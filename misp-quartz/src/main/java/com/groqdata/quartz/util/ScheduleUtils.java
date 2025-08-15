@@ -1,5 +1,6 @@
 package com.groqdata.quartz.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.Job;
@@ -10,11 +11,12 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
+
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.constant.ScheduleConstants;
 import com.groqdata.common.exception.job.TaskException;
 import com.groqdata.common.exception.job.TaskException.Code;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.spring.SpringUtils;
 import com.groqdata.quartz.domain.SysJob;
 
@@ -84,7 +86,7 @@ public class ScheduleUtils
         }
 
         // 判断任务是否过期
-        if (StringUtils.isNotNull(CronUtils.getNextExecution(job.getCronExpression())))
+        if (StringHelper.isNotNull(CronUtils.getNextExecution(job.getCronExpression())))
         {
             // 执行调度任务
             scheduler.scheduleJob(jobDetail, trigger);

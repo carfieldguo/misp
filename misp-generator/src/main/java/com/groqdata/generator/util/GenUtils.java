@@ -1,9 +1,12 @@
 package com.groqdata.generator.util;
 
 import java.util.Arrays;
+
 import org.apache.commons.lang3.RegExUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import com.groqdata.common.constant.GenConstants;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.generator.config.GenConfig;
 import com.groqdata.generator.domain.GenTable;
 import com.groqdata.generator.domain.GenTableColumn;
@@ -39,7 +42,7 @@ public class GenUtils
         column.setTableId(table.getTableId());
         column.setCreateBy(table.getCreateBy());
         // 设置java字段名
-        column.setJavaField(StringUtils.toCamelCase(columnName));
+        column.setJavaField(StringHelper.toCamelCase(columnName));
         // 设置默认类型
         column.setJavaType(GenConstants.TYPE_STRING);
         column.setQueryType(GenConstants.QUERY_EQ);
@@ -188,7 +191,7 @@ public class GenUtils
             String[] searchList = StringUtils.split(tablePrefix, ",");
             tableName = replaceFirst(tableName, searchList);
         }
-        return StringUtils.convertToCamelCase(tableName);
+        return StringHelper.convertToCamelCase(tableName);
     }
 
     /**

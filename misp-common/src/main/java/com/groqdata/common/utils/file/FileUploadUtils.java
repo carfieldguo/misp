@@ -12,7 +12,9 @@ import com.groqdata.common.exception.file.FileNameLengthLimitExceededException;
 import com.groqdata.common.exception.file.FileSizeLimitExceededException;
 import com.groqdata.common.exception.file.InvalidExtensionException;
 import com.groqdata.common.utils.DateUtils;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
+
+import org.apache.commons.lang3.StringUtils;
 import com.groqdata.common.utils.uuid.Seq;
 
 /**
@@ -122,7 +124,7 @@ public class FileUploadUtils
      */
     public static final String extractFilename(MultipartFile file)
     {
-        return StringUtils.format("{}/{}_{}.{}", DateUtils.datePath(),
+        return StringHelper.format("{}/{}_{}.{}", DateUtils.datePath(),
                 FilenameUtils.getBaseName(file.getOriginalFilename()), Seq.getId(Seq.uploadSeqType), getExtension(file));
     }
 

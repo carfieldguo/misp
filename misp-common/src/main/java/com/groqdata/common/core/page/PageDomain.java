@@ -1,6 +1,8 @@
 package com.groqdata.common.core.page;
 
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import com.groqdata.common.utils.StringHelper;
 
 /**
  * 分页数据
@@ -30,7 +32,7 @@ public class PageDomain
         {
             return "";
         }
-        return StringUtils.toUnderScoreCase(orderByColumn) + " " + isAsc;
+        return StringHelper.toUnderScoreCase(orderByColumn) + " " + isAsc;
     }
 
     public Integer getPageNum()
@@ -87,7 +89,7 @@ public class PageDomain
 
     public Boolean getReasonable()
     {
-        if (StringUtils.isNull(reasonable))
+        if (StringHelper.isNull(reasonable))
         {
             return Boolean.TRUE;
         }

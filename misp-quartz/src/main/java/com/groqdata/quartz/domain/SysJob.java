@@ -10,7 +10,7 @@ import com.groqdata.common.annotation.Excel;
 import com.groqdata.common.annotation.Excel.ColumnType;
 import com.groqdata.common.constant.ScheduleConstants;
 import com.groqdata.common.core.domain.BaseEntity;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.groqdata.quartz.util.CronUtils;
 
 /**

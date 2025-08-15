@@ -1,6 +1,8 @@
 package com.groqdata.common.core.text;
 
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import com.groqdata.common.utils.StringHelper;
 
 /**
  * 字符串格式化
@@ -29,7 +31,7 @@ public class StrFormatter
      */
     public static String format(final String strPattern, final Object... argArray)
     {
-        if (StringUtils.isEmpty(strPattern) || StringUtils.isEmpty(argArray))
+        if (StringUtils.isEmpty(strPattern) || StringHelper.isEmpty(argArray))
         {
             return strPattern;
         }

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.constant.ScheduleConstants;
 import com.groqdata.common.utils.ExceptionUtil;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.groqdata.common.utils.bean.BeanUtils;
 import com.groqdata.common.utils.spring.SpringUtils;
 import com.groqdata.quartz.domain.SysJob;

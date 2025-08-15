@@ -2,7 +2,9 @@ package com.groqdata.web.controller.system;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -14,13 +16,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.groqdata.common.annotation.Log;
 import com.groqdata.common.core.controller.BaseController;
 import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.core.domain.entity.SysDictData;
 import com.groqdata.common.core.page.TableDataInfo;
 import com.groqdata.common.enums.BusinessType;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.poi.ExcelUtil;
 import com.groqdata.system.service.ISysDictDataService;
 import com.groqdata.system.service.ISysDictTypeService;
@@ -86,7 +89,7 @@ public class SysDictDataController extends BaseController
     public AjaxResult dictType(@PathVariable String dictType)
     {
         List<SysDictData> data = dictTypeService.selectDictDataByType(dictType);
-        if (StringUtils.isNull(data))
+        if (StringHelper.isNull(data))
         {
             data = new ArrayList<SysDictData>();
         }

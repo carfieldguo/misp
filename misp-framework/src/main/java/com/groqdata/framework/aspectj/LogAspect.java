@@ -2,9 +2,12 @@ package com.groqdata.framework.aspectj;
 
 import java.util.Collection;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -16,6 +19,7 @@ import org.springframework.core.NamedThreadLocal;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.alibaba.fastjson2.JSON;
 import com.groqdata.common.annotation.Log;
 import com.groqdata.common.core.domain.entity.SysUser;
@@ -25,7 +29,7 @@ import com.groqdata.common.enums.HttpMethod;
 import com.groqdata.common.filter.PropertyPreExcludeFilter;
 import com.groqdata.common.utils.SecurityUtils;
 import com.groqdata.common.utils.ServletUtils;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.ip.IpUtils;
 import com.groqdata.framework.manager.AsyncManager;
 import com.groqdata.framework.manager.factory.AsyncFactory;
@@ -98,7 +102,7 @@ public class LogAspect
             {
                 operLog.setOperName(loginUser.getUsername());
                 SysUser currentUser = loginUser.getUser();
-                if (StringUtils.isNotNull(currentUser) && StringUtils.isNotNull(currentUser.getDept()))
+                if (StringHelper.isNotNull(currentUser) && StringHelper.isNotNull(currentUser.getDept()))
                 {
                     operLog.setDeptName(currentUser.getDept().getDeptName());
                 }
@@ -156,7 +160,7 @@ public class LogAspect
             setRequestValue(joinPoint, operLog, log.excludeParamNames());
         }
         // 是否需要保存response，参数和值
-        if (log.isSaveResponseData() && StringUtils.isNotNull(jsonResult))
+        if (log.isSaveResponseData() && StringHelper.isNotNull(jsonResult))
         {
             operLog.setJsonResult(StringUtils.substring(JSON.toJSONString(jsonResult), 0, 2000));
         }
@@ -172,7 +176,7 @@ public class LogAspect
     {
         Map<?, ?> paramsMap = ServletUtils.getParamMap(ServletUtils.getRequest());
         String requestMethod = operLog.getRequestMethod();
-        if (StringUtils.isEmpty(paramsMap)
+        if (StringHelper.isEmpty(paramsMap)
                 && (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)))
         {
             String params = argsArrayToString(joinPoint.getArgs(), excludeParamNames);
@@ -194,7 +198,7 @@ public class LogAspect
         {
             for (Object o : paramsArray)
             {
-                if (StringUtils.isNotNull(o) && !isFilterObject(o))
+                if (StringHelper.isNotNull(o) && !isFilterObject(o))
                 {
                     try
                     {

@@ -1,20 +1,23 @@
 package com.groqdata.framework.security.handle;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+
 import com.alibaba.fastjson2.JSON;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.core.domain.model.LoginUser;
 import com.groqdata.common.utils.MessageUtils;
 import com.groqdata.common.utils.ServletUtils;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.framework.manager.AsyncManager;
 import com.groqdata.framework.manager.factory.AsyncFactory;
 import com.groqdata.framework.web.service.TokenService;
@@ -40,7 +43,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler
             throws IOException, ServletException
     {
         LoginUser loginUser = tokenService.getLoginUser(request);
-        if (StringUtils.isNotNull(loginUser))
+        if (StringHelper.isNotNull(loginUser))
         {
             String userName = loginUser.getUsername();
             // 删除用户缓存记录

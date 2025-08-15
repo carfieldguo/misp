@@ -1,6 +1,7 @@
 package com.groqdata.framework.aspectj;
 
 import java.util.Objects;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,8 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
 import com.groqdata.common.annotation.DataSource;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.framework.datasource.DynamicDataSourceContextHolder;
 
 /**
@@ -39,7 +41,7 @@ public class DataSourceAspect
     {
         DataSource dataSource = getDataSource(point);
 
-        if (StringUtils.isNotNull(dataSource))
+        if (StringHelper.isNotNull(dataSource))
         {
             DynamicDataSourceContextHolder.setDataSourceType(dataSource.value().name());
         }

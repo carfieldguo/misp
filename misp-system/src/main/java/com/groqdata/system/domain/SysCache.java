@@ -1,6 +1,6 @@
 package com.groqdata.system.domain;
 
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 缓存信息

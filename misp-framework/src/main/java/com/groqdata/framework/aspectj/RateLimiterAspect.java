@@ -3,6 +3,7 @@ package com.groqdata.framework.aspectj;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -13,10 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
+
 import com.groqdata.common.annotation.RateLimiter;
 import com.groqdata.common.enums.LimitType;
 import com.groqdata.common.exception.ServiceException;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.ip.IpUtils;
 
 /**
@@ -57,7 +59,7 @@ public class RateLimiterAspect
         try
         {
             Long number = redisTemplate.execute(limitScript, keys, count, time);
-            if (StringUtils.isNull(number) || number.intValue() > count)
+            if (StringHelper.isNull(number) || number.intValue() > count)
             {
                 throw new ServiceException("访问过于频繁，请稍候再试");
             }

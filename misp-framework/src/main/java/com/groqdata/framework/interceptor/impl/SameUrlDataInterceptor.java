@@ -12,7 +12,7 @@ import com.groqdata.common.annotation.RepeatSubmit;
 import com.groqdata.common.constant.CacheConstants;
 import com.groqdata.common.core.redis.RedisCache;
 import com.groqdata.common.filter.RepeatedlyRequestWrapper;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.groqdata.common.utils.http.HttpHelper;
 import com.groqdata.framework.interceptor.RepeatSubmitInterceptor;
 

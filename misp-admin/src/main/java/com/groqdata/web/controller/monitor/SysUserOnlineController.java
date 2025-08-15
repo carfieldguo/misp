@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.groqdata.common.annotation.Log;
 import com.groqdata.common.constant.CacheConstants;
 import com.groqdata.common.core.controller.BaseController;
@@ -19,7 +22,7 @@ import com.groqdata.common.core.domain.model.LoginUser;
 import com.groqdata.common.core.page.TableDataInfo;
 import com.groqdata.common.core.redis.RedisCache;
 import com.groqdata.common.enums.BusinessType;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.system.domain.SysUserOnline;
 import com.groqdata.system.service.ISysUserOnlineService;
 
@@ -65,7 +68,7 @@ public class SysUserOnlineController extends BaseController
             {
                 userOnlineList.add(userOnlineService.selectOnlineByIpaddr(ipaddr, user));
             }
-            else if (StringUtils.isNotEmpty(userName) && StringUtils.isNotNull(user.getUser()))
+            else if (StringUtils.isNotEmpty(userName) && StringHelper.isNotNull(user.getUser()))
             {
                 userOnlineList.add(userOnlineService.selectOnlineByUserName(userName, user));
             }

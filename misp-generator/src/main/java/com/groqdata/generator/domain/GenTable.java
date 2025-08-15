@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import org.apache.commons.lang3.ArrayUtils;
 import com.groqdata.common.constant.GenConstants;
 import com.groqdata.common.core.domain.BaseEntity;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 业务表 gen_table

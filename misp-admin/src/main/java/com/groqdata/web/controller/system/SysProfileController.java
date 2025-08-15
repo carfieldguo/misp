@@ -17,7 +17,7 @@ import com.groqdata.common.core.domain.entity.SysUser;
 import com.groqdata.common.core.domain.model.LoginUser;
 import com.groqdata.common.enums.BusinessType;
 import com.groqdata.common.utils.SecurityUtils;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.groqdata.common.utils.file.FileUploadUtils;
 import com.groqdata.common.utils.file.MimeTypeUtils;
 import com.groqdata.framework.web.service.TokenService;

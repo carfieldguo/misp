@@ -19,7 +19,7 @@ import com.groqdata.common.core.controller.BaseController;
 import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.core.domain.entity.SysDept;
 import com.groqdata.common.enums.BusinessType;
-import com.groqdata.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.groqdata.system.service.ISysDeptService;
 
 /**

@@ -1,5 +1,7 @@
 package com.groqdata.common.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * 脱敏工具类
  *
@@ -37,12 +39,12 @@ public class DesensitizedUtil
         // 普通车牌
         if (carLicense.length() == 7)
         {
-            carLicense = StringUtils.hide(carLicense, 3, 6);
+            carLicense = StringHelper.hide(carLicense, 3, 6);
         }
         else if (carLicense.length() == 8)
         {
             // 新能源车牌
-            carLicense = StringUtils.hide(carLicense, 3, 7);
+            carLicense = StringHelper.hide(carLicense, 3, 7);
         }
         return carLicense;
     }

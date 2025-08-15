@@ -1,7 +1,9 @@
 package com.groqdata.web.controller.system;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.groqdata.common.annotation.Log;
 import com.groqdata.common.core.controller.BaseController;
 import com.groqdata.common.core.domain.AjaxResult;
@@ -22,7 +25,7 @@ import com.groqdata.common.core.domain.entity.SysUser;
 import com.groqdata.common.core.domain.model.LoginUser;
 import com.groqdata.common.core.page.TableDataInfo;
 import com.groqdata.common.enums.BusinessType;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.common.utils.poi.ExcelUtil;
 import com.groqdata.framework.web.service.SysPermissionService;
 import com.groqdata.framework.web.service.TokenService;
@@ -155,7 +158,7 @@ public class SysRoleController extends BaseController
         {
             // 更新缓存用户权限
             LoginUser loginUser = getLoginUser();
-            if (StringUtils.isNotNull(loginUser.getUser()) && !loginUser.getUser().isAdmin())
+            if (StringHelper.isNotNull(loginUser.getUser()) && !loginUser.getUser().isAdmin())
             {
                 loginUser.setPermissions(permissionService.getMenuPermission(loginUser.getUser()));
                 loginUser.setUser(userService.selectUserByUserName(loginUser.getUser().getUserName()));

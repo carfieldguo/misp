@@ -1,6 +1,8 @@
 package com.groqdata.web.controller.system;
 
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -12,13 +14,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.groqdata.common.annotation.Log;
 import com.groqdata.common.constant.UserConstants;
 import com.groqdata.common.core.controller.BaseController;
 import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.core.domain.entity.SysMenu;
 import com.groqdata.common.enums.BusinessType;
-import com.groqdata.common.utils.StringUtils;
+import com.groqdata.common.utils.StringHelper;
 import com.groqdata.system.service.ISysMenuService;
 
 /**
@@ -94,7 +97,7 @@ public class SysMenuController extends BaseController
         {
             return error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
-        else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringUtils.ishttp(menu.getPath()))
+        else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringHelper.ishttp(menu.getPath()))
         {
             return error("新增菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
         }
@@ -114,7 +117,7 @@ public class SysMenuController extends BaseController
         {
             return error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
-        else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringUtils.ishttp(menu.getPath()))
+        else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringHelper.ishttp(menu.getPath()))
         {
             return error("修改菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
         }
