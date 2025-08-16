@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+
+import com.groqdata.common.utils.sign.Base64Utils;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +17,6 @@ import com.groqdata.common.constant.CacheConstants;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.core.redis.RedisCache;
-import com.groqdata.common.utils.sign.Base64;
 import com.groqdata.common.utils.uuid.IdUtils;
 import com.groqdata.system.service.ISysConfigService;
 
@@ -82,7 +83,7 @@ public class CaptchaController {
 		}
 
 		ajax.put("uuid", uuid);
-		ajax.put("img", Base64.encode(os.toByteArray()));
+		ajax.put("img", Base64Utils.encodeToString(os.toByteArray()));
 		return ajax;
 	}
 }

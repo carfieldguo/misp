@@ -2,53 +2,57 @@ package com.groqdata.common.utils.sign;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Md5加密方法
- * 
+ *
  * @author MISP TEAM
  */
 public class Md5Utils {
 	private static final Logger log = LoggerFactory.getLogger(Md5Utils.class);
 
-	private static byte[] md5(String s) {
-		MessageDigest algorithm;
-		try {
-			algorithm = MessageDigest.getInstance("MD5");
-			algorithm.reset();
-			algorithm.update(s.getBytes("UTF-8"));
-			byte[] messageDigest = algorithm.digest();
-			return messageDigest;
-		} catch (Exception e) {
-			log.error("MD5 Error...", e);
-		}
-		return null;
+	// 隐藏构造函数，防止实例化
+	private Md5Utils() {
+		throw new UnsupportedOperationException("工具类不允许实例化");
 	}
 
-	private static final String toHex(byte hash[]) {
-		if (hash == null) {
+	/**
+	 * MD5加密
+	 * @param text 待加密文本
+	 * @return 加密后的小写十六进制字符串
+	 */
+	public static String md5(String text) {
+		if (text == null) {
 			return null;
 		}
-		StringBuffer buf = new StringBuffer(hash.length * 2);
-		int i;
-
-		for (i = 0; i < hash.length; i++) {
-			if ((hash[i] & 0xff) < 0x10) {
-				buf.append("0");
-			}
-			buf.append(Long.toString(hash[i] & 0xff, 16));
-		}
-		return buf.toString();
+		return DigestUtils.md5Hex(text);
 	}
 
-	public static String hash(String s) {
-		try {
-			return new String(toHex(md5(s)).getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
-		} catch (Exception e) {
-			log.error("not supported charset...{}", e);
-			return s;
+	/**
+	 * MD5加密并返回大写结果
+	 * @param text 待加密文本
+	 * @return 加密后的大写十六进制字符串
+	 */
+	public static String md5UpperCase(String text) {
+		if (text == null) {
+			return null;
 		}
+		return DigestUtils.md5Hex(text).toUpperCase();
+	}
+
+	/**
+	 * MD5加密字节数组
+	 * @param bytes 待加密字节数组
+	 * @return 加密后的小写十六进制字符串
+	 */
+	public static String md5(byte[] bytes) {
+		if (bytes == null) {
+			return null;
+		}
+		return DigestUtils.md5Hex(bytes);
 	}
 }
