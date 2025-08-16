@@ -16,21 +16,19 @@ import org.slf4j.LoggerFactory;
 public class Threads {
 	private static final Logger logger = LoggerFactory.getLogger(Threads.class);
 
-
 	/**
 	 * sleep等待,单位为毫秒
 	 */
 	public static void sleep(long milliseconds) {
-	    try {
-	        Thread.sleep(milliseconds);
-	    } catch (InterruptedException e) {
-	        // 恢复中断状态，让上层代码能检测到中断
-	        Thread.currentThread().interrupt();
-	        // 可选：如果需要记录中断日志
-	        logger.error("Thread was interrupted during sleep", e);
-	    }
+		try {
+			Thread.sleep(milliseconds);
+		} catch (InterruptedException e) {
+			// 恢复中断状态，让上层代码能检测到中断
+			Thread.currentThread().interrupt();
+			// 可选：如果需要记录中断日志
+			logger.error("Thread was interrupted during sleep", e);
+		}
 	}
-
 
 	/**
 	 * 停止线程池

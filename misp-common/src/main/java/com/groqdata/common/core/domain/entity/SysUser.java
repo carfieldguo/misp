@@ -71,9 +71,9 @@ public class SysUser extends BaseEntity {
 
 	/** 部门对象 */
 	@Excels({
-			@Excel(name = "部门名称", targetAttr = "deptName"),
-			@Excel(name = "部门负责人", targetAttr = "leader"),
-			@Excel(name = "部门状态", targetAttr = "status", dictType = "sys_normal_disable")
+		@Excel(name = "部门名称", targetAttr = "deptName"),
+		@Excel(name = "部门负责人", targetAttr = "leader"),
+		@Excel(name = "部门状态", targetAttr = "status", dictType = "sys_normal_disable")
 	})
 	private SysDept dept;
 

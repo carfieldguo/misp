@@ -52,8 +52,8 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	@ApiOperation("查询企业信息列表")
 	@GetMapping("/list")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
-			@ApiImplicitParam(name = "pageSize", value = "每页条数", defaultValue = "10"),
+		@ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
+		@ApiImplicitParam(name = "pageSize", value = "每页条数", defaultValue = "10"),
 	})
 	public TableDataInfo list(ConsumerEnterpriseInfo consumerEnterpriseInfo) {
 		startPage();

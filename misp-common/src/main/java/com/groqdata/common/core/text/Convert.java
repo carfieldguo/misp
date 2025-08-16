@@ -2,7 +2,6 @@ package com.groqdata.common.core.text;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
@@ -815,5 +814,4 @@ public class Convert {
 		return returnString;
 	}
 
-	
 }
