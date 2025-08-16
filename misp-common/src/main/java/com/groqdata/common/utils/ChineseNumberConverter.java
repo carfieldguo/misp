@@ -25,7 +25,7 @@ public class ChineseNumberConverter {
      */
     public static String digitUppercase(double number) {
         // 转换为BigDecimal处理，避免double精度问题
-        BigDecimal amount = new BigDecimal(number).abs();
+        BigDecimal amount = BigDecimal.valueOf(number).abs();
         // 处理负数标记
         String negativeSign = number < 0 ? "负" : "";
 
