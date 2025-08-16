@@ -87,10 +87,10 @@ public class DataScopeAspect {
 			if (StringHelper.isNotNull(currentUser) && !currentUser.isAdmin()) {
 				// 获取权限字符串，如果注解中未指定则从权限上下文中获取
 				String permission = StringUtils.defaultIfEmpty(controllerDataScope.permission(),
-						PermissionContextHolder.getContext());
+					PermissionContextHolder.getContext());
 				// 执行数据权限过滤
 				dataScopeFilter(joinPoint, currentUser, controllerDataScope.deptAlias(),
-						controllerDataScope.userAlias(), permission);
+					controllerDataScope.userAlias(), permission);
 			}
 		}
 	}
@@ -106,7 +106,7 @@ public class DataScopeAspect {
 	 * @param permission 权限字符
 	 */
 	public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String deptAlias, String userAlias,
-									   String permission) {
+		String permission) {
 		StringBuilder sqlString = new StringBuilder();
 		List<String> conditions = new ArrayList<>();
 		List<String> scopeCustomIds = new ArrayList<>();
@@ -179,7 +179,7 @@ public class DataScopeAspect {
 	 * @param conditions 已处理的权限类型列表，避免重复处理
 	 */
 	private static void buildSqlConditions(List<SysRole> roles, SysUser user, String deptAlias, String userAlias,
-										   List<String> scopeCustomIds, StringBuilder sqlString, List<String> conditions) {
+		List<String> scopeCustomIds, StringBuilder sqlString, List<String> conditions) {
 		for (SysRole role : roles) {
 			String dataScope = role.getDataScope();
 			// 如果该权限类型已处理过，则跳过
@@ -191,28 +191,28 @@ public class DataScopeAspect {
 
 			// 根据不同的数据权限类型构建相应的SQL条件
 			switch (dataScope) {
-				case DATA_SCOPE_ALL:
+				case DATA_SCOPE_ALL :
 					sqlString.setLength(0); // 清空之前条件
 					return; // 全部数据权限，无需继续构建条件
-				case DATA_SCOPE_CUSTOM:
+				case DATA_SCOPE_CUSTOM :
 					appendCustomCondition(sqlString, deptAlias, scopeCustomIds, role);
 					break;
-				case DATA_SCOPE_DEPT:
+				case DATA_SCOPE_DEPT :
 					sqlString.append(StringHelper.format(" OR {}.dept_id = {} ", deptAlias, user.getDeptId()));
 					break;
-				case DATA_SCOPE_DEPT_AND_CHILD:
+				case DATA_SCOPE_DEPT_AND_CHILD :
 					sqlString.append(StringHelper.format(
-							" OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )",
-							deptAlias, user.getDeptId(), user.getDeptId()));
+						" OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )",
+						deptAlias, user.getDeptId(), user.getDeptId()));
 					break;
-				case DATA_SCOPE_SELF:
+				case DATA_SCOPE_SELF :
 					if (StringUtils.isNotBlank(userAlias)) {
 						sqlString.append(StringHelper.format(" OR {}.user_id = {} ", userAlias, user.getUserId()));
 					} else {
 						sqlString.append(StringHelper.format(" OR {}.dept_id = 0 ", deptAlias));
 					}
 					break;
-				default:
+				default :
 					// 未知权限类型忽略
 					break;
 			}
@@ -227,15 +227,16 @@ public class DataScopeAspect {
 	 * @param scopeCustomIds 自定义权限的角色ID列表
 	 * @param role 当前处理的角色
 	 */
-	private static void appendCustomCondition(StringBuilder sqlString, String deptAlias, List<String> scopeCustomIds, SysRole role) {
+	private static void appendCustomCondition(StringBuilder sqlString, String deptAlias, List<String> scopeCustomIds,
+		SysRole role) {
 		if (scopeCustomIds.size() > 1) {
 			sqlString.append(StringHelper.format(
-					" OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id in ({}) ) ",
-					deptAlias, String.join(",", scopeCustomIds)));
+				" OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id in ({}) ) ",
+				deptAlias, String.join(",", scopeCustomIds)));
 		} else {
 			sqlString.append(StringHelper.format(
-					" OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ",
-					deptAlias, role.getRoleId()));
+				" OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ",
+				deptAlias, role.getRoleId()));
 		}
 	}
 

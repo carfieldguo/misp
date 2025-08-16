@@ -57,8 +57,6 @@ public class LogAspect {
 	 */
 	private static final int STRING_LENGTH_THRESHOLD = 256;
 
-
-
 	/**
 	 * 处理请求前执行
 	 */
@@ -195,7 +193,6 @@ public class LogAspect {
 		return params.toString().trim();
 	}
 
-
 	/**
 	 * 忽略敏感属性
 	 */
@@ -252,9 +249,9 @@ public class LogAspect {
 	 */
 	private boolean isBaseSensitiveType(Object obj) {
 		return obj instanceof MultipartFile
-				|| obj instanceof HttpServletRequest
-				|| obj instanceof HttpServletResponse
-				|| obj instanceof BindingResult;
+			|| obj instanceof HttpServletRequest
+			|| obj instanceof HttpServletResponse
+			|| obj instanceof BindingResult;
 	}
 
 	/**
