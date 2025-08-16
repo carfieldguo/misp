@@ -62,7 +62,6 @@ public class FileUtils {
 		}
 	}
 
-
 	/**
 	 * 写数据到文件中
 	 *
@@ -146,7 +145,7 @@ public class FileUtils {
 	 * @param fileName 文件名
 	 * @return 编码后的文件名
 	 */
-	public static String setFileDownloadHeader(HttpServletRequest request, String fileName){
+	public static String setFileDownloadHeader(HttpServletRequest request, String fileName) {
 		final String agent = request.getHeader("USER-AGENT");
 		String filename = fileName;
 		if (agent.contains("MSIE")) {
@@ -172,7 +171,7 @@ public class FileUtils {
 	 * @param response 响应对象
 	 * @param realFileName 真实文件名
 	 */
-	public static void setAttachmentResponseHeader(HttpServletResponse response, String realFileName){
+	public static void setAttachmentResponseHeader(HttpServletResponse response, String realFileName) {
 		String percentEncodedFileName = percentEncode(realFileName);
 
 		StringBuilder contentDispositionValue = new StringBuilder();

@@ -201,7 +201,8 @@ public class CommonController {
 		String fileName = FileUploadUtils.upload(filePath, file);
 		String url = serverConfig.getUrl() + fileName;
 
-		Map<String, String> fileInfo = HashMap.newHashMap(4);		fileInfo.put("url", url);
+		Map<String, String> fileInfo = HashMap.newHashMap(4);
+		fileInfo.put("url", url);
 		fileInfo.put("fileName", fileName);
 		fileInfo.put("newFileName", FileUtils.getName(fileName));
 		fileInfo.put("originalFilename", file.getOriginalFilename());

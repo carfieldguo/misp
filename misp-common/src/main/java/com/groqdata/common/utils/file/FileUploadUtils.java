@@ -140,7 +140,7 @@ public class FileUploadUtils {
 
 			log.info("文件上传成功: {}", filePath);
 			return filePath;
-		}  catch (InvalidExtensionException | FileSizeLimitExceededException | FileNameLengthLimitExceededException e) {
+		} catch (InvalidExtensionException | FileSizeLimitExceededException | FileNameLengthLimitExceededException e) {
 			// 捕捉已知的自定义校验异常，无需标记为"未知"，直接传递原始信息
 			log.error("文件校验失败，文件名：{}，原因：{}", file.getOriginalFilename(), e.getMessage(), e);
 			throw new FileUploadException("文件上传失败：" + e.getMessage(), e); // 携带原始异常作为cause
