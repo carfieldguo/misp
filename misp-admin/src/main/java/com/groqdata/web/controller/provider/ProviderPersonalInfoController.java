@@ -61,7 +61,7 @@ public class ProviderPersonalInfoController extends BaseController {
 	public TableDataInfo list(ProviderPersonalInfo providerPersonalInfo) {
 		startPage();
 		List<ProviderPersonalInfo> list = providerPersonalInfoService
-			.selectProviderPersonalInfoList(providerPersonalInfo);
+				.selectProviderPersonalInfoList(providerPersonalInfo);
 		return getDataTable(list);
 	}
 
@@ -74,7 +74,7 @@ public class ProviderPersonalInfoController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, ProviderPersonalInfo providerPersonalInfo) {
 		List<ProviderPersonalInfo> list = providerPersonalInfoService
-			.selectProviderPersonalInfoList(providerPersonalInfo);
+				.selectProviderPersonalInfoList(providerPersonalInfo);
 		ExcelUtil<ProviderPersonalInfo> util = new ExcelUtil<ProviderPersonalInfo>(ProviderPersonalInfo.class);
 		util.exportExcel(response, list, "个人信息数据");
 	}

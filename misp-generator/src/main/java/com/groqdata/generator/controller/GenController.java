@@ -135,7 +135,7 @@ public class GenController extends BaseController {
 				}
 			}
 			List<GenTable> tableList = genTableService
-				.selectDbTableListByNames(tableNames.toArray(new String[tableNames.size()]));
+					.selectDbTableListByNames(tableNames.toArray(new String[tableNames.size()]));
 			String operName = SecurityUtils.getUsername();
 			genTableService.importGenTable(tableList, operName);
 			return AjaxResult.success();

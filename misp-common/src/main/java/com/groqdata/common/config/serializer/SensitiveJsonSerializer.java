@@ -32,7 +32,7 @@ public class SensitiveJsonSerializer extends JsonSerializer<String> implements C
 
 	@Override
 	public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property)
-		throws JsonMappingException {
+			throws JsonMappingException {
 		Sensitive annotation = property.getAnnotation(Sensitive.class);
 		if (Objects.nonNull(annotation) && Objects.equals(String.class, property.getType().getRawClass())) {
 			this.desensitizedType = annotation.desensitizedType();

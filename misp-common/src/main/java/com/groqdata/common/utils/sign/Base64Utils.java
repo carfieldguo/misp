@@ -143,7 +143,7 @@ public final class Base64Utils {
 	public static String encodeFile(File file) throws IOException {
 		validateFile(file);
 		try (InputStream inputStream = new FileInputStream(file);
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
 
 			byte[] buffer = new byte[4096];
 			int bytesRead;

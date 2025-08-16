@@ -170,7 +170,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 			router.setComponent(getComponent(menu));
 			router.setQuery(menu.getQuery());
 			router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()),
-				menu.getPath()));
+					menu.getPath()));
 			List<SysMenu> cMenus = menu.getChildren();
 			if (StringHelper.isNotEmpty(cMenus) && UserConstants.TYPE_DIR.equals(menu.getMenuType())) {
 				router.setAlwaysShow(true);
@@ -184,7 +184,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 				children.setComponent(menu.getComponent());
 				children.setName(getRouteName(menu.getRouteName(), menu.getPath()));
 				children.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(),
-					StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
+						StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
 				children.setQuery(menu.getQuery());
 				childrenList.add(children);
 				router.setChildren(childrenList);
@@ -397,7 +397,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 		}
 		// 非外链并且是一级目录（类型为目录）
 		if (0 == menu.getParentId().intValue() && UserConstants.TYPE_DIR.equals(menu.getMenuType())
-			&& UserConstants.NO_FRAME.equals(menu.getIsFrame())) {
+				&& UserConstants.NO_FRAME.equals(menu.getIsFrame())) {
 			routerPath = "/" + menu.getPath();
 		}
 		// 非外链并且是一级目录（类型为菜单）
@@ -418,7 +418,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 		if (StringUtils.isNotEmpty(menu.getComponent()) && !isMenuFrame(menu)) {
 			component = menu.getComponent();
 		} else if (StringUtils.isEmpty(menu.getComponent()) && menu.getParentId().intValue() != 0
-			&& isInnerLink(menu)) {
+				&& isInnerLink(menu)) {
 			component = UserConstants.INNER_LINK;
 		} else if (StringUtils.isEmpty(menu.getComponent()) && isParentView(menu)) {
 			component = UserConstants.PARENT_VIEW;
@@ -434,7 +434,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	 */
 	public boolean isMenuFrame(SysMenu menu) {
 		return menu.getParentId().intValue() == 0 && UserConstants.TYPE_MENU.equals(menu.getMenuType())
-			&& menu.getIsFrame().equals(UserConstants.NO_FRAME);
+				&& menu.getIsFrame().equals(UserConstants.NO_FRAME);
 	}
 
 	/**
@@ -523,6 +523,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	 */
 	public String innerLinkReplaceEach(String path) {
 		return StringUtils.replaceEach(path, new String[]{Constants.HTTP, Constants.HTTPS, Constants.WWW, ".", ":" },
-			new String[]{"", "", "", "/", "/" });
+				new String[]{"", "", "", "/", "/" });
 	}
 }

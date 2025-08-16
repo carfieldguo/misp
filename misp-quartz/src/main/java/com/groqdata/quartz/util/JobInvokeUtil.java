@@ -45,8 +45,8 @@ public class JobInvokeUtil {
 	 * @param methodParams 方法参数
 	 */
 	private static void invokeMethod(Object bean, String methodName, List<Object[]> methodParams)
-		throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
-		InvocationTargetException {
+			throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException {
 		if (StringHelper.isNotNull(methodParams) && methodParams.size() > 0) {
 			Method method = bean.getClass().getMethod(methodName, getMethodParamsType(methodParams));
 			method.invoke(bean, getMethodParamsValue(methodParams));
@@ -118,7 +118,8 @@ public class JobInvokeUtil {
 			// double浮点类型，以D结尾
 			else if (StringUtils.endsWith(str, "D")) {
 				classs
-					.add(new Object[]{Double.valueOf(StringUtils.substring(str, 0, str.length() - 1)), Double.class });
+						.add(new Object[]{Double.valueOf(StringUtils.substring(str, 0, str.length() - 1)),
+							Double.class });
 			}
 			// 其他类型归类为整形
 			else {

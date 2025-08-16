@@ -127,7 +127,7 @@ public class RateLimitException extends RuntimeException {
 	@Override
 	public void printStackTrace(PrintStream s) {
 		s.println("RateLimitException: 限流阈值=" + limit + "次/" + timeUnit
-			+ ", 建议重试时间=" + (retryAfterSeconds > 0 ? retryAfterSeconds + "秒" : "未指定"));
+				+ ", 建议重试时间=" + (retryAfterSeconds > 0 ? retryAfterSeconds + "秒" : "未指定"));
 		super.printStackTrace(s);
 		if (cause != null) {
 			s.println("Caused by:");
@@ -141,7 +141,7 @@ public class RateLimitException extends RuntimeException {
 	@Override
 	public void printStackTrace(PrintWriter s) {
 		s.println("RateLimitException: 限流阈值=" + limit + "次/" + timeUnit
-			+ ", 建议重试时间=" + (retryAfterSeconds > 0 ? retryAfterSeconds + "秒" : "未指定"));
+				+ ", 建议重试时间=" + (retryAfterSeconds > 0 ? retryAfterSeconds + "秒" : "未指定"));
 		super.printStackTrace(s);
 		if (cause != null) {
 			s.println("Caused by:");

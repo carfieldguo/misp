@@ -45,12 +45,12 @@ public class GenUtils {
 		column.setQueryType(GenConstants.QUERY_EQ);
 
 		if (arraysContains(GenConstants.COLUMNTYPE_STR, dataType)
-			|| arraysContains(GenConstants.COLUMNTYPE_TEXT, dataType)) {
+				|| arraysContains(GenConstants.COLUMNTYPE_TEXT, dataType)) {
 			// 字符串长度超过500设置为文本域
 			Integer columnLength = getColumnLength(column.getColumnType());
 			String htmlType = columnLength >= 500 || arraysContains(GenConstants.COLUMNTYPE_TEXT, dataType)
-				? GenConstants.HTML_TEXTAREA
-				: GenConstants.HTML_INPUT;
+					? GenConstants.HTML_TEXTAREA
+					: GenConstants.HTML_INPUT;
 			column.setHtmlType(htmlType);
 		} else if (arraysContains(GenConstants.COLUMNTYPE_TIME, dataType)) {
 			column.setJavaType(GenConstants.TYPE_DATE);
@@ -102,7 +102,7 @@ public class GenUtils {
 		}
 		// 类型&性别字段设置下拉框
 		else if (StringUtils.endsWithIgnoreCase(columnName, "type")
-			|| StringUtils.endsWithIgnoreCase(columnName, "sex")) {
+				|| StringUtils.endsWithIgnoreCase(columnName, "sex")) {
 			column.setHtmlType(GenConstants.HTML_SELECT);
 		}
 		// 图片字段设置图片上传控件

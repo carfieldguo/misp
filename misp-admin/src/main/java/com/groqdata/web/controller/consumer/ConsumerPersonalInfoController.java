@@ -61,7 +61,7 @@ public class ConsumerPersonalInfoController extends BaseController {
 	public TableDataInfo list(ConsumerPersonalInfo consumerPersonalInfo) {
 		startPage();
 		List<ConsumerPersonalInfo> list = consumerPersonalInfoService
-			.selectConsumerPersonalInfoList(consumerPersonalInfo);
+				.selectConsumerPersonalInfoList(consumerPersonalInfo);
 		return getDataTable(list);
 	}
 
@@ -74,7 +74,7 @@ public class ConsumerPersonalInfoController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, ConsumerPersonalInfo consumerPersonalInfo) {
 		List<ConsumerPersonalInfo> list = consumerPersonalInfoService
-			.selectConsumerPersonalInfoList(consumerPersonalInfo);
+				.selectConsumerPersonalInfoList(consumerPersonalInfo);
 		ExcelUtil<ConsumerPersonalInfo> util = new ExcelUtil<ConsumerPersonalInfo>(ConsumerPersonalInfo.class);
 		util.exportExcel(response, list, "个人信息数据");
 	}

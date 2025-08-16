@@ -61,7 +61,7 @@ public class ProviderEnterpriseInfoController extends BaseController {
 	public TableDataInfo list(ProviderEnterpriseInfo providerEnterpriseInfo) {
 		startPage();
 		List<ProviderEnterpriseInfo> list = providerEnterpriseInfoService
-			.selectProviderEnterpriseInfoList(providerEnterpriseInfo);
+				.selectProviderEnterpriseInfoList(providerEnterpriseInfo);
 		return getDataTable(list);
 	}
 
@@ -74,7 +74,7 @@ public class ProviderEnterpriseInfoController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, ProviderEnterpriseInfo providerEnterpriseInfo) {
 		List<ProviderEnterpriseInfo> list = providerEnterpriseInfoService
-			.selectProviderEnterpriseInfoList(providerEnterpriseInfo);
+				.selectProviderEnterpriseInfoList(providerEnterpriseInfo);
 		ExcelUtil<ProviderEnterpriseInfo> util = new ExcelUtil<ProviderEnterpriseInfo>(ProviderEnterpriseInfo.class);
 		util.exportExcel(response, list, "企业信息数据");
 	}
@@ -134,7 +134,7 @@ public class ProviderEnterpriseInfoController extends BaseController {
 	@PutMapping("/audit-pass/{id}")
 	public AjaxResult auditPass(@PathVariable("id") Long id) {
 		ProviderEnterpriseInfo providerEnterpriseInfo = providerEnterpriseInfoService
-			.selectProviderEnterpriseInfoById(id);
+				.selectProviderEnterpriseInfoById(id);
 		providerEnterpriseInfo.setUpdateBy(getUsername());
 		providerEnterpriseInfo.setAuditStatus(AuditStatus.APPROVED.getCode());
 		return toAjax(providerEnterpriseInfoService.updateProviderEnterpriseInfo(providerEnterpriseInfo));
@@ -149,7 +149,7 @@ public class ProviderEnterpriseInfoController extends BaseController {
 	@PutMapping("/audit-reject/{id}")
 	public AjaxResult auditReject(@PathVariable("id") Long id) {
 		ProviderEnterpriseInfo providerEnterpriseInfo = providerEnterpriseInfoService
-			.selectProviderEnterpriseInfoById(id);
+				.selectProviderEnterpriseInfoById(id);
 		providerEnterpriseInfo.setUpdateBy(getUsername());
 		providerEnterpriseInfo.setAuditStatus(AuditStatus.REJECTED.getCode());
 		return toAjax(providerEnterpriseInfoService.updateProviderEnterpriseInfo(providerEnterpriseInfo));

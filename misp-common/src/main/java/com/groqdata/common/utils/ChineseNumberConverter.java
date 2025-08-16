@@ -32,7 +32,7 @@ public class ChineseNumberConverter {
 		// 拆分整数部分和小数部分（精确到分）
 		BigDecimal integerPart = amount.setScale(0, RoundingMode.DOWN);
 		BigDecimal fractionPart = amount.subtract(integerPart).multiply(new BigDecimal("100"))
-			.setScale(0, RoundingMode.HALF_UP);
+				.setScale(0, RoundingMode.HALF_UP);
 
 		// 构建结果
 		StringBuilder result = new StringBuilder(negativeSign);
@@ -127,24 +127,24 @@ public class ChineseNumberConverter {
 			// 纯小数且没有整数部分时补"零元"
 			if (original.startsWith("负")) {
 				return original.replace("负", "负零元")
-					.replaceAll("零+", "零") // 合并连续零
-					.replace("零整", "整"); // 特殊情况处理
+						.replaceAll("零+", "零") // 合并连续零
+						.replace("零整", "整"); // 特殊情况处理
 			} else {
 				return "零元" + original
-					.replaceAll("零+", "零")
-					.replace("零整", "整");
+						.replaceAll("零+", "零")
+						.replace("零整", "整");
 			}
 		}
 
 		// 合并连续零
 		return original.replaceAll("零+", "零")
-			// 处理单位前的零
-			.replace("零元", "元")
-			.replace("零万", "万")
-			.replace("零亿", "亿")
-			// 处理末尾零
-			.replaceAll("零$", "")
-			// 处理只有零的情况
-			.replaceAll("^负?零元整$", "零元整");
+				// 处理单位前的零
+				.replace("零元", "元")
+				.replace("零万", "万")
+				.replace("零亿", "亿")
+				// 处理末尾零
+				.replaceAll("零$", "")
+				// 处理只有零的情况
+				.replaceAll("^负?零元整$", "零元整");
 	}
 }

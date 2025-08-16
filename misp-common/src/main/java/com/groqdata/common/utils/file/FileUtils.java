@@ -176,11 +176,11 @@ public class FileUtils {
 
 		StringBuilder contentDispositionValue = new StringBuilder();
 		contentDispositionValue.append("attachment; filename=")
-			.append(percentEncodedFileName)
-			.append(";")
-			.append("filename*=")
-			.append("utf-8''")
-			.append(percentEncodedFileName);
+				.append(percentEncodedFileName)
+				.append(";")
+				.append("filename*=")
+				.append("utf-8''")
+				.append(percentEncodedFileName);
 
 		response.addHeader("Access-Control-Expose-Headers", "Content-Disposition,download-filename");
 		response.setHeader("Content-disposition", contentDispositionValue.toString());
@@ -207,7 +207,7 @@ public class FileUtils {
 	public static String getFileExtendName(byte[] photoByte) {
 		String strFileExtendName = "jpg";
 		if ((photoByte[0] == 71) && (photoByte[1] == 73) && (photoByte[2] == 70) && (photoByte[3] == 56)
-			&& ((photoByte[4] == 55) || (photoByte[4] == 57)) && (photoByte[5] == 97)) {
+				&& ((photoByte[4] == 55) || (photoByte[4] == 57)) && (photoByte[5] == 97)) {
 			strFileExtendName = "gif";
 		} else if ((photoByte[6] == 74) && (photoByte[7] == 70) && (photoByte[8] == 73) && (photoByte[9] == 70)) {
 			strFileExtendName = "jpg";

@@ -153,19 +153,19 @@ public class ConsumerAppInfo extends BaseEntity {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-			.append("id", getId())
-			.append("appId", getAppId())
-			.append("appName", getAppName())
-			.append("appDesc", getAppDesc())
-			.append("appSecret", getAppSecret())
-			.append("consumerAccount", getConsumerAccount())
-			.append("whiteIps", getWhiteIps())
-			.append("appStatus", getAppStatus())
-			.append("recordStatus", getRecordStatus())
-			.append("createTime", getCreateTime())
-			.append("createBy", getCreateBy())
-			.append("updateTime", getUpdateTime())
-			.append("updateBy", getUpdateBy())
-			.toString();
+				.append("id", getId())
+				.append("appId", getAppId())
+				.append("appName", getAppName())
+				.append("appDesc", getAppDesc())
+				.append("appSecret", getAppSecret())
+				.append("consumerAccount", getConsumerAccount())
+				.append("whiteIps", getWhiteIps())
+				.append("appStatus", getAppStatus())
+				.append("recordStatus", getRecordStatus())
+				.append("createTime", getCreateTime())
+				.append("createBy", getCreateBy())
+				.append("updateTime", getUpdateTime())
+				.append("updateBy", getUpdateBy())
+				.toString();
 	}
 }

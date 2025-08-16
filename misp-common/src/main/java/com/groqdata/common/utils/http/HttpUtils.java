@@ -84,7 +84,7 @@ public class HttpUtils {
 			connection.connect();
 
 			try (BufferedReader in = new BufferedReader(
-				new InputStreamReader(connection.getInputStream(), contentType))) {
+					new InputStreamReader(connection.getInputStream(), contentType))) {
 				String line;
 				while ((line = in.readLine()) != null) {
 					result.append(line);
@@ -124,7 +124,7 @@ public class HttpUtils {
 			}
 
 			try (BufferedReader in = new BufferedReader(
-				new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+					new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
 				String line;
 				while ((line = in.readLine()) != null) {
 					result.append(line);
@@ -164,7 +164,7 @@ public class HttpUtils {
 			conn.connect();
 
 			try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+					new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
 				String line;
 				while ((line = br.readLine()) != null) {
 					if (StringUtils.isNotBlank(line)) {
@@ -193,7 +193,7 @@ public class HttpUtils {
 
 	private static void logHttpError(String method, String url, String param, Exception e) {
 		String errorMsg = String.format("Error in HTTP %s request - URL: %s, Parameters: %s",
-			method, url, param);
+				method, url, param);
 		if (e instanceof ConnectException || e instanceof SocketTimeoutException) {
 			log.error("{} - Connection error", errorMsg, e);
 		} else if (e instanceof IOException) {
@@ -204,7 +204,7 @@ public class HttpUtils {
 	}
 
 	private static SSLContext createSSLContext()
-		throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+			throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
 		SSLContext sslContext = SSLContext.getInstance("TLSv1.3"); // 使用现代TLS协议
 		// 初始化SSL上下文时使用系统默认的信任管理器
 		sslContext.init(null, getSystemTrustManagers(), new SecureRandom());
@@ -222,7 +222,7 @@ public class HttpUtils {
 	private static TrustManager[] getSystemTrustManagers() throws NoSuchAlgorithmException, KeyStoreException {
 		// 使用默认算法获取信任管理器工厂
 		TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
-			TrustManagerFactory.getDefaultAlgorithm());
+				TrustManagerFactory.getDefaultAlgorithm());
 		// 初始化工厂，使用系统默认的信任存储
 		trustManagerFactory.init((KeyStore) null);
 		return trustManagerFactory.getTrustManagers();

@@ -56,7 +56,7 @@ public class CommonController {
 	 */
 	@GetMapping("/download")
 	public void fileDownload(String fileName, Boolean delete, HttpServletResponse response,
-		HttpServletRequest request) {
+			HttpServletRequest request) {
 		// 参数校验
 		if (StringUtils.isBlank(fileName)) {
 			handleDownloadError(response, "文件名不能为空");
@@ -143,10 +143,10 @@ public class CommonController {
 			}
 
 			return AjaxResult.success()
-				.put("urls", StringUtils.join(urls, FILE_DELIMITER))
-				.put("fileNames", StringUtils.join(fileNames, FILE_DELIMITER))
-				.put("newFileNames", StringUtils.join(newFileNames, FILE_DELIMITER))
-				.put("originalFilenames", StringUtils.join(originalFilenames, FILE_DELIMITER));
+					.put("urls", StringUtils.join(urls, FILE_DELIMITER))
+					.put("fileNames", StringUtils.join(fileNames, FILE_DELIMITER))
+					.put("newFileNames", StringUtils.join(newFileNames, FILE_DELIMITER))
+					.put("originalFilenames", StringUtils.join(originalFilenames, FILE_DELIMITER));
 		} catch (FileUploadException e) {
 			log.error("多个文件上传失败", e);
 			return AjaxResult.error("上传失败：" + e.getMessage());
@@ -218,7 +218,7 @@ public class CommonController {
 	 * @throws FileDownloadException 写入过程中的异常
 	 */
 	private void writeFileToResponse(HttpServletResponse response, String filePath, String displayName)
-		throws FileDownloadException {
+			throws FileDownloadException {
 		try {
 			response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
 			FileUtils.setAttachmentResponseHeader(response, displayName);

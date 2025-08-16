@@ -39,7 +39,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	 */
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-		throws IOException, ServletException {
+			throws IOException, ServletException {
 		LoginUser loginUser = tokenService.getLoginUser(request);
 		if (StringHelper.isNotNull(loginUser)) {
 			String userName = loginUser.getUsername();
@@ -47,9 +47,10 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 			tokenService.delLoginUser(loginUser.getToken());
 			// 记录用户退出日志
 			AsyncManager.me().execute(
-				AsyncFactory.recordLogininfor(userName, Constants.LOGOUT, MessageUtils.message("user.logout.success")));
+					AsyncFactory.recordLogininfor(userName, Constants.LOGOUT,
+							MessageUtils.message("user.logout.success")));
 		}
 		ServletUtils.renderString(response,
-			JSON.toJSONString(AjaxResult.success(MessageUtils.message("user.logout.success"))));
+				JSON.toJSONString(AjaxResult.success(MessageUtils.message("user.logout.success"))));
 	}
 }

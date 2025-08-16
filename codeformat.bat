@@ -1,2 +1,0 @@
-mvn spotless:check
-pause;

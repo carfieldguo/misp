@@ -109,7 +109,7 @@ public class FileUploadUtils {
 	 * @throws FileUploadException 文件上传异常
 	 */
 	public static String upload(String baseDir, MultipartFile file, String[] allowedExtension)
-		throws FileUploadException {
+			throws FileUploadException {
 		// 参数校验
 		validateUploadParameters(baseDir, file);
 
@@ -189,7 +189,7 @@ public class FileUploadUtils {
 	 * 文件扩展名校验
 	 */
 	private static void assertAllowed(MultipartFile file, String[] allowedExtension)
-		throws InvalidExtensionException {
+			throws InvalidExtensionException {
 		String fileName = file.getOriginalFilename();
 		if (StringUtils.isEmpty(fileName)) {
 			throw new InvalidExtensionException("文件名不能为空");
@@ -197,7 +197,7 @@ public class FileUploadUtils {
 
 		// 检查文件名是否包含路径遍历字符
 		if (StringUtils.contains(fileName, "..") || StringUtils.contains(fileName, "/")
-			|| StringUtils.contains(fileName, "\\")) {
+				|| StringUtils.contains(fileName, "\\")) {
 			throw new InvalidExtensionException("文件名不合法，不能包含路径字符");
 		}
 
@@ -210,7 +210,7 @@ public class FileUploadUtils {
 
 		// 检查是否在允许列表中
 		if (allowedExtension != null && allowedExtension.length > 0
-			&& !isInExtensionArray(extension, allowedExtension)) {
+				&& !isInExtensionArray(extension, allowedExtension)) {
 			throw new InvalidExtensionException("不支持的文件类型: " + extension);
 		}
 	}

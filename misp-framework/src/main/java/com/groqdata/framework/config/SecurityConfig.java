@@ -56,8 +56,8 @@ public class SecurityConfig {
 	private final PermitAllUrlProperties permitAllUrl;
 
 	public SecurityConfig(AuthenticationEntryPointImpl unauthorizedHandler,
-		LogoutSuccessHandlerImpl logoutSuccessHandler, JwtAuthenticationTokenFilter authenticationTokenFilter,
-		CorsFilter corsFilter, PermitAllUrlProperties permitAllUrl) {
+			LogoutSuccessHandlerImpl logoutSuccessHandler, JwtAuthenticationTokenFilter authenticationTokenFilter,
+			CorsFilter corsFilter, PermitAllUrlProperties permitAllUrl) {
 		this.unauthorizedHandler = unauthorizedHandler;
 		this.logoutSuccessHandler = logoutSuccessHandler;
 		this.authenticationTokenFilter = authenticationTokenFilter;
@@ -94,35 +94,38 @@ public class SecurityConfig {
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 		return httpSecurity
-			// CSRF禁用，因为本系统采用无状态JWT认证，不依赖Session和Cookie
-			.csrf(AbstractHttpConfigurer::disable)
-			// 禁用HTTP响应标头
-			.headers(headersCustomizer -> headersCustomizer.cacheControl(HeadersConfigurer.CacheControlConfig::disable)
-				.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)) // 认证失败处理类
-			.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-			// 基于token，所以不需要session
-			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-			// 注解标记允许匿名访问的url
-			.authorizeHttpRequests(requests -> {
-				permitAllUrl.getUrls().forEach(url -> requests.antMatchers(url).permitAll());
-				// 对于登录login 注册register 验证码captchaImage 允许匿名访问
-				requests.antMatchers("/login", "/register", "/captchaImage").permitAll()
-					// 静态资源，可匿名访问
-					.antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**")
-					.permitAll()
-					.antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**")
-					.permitAll()
-					// 除上面外的所有请求全部需要鉴权认证
-					.anyRequest().authenticated();
-			})
-			// 添加Logout filter
-			.logout(logout -> logout.logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler))
-			// 添加JWT filter
-			.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
-			// 添加CORS filter
-			.addFilterBefore(corsFilter, JwtAuthenticationTokenFilter.class)
-			.addFilterBefore(corsFilter, LogoutFilter.class)
-			.build();
+				// CSRF禁用，因为本系统采用无状态JWT认证，不依赖Session和Cookie
+				.csrf(AbstractHttpConfigurer::disable)
+				// 禁用HTTP响应标头
+				.headers(headersCustomizer -> headersCustomizer
+						.cacheControl(HeadersConfigurer.CacheControlConfig::disable)
+						.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)) // 认证失败处理类
+				.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+				// 基于token，所以不需要session
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				// 注解标记允许匿名访问的url
+				.authorizeHttpRequests(requests -> {
+					permitAllUrl.getUrls().forEach(url -> requests.antMatchers(url).permitAll());
+					// 对于登录login 注册register 验证码captchaImage 允许匿名访问
+					requests.antMatchers("/login", "/register", "/captchaImage").permitAll()
+							// 静态资源，可匿名访问
+							.antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js",
+									"/profile/**")
+							.permitAll()
+							.antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs",
+									"/druid/**")
+							.permitAll()
+							// 除上面外的所有请求全部需要鉴权认证
+							.anyRequest().authenticated();
+				})
+				// 添加Logout filter
+				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler))
+				// 添加JWT filter
+				.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+				// 添加CORS filter
+				.addFilterBefore(corsFilter, JwtAuthenticationTokenFilter.class)
+				.addFilterBefore(corsFilter, LogoutFilter.class)
+				.build();
 	}
 
 	/**

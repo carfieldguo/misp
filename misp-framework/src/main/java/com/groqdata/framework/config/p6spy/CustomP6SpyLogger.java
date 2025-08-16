@@ -20,10 +20,10 @@ public class CustomP6SpyLogger implements MessageFormattingStrategy {
 	 */
 	@Override
 	public String formatMessage(int connectionId, String now, long elapsed, String category, String prepared,
-		String sql, String url) {
+			String sql, String url) {
 		if (StringUtils.isNotBlank(sql)) {
 			return String.format("%s执行时间：%s    耗时：%d ms    完整SQL：%n %s%n%s", PURPLE, now, elapsed,
-				sql.replaceAll("[\\s]+", " "), RESET);
+					sql.replaceAll("[\\s]+", " "), RESET);
 		}
 		return "";
 	}

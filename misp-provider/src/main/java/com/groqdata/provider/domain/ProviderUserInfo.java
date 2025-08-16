@@ -152,21 +152,21 @@ public class ProviderUserInfo extends BaseEntity {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-			.append("id", getId())
-			.append("account", getAccount())
-			.append("password", getPassword())
-			.append("accountType", getAccountType())
-			.append("certifyStatus", getCertifyStatus())
-			.append("nickname", getNickname())
-			.append("avator", getAvator())
-			.append("mobile", getMobile())
-			.append("email", getEmail())
-			.append("accountStatus", getAccountStatus())
-			.append("recordStatus", getRecordStatus())
-			.append("createTime", getCreateTime())
-			.append("createBy", getCreateBy())
-			.append("updateTime", getUpdateTime())
-			.append("updateBy", getUpdateBy())
-			.toString();
+				.append("id", getId())
+				.append("account", getAccount())
+				.append("password", getPassword())
+				.append("accountType", getAccountType())
+				.append("certifyStatus", getCertifyStatus())
+				.append("nickname", getNickname())
+				.append("avator", getAvator())
+				.append("mobile", getMobile())
+				.append("email", getEmail())
+				.append("accountStatus", getAccountStatus())
+				.append("recordStatus", getRecordStatus())
+				.append("createTime", getCreateTime())
+				.append("createBy", getCreateBy())
+				.append("updateTime", getUpdateTime())
+				.append("updateBy", getUpdateBy())
+				.toString();
 	}
 }

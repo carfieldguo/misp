@@ -87,10 +87,10 @@ public class DataScopeAspect {
 			if (StringHelper.isNotNull(currentUser) && !currentUser.isAdmin()) {
 				// 获取权限字符串，如果注解中未指定则从权限上下文中获取
 				String permission = StringUtils.defaultIfEmpty(controllerDataScope.permission(),
-					PermissionContextHolder.getContext());
+						PermissionContextHolder.getContext());
 				// 执行数据权限过滤
 				dataScopeFilter(joinPoint, currentUser, controllerDataScope.deptAlias(),
-					controllerDataScope.userAlias(), permission);
+						controllerDataScope.userAlias(), permission);
 			}
 		}
 	}
@@ -106,7 +106,7 @@ public class DataScopeAspect {
 	 * @param permission 权限字符
 	 */
 	public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String deptAlias, String userAlias,
-		String permission) {
+			String permission) {
 		StringBuilder sqlString = new StringBuilder();
 		List<String> conditions = new ArrayList<>();
 		List<String> scopeCustomIds = new ArrayList<>();
@@ -179,7 +179,7 @@ public class DataScopeAspect {
 	 * @param conditions 已处理的权限类型列表，避免重复处理
 	 */
 	private static void buildSqlConditions(List<SysRole> roles, SysUser user, String deptAlias, String userAlias,
-		List<String> scopeCustomIds, StringBuilder sqlString, List<String> conditions) {
+			List<String> scopeCustomIds, StringBuilder sqlString, List<String> conditions) {
 		for (SysRole role : roles) {
 			String dataScope = role.getDataScope();
 			// 如果该权限类型已处理过，则跳过
@@ -202,8 +202,8 @@ public class DataScopeAspect {
 					break;
 				case DATA_SCOPE_DEPT_AND_CHILD :
 					sqlString.append(StringHelper.format(
-						" OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )",
-						deptAlias, user.getDeptId(), user.getDeptId()));
+							" OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )",
+							deptAlias, user.getDeptId(), user.getDeptId()));
 					break;
 				case DATA_SCOPE_SELF :
 					if (StringUtils.isNotBlank(userAlias)) {
@@ -228,15 +228,15 @@ public class DataScopeAspect {
 	 * @param role 当前处理的角色
 	 */
 	private static void appendCustomCondition(StringBuilder sqlString, String deptAlias, List<String> scopeCustomIds,
-		SysRole role) {
+			SysRole role) {
 		if (scopeCustomIds.size() > 1) {
 			sqlString.append(StringHelper.format(
-				" OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id in ({}) ) ",
-				deptAlias, String.join(",", scopeCustomIds)));
+					" OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id in ({}) ) ",
+					deptAlias, String.join(",", scopeCustomIds)));
 		} else {
 			sqlString.append(StringHelper.format(
-				" OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ",
-				deptAlias, role.getRoleId()));
+					" OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ",
+					deptAlias, role.getRoleId()));
 		}
 	}
 

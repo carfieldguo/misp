@@ -58,7 +58,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	public TableDataInfo list(ConsumerEnterpriseInfo consumerEnterpriseInfo) {
 		startPage();
 		List<ConsumerEnterpriseInfo> list = consumerEnterpriseInfoService
-			.selectConsumerEnterpriseInfoList(consumerEnterpriseInfo);
+				.selectConsumerEnterpriseInfoList(consumerEnterpriseInfo);
 		return getDataTable(list);
 	}
 
@@ -71,7 +71,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, ConsumerEnterpriseInfo consumerEnterpriseInfo) {
 		List<ConsumerEnterpriseInfo> list = consumerEnterpriseInfoService
-			.selectConsumerEnterpriseInfoList(consumerEnterpriseInfo);
+				.selectConsumerEnterpriseInfoList(consumerEnterpriseInfo);
 		ExcelUtil<ConsumerEnterpriseInfo> util = new ExcelUtil<ConsumerEnterpriseInfo>(ConsumerEnterpriseInfo.class);
 		util.exportExcel(response, list, "企业信息数据");
 	}
@@ -131,7 +131,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	@PutMapping("/audit-pass/{id}")
 	public AjaxResult auditPass(@PathVariable("id") Long id) {
 		ConsumerEnterpriseInfo consumerEnterpriseInfo = consumerEnterpriseInfoService
-			.selectConsumerEnterpriseInfoById(id);
+				.selectConsumerEnterpriseInfoById(id);
 		consumerEnterpriseInfo.setUpdateBy(getUsername());
 		consumerEnterpriseInfo.setAuditStatus(AuditStatus.APPROVED.getCode());
 		return toAjax(consumerEnterpriseInfoService.updateConsumerEnterpriseInfo(consumerEnterpriseInfo));
@@ -146,7 +146,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	@PutMapping("/audit-reject/{id}")
 	public AjaxResult auditReject(@PathVariable("id") Long id) {
 		ConsumerEnterpriseInfo consumerEnterpriseInfo = consumerEnterpriseInfoService
-			.selectConsumerEnterpriseInfoById(id);
+				.selectConsumerEnterpriseInfoById(id);
 		consumerEnterpriseInfo.setUpdateBy(getUsername());
 		consumerEnterpriseInfo.setAuditStatus(AuditStatus.REJECTED.getCode());
 		return toAjax(consumerEnterpriseInfoService.updateConsumerEnterpriseInfo(consumerEnterpriseInfo));

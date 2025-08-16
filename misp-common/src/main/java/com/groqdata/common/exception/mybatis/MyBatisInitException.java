@@ -47,7 +47,7 @@ public class MyBatisInitException extends RuntimeException {
 	 * @param cause         原始异常原因（可为null）
 	 */
 	public MyBatisInitException(String message, String configLocation, String initPhase,
-		String dataSourceId, Throwable cause) {
+			String dataSourceId, Throwable cause) {
 		super(message);
 		this.configLocation = configLocation;
 		this.initPhase = initPhase;
@@ -144,8 +144,8 @@ public class MyBatisInitException extends RuntimeException {
 	@Override
 	public void printStackTrace(PrintWriter s) {
 		s.println("MyBatisInitException: 初始化阶段=" + initPhase
-			+ ", 配置文件=" + (configLocation != null ? configLocation : "N/A")
-			+ ", 数据源=" + (dataSourceId != null ? dataSourceId : "N/A"));
+				+ ", 配置文件=" + (configLocation != null ? configLocation : "N/A")
+				+ ", 数据源=" + (dataSourceId != null ? dataSourceId : "N/A"));
 		super.printStackTrace(s);
 		if (cause != null) {
 			s.println("Caused by:");

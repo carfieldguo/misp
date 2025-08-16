@@ -29,7 +29,7 @@ public class DataSourceAspect {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Pointcut("@annotation(com.groqdata.common.annotation.DataSource)"
-		+ "|| @within(com.groqdata.common.annotation.DataSource)")
+			+ "|| @within(com.groqdata.common.annotation.DataSource)")
 	public void dsPointCut() {
 
 	}

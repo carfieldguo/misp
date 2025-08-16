@@ -12,15 +12,15 @@
         <!-- ****************************** -->
         <!-- 缩进字符数，可选值：2, 4, 8等 -->
         <setting id="org.eclipse.jdt.core.formatter.indentation.size" value="4"/>
-        
+
         <!-- 制表符宽度，建议与缩进尺寸保持一致 -->
         <setting id="org.eclipse.jdt.core.formatter.tabulation.size" value="4"/>
-        
+
         <!-- 是否仅在首行缩进使用制表符，true=使用tab，false=使用空格 -->
         <setting id="org.eclipse.jdt.core.formatter.use_tabs_only_for_leading_indentations" value="false"/>
-        
+
         <!-- 续行缩进倍数（相对于基础缩进），1=与基础缩进相同 -->
-        <setting id="org.eclipse.jdt.core.formatter.continuation_indentation" value="1"/>
+        <setting id="org.eclipse.jdt.core.formatter.continuation_indentation" value="2"/>
 
 
         <!-- ****************************** -->
@@ -28,16 +28,16 @@
         <!-- ****************************** -->
         <!-- 类声明的大括号位置，可选值：same_line(同行)、next_line(下一行)、next_line_shifted(下一行缩进) -->
         <setting id="org.eclipse.jdt.core.formatter.brace_position_for_class_declaration" value="same_line"/>
-        
+
         <!-- 方法声明的大括号位置，可选值同上 -->
         <setting id="org.eclipse.jdt.core.formatter.brace_position_for_method_declaration" value="same_line"/>
-        
+
         <!-- 构造函数的大括号位置，可选值同上 -->
         <setting id="org.eclipse.jdt.core.formatter.brace_position_for_constructor_declaration" value="same_line"/>
-        
+
         <!-- 代码块的大括号位置（如if/for体内），可选值同上 -->
         <setting id="org.eclipse.jdt.core.formatter.brace_position_for_block" value="same_line"/>
-        
+
         <!-- 其他语句的大括号位置 -->
         <setting id="org.eclipse.jdt.core.formatter.brace_position_for_switch" value="same_line"/>
         <setting id="org.eclipse.jdt.core.formatter.brace_position_for_if" value="same_line"/>
@@ -55,22 +55,22 @@
         <!-- ****************************** -->
         <!-- 最多保留的连续空行数，1=只允许单空行 -->
         <setting id="org.eclipse.jdt.core.formatter.max_blank_lines" value="1"/>
-        
+
         <!-- 自动清理行尾空格，true=启用清理 -->
         <setting id="org.eclipse.jdt.core.formatter.trim_trailing_whitespace" value="true"/>
-        
+
         <!-- 文件末尾是否自动添加空行，true=强制添加 -->
         <setting id="org.eclipse.jdt.core.formatter.insert_new_line_at_end_of_file_if_missing" value="true"/>
-        
+
         <!-- 包声明后空行数，0=无空行，1=一个空行 -->
         <setting id="org.eclipse.jdt.core.formatter.blank_lines_after_package" value="1"/>
-        
+
         <!-- 导入语句后空行数 -->
         <setting id="org.eclipse.jdt.core.formatter.blank_lines_after_imports" value="1"/>
-        
+
         <!-- 类型声明（类/接口）之间的空行数 -->
         <setting id="org.eclipse.jdt.core.formatter.blank_lines_between_type_declarations" value="1"/>
-        
+
         <!-- 语句之间保留的空行数 -->
         <setting id="org.eclipse.jdt.core.formatter.preserve_blank_lines_between_statements" value="1"/>
 
@@ -80,26 +80,35 @@
         <!-- ****************************** -->
         <!-- 最大行宽限制，超过会自动换行 -->
         <setting id="org.eclipse.jdt.core.formatter.line_split" value="160"/>
-        
+
         <!-- 是否合并已换行的行，false=保持手动换行 -->
         <setting id="org.eclipse.jdt.core.formatter.join_wrapped_lines" value="false"/>
-        
+
         <!-- 单行if/for/while是否必须用大括号包裹，ignore=不强制，always=强制 -->
         <setting id="org.eclipse.jdt.core.formatter.insert_braces_for_single_line_if" value="ignore"/>
         <setting id="org.eclipse.jdt.core.formatter.insert_braces_for_single_line_for" value="ignore"/>
         <setting id="org.eclipse.jdt.core.formatter.insert_braces_for_single_line_while" value="ignore"/>
-        
+
         <!-- 数组初始化格式 -->
         <setting id="org.eclipse.jdt.core.formatter.wrap_array_initializer" value="wrap"/> <!-- 是否换行 -->
         <setting id="org.eclipse.jdt.core.formatter.continuation_indentation_for_array_initializer" value="1"/> <!-- 缩进倍数 -->
-        
+
         <!-- 三元运算符换行设置 -->
         <setting id="org.eclipse.jdt.core.formatter.wrap_before_question_mark_in_conditional" value="true"/> <!-- ?前换行 -->
         <setting id="org.eclipse.jdt.core.formatter.wrap_before_colon_in_conditional" value="true"/> <!-- :前换行 -->
-        
+
         <!-- 方法调用链换行 -->
         <setting id="org.eclipse.jdt.core.formatter.wrap_before_method_invocation_operator" value="true"/> <!-- .前换行 -->
-        <setting id="org.eclipse.jdt.core.formatter.continuation_indentation_for_method_invocation" value="1"/> <!-- 续行缩进倍数 -->
+        <setting id="org.eclipse.jdt.core.formatter.continuation_indentation_for_method_invocation" value="2"/> <!-- 续行缩进倍数 -->
+
+        <!-- 参数换行设置 -->
+        <setting id="org.eclipse.jdt.core.formatter.wrap_parameters" value="wrap"/>
+
+        <!-- 参数声明换行时对齐 -->
+        <setting id="org.eclipse.jdt.core.formatter.alignment_for_parameters_in_method_declaration" value="16"/>
+
+        <!-- 方法调用参数换行时对齐 -->
+        <setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_method_invocation" value="16"/>
 
 
         <!-- ****************************** -->
@@ -107,16 +116,16 @@
         <!-- ****************************** -->
         <!-- 参数列表中逗号后是否加空格 -->
         <setting id="org.eclipse.jdt.core.formatter.insert_space_after_comma_in_argument_list" value="insert"/>
-        
+
         <!-- 二元运算符（+、-、*、/等）前后是否加空格 -->
         <setting id="org.eclipse.jdt.core.formatter.insert_space_between_binary_operators" value="insert"/>
-        
+
         <!-- 方法调用的括号前是否加空格 -->
         <setting id="org.eclipse.jdt.core.formatter.insert_space_before_opening_parenthesis_in_method_invocation" value="do not insert"/>
-        
+
         <!-- 行注释//后是否加空格 -->
         <setting id="org.eclipse.jdt.core.formatter.insert_space_after_line_comment" value="insert"/>
-        
+
         <!-- Lambda表达式箭头前后是否加空格 -->
         <setting id="org.eclipse.jdt.core.formatter.insert_space_before_lambda_arrow" value="insert"/>
         <setting id="org.eclipse.jdt.core.formatter.insert_space_after_lambda_arrow" value="insert"/>
@@ -129,19 +138,19 @@
         <setting id="org.eclipse.jdt.core.formatter.format_line_comments" value="false"/> <!-- 行注释// -->
         <setting id="org.eclipse.jdt.core.formatter.format_block_comments" value="false"/> <!-- 块注释/* */ -->
         <setting id="org.eclipse.jdt.core.formatter.comment.format_javadoc_comments" value="false"/> <!-- 文档注释/** */ -->
-        
+
         <!-- 注释行长度限制（大数值表示不限制） -->
         <setting id="org.eclipse.jdt.core.formatter.comment.line_length" value="9999"/>
         <setting id="org.eclipse.jdt.core.formatter.comment.wrap_line_length" value="9999"/>
-        
+
         <!-- 注释块边界是否自动添加换行 -->
         <setting id="org.eclipse.jdt.core.formatter.comment.new_lines_at_block_boundaries" value="false"/>
         <setting id="org.eclipse.jdt.core.formatter.comment.new_lines_at_javadoc_boundaries" value="false"/>
-        
+
         <!-- 文档注释标签格式 -->
         <setting id="org.eclipse.jdt.core.formatter.comment.align_tags_descriptions" value="true"/> <!-- 标签与内容对齐 -->
         <setting id="org.eclipse.jdt.core.formatter.comment.new_line_after_tag" value="true"/> <!-- 每个@param单独换行 -->
-        
+
         <!-- 注释是否与代码对齐 -->
         <setting id="org.eclipse.jdt.core.formatter.align_comment_with_code" value="false"/>
 
@@ -151,14 +160,14 @@
         <!-- ****************************** -->
         <!-- 泛型参数换行设置 -->
         <setting id="org.eclipse.jdt.core.formatter.wrap_parameterized_type" value="true"/> <!-- 长泛型是否换行 -->
-        
+
         <!-- 泛型<>前后是否加空格 -->
         <setting id="org.eclipse.jdt.core.formatter.insert_space_after_opening_angle_bracket_in_parameterized_type_reference" value="do not insert"/>
         <setting id="org.eclipse.jdt.core.formatter.insert_space_before_closing_angle_bracket_in_parameterized_type_reference" value="do not insert"/>
-        
+
         <!-- Lambda表达式换行 -->
         <setting id="org.eclipse.jdt.core.formatter.wrap_lambda_expression" value="true"/> <!-- 长Lambda是否换行 -->
-        
+
         <!-- try-with-resources格式 -->
         <setting id="org.eclipse.jdt.core.formatter.wrap_try_with_resources" value="true"/> <!-- 资源声明是否换行 -->
         <setting id="org.eclipse.jdt.core.formatter.continuation_indentation_for_try_with_resources" value="1"/> <!-- 缩进倍数 -->
@@ -169,10 +178,10 @@
         <!-- ****************************** -->
         <!-- 静态导入是否单独排序 -->
         <setting id="org.eclipse.jdt.core.organize_imports.sort_static_imports_separately" value="true"/>
-        
+
         <!-- 导入包的排序顺序 -->
         <setting id="org.eclipse.jdt.core.organize_imports.import_order" value="java.,javax.,org.,com.,"/>
-        
+
         <!-- 导入排序是否忽略大小写 -->
         <setting id="org.eclipse.jdt.core.organize_imports.ignore_case_for_import_order" value="true"/>
 
@@ -182,12 +191,11 @@
         <!-- ****************************** -->
         <!-- 是否保留空实现中的空行 -->
         <setting id="org.eclipse.jdt.core.formatter.keep_imple_empty_lines" value="false"/>
-        
+
         <!-- 数组初始化器的 closing brace 前是否加空格 -->
         <setting id="org.eclipse.jdt.core.formatter.insert_space_before_closing_brace_in_array_initializer" value="insert"/>
-        
+
         <!-- 是否支持格式化开关标签（//@formatter:on/off） -->
         <setting id="org.eclipse.jdt.core.formatter.use_on_off_tags" value="false"/>
     </profile>
 </profiles>
-    

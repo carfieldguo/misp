@@ -26,7 +26,7 @@ public interface SysDeptMapper {
 	 * @return 选中部门列表
 	 */
 	public List<Long> selectDeptListByRoleId(@Param("roleId") Long roleId,
-		@Param("deptCheckStrictly") boolean deptCheckStrictly);
+			@Param("deptCheckStrictly") boolean deptCheckStrictly);
 
 	/**
 	 * 根据部门ID查询信息

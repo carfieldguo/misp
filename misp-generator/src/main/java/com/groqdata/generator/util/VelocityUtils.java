@@ -56,10 +56,10 @@ public class VelocityUtils {
 		velocityContext.put("businessName", genTable.getBusinessName());
 		// 业务名称驼峰命名,首字母大写
 		velocityContext.put("BusinessNameCamel",
-			StringUtils.capitalize(StringHelper.convertToCamelCase(genTable.getBusinessName(), "-", true)));
+				StringUtils.capitalize(StringHelper.convertToCamelCase(genTable.getBusinessName(), "-", true)));
 		// 业务名称驼峰命名,首字母小写
 		velocityContext.put("businessNameCamel",
-			StringHelper.convertToCamelCase(genTable.getBusinessName(), "-", false));
+				StringHelper.convertToCamelCase(genTable.getBusinessName(), "-", false));
 		velocityContext.put("basePackage", getPackagePrefix(packageName));
 		velocityContext.put("packageName", packageName);
 		velocityContext.put("author", genTable.getFunctionAuthor());
@@ -177,7 +177,7 @@ public class VelocityUtils {
 			fileName = StringHelper.format("{}/domain/{}.java", javaPath, className);
 		}
 		if (template.contains("sub-domain.java.vm")
-			&& StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {
+				&& StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {
 			fileName = StringHelper.format("{}/domain/{}.java", javaPath, genTable.getSubTable().getClassName());
 		} else if (template.contains("mapper.java.vm")) {
 			fileName = StringHelper.format("{}/mapper/{}Mapper.java", javaPath, className);
@@ -265,8 +265,8 @@ public class VelocityUtils {
 	public static void addDicts(Set<String> dicts, List<GenTableColumn> columns) {
 		for (GenTableColumn column : columns) {
 			if (!column.isSuperColumn() && StringUtils.isNotEmpty(column.getDictType()) && StringUtils.equalsAny(
-				column.getHtmlType(),
-				new String[]{GenConstants.HTML_SELECT, GenConstants.HTML_RADIO, GenConstants.HTML_CHECKBOX })) {
+					column.getHtmlType(),
+					new String[]{GenConstants.HTML_SELECT, GenConstants.HTML_RADIO, GenConstants.HTML_CHECKBOX })) {
 				dicts.add("'" + column.getDictType() + "'");
 			}
 		}
@@ -291,7 +291,7 @@ public class VelocityUtils {
 	 */
 	public static String getParentMenuId(JSONObject paramsObj) {
 		if (StringHelper.isNotEmpty(paramsObj) && paramsObj.containsKey(GenConstants.PARENT_MENU_ID)
-			&& StringUtils.isNotEmpty(paramsObj.getString(GenConstants.PARENT_MENU_ID))) {
+				&& StringUtils.isNotEmpty(paramsObj.getString(GenConstants.PARENT_MENU_ID))) {
 			return paramsObj.getString(GenConstants.PARENT_MENU_ID);
 		}
 		return DEFAULT_PARENT_MENU_ID;

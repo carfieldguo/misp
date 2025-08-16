@@ -20,7 +20,7 @@ import com.groqdata.common.utils.ServletUtils;
 public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-		throws Exception {
+			throws Exception {
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			Method method = handlerMethod.getMethod();

@@ -277,14 +277,14 @@ public class GenTableServiceImpl implements IGenTableService {
 		GenTable table = genTableMapper.selectGenTableByName(tableName);
 		List<GenTableColumn> tableColumns = table.getColumns();
 		Map<String, GenTableColumn> tableColumnMap = tableColumns.stream()
-			.collect(Collectors.toMap(GenTableColumn::getColumnName, Function.identity()));
+				.collect(Collectors.toMap(GenTableColumn::getColumnName, Function.identity()));
 
 		List<GenTableColumn> dbTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
 		if (StringHelper.isEmpty(dbTableColumns)) {
 			throw new ServiceException("同步数据失败，原表结构不存在");
 		}
 		List<String> dbTableColumnNames = dbTableColumns.stream().map(GenTableColumn::getColumnName)
-			.collect(Collectors.toList());
+				.collect(Collectors.toList());
 
 		dbTableColumns.forEach(column -> {
 			GenUtils.initColumnField(column, table);
@@ -297,8 +297,8 @@ public class GenTableServiceImpl implements IGenTableService {
 					column.setQueryType(prevColumn.getQueryType());
 				}
 				if (StringUtils.isNotEmpty(prevColumn.getIsRequired()) && !column.isPk()
-					&& (column.isInsert() || column.isEdit())
-					&& ((column.isUsableColumn()) || (!column.isSuperColumn()))) {
+						&& (column.isInsert() || column.isEdit())
+						&& ((column.isUsableColumn()) || (!column.isSuperColumn()))) {
 					// 如果是(新增/修改&非主键/非忽略及父属性)，继续保留必填/显示类型选项
 					column.setIsRequired(prevColumn.getIsRequired());
 					column.setHtmlType(prevColumn.getHtmlType());
@@ -310,7 +310,7 @@ public class GenTableServiceImpl implements IGenTableService {
 		});
 
 		List<GenTableColumn> delColumns = tableColumns.stream()
-			.filter(column -> !dbTableColumnNames.contains(column.getColumnName())).collect(Collectors.toList());
+				.filter(column -> !dbTableColumnNames.contains(column.getColumnName())).collect(Collectors.toList());
 		if (StringHelper.isNotEmpty(delColumns)) {
 			genTableColumnMapper.deleteGenTableColumns(delColumns);
 		}
@@ -488,7 +488,7 @@ public class GenTableServiceImpl implements IGenTableService {
 		String genPath = table.getGenPath();
 		if (StringUtils.equals(genPath, "/")) {
 			return System.getProperty("user.dir") + File.separator + "src" + File.separator
-				+ VelocityUtils.getFileName(template, table);
+					+ VelocityUtils.getFileName(template, table);
 		}
 		return genPath + File.separator + VelocityUtils.getFileName(template, table);
 	}

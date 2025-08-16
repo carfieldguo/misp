@@ -76,16 +76,16 @@ public class SysNotice extends BaseEntity {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-			.append("noticeId", getNoticeId())
-			.append("noticeTitle", getNoticeTitle())
-			.append("noticeType", getNoticeType())
-			.append("noticeContent", getNoticeContent())
-			.append("status", getStatus())
-			.append("createBy", getCreateBy())
-			.append("createTime", getCreateTime())
-			.append("updateBy", getUpdateBy())
-			.append("updateTime", getUpdateTime())
-			.append("remark", getRemark())
-			.toString();
+				.append("noticeId", getNoticeId())
+				.append("noticeTitle", getNoticeTitle())
+				.append("noticeType", getNoticeType())
+				.append("noticeContent", getNoticeContent())
+				.append("status", getStatus())
+				.append("createBy", getCreateBy())
+				.append("createTime", getCreateTime())
+				.append("updateBy", getUpdateBy())
+				.append("updateTime", getUpdateTime())
+				.append("remark", getRemark())
+				.toString();
 	}
 }

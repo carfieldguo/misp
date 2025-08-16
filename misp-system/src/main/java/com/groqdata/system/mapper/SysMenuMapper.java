@@ -72,7 +72,7 @@ public interface SysMenuMapper {
 	 * @return 选中菜单列表
 	 */
 	public List<Long> selectMenuListByRoleId(@Param("roleId") Long roleId,
-		@Param("menuCheckStrictly") boolean menuCheckStrictly);
+			@Param("menuCheckStrictly") boolean menuCheckStrictly);
 
 	/**
 	 * 根据菜单ID查询信息

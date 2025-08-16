@@ -45,7 +45,7 @@ public class ProviderEnterpriseInfoServiceImpl implements ProviderEnterpriseInfo
 	 */
 	@Override
 	public List<ProviderEnterpriseInfo> selectProviderEnterpriseInfoList(
-		ProviderEnterpriseInfo providerEnterpriseInfo) {
+			ProviderEnterpriseInfo providerEnterpriseInfo) {
 		return providerEnterpriseInfoMapper.selectProviderEnterpriseInfoList(providerEnterpriseInfo);
 	}
 

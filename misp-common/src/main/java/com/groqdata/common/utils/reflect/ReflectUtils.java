@@ -107,7 +107,7 @@ public class ReflectUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> E invokeMethod(final Object obj, final String methodName, final Class<?>[] parameterTypes,
-		final Object[] args) {
+			final Object[] args) {
 		if (obj == null || methodName == null) {
 			return null;
 		}
@@ -184,7 +184,7 @@ public class ReflectUtils {
 		}
 		Validate.notBlank(fieldName, "fieldName can't be blank");
 		for (Class<?> superClass = obj.getClass(); superClass != Object.class; superClass = superClass
-			.getSuperclass()) {
+				.getSuperclass()) {
 			try {
 				Field field = superClass.getDeclaredField(fieldName);
 				makeAccessible(field);
@@ -203,14 +203,14 @@ public class ReflectUtils {
 	 * 用于方法需要被多次调用的情况. 先使用本函数先取得Method,然后调用Method.invoke(Object obj, Object... args)
 	 */
 	public static Method getAccessibleMethod(final Object obj, final String methodName,
-		final Class<?>... parameterTypes) {
+			final Class<?>... parameterTypes) {
 		// 为空不报错。直接返回 null
 		if (obj == null) {
 			return null;
 		}
 		Validate.notBlank(methodName, "methodName can't be blank");
 		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType
-			.getSuperclass()) {
+				.getSuperclass()) {
 			try {
 				Method method = searchType.getDeclaredMethod(methodName, parameterTypes);
 				makeAccessible(method);
@@ -235,7 +235,7 @@ public class ReflectUtils {
 		}
 		Validate.notBlank(methodName, "methodName can't be blank");
 		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType
-			.getSuperclass()) {
+				.getSuperclass()) {
 			Method[] methods = searchType.getDeclaredMethods();
 			for (Method method : methods) {
 				if (method.getName().equals(methodName) && method.getParameterTypes().length == argsNum) {
@@ -252,7 +252,7 @@ public class ReflectUtils {
 	 */
 	public static void makeAccessible(Method method) {
 		if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers()))
-			&& !method.isAccessible()) {
+				&& !method.isAccessible()) {
 			method.setAccessible(true);
 		}
 	}
@@ -262,7 +262,7 @@ public class ReflectUtils {
 	 */
 	public static void makeAccessible(Field field) {
 		if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers())
-			|| Modifier.isFinal(field.getModifiers())) && !field.isAccessible()) {
+				|| Modifier.isFinal(field.getModifiers())) && !field.isAccessible()) {
 			field.setAccessible(true);
 		}
 	}
@@ -292,7 +292,7 @@ public class ReflectUtils {
 
 		if (index >= params.length || index < 0) {
 			logger.debug("Index: " + index + ", Size of " + clazz.getSimpleName() + "'s Parameterized Type: "
-				+ params.length);
+					+ params.length);
 			return Object.class;
 		}
 		if (!(params[index] instanceof Class)) {
@@ -323,7 +323,7 @@ public class ReflectUtils {
 	 */
 	public static RuntimeException convertReflectionExceptionToUnchecked(String msg, Exception e) {
 		if (e instanceof IllegalAccessException || e instanceof IllegalArgumentException
-			|| e instanceof NoSuchMethodException) {
+				|| e instanceof NoSuchMethodException) {
 			return new IllegalArgumentException(msg, e);
 		} else if (e instanceof InvocationTargetException) {
 			return new RuntimeException(msg, ((InvocationTargetException) e).getTargetException());

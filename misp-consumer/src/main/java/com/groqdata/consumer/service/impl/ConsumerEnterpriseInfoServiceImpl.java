@@ -45,7 +45,7 @@ public class ConsumerEnterpriseInfoServiceImpl implements ConsumerEnterpriseInfo
 	 */
 	@Override
 	public List<ConsumerEnterpriseInfo> selectConsumerEnterpriseInfoList(
-		ConsumerEnterpriseInfo consumerEnterpriseInfo) {
+			ConsumerEnterpriseInfo consumerEnterpriseInfo) {
 		return consumerEnterpriseInfoMapper.selectConsumerEnterpriseInfoList(consumerEnterpriseInfo);
 	}
 

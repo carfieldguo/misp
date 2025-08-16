@@ -164,12 +164,12 @@ public class LogAspect {
 		Map<?, ?> paramsMap = ServletUtils.getParamMap(ServletUtils.getRequest());
 		String requestMethod = operLog.getRequestMethod();
 		if (StringHelper.isEmpty(paramsMap)
-			&& (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod))) {
+				&& (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod))) {
 			String params = argsArrayToString(joinPoint.getArgs(), excludeParamNames);
 			operLog.setOperParam(StringUtils.substring(params, 0, 2000));
 		} else {
 			operLog.setOperParam(StringUtils
-				.substring(JSON.toJSONString(paramsMap, excludePropertyPreFilter(excludeParamNames)), 0, 2000));
+					.substring(JSON.toJSONString(paramsMap, excludePropertyPreFilter(excludeParamNames)), 0, 2000));
 		}
 	}
 
@@ -249,9 +249,9 @@ public class LogAspect {
 	 */
 	private boolean isBaseSensitiveType(Object obj) {
 		return obj instanceof MultipartFile
-			|| obj instanceof HttpServletRequest
-			|| obj instanceof HttpServletResponse
-			|| obj instanceof BindingResult;
+				|| obj instanceof HttpServletRequest
+				|| obj instanceof HttpServletResponse
+				|| obj instanceof BindingResult;
 	}
 
 	/**

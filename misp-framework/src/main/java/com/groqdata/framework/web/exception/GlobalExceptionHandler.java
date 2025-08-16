@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public AjaxResult handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e,
-		HttpServletRequest request) {
+			HttpServletRequest request) {
 		String requestURI = request.getRequestURI();
 		log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
 		return AjaxResult.error(e.getMessage());
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public AjaxResult handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e,
-		HttpServletRequest request) {
+			HttpServletRequest request) {
 		String requestURI = request.getRequestURI();
 		String value = Convert.toStr(e.getValue());
 		if (StringUtils.isNotEmpty(value)) {
@@ -85,7 +85,8 @@ public class GlobalExceptionHandler {
 		}
 		log.error("请求参数类型不匹配'{}',发生系统异常.", requestURI, e);
 		return AjaxResult.error(
-			String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'", e.getName(), e.getRequiredType().getName(), value));
+				String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'", e.getName(), e.getRequiredType().getName(),
+						value));
 	}
 
 	/**

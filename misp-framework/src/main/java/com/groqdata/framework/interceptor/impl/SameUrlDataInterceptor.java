@@ -70,7 +70,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
 			if (sessionMap.containsKey(url)) {
 				Map<String, Object> preDataMap = (Map<String, Object>) sessionMap.get(url);
 				if (compareParams(nowDataMap, preDataMap)
-					&& compareTime(nowDataMap, preDataMap, annotation.interval())) {
+						&& compareTime(nowDataMap, preDataMap, annotation.interval())) {
 					return true;
 				}
 			}
