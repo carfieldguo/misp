@@ -964,7 +964,7 @@ public class ExcelUtil<T> {
 					}
 					cell.setCellValue(sysDictMap.get(dictType + value));
 				} else if (value instanceof BigDecimal && -1 != attr.scale()) {
-					cell.setCellValue((((BigDecimal) value).setScale(attr.scale(), attr.roundingMode())).doubleValue());
+					cell.setCellValue(((BigDecimal) value).setScale(attr.scale(), attr.roundingMode()).doubleValue());
 				} else if (!attr.handler().equals(ExcelHandlerAdapter.class)) {
 					cell.setCellValue(dataFormatHandlerAdapter(value, attr, cell));
 				} else {

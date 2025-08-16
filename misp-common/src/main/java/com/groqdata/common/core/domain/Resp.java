@@ -1,5 +1,6 @@
 package com.groqdata.common.core.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 import com.groqdata.common.constant.HttpStatus;
 
@@ -9,6 +10,7 @@ import com.groqdata.common.constant.HttpStatus;
  * @author MISP TEAM
  */
 public class Resp<T> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 成功 */
@@ -21,7 +23,7 @@ public class Resp<T> implements Serializable {
 
 	private String msg;
 
-	private T data;
+	private transient T data;
 
 	public static <T> Resp<T> ok() {
 		return restResult(null, SUCCESS, "操作成功");
@@ -35,23 +37,23 @@ public class Resp<T> implements Serializable {
 		return restResult(data, SUCCESS, msg);
 	}
 
-	public static <T> Resp<T> fail() {
+	public static <T> Resp<T> error() {
 		return restResult(null, FAIL, "操作失败");
 	}
 
-	public static <T> Resp<T> fail(String msg) {
+	public static <T> Resp<T> error(String msg) {
 		return restResult(null, FAIL, msg);
 	}
 
-	public static <T> Resp<T> fail(T data) {
+	public static <T> Resp<T> error(T data) {
 		return restResult(data, FAIL, "操作失败");
 	}
 
-	public static <T> Resp<T> fail(T data, String msg) {
+	public static <T> Resp<T> error(T data, String msg) {
 		return restResult(data, FAIL, msg);
 	}
 
-	public static <T> Resp<T> fail(int code, String msg) {
+	public static <T> Resp<T> error(int code, String msg) {
 		return restResult(null, code, msg);
 	}
 

@@ -1,5 +1,6 @@
 package com.groqdata.common.core.domain;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ import com.groqdata.common.utils.StringHelper;
  * @author MISP TEAM
  */
 public class AjaxResult extends HashMap<String, Object> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 状态码 */

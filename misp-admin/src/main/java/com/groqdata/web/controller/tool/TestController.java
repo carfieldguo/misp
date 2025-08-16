@@ -54,7 +54,7 @@ public class TestController extends BaseController {
 		if (!users.isEmpty() && users.containsKey(userId)) {
 			return Resp.ok(users.get(userId));
 		} else {
-			return Resp.fail("用户不存在");
+			return Resp.error("用户不存在");
 		}
 	}
 
@@ -68,7 +68,7 @@ public class TestController extends BaseController {
 	@PostMapping("/save")
 	public Resp<String> save(UserEntity user) {
 		if (StringHelper.isNull(user) || StringHelper.isNull(user.getUserId())) {
-			return Resp.fail("用户ID不能为空");
+			return Resp.error("用户ID不能为空");
 		}
 		users.put(user.getUserId(), user);
 		return Resp.ok();
@@ -78,10 +78,10 @@ public class TestController extends BaseController {
 	@PutMapping("/update")
 	public Resp<String> update(@RequestBody UserEntity user) {
 		if (StringHelper.isNull(user) || StringHelper.isNull(user.getUserId())) {
-			return Resp.fail("用户ID不能为空");
+			return Resp.error("用户ID不能为空");
 		}
 		if (users.isEmpty() || !users.containsKey(user.getUserId())) {
-			return Resp.fail("用户不存在");
+			return Resp.error("用户不存在");
 		}
 		users.remove(user.getUserId());
 		users.put(user.getUserId(), user);
@@ -96,7 +96,7 @@ public class TestController extends BaseController {
 			users.remove(userId);
 			return Resp.ok();
 		} else {
-			return Resp.fail("用户不存在");
+			return Resp.error("用户不存在");
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.groqdata.common.core.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author MISP TEAM
  */
 public class BaseEntity implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 搜索值 */
@@ -47,7 +49,7 @@ public class BaseEntity implements Serializable {
 	/** 请求参数 */
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	@ApiModelProperty("其他费对象格式的请求参数,Map格式")
-	private Map<String, Object> params;
+	private transient Map<String, Object> params;
 
 	public String getSearchValue() {
 		return searchValue;

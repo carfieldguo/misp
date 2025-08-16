@@ -4,6 +4,7 @@ import java.beans.PropertyEditorSupport;
 import java.util.Date;
 import java.util.List;
 
+import com.github.pagehelper.page.PageMethod;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +61,7 @@ public class BaseController {
 		PageDomain pageDomain = TableSupport.buildPageRequest();
 		if (StringUtils.isNotEmpty(pageDomain.getOrderBy())) {
 			String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
-			PageHelper.orderBy(orderBy);
+			PageMethod.orderBy(orderBy);
 		}
 	}
 

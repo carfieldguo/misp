@@ -1,8 +1,8 @@
 package com.groqdata.common.core.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.groqdata.common.core.domain.entity.SysDept;
 import com.groqdata.common.core.domain.entity.SysMenu;
@@ -13,6 +13,7 @@ import com.groqdata.common.core.domain.entity.SysMenu;
  * @author MISP TEAM
  */
 public class TreeSelect implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 节点ID */
@@ -32,13 +33,13 @@ public class TreeSelect implements Serializable {
 	public TreeSelect(SysDept dept) {
 		this.id = dept.getDeptId();
 		this.label = dept.getDeptName();
-		this.children = dept.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+		this.children = dept.getChildren().stream().map(TreeSelect::new).toList();
 	}
 
 	public TreeSelect(SysMenu menu) {
 		this.id = menu.getMenuId();
 		this.label = menu.getMenuName();
-		this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+		this.children = menu.getChildren().stream().map(TreeSelect::new).toList();
 	}
 
 	public Long getId() {

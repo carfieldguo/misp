@@ -1,14 +1,16 @@
 package com.groqdata.common.core.domain;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Tree基类
- * 
+ *
  * @author MISP TEAM
  */
 public class TreeEntity extends BaseEntity {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 父菜单名称 */
@@ -24,7 +26,7 @@ public class TreeEntity extends BaseEntity {
 	private String ancestors;
 
 	/** 子部门 */
-	private List<?> children = new ArrayList<>();
+	private transient List<TreeEntity> children = new ArrayList<>();
 
 	public String getParentName() {
 		return parentName;
@@ -58,11 +60,11 @@ public class TreeEntity extends BaseEntity {
 		this.ancestors = ancestors;
 	}
 
-	public List<?> getChildren() {
+	public List<TreeEntity> getChildren() {
 		return children;
 	}
 
-	public void setChildren(List<?> children) {
+	public void setChildren(List<TreeEntity> children) {
 		this.children = children;
 	}
 }

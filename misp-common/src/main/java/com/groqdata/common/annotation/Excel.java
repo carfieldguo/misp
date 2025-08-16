@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import com.groqdata.common.utils.poi.ExcelHandlerAdapter;
@@ -55,7 +57,7 @@ public @interface Excel {
 	/**
 	 * BigDecimal 舍入规则 默认:BigDecimal.ROUND_HALF_EVEN
 	 */
-	public int roundingMode() default BigDecimal.ROUND_HALF_EVEN;
+	RoundingMode roundingMode() default RoundingMode.HALF_EVEN;
 
 	/**
 	 * 导出时在excel中每个列的高度
