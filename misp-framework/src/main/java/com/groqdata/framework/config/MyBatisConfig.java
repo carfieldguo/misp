@@ -69,7 +69,8 @@ public class MyBatisConfig {
 
 			// 如果没有扫描到任何包，抛出异常
 			if (allResult.isEmpty()) {
-				throw new MyBatisInitException("mybatis typeAliasesPackage 路径扫描错误,参数typeAliasesPackage:" + typeAliasesPackage + "未找到任何包");
+				throw new MyBatisInitException(
+					"mybatis typeAliasesPackage 路径扫描错误,参数typeAliasesPackage:" + typeAliasesPackage + "未找到任何包");
 			}
 
 			// 将所有包路径用逗号连接返回
@@ -90,11 +91,11 @@ public class MyBatisConfig {
 	 * @throws IOException IO异常
 	 */
 	private static List<String> scanPackageForClasses(ResourcePatternResolver resolver,
-													  MetadataReaderFactory metadataReaderFactory,
-													  String basePackage) throws IOException {
+		MetadataReaderFactory metadataReaderFactory,
+		String basePackage) throws IOException {
 		// 构建资源搜索路径模式
 		String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX
-				+ ClassUtils.convertClassNameToResourcePath(basePackage) + "/" + DEFAULT_RESOURCE_PATTERN;
+			+ ClassUtils.convertClassNameToResourcePath(basePackage) + "/" + DEFAULT_RESOURCE_PATTERN;
 
 		// 获取匹配的所有资源
 		Resource[] resources = resolver.getResources(packageSearchPath);
@@ -118,7 +119,6 @@ public class MyBatisConfig {
 
 		return result;
 	}
-
 
 	public Resource[] resolveMapperLocations(String[] mapperLocations) {
 		ResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();

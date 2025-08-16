@@ -37,7 +37,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 		return template;
 	}
 
-
 	@Bean
 	public DefaultRedisScript<Long> limitScript() {
 		DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
@@ -50,19 +49,19 @@ public class RedisConfig extends CachingConfigurerSupport {
 	 * 限流脚本
 	 */
 	private String limitScriptText() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("local key = KEYS[1]\n");
-        stringBuilder.append("local count = tonumber(ARGV[1])\n");
-        stringBuilder.append("local time = tonumber(ARGV[2])\n");
-        stringBuilder.append("local current = redis.call('get', key);\n");
-        stringBuilder.append("if current and tonumber(current) > count then\n");
-        stringBuilder.append("    return tonumber(current);\n");
-        stringBuilder.append("end\n");
-        stringBuilder.append("current = redis.call('incr', key)\n");
-        stringBuilder.append("if tonumber(current) == 1 then\n");
-        stringBuilder.append("    redis.call('expire', key, time)\n");
-        stringBuilder.append("end\n");
-        stringBuilder.append("return tonumber(current);");
-        return stringBuilder.toString();
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("local key = KEYS[1]\n");
+		stringBuilder.append("local count = tonumber(ARGV[1])\n");
+		stringBuilder.append("local time = tonumber(ARGV[2])\n");
+		stringBuilder.append("local current = redis.call('get', key);\n");
+		stringBuilder.append("if current and tonumber(current) > count then\n");
+		stringBuilder.append("    return tonumber(current);\n");
+		stringBuilder.append("end\n");
+		stringBuilder.append("current = redis.call('incr', key)\n");
+		stringBuilder.append("if tonumber(current) == 1 then\n");
+		stringBuilder.append("    redis.call('expire', key, time)\n");
+		stringBuilder.append("end\n");
+		stringBuilder.append("return tonumber(current);");
+		return stringBuilder.toString();
 	}
 }

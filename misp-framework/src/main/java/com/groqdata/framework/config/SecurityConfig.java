@@ -55,7 +55,9 @@ public class SecurityConfig {
 	 */
 	private final PermitAllUrlProperties permitAllUrl;
 
-	public SecurityConfig(AuthenticationEntryPointImpl unauthorizedHandler, LogoutSuccessHandlerImpl logoutSuccessHandler, JwtAuthenticationTokenFilter authenticationTokenFilter, CorsFilter corsFilter, PermitAllUrlProperties permitAllUrl) {
+	public SecurityConfig(AuthenticationEntryPointImpl unauthorizedHandler,
+		LogoutSuccessHandlerImpl logoutSuccessHandler, JwtAuthenticationTokenFilter authenticationTokenFilter,
+		CorsFilter corsFilter, PermitAllUrlProperties permitAllUrl) {
 		this.unauthorizedHandler = unauthorizedHandler;
 		this.logoutSuccessHandler = logoutSuccessHandler;
 		this.authenticationTokenFilter = authenticationTokenFilter;
@@ -73,7 +75,6 @@ public class SecurityConfig {
 		daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
 		return new ProviderManager(daoAuthenticationProvider);
 	}
-
 
 	/**
 	 * anyRequest          |   匹配所有请求路径
@@ -96,12 +97,13 @@ public class SecurityConfig {
 			// CSRF禁用，因为本系统采用无状态JWT认证，不依赖Session和Cookie
 			.csrf(AbstractHttpConfigurer::disable)
 			// 禁用HTTP响应标头
-				.headers(headersCustomizer -> headersCustomizer.cacheControl(HeadersConfigurer.CacheControlConfig::disable).frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))			// 认证失败处理类
+			.headers(headersCustomizer -> headersCustomizer.cacheControl(HeadersConfigurer.CacheControlConfig::disable)
+				.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)) // 认证失败处理类
 			.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
 			// 基于token，所以不需要session
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			// 注解标记允许匿名访问的url
-			.authorizeHttpRequests((requests) -> {
+			.authorizeHttpRequests(requests -> {
 				permitAllUrl.getUrls().forEach(url -> requests.antMatchers(url).permitAll());
 				// 对于登录login 注册register 验证码captchaImage 允许匿名访问
 				requests.antMatchers("/login", "/register", "/captchaImage").permitAll()

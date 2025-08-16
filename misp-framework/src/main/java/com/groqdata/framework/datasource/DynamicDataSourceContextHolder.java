@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 数据源切换处理
- * 
+ *
  * @author MISP TEAM
  */
 public class DynamicDataSourceContextHolder {
@@ -16,6 +16,14 @@ public class DynamicDataSourceContextHolder {
 	 * 所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本。
 	 */
 	private static final ThreadLocal<String> CONTEXT_HOLDER = new ThreadLocal<>();
+
+	/**
+	 * 私有构造函数，防止实例化
+	 */
+	private DynamicDataSourceContextHolder() {
+		// 防止通过反射实例化
+		throw new UnsupportedOperationException("Utility class cannot be instantiated");
+	}
 
 	/**
 	 * 设置数据源的变量
