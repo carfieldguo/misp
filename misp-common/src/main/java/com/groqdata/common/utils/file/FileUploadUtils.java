@@ -1,22 +1,28 @@
+
 package com.groqdata.common.utils.file;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.net.URLEncoder;
+import java.util.Date;
+import java.util.UUID;
 import java.util.Objects;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.groqdata.common.config.MispConfig;
 import com.groqdata.common.constant.Constants;
+import com.groqdata.common.exception.file.FileUploadException;
 import com.groqdata.common.exception.file.FileNameLengthLimitExceededException;
-import com.groqdata.common.exception.file.FileSizeLimitExceededException;
 import com.groqdata.common.exception.file.InvalidExtensionException;
+import com.groqdata.common.exception.file.FileSizeLimitExceededException;
 import com.groqdata.common.utils.DateHelper;
-import com.groqdata.common.utils.StringHelper;
-import com.groqdata.common.utils.uuid.Seq;
 
 /**
  * 文件上传工具类
@@ -24,10 +30,12 @@ import com.groqdata.common.utils.uuid.Seq;
  * @author MISP TEAM
  */
 public class FileUploadUtils {
+	private static final Logger log = LoggerFactory.getLogger(FileUploadUtils.class);
+
 	/**
 	 * 默认大小 50M
 	 */
-	public static final long DEFAULT_MAX_SIZE = 50 * 1024 * 1024L;
+	public static final long DEFAULT_MAX_SIZE = 50 * 1024 * 1024;
 
 	/**
 	 * 默认的文件名最大长度 100
@@ -39,12 +47,29 @@ public class FileUploadUtils {
 	 */
 	private static String defaultBaseDir = MispConfig.getProfile();
 
-	public static void setDefaultBaseDir(String defaultBaseDir) {
-		FileUploadUtils.defaultBaseDir = defaultBaseDir;
-	}
+	/**
+	 * 默认允许的扩展名
+	 */
+	private static final String[] DEFAULT_ALLOWED_EXTENSION = {
+			// 图片格式
+			"bmp", "gif", "jpg", "jpeg", "png",
+			// 文档格式
+			"doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt",
+			// 压缩文件
+			"rar", "zip", "gz", "bz2",
+			// PDF
+			"pdf"
+	};
 
-	public static String getDefaultBaseDir() {
-		return defaultBaseDir;
+	/**
+	 * 默认拒绝的扩展名
+	 */
+	private static final String[] DEFAULT_DENIED_EXTENSION = {
+			"jsp", "jspx", "java", "class", "sh", "bat", "exe", "js", "html", "htm"
+	};
+
+	private FileUploadUtils() {
+		// 私有构造函数，防止实例化
 	}
 
 	/**
@@ -52,132 +77,151 @@ public class FileUploadUtils {
 	 *
 	 * @param file 上传的文件
 	 * @return 文件名称
-	 * @throws Exception
+	 * @throws FileUploadException 文件上传异常
 	 */
-	public static final String upload(MultipartFile file) throws IOException {
+	public static final String upload(MultipartFile file) throws FileUploadException {
 		try {
-			return upload(getDefaultBaseDir(), file, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
+			return upload(defaultBaseDir, file, DEFAULT_ALLOWED_EXTENSION);
 		} catch (Exception e) {
-			throw new IOException(e.getMessage(), e);
+			throw new FileUploadException("文件上传失败: " + e.getMessage(), e);
 		}
 	}
 
 	/**
-	 * 根据文件路径上传
+	 * 根据文件路径上传文件
 	 *
 	 * @param baseDir 相对应用的基目录
-	 * @param file 上传的文件
+	 * @param file    上传的文件
 	 * @return 文件名称
-	 * @throws IOException
+	 * @throws FileUploadException 文件上传异常
 	 */
-	public static final String upload(String baseDir, MultipartFile file) throws IOException {
+	public static final String upload(String baseDir, MultipartFile file) throws FileUploadException {
 		try {
-			return upload(baseDir, file, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
+			return upload(baseDir, file, DEFAULT_ALLOWED_EXTENSION);
 		} catch (Exception e) {
-			throw new IOException(e.getMessage(), e);
+			throw new FileUploadException("文件上传失败: " + e.getMessage(), e);
 		}
 	}
 
 	/**
 	 * 文件上传
 	 *
-	 * @param baseDir 相对应用的基目录
-	 * @param file 上传的文件
-	 * @param allowedExtension 上传文件类型
+	 * @param baseDir          相对应用的基目录
+	 * @param file             上传的文件
+	 * @param allowedExtension 允许的文件类型
 	 * @return 返回上传成功的文件名
-	 * @throws FileSizeLimitExceededException 如果超出最大大小
-	 * @throws FileNameLengthLimitExceededException 文件名太长
-	 * @throws IOException 比如读写文件出错时
-	 * @throws InvalidExtensionException 文件校验异常
+	 * @throws FileUploadException 文件上传异常
 	 */
 	public static final String upload(String baseDir, MultipartFile file, String[] allowedExtension)
-		throws FileSizeLimitExceededException, IOException, FileNameLengthLimitExceededException,
-		InvalidExtensionException {
-		int fileNamelength = Objects.requireNonNull(file.getOriginalFilename()).length();
-		if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH) {
-			throw new FileNameLengthLimitExceededException(FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
+			throws FileUploadException {
+		// 参数校验
+		validateUploadParameters(baseDir, file);
+
+		try {
+			// 文件名校验
+			assertAllowed(file, allowedExtension);
+
+			// 文件大小校验
+			assertFileSize(file, DEFAULT_MAX_SIZE);
+
+			// 文件名长度校验
+			assertFileNameLength(file.getOriginalFilename());
+
+			// 获取文件扩展名
+			String extension = getFileExtension(Objects.requireNonNull(file.getOriginalFilename()));
+
+			// 生成文件名
+			String fileName = generateFileName(extension);
+
+			// 构建文件路径
+			String filePath = getPathFileName(baseDir, fileName);
+
+			// 创建目录
+			File desc = getAbsoluteFile(baseDir, fileName);
+
+			// 保存文件
+			file.transferTo(desc);
+
+			log.info("文件上传成功: {}", filePath);
+			return filePath;
+		} catch (IOException e) {
+			log.error("文件上传IO异常: {}", file.getOriginalFilename(), e);
+			throw new FileUploadException("文件上传失败: " + e.getMessage(), e);
+		} catch (Exception e) {
+			log.error("文件上传异常: {}", file.getOriginalFilename(), e);
+			throw new FileUploadException("文件上传失败: " + e.getMessage(), e);
 		}
-
-		assertAllowed(file, allowedExtension);
-
-		String fileName = extractFilename(file);
-
-		String absPath = getAbsoluteFile(baseDir, fileName).getAbsolutePath();
-		file.transferTo(Paths.get(absPath));
-		return getPathFileName(baseDir, fileName);
 	}
 
 	/**
-	 * 编码文件名
+	 * 验证上传参数
 	 */
-	public static final String extractFilename(MultipartFile file) {
-		return StringHelper.format("{}/{}_{}.{}", DateHelper.datePath(),
-			FilenameUtils.getBaseName(file.getOriginalFilename()), Seq.getId(Seq.uploadSeqType), getExtension(file));
-	}
-
-	public static final File getAbsoluteFile(String uploadDir, String fileName) throws IOException {
-		File desc = new File(uploadDir + File.separator + fileName);
-
-		if (!desc.exists()) {
-			if (!desc.getParentFile().exists()) {
-				desc.getParentFile().mkdirs();
-			}
+	private static void validateUploadParameters(String baseDir, MultipartFile file) throws FileUploadException {
+		if (StringUtils.isEmpty(baseDir)) {
+			throw new FileUploadException("基础目录不能为空");
 		}
-		return desc;
-	}
-
-	public static final String getPathFileName(String uploadDir, String fileName) throws IOException {
-		int dirLastIndex = MispConfig.getProfile().length() + 1;
-		String currentDir = StringUtils.substring(uploadDir, dirLastIndex);
-		return Constants.RESOURCE_PREFIX + "/" + currentDir + "/" + fileName;
+		if (file == null || file.isEmpty()) {
+			throw new FileUploadException("上传文件不能为空");
+		}
 	}
 
 	/**
 	 * 文件大小校验
-	 *
-	 * @param file 上传的文件
-	 * @return
-	 * @throws FileSizeLimitExceededException 如果超出最大大小
-	 * @throws InvalidExtensionException
 	 */
-	public static final void assertAllowed(MultipartFile file, String[] allowedExtension)
-		throws FileSizeLimitExceededException, InvalidExtensionException {
-		long size = file.getSize();
-		if (size > DEFAULT_MAX_SIZE) {
-			throw new FileSizeLimitExceededException(DEFAULT_MAX_SIZE / 1024 / 1024);
-		}
-
-		String fileName = file.getOriginalFilename();
-		String extension = getExtension(file);
-		if (allowedExtension != null && !isAllowedExtension(extension, allowedExtension)) {
-			if (allowedExtension == MimeTypeUtils.IMAGE_EXTENSION) {
-				throw new InvalidExtensionException.InvalidImageExtensionException(allowedExtension, extension,
-					fileName);
-			} else if (allowedExtension == MimeTypeUtils.FLASH_EXTENSION) {
-				throw new InvalidExtensionException.InvalidFlashExtensionException(allowedExtension, extension,
-					fileName);
-			} else if (allowedExtension == MimeTypeUtils.MEDIA_EXTENSION) {
-				throw new InvalidExtensionException.InvalidMediaExtensionException(allowedExtension, extension,
-					fileName);
-			} else if (allowedExtension == MimeTypeUtils.VIDEO_EXTENSION) {
-				throw new InvalidExtensionException.InvalidVideoExtensionException(allowedExtension, extension,
-					fileName);
-			} else {
-				throw new InvalidExtensionException(allowedExtension, extension, fileName);
-			}
+	private static void assertFileSize(MultipartFile file, long maxSize) throws FileSizeLimitExceededException {
+		if (maxSize > 0 && file.getSize() > maxSize) {
+			throw new FileSizeLimitExceededException("文件大小超出限制", file.getSize(), maxSize);
 		}
 	}
 
 	/**
-	 * 判断MIME类型是否是允许的MIME类型
-	 *
-	 * @param extension
-	 * @param allowedExtension
-	 * @return
+	 * 文件名长度校验
 	 */
-	public static final boolean isAllowedExtension(String extension, String[] allowedExtension) {
-		for (String str : allowedExtension) {
-			if (str.equalsIgnoreCase(extension)) {
+	private static void assertFileNameLength(String fileName) throws FileNameLengthLimitExceededException {
+		if (StringUtils.isNotEmpty(fileName) && fileName.length() > DEFAULT_FILE_NAME_LENGTH) {
+			throw new FileNameLengthLimitExceededException("文件名长度超出限制", fileName.length(), DEFAULT_FILE_NAME_LENGTH);
+		}
+	}
+
+	/**
+	 * 文件扩展名校验
+	 */
+	private static void assertAllowed(MultipartFile file, String[] allowedExtension)
+			throws InvalidExtensionException {
+		String fileName = file.getOriginalFilename();
+		if (StringUtils.isEmpty(fileName)) {
+			throw new InvalidExtensionException("文件名不能为空");
+		}
+
+		// 检查文件名是否包含路径遍历字符
+		if (StringUtils.contains(fileName, "..") || StringUtils.contains(fileName, "/")
+				|| StringUtils.contains(fileName, "\\")) {
+			throw new InvalidExtensionException("文件名不合法，不能包含路径字符");
+		}
+
+		String extension = getFileExtension(fileName);
+
+		// 检查是否在拒绝列表中
+		if (isInExtensionArray(extension, DEFAULT_DENIED_EXTENSION)) {
+			throw new InvalidExtensionException("不允许上传的文件类型: " + extension);
+		}
+
+		// 检查是否在允许列表中
+		if (allowedExtension != null && allowedExtension.length > 0
+				&& !isInExtensionArray(extension, allowedExtension)) {
+			throw new InvalidExtensionException("不支持的文件类型: " + extension);
+		}
+	}
+
+	/**
+	 * 判断文件扩展名是否在数组中
+	 */
+	private static boolean isInExtensionArray(String extension, String[] extensions) {
+		if (StringUtils.isEmpty(extension) || extensions == null || extensions.length == 0) {
+			return false;
+		}
+		for (String ext : extensions) {
+			if (ext.equalsIgnoreCase(extension)) {
 				return true;
 			}
 		}
@@ -185,16 +229,75 @@ public class FileUploadUtils {
 	}
 
 	/**
-	 * 获取文件名的后缀
-	 *
-	 * @param file 表单文件
-	 * @return 后缀名
+	 * 获取文件扩展名
 	 */
-	public static final String getExtension(MultipartFile file) {
-		String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-		if (StringUtils.isEmpty(extension)) {
-			extension = MimeTypeUtils.getExtension(Objects.requireNonNull(file.getContentType()));
+	private static String getFileExtension(String fileName) {
+		return FilenameUtils.getExtension(fileName);
+	}
+
+	/**
+	 * 生成文件名
+	 */
+	private static String generateFileName(String extension) {
+		return DateHelper.datePath() + "/" + UUID.randomUUID() + "." + extension;
+	}
+
+	/**
+	 * 获取文件相对路径
+	 */
+	private static String getPathFileName(String baseDir, String fileName) throws IOException {
+		String currentDir = StringUtils.replace(baseDir, "\\", "/");
+		String fileDir = StringUtils.replace(fileName, "\\", "/");
+		return StringUtils.substring(currentDir, 0, currentDir.lastIndexOf("/")) + "/" + fileDir;
+	}
+
+	/**
+	 * 获取绝对路径的文件
+	 */
+	private static File getAbsoluteFile(String uploadDir, String fileName) throws IOException {
+		String filePath = StringUtils.replace(uploadDir + "/" + fileName, "\\", "/");
+		File desc = new File(filePath).getCanonicalFile();
+
+		// 检查文件是否在上传目录内，防止路径遍历攻击
+		String canonicalPath = desc.getPath();
+		String canonicalUploadPath = new File(uploadDir).getCanonicalPath();
+		if (!canonicalPath.startsWith(canonicalUploadPath)) {
+			throw new IOException("文件路径不合法: " + filePath);
 		}
-		return extension;
+
+		if (!desc.getParentFile().exists()) {
+			desc.getParentFile().mkdirs();
+		}
+		return desc;
+	}
+
+	/**
+	 * 文件名称编码
+	 */
+	public static String extractFilename(MultipartFile file) {
+		String fileName = file.getOriginalFilename();
+		if (StringUtils.isNotEmpty(fileName)) {
+			try {
+				return URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString());
+			} catch (Exception e) {
+				log.warn("文件名编码失败: {}", fileName, e);
+				return fileName;
+			}
+		}
+		return "";
+	}
+
+	/**
+	 * 设置默认上传参数
+	 */
+	public static void setDefaultBaseDir(String defaultBaseDir) {
+		FileUploadUtils.defaultBaseDir = defaultBaseDir;
+	}
+
+	/**
+	 * 获取默认上传目录
+	 */
+	public static String getDefaultBaseDir() {
+		return defaultBaseDir;
 	}
 }

@@ -1,14 +1,33 @@
 package com.groqdata.common.exception.file;
 
 /**
- * 文件名大小限制异常类
- * 
+ * 文件大小超出限制异常
+ *
  * @author MISP TEAM
  */
-public class FileSizeLimitExceededException extends FileException {
+public class FileSizeLimitExceededException extends FileUploadException {
 	private static final long serialVersionUID = 1L;
 
-	public FileSizeLimitExceededException(long defaultMaxSize) {
-		super("upload.exceed.maxSize", new Object[]{defaultMaxSize });
+	private final long fileSize;
+	private final long maxSize;
+
+	public FileSizeLimitExceededException(String message, long fileSize, long maxSize) {
+		super(message);
+		this.fileSize = fileSize;
+		this.maxSize = maxSize;
+	}
+
+	public FileSizeLimitExceededException(String message, long fileSize, long maxSize, Throwable cause) {
+		super(message, cause);
+		this.fileSize = fileSize;
+		this.maxSize = maxSize;
+	}
+
+	public long getFileSize() {
+		return fileSize;
+	}
+
+	public long getMaxSize() {
+		return maxSize;
 	}
 }

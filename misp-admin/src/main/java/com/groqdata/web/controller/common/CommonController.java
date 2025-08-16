@@ -1,11 +1,14 @@
 package com.groqdata.web.controller.common;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.groqdata.common.exception.file.FileUploadException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,7 +105,7 @@ public class CommonController {
 		try {
 			Map<String, String> fileInfo = handleSingleFileUpload(file);
 			return AjaxResult.success(fileInfo);
-		} catch (Exception e) {
+		} catch (FileUploadException e) {
 			log.error("单个文件上传失败", e);
 			return AjaxResult.error("上传失败：" + e.getMessage());
 		}
@@ -144,7 +147,7 @@ public class CommonController {
 				.put("fileNames", StringUtils.join(fileNames, FILE_DELIMITER))
 				.put("newFileNames", StringUtils.join(newFileNames, FILE_DELIMITER))
 				.put("originalFilenames", StringUtils.join(originalFilenames, FILE_DELIMITER));
-		} catch (Exception e) {
+		} catch (FileUploadException e) {
 			log.error("多个文件上传失败", e);
 			return AjaxResult.error("上传失败：" + e.getMessage());
 		}
@@ -193,7 +196,7 @@ public class CommonController {
 	 * @return 包含文件信息的Map（url、fileName、newFileName、originalFilename）
 	 * @throws Exception 上传过程中的异常
 	 */
-	private Map<String, String> handleSingleFileUpload(MultipartFile file) throws Exception {
+	private Map<String, String> handleSingleFileUpload(MultipartFile file) throws FileUploadException {
 		String filePath = MispConfig.getUploadPath();
 		String fileName = FileUploadUtils.upload(filePath, file);
 		String url = serverConfig.getUrl() + fileName;
