@@ -25,7 +25,7 @@ import com.groqdata.common.utils.html.EscapeUtil;
 /**
  * 全局异常处理器
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {

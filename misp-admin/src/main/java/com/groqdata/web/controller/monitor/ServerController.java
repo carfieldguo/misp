@@ -10,7 +10,7 @@ import com.groqdata.framework.web.domain.Server;
 /**
  * 服务器监控
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @RestController
 @RequestMapping("/monitor/server")

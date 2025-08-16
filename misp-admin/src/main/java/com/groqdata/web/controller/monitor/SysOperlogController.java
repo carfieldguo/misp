@@ -22,7 +22,7 @@ import com.groqdata.system.service.ISysOperLogService;
 /**
  * 操作日志记录
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @RestController
 @RequestMapping("/monitor/operlog")

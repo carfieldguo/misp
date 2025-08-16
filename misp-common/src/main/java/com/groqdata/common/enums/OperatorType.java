@@ -3,7 +3,7 @@ package com.groqdata.common.enums;
 /**
  * 操作人类别
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public enum OperatorType {
 	/**

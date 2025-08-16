@@ -20,7 +20,7 @@ import com.groqdata.system.service.ISysMenuService;
 /**
  * 登录验证
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @RestController
 public class SysLoginController {

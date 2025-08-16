@@ -9,7 +9,7 @@ import com.groqdata.common.utils.spring.SpringUtils;
 /**
  * 异步任务管理器
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class AsyncManager {
 	/**

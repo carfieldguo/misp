@@ -9,7 +9,7 @@ import com.groqdata.common.core.domain.BaseEntity;
 /**
  * 操作日志记录表 oper_log
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class SysOperLog extends BaseEntity {
 	private static final long serialVersionUID = 1L;

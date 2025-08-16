@@ -23,7 +23,7 @@ import com.groqdata.system.service.ISysLogininforService;
 /**
  * 系统访问记录
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @RestController
 @RequestMapping("/monitor/logininfor")

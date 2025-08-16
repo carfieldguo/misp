@@ -7,7 +7,7 @@ import com.groqdata.common.core.text.Convert;
 /**
  * 权限信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class PermissionContextHolder {
 	private static final String PERMISSION_CONTEXT_ATTRIBUTES = "PERMISSION_CONTEXT";

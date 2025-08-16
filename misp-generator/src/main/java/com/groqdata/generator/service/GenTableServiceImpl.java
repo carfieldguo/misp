@@ -42,7 +42,7 @@ import com.groqdata.generator.util.VelocityUtils;
 /**
  * 业务 服务层实现
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Service
 public class GenTableServiceImpl implements IGenTableService {

@@ -24,7 +24,7 @@ import com.groqdata.system.service.ISysConfigService;
 /**
  * 参数配置 服务层实现
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Service
 public class SysConfigServiceImpl implements ISysConfigService {

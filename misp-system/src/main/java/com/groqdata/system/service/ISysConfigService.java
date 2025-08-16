@@ -6,7 +6,7 @@ import com.groqdata.system.domain.SysConfig;
 /**
  * 参数配置 服务层
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public interface ISysConfigService {
 	/**

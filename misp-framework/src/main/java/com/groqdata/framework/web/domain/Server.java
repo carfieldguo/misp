@@ -24,7 +24,7 @@ import oshi.util.Util;
 /**
  * 服务器相关信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class Server {
 	private static final int OSHI_WAIT_SECOND = 1000;

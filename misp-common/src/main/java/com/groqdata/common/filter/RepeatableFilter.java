@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Repeatable 过滤器
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class RepeatableFilter implements Filter {
 	@Override

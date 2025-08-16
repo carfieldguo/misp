@@ -23,7 +23,7 @@ import com.groqdata.system.service.ISysUserService;
 /**
  * 注册校验方法
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Component
 public class SysRegisterService {

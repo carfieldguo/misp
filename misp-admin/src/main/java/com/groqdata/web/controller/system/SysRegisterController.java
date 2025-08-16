@@ -14,7 +14,7 @@ import com.groqdata.system.service.ISysConfigService;
 /**
  * 注册验证
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @RestController
 public class SysRegisterController extends BaseController {

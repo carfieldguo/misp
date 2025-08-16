@@ -6,7 +6,7 @@ import com.groqdata.system.domain.SysPost;
 /**
  * 岗位信息 服务层
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public interface ISysPostService {
 	/**

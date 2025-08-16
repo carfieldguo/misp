@@ -7,7 +7,7 @@ import com.groqdata.common.utils.ServletUtils;
 /**
  * 服务相关配置
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Component
 public class ServerConfig {

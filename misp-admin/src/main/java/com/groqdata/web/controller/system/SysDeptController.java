@@ -25,7 +25,7 @@ import com.groqdata.system.service.ISysDeptService;
 /**
  * 部门信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @RestController
 @RequestMapping("/system/dept")

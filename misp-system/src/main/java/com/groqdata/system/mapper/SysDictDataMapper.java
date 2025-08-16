@@ -7,7 +7,7 @@ import com.groqdata.common.core.domain.entity.SysDictData;
 /**
  * 字典表 数据层
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public interface SysDictDataMapper {
 	/**

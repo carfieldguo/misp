@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 业务表 gen_table
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class GenTable extends BaseEntity {
 	private static final long serialVersionUID = 1L;

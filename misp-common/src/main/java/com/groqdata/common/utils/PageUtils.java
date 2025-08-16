@@ -8,7 +8,7 @@ import com.groqdata.common.utils.sql.SqlUtil;
 /**
  * 分页工具类
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class PageUtils extends PageHelper {
 	/**

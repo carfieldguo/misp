@@ -3,7 +3,7 @@ package com.groqdata.common.core.domain.model;
 /**
  * 用户登录对象
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class LoginBody {
 	/**

@@ -3,7 +3,7 @@ package com.groqdata.system.domain;
 /**
  * 当前在线会话
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class SysUserOnline {
 	/** 会话编号 */

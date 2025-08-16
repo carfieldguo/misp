@@ -3,7 +3,7 @@ package com.groqdata.common.enums;
 /**
  * 限流类型
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 
 public enum LimitType {

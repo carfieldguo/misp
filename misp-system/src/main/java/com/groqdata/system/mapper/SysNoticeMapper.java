@@ -6,7 +6,7 @@ import com.groqdata.system.domain.SysNotice;
 /**
  * 通知公告表 数据层
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public interface SysNoticeMapper {
 	/**

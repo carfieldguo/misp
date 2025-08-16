@@ -16,7 +16,7 @@ import com.groqdata.quartz.util.CronUtils;
 /**
  * 定时任务调度表 sys_job
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class SysJob extends BaseEntity {
 	private static final long serialVersionUID = 1L;

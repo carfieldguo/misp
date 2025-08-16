@@ -24,7 +24,7 @@ import com.groqdata.framework.security.handle.LogoutSuccessHandlerImpl;
 /**
  * spring security配置
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Configuration

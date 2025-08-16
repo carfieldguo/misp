@@ -3,7 +3,7 @@ package com.groqdata.common.constant;
 /**
  * 返回状态码
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class HttpStatus {
 	/**

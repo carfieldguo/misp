@@ -6,7 +6,7 @@ import com.groqdata.system.domain.SysUserPost;
 /**
  * 用户与岗位关联表 数据层
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public interface SysUserPostMapper {
 	/**

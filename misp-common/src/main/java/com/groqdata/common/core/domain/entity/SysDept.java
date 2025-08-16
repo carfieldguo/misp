@@ -13,7 +13,7 @@ import com.groqdata.common.core.domain.BaseEntity;
 /**
  * 部门表 sys_dept
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class SysDept extends BaseEntity {
 	private static final long serialVersionUID = 1L;

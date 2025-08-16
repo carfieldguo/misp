@@ -23,7 +23,7 @@ import com.groqdata.quartz.domain.SysJob;
 /**
  * 定时任务工具类
  * 
- * @author ruoyi
+ * @author MISP TEAM
  *
  */
 public class ScheduleUtils {

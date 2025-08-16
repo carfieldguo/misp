@@ -30,7 +30,7 @@ import com.groqdata.system.service.ISysRoleService;
 /**
  * 角色 业务层处理
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Service
 public class SysRoleServiceImpl implements ISysRoleService {

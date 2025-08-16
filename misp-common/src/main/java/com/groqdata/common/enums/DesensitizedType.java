@@ -6,7 +6,7 @@ import com.groqdata.common.utils.DesensitizedUtil;
 /**
  * 脱敏类型
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 public enum DesensitizedType {
 	/**

@@ -29,7 +29,7 @@ import com.groqdata.system.service.ISysUserOnlineService;
 /**
  * 在线用户监控
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @RestController
 @RequestMapping("/monitor/online")

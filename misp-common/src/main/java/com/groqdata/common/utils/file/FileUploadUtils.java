@@ -21,7 +21,7 @@ import com.groqdata.common.utils.uuid.Seq;
 /**
  * 文件上传工具类
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class FileUploadUtils {
 	/**

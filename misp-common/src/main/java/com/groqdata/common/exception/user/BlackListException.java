@@ -3,7 +3,7 @@ package com.groqdata.common.exception.user;
 /**
  * 黑名单IP异常类
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class BlackListException extends UserException {
 	private static final long serialVersionUID = 1L;

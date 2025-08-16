@@ -7,7 +7,7 @@ import com.groqdata.common.utils.StringHelper;
 /**
  * 分页数据
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class PageDomain {
 	/** 当前记录起始索引 */

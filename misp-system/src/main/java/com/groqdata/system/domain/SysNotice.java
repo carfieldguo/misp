@@ -10,7 +10,7 @@ import com.groqdata.common.xss.Xss;
 /**
  * 通知公告表 sys_notice
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class SysNotice extends BaseEntity {
 	private static final long serialVersionUID = 1L;

@@ -15,7 +15,7 @@ import org.apache.commons.lang3.time.DateUtils;
 /**
  * 时间工具类
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class DateHelper {
 	public static String YYYY = "yyyy";

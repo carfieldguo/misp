@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Filter配置
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Configuration
 public class FilterConfig {

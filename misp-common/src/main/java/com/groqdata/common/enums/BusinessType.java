@@ -3,7 +3,7 @@ package com.groqdata.common.enums;
 /**
  * 业务操作类型
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public enum BusinessType {
 	/**

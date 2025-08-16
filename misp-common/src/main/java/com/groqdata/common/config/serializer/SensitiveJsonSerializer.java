@@ -16,7 +16,7 @@ import com.groqdata.common.utils.SecurityUtils;
 /**
  * 数据脱敏序列化过滤
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class SensitiveJsonSerializer extends JsonSerializer<String> implements ContextualSerializer {
 	private DesensitizedType desensitizedType;

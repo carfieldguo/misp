@@ -11,7 +11,7 @@ import com.groqdata.common.enums.LimitType;
 /**
  * 限流注解
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

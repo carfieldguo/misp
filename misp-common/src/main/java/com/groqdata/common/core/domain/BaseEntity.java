@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Entity基类
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

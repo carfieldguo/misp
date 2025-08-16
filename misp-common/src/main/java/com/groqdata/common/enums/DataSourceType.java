@@ -3,7 +3,7 @@ package com.groqdata.common.enums;
 /**
  * 数据源
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public enum DataSourceType {
 	/**

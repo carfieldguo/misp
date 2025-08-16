@@ -6,7 +6,7 @@ import com.groqdata.common.utils.DateHelper;
 import com.groqdata.common.utils.StringHelper;
 
 /**
- * @author ruoyi 序列生成类
+ * @author MISP TEAM 序列生成类
  */
 public class Seq {
 	// 通用序列类型

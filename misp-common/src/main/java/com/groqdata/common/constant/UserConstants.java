@@ -3,7 +3,7 @@ package com.groqdata.common.constant;
 /**
  * 用户常量信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class UserConstants {
 	/**

@@ -7,7 +7,7 @@ import com.groqdata.generator.domain.GenTable;
 /**
  * 业务 服务层
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public interface IGenTableService {
 	/**

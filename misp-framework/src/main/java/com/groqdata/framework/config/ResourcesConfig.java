@@ -18,7 +18,7 @@ import com.groqdata.framework.interceptor.RepeatSubmitInterceptor;
 /**
  * 通用配置
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Configuration
 public class ResourcesConfig implements WebMvcConfigurer {

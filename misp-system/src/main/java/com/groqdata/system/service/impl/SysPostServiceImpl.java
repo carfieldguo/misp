@@ -16,7 +16,7 @@ import com.groqdata.system.service.ISysPostService;
 /**
  * 岗位信息 服务层处理
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Service
 public class SysPostServiceImpl implements ISysPostService {

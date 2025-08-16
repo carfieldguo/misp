@@ -35,7 +35,7 @@ import com.groqdata.system.service.ISysUserService;
 /**
  * 登录校验方法
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Component
 public class SysLoginService {

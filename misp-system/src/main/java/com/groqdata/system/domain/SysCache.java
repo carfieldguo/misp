@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 缓存信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class SysCache {
 	/** 缓存名称 */

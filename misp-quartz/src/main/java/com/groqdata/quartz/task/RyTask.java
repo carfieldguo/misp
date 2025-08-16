@@ -7,7 +7,7 @@ import com.groqdata.common.utils.StringHelper;
 /**
  * 定时任务调度测试
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Component("ryTask")
 public class RyTask {

@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 代码生成业务字段表 gen_table_column
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class GenTableColumn extends BaseEntity {
 	private static final long serialVersionUID = 1L;

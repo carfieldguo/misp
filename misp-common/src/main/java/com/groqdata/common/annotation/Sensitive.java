@@ -12,7 +12,7 @@ import com.groqdata.common.enums.DesensitizedType;
 /**
  * 数据脱敏注解
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

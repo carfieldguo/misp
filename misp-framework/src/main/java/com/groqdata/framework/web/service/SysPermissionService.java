@@ -14,7 +14,7 @@ import com.groqdata.system.service.ISysRoleService;
 /**
  * 用户权限处理
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Component
 public class SysPermissionService {

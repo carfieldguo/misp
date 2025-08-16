@@ -37,7 +37,7 @@ import com.groqdata.system.service.ISysUserService;
 /**
  * 角色信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @RestController
 @RequestMapping("/system/role")

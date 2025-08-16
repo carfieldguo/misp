@@ -6,7 +6,7 @@ import com.groqdata.common.constant.HttpStatus;
 /**
  * 响应信息主体
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class Resp<T> implements Serializable {
 	private static final long serialVersionUID = 1L;

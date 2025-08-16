@@ -7,7 +7,7 @@ import com.groqdata.common.utils.StringHelper;
 /**
  * 字符串格式化
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class StrFormatter {
 	public static final String EMPTY_JSON = "{}";

@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 脱敏工具类
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class DesensitizedUtil {
 	/**

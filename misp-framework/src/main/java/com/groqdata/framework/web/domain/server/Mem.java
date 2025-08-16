@@ -5,7 +5,7 @@ import com.groqdata.common.utils.ArithUtils;
 /**
  * 內存相关信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class Mem {
 	/**

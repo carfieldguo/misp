@@ -15,7 +15,7 @@ import com.groqdata.common.core.text.StrFormatter;
 /**
  * 字符串工具类
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class StringHelper {
 	/** 空字符串 */

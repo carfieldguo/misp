@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 获取IP方法
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class IpUtils {
 	public final static String REGX_0_255 = "(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]\\d|\\d)";

@@ -12,7 +12,7 @@ import com.groqdata.common.core.domain.BaseEntity;
 /**
  * 岗位表 sys_post
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class SysPost extends BaseEntity {
 	private static final long serialVersionUID = 1L;

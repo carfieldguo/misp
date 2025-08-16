@@ -10,7 +10,7 @@ import com.groqdata.common.utils.StringHelper;
 /**
  * 首页
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 @RestController
 public class SysIndexController {

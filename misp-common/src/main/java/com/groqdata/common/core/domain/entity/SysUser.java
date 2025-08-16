@@ -15,7 +15,7 @@ import com.groqdata.common.xss.Xss;
 /**
  * 用户对象 sys_user
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class SysUser extends BaseEntity {
 	private static final long serialVersionUID = 1L;

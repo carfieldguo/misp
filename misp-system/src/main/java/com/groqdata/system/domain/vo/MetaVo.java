@@ -5,7 +5,7 @@ import com.groqdata.common.utils.StringHelper;
 /**
  * 路由显示信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class MetaVo {
 	/**

@@ -39,7 +39,7 @@ import com.groqdata.system.service.ISysUserService;
 /**
  * 用户信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @RestController
 @RequestMapping("/system/user")

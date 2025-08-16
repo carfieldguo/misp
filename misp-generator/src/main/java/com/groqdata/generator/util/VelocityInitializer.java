@@ -7,7 +7,7 @@ import com.groqdata.common.constant.Constants;
 /**
  * VelocityEngine工厂
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class VelocityInitializer {
 	/**

@@ -20,7 +20,7 @@ import com.groqdata.generator.domain.GenTableColumn;
 /**
  * 模板处理工具类
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class VelocityUtils {
 	/** 项目空间路径 */

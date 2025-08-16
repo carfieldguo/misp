@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Mybatis支持*匹配扫描包
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Configuration
 public class MyBatisConfig {

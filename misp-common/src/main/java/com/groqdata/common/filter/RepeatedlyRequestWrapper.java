@@ -15,7 +15,7 @@ import com.groqdata.common.constant.Constants;
 /**
  * 构建可重复读取inputStream的request
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class RepeatedlyRequestWrapper extends HttpServletRequestWrapper {
 	private final byte[] body;

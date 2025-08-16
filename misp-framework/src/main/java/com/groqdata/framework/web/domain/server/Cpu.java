@@ -5,7 +5,7 @@ import com.groqdata.common.utils.ArithUtils;
 /**
  * CPU相关信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class Cpu {
 	/**

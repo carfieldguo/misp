@@ -9,7 +9,7 @@ import com.groqdata.system.domain.vo.RouterVo;
 /**
  * 菜单 业务层
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public interface ISysMenuService {
 	/**

@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 图片处理工具类
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class ImageUtils {
 	private static final Logger log = LoggerFactory.getLogger(ImageUtils.class);

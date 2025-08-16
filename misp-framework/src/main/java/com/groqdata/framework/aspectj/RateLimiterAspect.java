@@ -24,7 +24,7 @@ import com.groqdata.common.utils.ip.IpUtils;
 /**
  * 限流处理
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Aspect
 @Component

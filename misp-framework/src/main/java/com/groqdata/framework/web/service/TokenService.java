@@ -31,7 +31,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 /**
  * token验证处理
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Component
 public class TokenService {

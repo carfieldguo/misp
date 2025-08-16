@@ -8,7 +8,7 @@ import com.groqdata.common.utils.DateHelper;
 /**
  * JVM相关信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class Jvm {
 	/**

@@ -6,7 +6,7 @@ import com.groqdata.common.core.domain.entity.SysRole;
 /**
  * 角色表 数据层
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public interface SysRoleMapper {
 	/**

@@ -14,7 +14,7 @@ import com.groqdata.common.utils.StringHelper;
 /**
  * spring工具类 方便在非spring管理环境中获取bean
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Component
 public final class SpringUtils implements BeanFactoryPostProcessor, ApplicationContextAware {

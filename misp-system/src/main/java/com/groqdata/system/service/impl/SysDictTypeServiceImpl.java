@@ -24,7 +24,7 @@ import com.groqdata.system.service.ISysDictTypeService;
 /**
  * 字典 业务层处理
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Service
 public class SysDictTypeServiceImpl implements ISysDictTypeService {

@@ -3,7 +3,7 @@ package com.groqdata.common.utils.sign;
 /**
  * Base64工具类
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public final class Base64 {
 	static private final int BASELENGTH = 128;

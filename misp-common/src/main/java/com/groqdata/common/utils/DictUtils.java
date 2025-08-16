@@ -14,7 +14,7 @@ import com.groqdata.common.utils.spring.SpringUtils;
 /**
  * 字典工具类
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class DictUtils {
 	/**

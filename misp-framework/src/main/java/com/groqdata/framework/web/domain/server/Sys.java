@@ -3,7 +3,7 @@ package com.groqdata.framework.web.domain.server;
 /**
  * 系统相关信息
  * 
- * @author ruoyi
+ * @author MISP TEAM
  */
 public class Sys {
 	/**

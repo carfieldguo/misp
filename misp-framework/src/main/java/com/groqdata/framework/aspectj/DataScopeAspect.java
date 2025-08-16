@@ -22,7 +22,7 @@ import com.groqdata.framework.security.context.PermissionContextHolder;
 /**
  * 数据过滤处理
  *
- * @author ruoyi
+ * @author MISP TEAM
  */
 @Aspect
 @Component
