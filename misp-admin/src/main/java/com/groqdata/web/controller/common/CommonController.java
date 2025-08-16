@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.groqdata.common.exception.file.FileDownloadException;
 import com.groqdata.common.exception.file.FileUploadException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -64,7 +65,7 @@ public class CommonController {
 
 		try {
 			// 校验文件合法性
-			if (!FileUtils.checkAllowDownload(fileName)) {
+			if (FileUtils.isDownloadForbidden(fileName)) {
 				String errorMsg = StringHelper.format("文件名称({})非法，不允许下载。", fileName);
 				handleDownloadError(response, errorMsg);
 				return;
@@ -168,7 +169,7 @@ public class CommonController {
 
 		try {
 			// 校验资源合法性
-			if (!FileUtils.checkAllowDownload(resource)) {
+			if (FileUtils.isDownloadForbidden(resource)) {
 				String errorMsg = StringHelper.format("资源文件({})非法，不允许下载。", resource);
 				handleDownloadError(response, errorMsg);
 				return;
@@ -200,8 +201,7 @@ public class CommonController {
 		String fileName = FileUploadUtils.upload(filePath, file);
 		String url = serverConfig.getUrl() + fileName;
 
-		Map<String, String> fileInfo = new HashMap<>(4);
-		fileInfo.put("url", url);
+		Map<String, String> fileInfo = HashMap.newHashMap(4);		fileInfo.put("url", url);
 		fileInfo.put("fileName", fileName);
 		fileInfo.put("newFileName", FileUtils.getName(fileName));
 		fileInfo.put("originalFilename", file.getOriginalFilename());
@@ -214,13 +214,17 @@ public class CommonController {
 	 * @param response     响应对象
 	 * @param filePath     文件路径
 	 * @param displayName  响应头中显示的文件名
-	 * @throws Exception 写入过程中的异常
+	 * @throws FileDownloadException 写入过程中的异常
 	 */
 	private void writeFileToResponse(HttpServletResponse response, String filePath, String displayName)
-		throws Exception {
-		response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-		FileUtils.setAttachmentResponseHeader(response, displayName);
-		FileUtils.writeBytes(filePath, response.getOutputStream());
+		throws FileDownloadException {
+		try {
+			response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+			FileUtils.setAttachmentResponseHeader(response, displayName);
+			FileUtils.writeBytes(filePath, response.getOutputStream());
+		} catch (Exception e) {
+			throw new FileDownloadException("写入文件到响应流失败: " + e.getMessage(), e);
+		}
 	}
 
 	/**

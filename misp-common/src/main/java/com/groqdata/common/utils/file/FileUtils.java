@@ -6,9 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +30,12 @@ import com.groqdata.common.utils.uuid.IdUtils;
  * @author MISP TEAM
  */
 public class FileUtils {
-	public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+";
+
+	private FileUtils() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
+
+	public static final String FILENAME_PATTERN = "[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+";
 
 	/**
 	 * 输出指定文件的byte数组
@@ -38,25 +45,23 @@ public class FileUtils {
 	 * @return
 	 */
 	public static void writeBytes(String filePath, OutputStream os) throws IOException {
-		FileInputStream fis = null;
-		try {
-			File file = new File(filePath);
-			if (!file.exists()) {
-				throw new FileNotFoundException(filePath);
-			}
-			fis = new FileInputStream(file);
+		File file = new File(filePath);
+		if (!file.exists()) {
+			throw new FileNotFoundException(filePath);
+		}
+		try (FileInputStream fis = new FileInputStream(file)) {
 			byte[] b = new byte[1024];
 			int length;
 			while ((length = fis.read(b)) > 0) {
 				os.write(b, 0, length);
 			}
-		} catch (IOException e) {
-			throw e;
+		} catch (Exception e) {
+			throw new IOException(e);
 		} finally {
 			IOUtils.close(os);
-			IOUtils.close(fis);
 		}
 	}
+
 
 	/**
 	 * 写数据到文件中
@@ -78,17 +83,17 @@ public class FileUtils {
 	 * @throws IOException IO异常
 	 */
 	public static String writeBytes(byte[] data, String uploadDir) throws IOException {
-		FileOutputStream fos = null;
 		String pathName = "";
-		try {
-			String extension = getFileExtendName(data);
-			pathName = DateHelper.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
-			File file = FileUploadUtils.getAbsoluteFile(uploadDir, pathName);
-			fos = new FileOutputStream(file);
+		String extension = getFileExtendName(data);
+		pathName = DateHelper.datePath() + File.separator + IdUtils.fastUUID() + "." + extension;
+		File file = FileUploadUtils.getAbsoluteFile(uploadDir, pathName);
+
+		try (FileOutputStream fos = new FileOutputStream(file)) {
 			fos.write(data);
-		} finally {
-			IOUtils.close(fos);
+		} catch (Exception e) {
+			throw new IOException(e);
 		}
+
 		return FileUploadUtils.getPathFileName(uploadDir, pathName);
 	}
 
@@ -99,13 +104,14 @@ public class FileUtils {
 	 * @return
 	 */
 	public static boolean deleteFile(String filePath) {
-		boolean flag = false;
-		File file = new File(filePath);
-		// 路径为文件且不为空则进行删除
-		if (file.isFile() && file.exists()) {
-			flag = file.delete();
+		Path path = Paths.get(filePath);
+		try {
+			Files.delete(path);
+			return true;
+		} catch (IOException | SecurityException e) {
+			// 可根据需要记录日志或处理异常
+			return false;
 		}
-		return flag;
 	}
 
 	/**
@@ -124,19 +130,13 @@ public class FileUtils {
 	 * @param resource 需要下载的文件
 	 * @return true 正常 false 非法
 	 */
-	public static boolean checkAllowDownload(String resource) {
+	public static boolean isDownloadForbidden(String resource) {
 		// 禁止目录上跳级别
 		if (StringUtils.contains(resource, "..")) {
-			return false;
-		}
-
-		// 检查允许下载的文件规则
-		if (ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION, FileTypeUtils.getFileType(resource))) {
 			return true;
 		}
 
-		// 不在允许下载的文件规则
-		return false;
+		return !ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION, FileTypeUtils.getFileType(resource));
 	}
 
 	/**
@@ -146,23 +146,22 @@ public class FileUtils {
 	 * @param fileName 文件名
 	 * @return 编码后的文件名
 	 */
-	public static String setFileDownloadHeader(HttpServletRequest request, String fileName)
-		throws UnsupportedEncodingException {
+	public static String setFileDownloadHeader(HttpServletRequest request, String fileName){
 		final String agent = request.getHeader("USER-AGENT");
 		String filename = fileName;
 		if (agent.contains("MSIE")) {
 			// IE浏览器
-			filename = URLEncoder.encode(filename, "utf-8");
+			filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
 			filename = filename.replace("+", " ");
 		} else if (agent.contains("Firefox")) {
 			// 火狐浏览器
-			filename = new String(fileName.getBytes(), "ISO8859-1");
+			filename = new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
 		} else if (agent.contains("Chrome")) {
 			// google浏览器
-			filename = URLEncoder.encode(filename, "utf-8");
+			filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
 		} else {
 			// 其它浏览器
-			filename = URLEncoder.encode(filename, "utf-8");
+			filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
 		}
 		return filename;
 	}
@@ -173,8 +172,7 @@ public class FileUtils {
 	 * @param response 响应对象
 	 * @param realFileName 真实文件名
 	 */
-	public static void setAttachmentResponseHeader(HttpServletResponse response, String realFileName)
-		throws UnsupportedEncodingException {
+	public static void setAttachmentResponseHeader(HttpServletResponse response, String realFileName){
 		String percentEncodedFileName = percentEncode(realFileName);
 
 		StringBuilder contentDispositionValue = new StringBuilder();
@@ -196,9 +194,9 @@ public class FileUtils {
 	 * @param s 需要百分号编码的字符串
 	 * @return 百分号编码后的字符串
 	 */
-	public static String percentEncode(String s) throws UnsupportedEncodingException {
-		String encode = URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
-		return encode.replaceAll("\\+", "%20");
+	public static String percentEncode(String s) {
+		String encode = URLEncoder.encode(s, StandardCharsets.UTF_8);
+		return encode.replace("+", "%20");
 	}
 
 	/**
@@ -248,7 +246,6 @@ public class FileUtils {
 		if (fileName == null) {
 			return null;
 		}
-		String baseName = FilenameUtils.getBaseName(fileName);
-		return baseName;
+		return FilenameUtils.getBaseName(fileName);
 	}
 }

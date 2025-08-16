@@ -32,8 +32,7 @@ public class FileUploadUtils {
 	/**
 	 * 默认大小 50M
 	 */
-	public static final long DEFAULT_MAX_SIZE = 50 * 1024 * 1024;
-
+	public static final long DEFAULT_MAX_SIZE = 50L * 1024 * 1024;
 	/**
 	 * 默认的文件名最大长度 100
 	 */
@@ -109,7 +108,7 @@ public class FileUploadUtils {
 	 * @return 返回上传成功的文件名
 	 * @throws FileUploadException 文件上传异常
 	 */
-	public static final String upload(String baseDir, MultipartFile file, String[] allowedExtension)
+	public static String upload(String baseDir, MultipartFile file, String[] allowedExtension)
 		throws FileUploadException {
 		// 参数校验
 		validateUploadParameters(baseDir, file);
@@ -141,12 +140,18 @@ public class FileUploadUtils {
 
 			log.info("文件上传成功: {}", filePath);
 			return filePath;
+		}  catch (InvalidExtensionException | FileSizeLimitExceededException | FileNameLengthLimitExceededException e) {
+			// 捕捉已知的自定义校验异常，无需标记为"未知"，直接传递原始信息
+			log.error("文件校验失败，文件名：{}，原因：{}", file.getOriginalFilename(), e.getMessage(), e);
+			throw new FileUploadException("文件上传失败：" + e.getMessage(), e); // 携带原始异常作为cause
 		} catch (IOException e) {
-			log.error("文件上传IO异常: {}", file.getOriginalFilename(), e);
-			throw new FileUploadException("文件上传失败: " + e.getMessage(), e);
+			// IO异常单独处理，明确上下文（如文件写入失败）
+			log.error("文件写入失败，文件名：{}，路径：{}", file.getOriginalFilename(), baseDir, e);
+			throw new FileUploadException("文件上传失败：IO操作异常（路径不合法或磁盘写入失败）", e);
 		} catch (Exception e) {
-			log.error("文件上传异常: {}", file.getOriginalFilename(), e);
-			throw new FileUploadException("文件上传失败: " + e.getMessage(), e);
+			// 剩余未预料的异常，添加更具体的上下文信息
+			log.error("文件上传过程中发生未预料异常，文件名：{}", file.getOriginalFilename(), e);
+			throw new FileUploadException("文件上传失败：未预料的错误（" + e.getMessage() + "）", e);
 		}
 	}
 
@@ -242,7 +247,7 @@ public class FileUploadUtils {
 	/**
 	 * 获取文件相对路径
 	 */
-	private static String getPathFileName(String baseDir, String fileName) throws IOException {
+	static String getPathFileName(String baseDir, String fileName) {
 		String currentDir = StringUtils.replace(baseDir, "\\", "/");
 		String fileDir = StringUtils.replace(fileName, "\\", "/");
 		return StringUtils.substring(currentDir, 0, currentDir.lastIndexOf("/")) + "/" + fileDir;
@@ -251,8 +256,8 @@ public class FileUploadUtils {
 	/**
 	 * 获取绝对路径的文件
 	 */
-	private static File getAbsoluteFile(String uploadDir, String fileName) throws IOException {
-		String filePath = StringUtils.replace(uploadDir + "/" + fileName, "\\", "/");
+	static File getAbsoluteFile(String uploadDir, String fileName) throws IOException {
+		String filePath = new File(uploadDir, fileName).getPath();
 		File desc = new File(filePath).getCanonicalFile();
 
 		// 检查文件是否在上传目录内，防止路径遍历攻击
