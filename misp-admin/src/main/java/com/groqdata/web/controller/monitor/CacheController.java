@@ -102,7 +102,7 @@ public class CacheController {
 	@DeleteMapping("/clearCacheName/{cacheName}")
 	public AjaxResult clearCacheName(@PathVariable String cacheName) {
 		Collection<String> cacheKeys = redisTemplate.keys(cacheName + "*");
-		if (cacheKeys != null  && !cacheKeys.isEmpty()) {
+		if (cacheKeys != null && !cacheKeys.isEmpty()) {
 			redisTemplate.delete(cacheKeys);
 		}
 		return AjaxResult.success();

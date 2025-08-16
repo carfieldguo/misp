@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 
+import com.groqdata.common.exception.limit.RateLimitException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -46,7 +47,7 @@ public class RateLimiterAspect {
 	}
 
 	@Before("@annotation(rateLimiter)")
-	public void doBefore(JoinPoint point, RateLimiter rateLimiter) throws Throwable {
+	public void doBefore(JoinPoint point, RateLimiter rateLimiter) {
 		int time = rateLimiter.time();
 		int count = rateLimiter.count();
 
@@ -54,19 +55,19 @@ public class RateLimiterAspect {
 		List<Object> keys = Collections.singletonList(combineKey);
 		try {
 			Long number = redisTemplate.execute(limitScript, keys, count, time);
-			if (StringHelper.isNull(number) || number.intValue() > count) {
+			if (number == null || number.intValue() > count) {
 				throw new ServiceException("访问过于频繁，请稍候再试");
 			}
 			log.info("限制请求'{}',当前请求'{}',缓存key'{}'", count, number.intValue(), combineKey);
 		} catch (ServiceException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new RuntimeException("服务器限流异常，请稍候再试");
+			throw new RateLimitException("服务器限流异常，请稍候再试");
 		}
 	}
 
 	public String getCombineKey(RateLimiter rateLimiter, JoinPoint point) {
-		StringBuffer stringBuffer = new StringBuffer(rateLimiter.key());
+		StringBuilder stringBuffer = new StringBuilder(rateLimiter.key());
 		if (rateLimiter.limitType() == LimitType.IP) {
 			stringBuffer.append(IpUtils.getIpAddr()).append("-");
 		}

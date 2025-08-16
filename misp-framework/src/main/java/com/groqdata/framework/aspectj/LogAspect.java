@@ -1,5 +1,6 @@
 package com.groqdata.framework.aspectj;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
@@ -46,10 +47,17 @@ public class LogAspect {
 	private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
 
 	/** 排除敏感属性字段 */
-	public static final String[] EXCLUDE_PROPERTIES = {"password", "oldPassword", "newPassword", "confirmPassword" };
+	protected static final String[] EXCLUDE_PROPERTIES = {"password", "oldPassword", "newPassword", "confirmPassword" };
 
 	/** 计算操作消耗时间 */
-	private static final ThreadLocal<Long> TIME_THREADLOCAL = new NamedThreadLocal<Long>("Cost Time");
+	private static final ThreadLocal<Long> TIME_THREADLOCAL = new NamedThreadLocal<>("Cost Time");
+
+	/**
+	 * 字符串长度阈值，超过此值的字符串将被过滤
+	 */
+	private static final int STRING_LENGTH_THRESHOLD = 256;
+
+
 
 	/**
 	 * 处理请求前执行
@@ -119,7 +127,7 @@ public class LogAspect {
 		} catch (Exception exp) {
 			// 记录本地异常日志
 			log.error("异常信息:{}", exp.getMessage());
-			exp.printStackTrace();
+			log.error("异常堆栈：", exp);
 		} finally {
 			TIME_THREADLOCAL.remove();
 		}
@@ -130,10 +138,8 @@ public class LogAspect {
 	 * 
 	 * @param log 日志
 	 * @param operLog 操作日志
-	 * @throws Exception
 	 */
-	public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOperLog operLog, Object jsonResult)
-		throws Exception {
+	public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOperLog operLog, Object jsonResult) {
 		// 设置action动作
 		operLog.setBusinessType(log.businessType().ordinal());
 		// 设置标题
@@ -155,9 +161,8 @@ public class LogAspect {
 	 * 获取请求的参数，放到log中
 	 * 
 	 * @param operLog 操作日志
-	 * @throws Exception 异常
 	 */
-	private void setRequestValue(JoinPoint joinPoint, SysOperLog operLog, String[] excludeParamNames) throws Exception {
+	private void setRequestValue(JoinPoint joinPoint, SysOperLog operLog, String[] excludeParamNames) {
 		Map<?, ?> paramsMap = ServletUtils.getParamMap(ServletUtils.getRequest());
 		String requestMethod = operLog.getRequestMethod();
 		if (StringHelper.isEmpty(paramsMap)
@@ -174,20 +179,22 @@ public class LogAspect {
 	 * 参数拼装
 	 */
 	private String argsArrayToString(Object[] paramsArray, String[] excludeParamNames) {
-		String params = "";
-		if (paramsArray != null && paramsArray.length > 0) {
+		StringBuilder params = new StringBuilder();
+		if (paramsArray != null) {
 			for (Object o : paramsArray) {
 				if (StringHelper.isNotNull(o) && !isFilterObject(o)) {
 					try {
 						String jsonObj = JSON.toJSONString(o, excludePropertyPreFilter(excludeParamNames));
-						params += jsonObj.toString() + " ";
+						params.append(jsonObj).append(" ");
 					} catch (Exception e) {
+						log.warn("参数转换为JSON字符串时发生异常: ", e);
 					}
 				}
 			}
 		}
-		return params.trim();
+		return params.toString().trim();
 	}
+
 
 	/**
 	 * 忽略敏感属性
@@ -197,29 +204,117 @@ public class LogAspect {
 	}
 
 	/**
-	 * 判断是否需要过滤的对象。
-	 * 
-	 * @param o 对象信息。
-	 * @return 如果是需要过滤的对象，则返回true；否则返回false。
+	 * 判断对象是否为需要过滤的类型（包括嵌套结构和超长字符串）
+	 *
+	 * @param obj 待检查的对象
+	 * @return 若为需要过滤的对象则返回true，否则返回false
 	 */
-	@SuppressWarnings("rawtypes")
-	public boolean isFilterObject(final Object o) {
-		Class<?> clazz = o.getClass();
-		if (clazz.isArray()) {
-			return clazz.getComponentType().isAssignableFrom(MultipartFile.class);
-		} else if (Collection.class.isAssignableFrom(clazz)) {
-			Collection collection = (Collection) o;
-			for (Object value : collection) {
-				return value instanceof MultipartFile;
-			}
-		} else if (Map.class.isAssignableFrom(clazz)) {
-			Map map = (Map) o;
-			for (Object value : map.entrySet()) {
-				Map.Entry entry = (Map.Entry) value;
-				return entry.getValue() instanceof MultipartFile;
+	public boolean isFilterObject(final Object obj) {
+		// 空对象无需过滤
+		if (obj == null) {
+			return false;
+		}
+
+		// 1. 检查基础敏感类型
+		if (isBaseSensitiveType(obj)) {
+			return true;
+		}
+
+		// 2. 检查超长字符串
+		if (isLongString(obj)) {
+			return true;
+		}
+
+		// 3. 检查数组类型（递归检查元素）
+		if (obj.getClass().isArray()) {
+			return isArrayContainsFilterType(obj);
+		}
+
+		// 4. 检查集合类型（递归检查元素）
+		if (obj instanceof Collection<?>) {
+			return isCollectionContainsFilterType((Collection<?>) obj);
+		}
+
+		// 5. 检查Map类型（递归检查值）
+		if (obj instanceof Map<?, ?>) {
+			return isMapContainsFilterType((Map<?, ?>) obj);
+		}
+
+		// 其他类型无需过滤
+		return false;
+	}
+
+	/**
+	 * 判断对象是否为基础敏感类型
+	 *
+	 * @param obj 待检查对象
+	 * @return 基础敏感类型返回true
+	 */
+	private boolean isBaseSensitiveType(Object obj) {
+		return obj instanceof MultipartFile
+				|| obj instanceof HttpServletRequest
+				|| obj instanceof HttpServletResponse
+				|| obj instanceof BindingResult;
+	}
+
+	/**
+	 * 判断对象是否为超长字符串
+	 *
+	 * @param obj 待检查对象
+	 * @return 若为字符串且长度超过阈值则返回true
+	 */
+	private boolean isLongString(Object obj) {
+		if (obj instanceof String str) {
+			return str.length() > STRING_LENGTH_THRESHOLD;
+		}
+		return false;
+	}
+
+	/**
+	 * 检查数组是否包含需要过滤的元素
+	 *
+	 * @param array 待检查数组
+	 * @return 包含过滤元素返回true
+	 */
+	private boolean isArrayContainsFilterType(Object array) {
+		int length = Array.getLength(array);
+		for (int i = 0; i < length; i++) {
+			Object element = Array.get(array, i);
+			if (isFilterObject(element)) { // 递归检查元素
+				return true;
 			}
 		}
-		return o instanceof MultipartFile || o instanceof HttpServletRequest || o instanceof HttpServletResponse
-			|| o instanceof BindingResult;
+		return false;
 	}
+
+	/**
+	 * 检查集合是否包含需要过滤的元素
+	 *
+	 * @param collection 待检查集合
+	 * @return 包含过滤元素返回true
+	 */
+	private boolean isCollectionContainsFilterType(Collection<?> collection) {
+		for (Object element : collection) {
+			if (isFilterObject(element)) { // 递归检查元素
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 检查Map的值是否包含需要过滤的类型
+	 *
+	 * @param map 待检查Map
+	 * @return 包含过滤值返回true
+	 */
+	private boolean isMapContainsFilterType(Map<?, ?> map) {
+		for (Object value : map.values()) {
+			if (isFilterObject(value)) { // 递归检查值
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
