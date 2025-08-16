@@ -3,10 +3,8 @@ package com.groqdata.common.utils.file;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.net.URLEncoder;
-import java.util.Date;
 import java.util.UUID;
 import java.util.Objects;
 
@@ -17,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.groqdata.common.config.MispConfig;
-import com.groqdata.common.constant.Constants;
 import com.groqdata.common.exception.file.FileUploadException;
 import com.groqdata.common.exception.file.FileNameLengthLimitExceededException;
 import com.groqdata.common.exception.file.InvalidExtensionException;
@@ -51,21 +48,21 @@ public class FileUploadUtils {
 	 * 默认允许的扩展名
 	 */
 	private static final String[] DEFAULT_ALLOWED_EXTENSION = {
-			// 图片格式
-			"bmp", "gif", "jpg", "jpeg", "png",
-			// 文档格式
-			"doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt",
-			// 压缩文件
-			"rar", "zip", "gz", "bz2",
-			// PDF
-			"pdf"
+		// 图片格式
+		"bmp", "gif", "jpg", "jpeg", "png",
+		// 文档格式
+		"doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt",
+		// 压缩文件
+		"rar", "zip", "gz", "bz2",
+		// PDF
+		"pdf"
 	};
 
 	/**
 	 * 默认拒绝的扩展名
 	 */
 	private static final String[] DEFAULT_DENIED_EXTENSION = {
-			"jsp", "jspx", "java", "class", "sh", "bat", "exe", "js", "html", "htm"
+		"jsp", "jspx", "java", "class", "sh", "bat", "exe", "js", "html", "htm"
 	};
 
 	private FileUploadUtils() {
@@ -113,7 +110,7 @@ public class FileUploadUtils {
 	 * @throws FileUploadException 文件上传异常
 	 */
 	public static final String upload(String baseDir, MultipartFile file, String[] allowedExtension)
-			throws FileUploadException {
+		throws FileUploadException {
 		// 参数校验
 		validateUploadParameters(baseDir, file);
 
@@ -187,7 +184,7 @@ public class FileUploadUtils {
 	 * 文件扩展名校验
 	 */
 	private static void assertAllowed(MultipartFile file, String[] allowedExtension)
-			throws InvalidExtensionException {
+		throws InvalidExtensionException {
 		String fileName = file.getOriginalFilename();
 		if (StringUtils.isEmpty(fileName)) {
 			throw new InvalidExtensionException("文件名不能为空");
@@ -195,7 +192,7 @@ public class FileUploadUtils {
 
 		// 检查文件名是否包含路径遍历字符
 		if (StringUtils.contains(fileName, "..") || StringUtils.contains(fileName, "/")
-				|| StringUtils.contains(fileName, "\\")) {
+			|| StringUtils.contains(fileName, "\\")) {
 			throw new InvalidExtensionException("文件名不合法，不能包含路径字符");
 		}
 
@@ -208,7 +205,7 @@ public class FileUploadUtils {
 
 		// 检查是否在允许列表中
 		if (allowedExtension != null && allowedExtension.length > 0
-				&& !isInExtensionArray(extension, allowedExtension)) {
+			&& !isInExtensionArray(extension, allowedExtension)) {
 			throw new InvalidExtensionException("不支持的文件类型: " + extension);
 		}
 	}

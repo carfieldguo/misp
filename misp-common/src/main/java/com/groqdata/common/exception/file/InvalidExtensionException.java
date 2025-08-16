@@ -69,7 +69,8 @@ public class InvalidExtensionException extends FileUploadException {
 	 * @param extension 文件扩展名
 	 * @param deniedExtensions 被拒绝的扩展名列表
 	 */
-	public InvalidExtensionException(String message, String fileName, String extension, Set<String> deniedExtensions, boolean isDenied) {
+	public InvalidExtensionException(String message, String fileName, String extension, Set<String> deniedExtensions,
+		boolean isDenied) {
 		super(message);
 		this.fileName = fileName;
 		this.extension = extension;

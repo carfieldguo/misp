@@ -79,7 +79,7 @@
         <!-- 语句与表达式格式                -->
         <!-- ****************************** -->
         <!-- 最大行宽限制，超过会自动换行 -->
-        <setting id="org.eclipse.jdt.core.formatter.line_split" value="120"/>
+        <setting id="org.eclipse.jdt.core.formatter.line_split" value="160"/>
         
         <!-- 是否合并已换行的行，false=保持手动换行 -->
         <setting id="org.eclipse.jdt.core.formatter.join_wrapped_lines" value="false"/>
