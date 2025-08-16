@@ -17,13 +17,13 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
+
 	@Bean
-	@SuppressWarnings(value = {"unchecked", "rawtypes" })
 	public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
 		RedisTemplate<Object, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(connectionFactory);
 
-		FastJson2JsonRedisSerializer serializer = new FastJson2JsonRedisSerializer(Object.class);
+		FastJson2JsonRedisSerializer<Object> serializer = new FastJson2JsonRedisSerializer<>(Object.class);
 
 		// 使用StringRedisSerializer来序列化和反序列化redis的key值
 		template.setKeySerializer(new StringRedisSerializer());
@@ -37,6 +37,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 		return template;
 	}
 
+
 	@Bean
 	public DefaultRedisScript<Long> limitScript() {
 		DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
@@ -49,17 +50,19 @@ public class RedisConfig extends CachingConfigurerSupport {
 	 * 限流脚本
 	 */
 	private String limitScriptText() {
-		return "local key = KEYS[1]\n" +
-			"local count = tonumber(ARGV[1])\n" +
-			"local time = tonumber(ARGV[2])\n" +
-			"local current = redis.call('get', key);\n" +
-			"if current and tonumber(current) > count then\n" +
-			"    return tonumber(current);\n" +
-			"end\n" +
-			"current = redis.call('incr', key)\n" +
-			"if tonumber(current) == 1 then\n" +
-			"    redis.call('expire', key, time)\n" +
-			"end\n" +
-			"return tonumber(current);";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("local key = KEYS[1]\n");
+        stringBuilder.append("local count = tonumber(ARGV[1])\n");
+        stringBuilder.append("local time = tonumber(ARGV[2])\n");
+        stringBuilder.append("local current = redis.call('get', key);\n");
+        stringBuilder.append("if current and tonumber(current) > count then\n");
+        stringBuilder.append("    return tonumber(current);\n");
+        stringBuilder.append("end\n");
+        stringBuilder.append("current = redis.call('incr', key)\n");
+        stringBuilder.append("if tonumber(current) == 1 then\n");
+        stringBuilder.append("    redis.call('expire', key, time)\n");
+        stringBuilder.append("end\n");
+        stringBuilder.append("return tonumber(current);");
+        return stringBuilder.toString();
 	}
 }

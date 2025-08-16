@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import com.groqdata.common.filter.RepeatableFilter;
 import com.groqdata.common.filter.XssFilter;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.Ordered; // 引入Ordered类
 
 /**
  * Filter配置
@@ -34,8 +35,8 @@ public class FilterConfig {
 		registration.setFilter(new XssFilter());
 		registration.addUrlPatterns(StringUtils.split(urlPatterns, ","));
 		registration.setName("xssFilter");
-		registration.setOrder(FilterRegistrationBean.HIGHEST_PRECEDENCE);
-		Map<String, String> initParameters = new HashMap<String, String>();
+		registration.setOrder(Ordered.HIGHEST_PRECEDENCE); // 修复点
+		Map<String, String> initParameters = new HashMap<>();
 		initParameters.put("excludes", excludes);
 		registration.setInitParameters(initParameters);
 		return registration;
@@ -48,7 +49,7 @@ public class FilterConfig {
 		registration.setFilter(new RepeatableFilter());
 		registration.addUrlPatterns("/*");
 		registration.setName("repeatableFilter");
-		registration.setOrder(FilterRegistrationBean.LOWEST_PRECEDENCE);
+		registration.setOrder(Ordered.LOWEST_PRECEDENCE); // 可选优化点
 		return registration;
 	}
 

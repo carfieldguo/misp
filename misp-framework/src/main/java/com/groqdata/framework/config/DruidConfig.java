@@ -9,6 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -31,17 +34,21 @@ import com.groqdata.framework.datasource.DynamicDataSource;
  */
 @Configuration
 public class DruidConfig {
+	Logger logger = LoggerFactory.getLogger(DruidConfig.class);
 	@Bean
 	@ConfigurationProperties("spring.datasource.druid.master")
 	public DataSource masterDataSource(DruidProperties druidProperties) {
-		DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
-		return druidProperties.dataSource(dataSource);
+		return createDataSource(druidProperties);
 	}
 
 	@Bean
 	@ConfigurationProperties("spring.datasource.druid.slave")
 	@ConditionalOnProperty(prefix = "spring.datasource.druid.slave", name = "enabled", havingValue = "true")
 	public DataSource slaveDataSource(DruidProperties druidProperties) {
+		return createDataSource(druidProperties);
+	}
+
+	private DataSource createDataSource(DruidProperties druidProperties) {
 		DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
 		return druidProperties.dataSource(dataSource);
 	}
@@ -67,6 +74,8 @@ public class DruidConfig {
 			DataSource dataSource = SpringUtils.getBean(beanName);
 			targetDataSources.put(sourceName, dataSource);
 		} catch (Exception e) {
+			// 记录警告日志，表示未能获取到从数据源
+			logger.warn("Failed to load datasource bean: {}, exception: {}", beanName, e.getMessage());
 		}
 	}
 
@@ -81,12 +90,13 @@ public class DruidConfig {
 		DruidStatProperties.StatViewServlet config = properties.getStatViewServlet();
 		// 提取common.js的配置路径
 		String pattern = config.getUrlPattern() != null ? config.getUrlPattern() : "/druid/*";
-		String commonJsPattern = pattern.replaceAll("\\*", "js/common.js");
+		String commonJsPattern = pattern.replace("\\*", "js/common.js");
 		final String filePath = "support/http/resources/js/common.js";
 		// 创建filter进行过滤
 		Filter filter = new Filter() {
 			@Override
 			public void init(javax.servlet.FilterConfig filterConfig) throws ServletException {
+				// 无需初始化操作，保持空实现
 			}
 			@Override
 			public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -103,6 +113,7 @@ public class DruidConfig {
 			}
 			@Override
 			public void destroy() {
+				// 无需操作，保持空实现
 			}
 		};
 		FilterRegistrationBean registrationBean = new FilterRegistrationBean();

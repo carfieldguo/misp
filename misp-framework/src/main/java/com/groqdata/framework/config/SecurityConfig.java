@@ -1,6 +1,5 @@
 package com.groqdata.framework.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,6 +8,8 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,51 +31,49 @@ import com.groqdata.framework.security.handle.LogoutSuccessHandlerImpl;
 @Configuration
 public class SecurityConfig {
 	/**
-	 * 自定义用户认证逻辑
-	 */
-	@Autowired
-	private UserDetailsService userDetailsService;
-
-	/**
 	 * 认证失败处理类
 	 */
-	@Autowired
-	private AuthenticationEntryPointImpl unauthorizedHandler;
+	private final AuthenticationEntryPointImpl unauthorizedHandler;
 
 	/**
 	 * 退出处理类
 	 */
-	@Autowired
-	private LogoutSuccessHandlerImpl logoutSuccessHandler;
+	private final LogoutSuccessHandlerImpl logoutSuccessHandler;
 
 	/**
 	 * token认证过滤器
 	 */
-	@Autowired
-	private JwtAuthenticationTokenFilter authenticationTokenFilter;
+	private final JwtAuthenticationTokenFilter authenticationTokenFilter;
 
 	/**
 	 * 跨域过滤器
 	 */
-	@Autowired
-	private CorsFilter corsFilter;
+	private final CorsFilter corsFilter;
 
 	/**
 	 * 允许匿名访问的地址
 	 */
-	@Autowired
-	private PermitAllUrlProperties permitAllUrl;
+	private final PermitAllUrlProperties permitAllUrl;
+
+	public SecurityConfig(AuthenticationEntryPointImpl unauthorizedHandler, LogoutSuccessHandlerImpl logoutSuccessHandler, JwtAuthenticationTokenFilter authenticationTokenFilter, CorsFilter corsFilter, PermitAllUrlProperties permitAllUrl) {
+		this.unauthorizedHandler = unauthorizedHandler;
+		this.logoutSuccessHandler = logoutSuccessHandler;
+		this.authenticationTokenFilter = authenticationTokenFilter;
+		this.corsFilter = corsFilter;
+		this.permitAllUrl = permitAllUrl;
+	}
 
 	/**
 	 * 身份验证实现
 	 */
 	@Bean
-	public AuthenticationManager authenticationManager() {
+	public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) {
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
 		daoAuthenticationProvider.setUserDetailsService(userDetailsService);
 		daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
 		return new ProviderManager(daoAuthenticationProvider);
 	}
+
 
 	/**
 	 * anyRequest          |   匹配所有请求路径
@@ -94,13 +93,10 @@ public class SecurityConfig {
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 		return httpSecurity
-			// CSRF禁用，因为不使用session
-			.csrf(csrf -> csrf.disable())
+			// CSRF禁用，因为本系统采用无状态JWT认证，不依赖Session和Cookie
+			.csrf(AbstractHttpConfigurer::disable)
 			// 禁用HTTP响应标头
-			.headers((headersCustomizer) -> {
-				headersCustomizer.cacheControl(cache -> cache.disable()).frameOptions(options -> options.sameOrigin());
-			})
-			// 认证失败处理类
+				.headers(headersCustomizer -> headersCustomizer.cacheControl(HeadersConfigurer.CacheControlConfig::disable).frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))			// 认证失败处理类
 			.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
 			// 基于token，所以不需要session
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
