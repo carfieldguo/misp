@@ -9,6 +9,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,8 +39,8 @@ public class CacheController {
 		this.redisTemplate = redisTemplate;
 	}
 
-	private final static List<SysCache> caches = new ArrayList<SysCache>();
-	{
+	private static final List<SysCache> caches = new ArrayList<>();
+	static {
 		caches.add(new SysCache(CacheConstants.LOGIN_TOKEN_KEY, "用户信息"));
 		caches.add(new SysCache(CacheConstants.SYS_CONFIG_KEY, "配置信息"));
 		caches.add(new SysCache(CacheConstants.SYS_DICT_KEY, "数据字典"));
@@ -51,13 +52,13 @@ public class CacheController {
 
 	@PreAuthorize("@ss.hasPermi('monitor:cache:list')")
 	@GetMapping()
-	public AjaxResult getInfo() throws Exception {
-		Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info());
+	public AjaxResult getInfo() {
+		Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::info);
 		Properties commandStats = (Properties) redisTemplate
 			.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
-		Object dbSize = redisTemplate.execute((RedisCallback<Object>) connection -> connection.dbSize());
+		Object dbSize = redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
 
-		Map<String, Object> result = new HashMap<>(3);
+		Map<String, Object> result = HashMap.newHashMap(3);
 		result.put("info", info);
 		result.put("dbSize", dbSize);
 
@@ -66,7 +67,7 @@ public class CacheController {
 			return AjaxResult.success(result);
 		}
 		commandStats.stringPropertyNames().forEach(key -> {
-			Map<String, String> data = new HashMap<>(2);
+			Map<String, String> data = HashMap.newHashMap(2);
 			String property = commandStats.getProperty(key);
 			data.put("name", StringUtils.removeStart(key, "cmdstat_"));
 			data.put("value", StringUtils.substringBetween(property, "calls=", ",usec"));
@@ -101,14 +102,18 @@ public class CacheController {
 	@DeleteMapping("/clearCacheName/{cacheName}")
 	public AjaxResult clearCacheName(@PathVariable String cacheName) {
 		Collection<String> cacheKeys = redisTemplate.keys(cacheName + "*");
-		redisTemplate.delete(cacheKeys);
+		if (cacheKeys != null  && !cacheKeys.isEmpty()) {
+			redisTemplate.delete(cacheKeys);
+		}
 		return AjaxResult.success();
 	}
 
 	@PreAuthorize("@ss.hasPermi('monitor:cache:list')")
 	@DeleteMapping("/clearCacheKey/{cacheKey}")
 	public AjaxResult clearCacheKey(@PathVariable String cacheKey) {
-		redisTemplate.delete(cacheKey);
+		if (StringUtils.isNotBlank(cacheKey)) {
+			redisTemplate.delete(cacheKey);
+		}
 		return AjaxResult.success();
 	}
 
@@ -116,7 +121,9 @@ public class CacheController {
 	@DeleteMapping("/clearCacheAll")
 	public AjaxResult clearCacheAll() {
 		Collection<String> cacheKeys = redisTemplate.keys("*");
-		redisTemplate.delete(cacheKeys);
+		if (cacheKeys != null && !cacheKeys.isEmpty()) {
+			redisTemplate.delete(cacheKeys);
+		}
 		return AjaxResult.success();
 	}
 }

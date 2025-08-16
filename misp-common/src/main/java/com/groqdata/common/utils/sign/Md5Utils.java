@@ -1,11 +1,6 @@
 package com.groqdata.common.utils.sign;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-
 import org.apache.commons.codec.digest.DigestUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Md5加密方法
@@ -13,7 +8,6 @@ import org.slf4j.LoggerFactory;
  * @author MISP TEAM
  */
 public class Md5Utils {
-	private static final Logger log = LoggerFactory.getLogger(Md5Utils.class);
 
 	// 隐藏构造函数，防止实例化
 	private Md5Utils() {
