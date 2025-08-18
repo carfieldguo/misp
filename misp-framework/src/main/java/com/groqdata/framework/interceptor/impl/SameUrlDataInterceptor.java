@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -27,32 +26,34 @@ import com.groqdata.framework.interceptor.RepeatSubmitInterceptor;
  */
 @Component
 public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
-	public final String REPEAT_PARAMS = "repeatParams";
+	public static final String REPEAT_PARAMS = "repeatParams";
 
-	public final String REPEAT_TIME = "repeatTime";
+	public static final String REPEAT_TIME = "repeatTime";
 
 	// 令牌自定义标识
-	@Value("${token.header}")
-	private String header;
+	private final String header;
 
-	@Autowired
-	private RedisCache redisCache;
+	private final RedisCache redisCache;
+
+    public SameUrlDataInterceptor(@Value("${token.header}") String header, RedisCache redisCache) {
+        this.header = header;
+        this.redisCache = redisCache;
+    }
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) {
 		String nowParams = "";
-		if (request instanceof RepeatedlyRequestWrapper) {
-			RepeatedlyRequestWrapper repeatedlyRequest = (RepeatedlyRequestWrapper) request;
-			nowParams = HttpHelper.getBodyString(repeatedlyRequest);
-		}
+        if (request instanceof RepeatedlyRequestWrapper repeatedlyRequest) {
+            nowParams = HttpHelper.getBodyString(repeatedlyRequest);
+        }
 
 		// body参数为空，获取Parameter的数据
 		if (StringUtils.isEmpty(nowParams)) {
 			nowParams = JSON.toJSONString(request.getParameterMap());
 		}
-		Map<String, Object> nowDataMap = new HashMap<String, Object>();
-		nowDataMap.put(REPEAT_PARAMS, nowParams);
+        Map<String, Object> nowDataMap = new HashMap<>();
+        nowDataMap.put(REPEAT_PARAMS, nowParams);
 		nowDataMap.put(REPEAT_TIME, System.currentTimeMillis());
 
 		// 请求地址（作为存放cache的key值）
@@ -75,7 +76,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
 				}
 			}
 		}
-		Map<String, Object> cacheMap = new HashMap<String, Object>();
+		Map<String, Object> cacheMap = new HashMap<>();
 		cacheMap.put(url, nowDataMap);
 		redisCache.setCacheObject(cacheRepeatKey, cacheMap, annotation.interval(), TimeUnit.MILLISECONDS);
 		return false;
@@ -96,9 +97,6 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
 	private boolean compareTime(Map<String, Object> nowMap, Map<String, Object> preMap, int interval) {
 		long time1 = (Long) nowMap.get(REPEAT_TIME);
 		long time2 = (Long) preMap.get(REPEAT_TIME);
-		if ((time1 - time2) < interval) {
-			return true;
-		}
-		return false;
-	}
+        return (time1 - time2) < interval;
+    }
 }
