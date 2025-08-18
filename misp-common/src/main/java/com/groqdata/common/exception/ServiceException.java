@@ -2,64 +2,95 @@ package com.groqdata.common.exception;
 
 /**
  * 业务异常
- * 
+ *
  * @author MISP TEAM
  */
 public final class ServiceException extends RuntimeException {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 错误码
-	 */
-	private Integer code;
+    /**
+     * 错误码
+     */
+    private final Integer code;
 
-	/**
-	 * 错误提示
-	 */
-	private String message;
+    /**
+     * 错误提示
+     */
+    private final String message;
 
-	/**
-	 * 错误明细，内部调试错误
-	 *
-	 * 和 {@link CommonResult#getDetailMessage()} 一致的设计
-	 */
-	private String detailMessage;
+    /**
+     * 错误明细，内部调试错误
+     */
+    private final String detailMessage;
 
-	/**
-	 * 空构造方法，避免反序列化问题
-	 */
-	public ServiceException() {
-	}
+    /**
+     * 构造函数
+     *
+     * @param message 错误提示
+     */
+    public ServiceException(String message) {
+        this(message, null, null);
+    }
 
-	public ServiceException(String message) {
-		this.message = message;
-	}
+    /**
+     * 构造函数
+     *
+     * @param message 错误提示
+     * @param code 错误码
+     */
+    public ServiceException(String message, Integer code) {
+        this(message, code, null);
+    }
 
-	public ServiceException(String message, Integer code) {
-		this.message = message;
-		this.code = code;
-	}
+    /**
+     * 构造函数
+     *
+     * @param message 错误提示
+     * @param code 错误码
+     * @param detailMessage 详细错误信息
+     */
+    public ServiceException(String message, Integer code, String detailMessage) {
+        super(message);
+        this.message = message;
+        this.code = code;
+        this.detailMessage = detailMessage;
+    }
 
-	public String getDetailMessage() {
-		return detailMessage;
-	}
+    /**
+     * 构造函数
+     *
+     * @param message 错误提示
+     * @param cause 异常原因
+     */
+    public ServiceException(String message, Throwable cause) {
+        this(message, null, null, cause);
+    }
 
-	@Override
-	public String getMessage() {
-		return message;
-	}
+    /**
+     * 构造函数
+     *
+     * @param message 错误提示
+     * @param code 错误码
+     * @param detailMessage 详细错误信息
+     * @param cause 异常原因
+     */
+    public ServiceException(String message, Integer code, String detailMessage, Throwable cause) {
+        super(message, cause);
+        this.message = message;
+        this.code = code;
+        this.detailMessage = detailMessage;
+    }
 
-	public Integer getCode() {
-		return code;
-	}
+    public String getDetailMessage() {
+        return detailMessage;
+    }
 
-	public ServiceException setMessage(String message) {
-		this.message = message;
-		return this;
-	}
+    @Override
+    public String getMessage() {
+        return message;
+    }
 
-	public ServiceException setDetailMessage(String detailMessage) {
-		this.detailMessage = detailMessage;
-		return this;
-	}
+    public Integer getCode() {
+        return code;
+    }
 }

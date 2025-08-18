@@ -84,7 +84,7 @@ public class FileUploadException extends Exception {
 	 * @return 原始异常原因，如果不存在则返回null
 	 */
 	@Override
-	public Throwable getCause() {
+	public synchronized Throwable getCause() {
 		return cause;
 	}
 }

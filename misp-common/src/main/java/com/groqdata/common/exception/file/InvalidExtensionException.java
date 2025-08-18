@@ -62,23 +62,6 @@ public class InvalidExtensionException extends FileUploadException {
 	}
 
 	/**
-	 * 构造函数 - 用于被拒绝的扩展名
-	 *
-	 * @param message 错误消息
-	 * @param fileName 文件名
-	 * @param extension 文件扩展名
-	 * @param deniedExtensions 被拒绝的扩展名列表
-	 */
-	public InvalidExtensionException(String message, String fileName, String extension, Set<String> deniedExtensions,
-			boolean isDenied) {
-		super(message);
-		this.fileName = fileName;
-		this.extension = extension;
-		this.deniedExtensions = deniedExtensions != null ? new HashSet<>(deniedExtensions) : Collections.emptySet();
-		this.allowedExtensions = Collections.emptySet();
-	}
-
-	/**
 	 * 构造函数 - 通用构造函数（消息和扩展名）
 	 *
 	 * @param message 错误消息
