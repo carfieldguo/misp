@@ -26,7 +26,7 @@ public class TreeEntity extends BaseEntity {
 	private String ancestors;
 
 	/** 子部门 */
-	private transient List<TreeEntity> children = new ArrayList<>();
+	private  List<TreeEntity> children = new ArrayList<>();
 
 	public String getParentName() {
 		return parentName;

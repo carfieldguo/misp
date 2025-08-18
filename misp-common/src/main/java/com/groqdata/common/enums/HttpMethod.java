@@ -12,7 +12,7 @@ import org.springframework.lang.Nullable;
 public enum HttpMethod {
 	GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS, TRACE;
 
-	private static final Map<String, HttpMethod> mappings = new HashMap<>(16);
+	private static final Map<String, HttpMethod> mappings = HashMap.newHashMap(16);
 
 	static {
 		for (HttpMethod httpMethod : values()) {

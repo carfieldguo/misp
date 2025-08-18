@@ -1,6 +1,8 @@
 package com.groqdata.common.enums;
 
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
+
 import com.groqdata.common.utils.DesensitizedUtil;
 
 /**
@@ -46,7 +48,7 @@ public enum DesensitizedType {
 
 	private final Function<String, String> desensitizer;
 
-	DesensitizedType(Function<String, String> desensitizer) {
+	DesensitizedType(UnaryOperator<String> desensitizer) {
 		this.desensitizer = desensitizer;
 	}
 
