@@ -9,7 +9,15 @@ import io.jsonwebtoken.Claims;
  * @author MISP TEAM
  */
 public class Constants {
-	/**
+
+    /**
+     * 私有构造函数，防止实例化
+     */
+    private Constants() {
+        throw new IllegalStateException("常量类直接使用不需要实例化");
+    }
+
+    /**
 	 * UTF-8 字符集
 	 */
 	public static final String UTF8 = "UTF-8";
@@ -157,17 +165,17 @@ public class Constants {
 	/**
 	 * 自动识别json对象白名单配置（仅允许解析的包名，范围越小越安全）
 	 */
-	public static final String[] JSON_WHITELIST_STR = {"org.springframework", "com.groqdata" };
+    protected static final String[] JSON_WHITELIST_STR = {"org.springframework", "com.groqdata" };
 
 	/**
 	 * 定时任务白名单配置（仅允许访问的包名，如其他需要可以自行添加）
 	 */
-	public static final String[] JOB_WHITELIST_STR = {"com.groqdata.quartz.task" };
+    protected static final String[] JOB_WHITELIST_STR = {"com.groqdata.quartz.task" };
 
 	/**
 	 * 定时任务违规的字符
 	 */
-	public static final String[] JOB_ERROR_STR = {"java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
+    protected static final String[] JOB_ERROR_STR = {"java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
 		"org.springframework", "org.apache", "com.groqdata.common.utils.file", "com.groqdata.common.config",
 		"com.groqdata.generator" };
 }

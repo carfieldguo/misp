@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.groqdata.common.constant.Constants;
-import com.groqdata.common.constant.GenConstants;
+import com.groqdata.generator.constants.GenConstants;
 import com.groqdata.common.core.text.CharsetKit;
 import com.groqdata.common.exception.ServiceException;
 import com.groqdata.common.utils.StringHelper;

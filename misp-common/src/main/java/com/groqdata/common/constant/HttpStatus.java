@@ -6,7 +6,13 @@ package com.groqdata.common.constant;
  * @author MISP TEAM
  */
 public class HttpStatus {
-	/**
+    /**
+     * 私有构造函数，防止实例化
+     */
+    private HttpStatus() {
+        throw new IllegalStateException("常量类直接使用不需要实例化");
+    }
+    /**
 	 * 操作成功
 	 */
 	public static final int SUCCESS = 200;

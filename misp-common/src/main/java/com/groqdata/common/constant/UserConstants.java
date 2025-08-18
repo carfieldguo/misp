@@ -6,7 +6,13 @@ package com.groqdata.common.constant;
  * @author MISP TEAM
  */
 public class UserConstants {
-	/**
+    /**
+     * 私有构造函数，防止实例化
+     */
+    private UserConstants() {
+        throw new IllegalStateException("常量类直接使用不需要实例化");
+    }
+    /**
 	 * 平台内系统用户的唯一标志
 	 */
 	public static final String SYS_USER = "SYS_USER";

@@ -4,7 +4,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import org.apache.commons.lang3.ArrayUtils;
-import com.groqdata.common.constant.GenConstants;
+import com.groqdata.generator.constants.GenConstants;
 import com.groqdata.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 
