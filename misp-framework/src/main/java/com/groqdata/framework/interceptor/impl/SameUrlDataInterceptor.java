@@ -35,25 +35,25 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
 
 	private final RedisCache redisCache;
 
-    public SameUrlDataInterceptor(@Value("${token.header}") String header, RedisCache redisCache) {
-        this.header = header;
-        this.redisCache = redisCache;
-    }
+	public SameUrlDataInterceptor(@Value("${token.header}") String header, RedisCache redisCache) {
+		this.header = header;
+		this.redisCache = redisCache;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) {
 		String nowParams = "";
-        if (request instanceof RepeatedlyRequestWrapper repeatedlyRequest) {
-            nowParams = HttpHelper.getBodyString(repeatedlyRequest);
-        }
+		if (request instanceof RepeatedlyRequestWrapper repeatedlyRequest) {
+			nowParams = HttpHelper.getBodyString(repeatedlyRequest);
+		}
 
 		// body参数为空，获取Parameter的数据
 		if (StringUtils.isEmpty(nowParams)) {
 			nowParams = JSON.toJSONString(request.getParameterMap());
 		}
-        Map<String, Object> nowDataMap = new HashMap<>();
-        nowDataMap.put(REPEAT_PARAMS, nowParams);
+		Map<String, Object> nowDataMap = new HashMap<>();
+		nowDataMap.put(REPEAT_PARAMS, nowParams);
 		nowDataMap.put(REPEAT_TIME, System.currentTimeMillis());
 
 		// 请求地址（作为存放cache的key值）
@@ -97,6 +97,6 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
 	private boolean compareTime(Map<String, Object> nowMap, Map<String, Object> preMap, int interval) {
 		long time1 = (Long) nowMap.get(REPEAT_TIME);
 		long time2 = (Long) preMap.get(REPEAT_TIME);
-        return (time1 - time2) < interval;
-    }
+		return (time1 - time2) < interval;
+	}
 }

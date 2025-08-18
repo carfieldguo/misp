@@ -36,26 +36,25 @@ import com.groqdata.system.service.ISysUserService;
  */
 @Component
 public class SysLoginService {
-    private final TokenService tokenService;
-    private final AuthenticationManager authenticationManager;
-    private final RedisCache redisCache;
-    private final ISysUserService userService;
-    private final ISysConfigService configService;
+	private final TokenService tokenService;
+	private final AuthenticationManager authenticationManager;
+	private final RedisCache redisCache;
+	private final ISysUserService userService;
+	private final ISysConfigService configService;
 
+	public SysLoginService(TokenService tokenService,
+			AuthenticationManager authenticationManager,
+			RedisCache redisCache,
+			ISysUserService userService,
+			ISysConfigService configService) {
+		this.tokenService = tokenService;
+		this.authenticationManager = authenticationManager;
+		this.redisCache = redisCache;
+		this.userService = userService;
+		this.configService = configService;
+	}
 
-    public SysLoginService(TokenService tokenService,
-                           AuthenticationManager authenticationManager,
-                           RedisCache redisCache,
-                           ISysUserService userService,
-                           ISysConfigService configService) {
-        this.tokenService = tokenService;
-        this.authenticationManager = authenticationManager;
-        this.redisCache = redisCache;
-        this.userService = userService;
-        this.configService = configService;
-    }
-
-    private static final String USER_PASSWORD_NOT_MATCH = "user.password.not.match";
+	private static final String USER_PASSWORD_NOT_MATCH = "user.password.not.match";
 	/**
 	 * 登录验证
 	 * 
@@ -71,23 +70,24 @@ public class SysLoginService {
 		// 登录前置校验
 		loginPreCheck(username, password);
 		// 用户验证
-        Authentication authentication = null;
-        try {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-            AuthenticationContextHolder.setContext(authenticationToken);
-            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
-            authentication = authenticationManager.authenticate(authenticationToken);
-        } catch (BadCredentialsException e) {
-            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL,
-                    MessageUtils.message(USER_PASSWORD_NOT_MATCH)));
-            throw new UserPasswordNotMatchException();
-        } catch (Exception e) {
-            AsyncManager.me()
-                    .execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
-            throw new ServiceException(e.getMessage());
-        } finally {
-            AuthenticationContextHolder.clearContext();
-        }
+		Authentication authentication = null;
+		try {
+			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
+					password);
+			AuthenticationContextHolder.setContext(authenticationToken);
+			// 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
+			authentication = authenticationManager.authenticate(authenticationToken);
+		} catch (BadCredentialsException e) {
+			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL,
+					MessageUtils.message(USER_PASSWORD_NOT_MATCH)));
+			throw new UserPasswordNotMatchException();
+		} catch (Exception e) {
+			AsyncManager.me()
+					.execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
+			throw new ServiceException(e.getMessage());
+		} finally {
+			AuthenticationContextHolder.clearContext();
+		}
 		AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS,
 				MessageUtils.message("user.login.success")));
 		LoginUser loginUser = (LoginUser) authentication.getPrincipal();

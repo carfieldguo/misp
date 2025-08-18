@@ -10,9 +10,9 @@ import org.springframework.security.core.Authentication;
 public class AuthenticationContextHolder {
 	private static final ThreadLocal<Authentication> contextHolder = new ThreadLocal<>();
 
-    // 添加私有构造函数防止实例化
-    private AuthenticationContextHolder() {
-    }
+	// 添加私有构造函数防止实例化
+	private AuthenticationContextHolder() {
+	}
 
 	public static Authentication getContext() {
 		return contextHolder.get();

@@ -118,7 +118,8 @@ public class SysProfileController extends BaseController {
 	public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file) throws Exception {
 		if (!file.isEmpty()) {
 			LoginUser loginUser = getLoginUser();
-			String avatar = FileUploadUtils.upload(MispConfig.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION.toArray(new String[0]));
+			String avatar = FileUploadUtils.upload(MispConfig.getAvatarPath(), file,
+					MimeTypeUtils.IMAGE_EXTENSION.toArray(new String[0]));
 			if (userService.updateUserAvatar(loginUser.getUsername(), avatar)) {
 				AjaxResult ajax = AjaxResult.success();
 				ajax.put("imgUrl", avatar);

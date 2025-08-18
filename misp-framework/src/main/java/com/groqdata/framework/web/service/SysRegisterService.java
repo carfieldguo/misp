@@ -32,7 +32,7 @@ public class SysRegisterService {
 
 	private final RedisCache redisCache;
 
-    public SysRegisterService(ISysUserService userService, ISysConfigService configService, RedisCache redisCache) {
+	public SysRegisterService(ISysUserService userService, ISysConfigService configService, RedisCache redisCache) {
 		this.userService = userService;
 		this.configService = configService;
 		this.redisCache = redisCache;
@@ -43,8 +43,8 @@ public class SysRegisterService {
 	 */
 	public String register(RegisterBody registerBody) {
 		String msg = "";
-        String username = registerBody.getUsername();
-        String password = registerBody.getPassword();
+		String username = registerBody.getUsername();
+		String password = registerBody.getPassword();
 		SysUser sysUser = new SysUser();
 		sysUser.setUserName(username);
 

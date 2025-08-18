@@ -22,10 +22,10 @@ public class SysPermissionService {
 
 	private final ISysMenuService menuService;
 
-    public SysPermissionService(ISysRoleService roleService, ISysMenuService menuService) {
-        this.roleService = roleService;
-        this.menuService = menuService;
-    }
+	public SysPermissionService(ISysRoleService roleService, ISysMenuService menuService) {
+		this.roleService = roleService;
+		this.menuService = menuService;
+	}
 
 	/**
 	 * 获取角色数据权限

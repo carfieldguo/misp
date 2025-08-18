@@ -18,8 +18,8 @@ import com.groqdata.common.constant.Constants;
 public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
 	public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
-	static final Filter AUTO_TYPE_FILTER =  JSONReader.autoTypeFilter(
-            Constants.JSON_WHITELIST_STR.toArray(new String[0]));
+	static final Filter AUTO_TYPE_FILTER = JSONReader.autoTypeFilter(
+			Constants.JSON_WHITELIST_STR.toArray(new String[0]));
 
 	private final Class<T> clazz;
 

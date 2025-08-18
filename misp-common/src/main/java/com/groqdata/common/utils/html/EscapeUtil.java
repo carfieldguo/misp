@@ -8,12 +8,12 @@ import org.apache.commons.lang3.StringUtils;
  * @author MISP TEAM
  */
 public class EscapeUtil {
-    private EscapeUtil() {
-        // 防止实例化
-        throw new IllegalStateException("工具类直接使用不需要实例化");
-    }
+	private EscapeUtil() {
+		// 防止实例化
+		throw new IllegalStateException("工具类直接使用不需要实例化");
+	}
 
-    public static final String RE_HTML_MARK = "(<[^<]*?>)|(<[\\s]*?/[^<]*?>)|(<[^<]*?/[\\s]*?>)";
+	public static final String RE_HTML_MARK = "(<[^<]*?>)|(<[\\s]*?/[^<]*?>)|(<[^<]*?/[\\s]*?>)";
 
 	private static final char[][] TEXT = new char[64][];
 
@@ -106,7 +106,7 @@ public class EscapeUtil {
 
 		StringBuilder tmp = new StringBuilder(content.length());
 		int lastPos = 0;
-        int pos = 0;
+		int pos = 0;
 		char ch;
 		while (lastPos < content.length()) {
 			pos = content.indexOf("%", lastPos);

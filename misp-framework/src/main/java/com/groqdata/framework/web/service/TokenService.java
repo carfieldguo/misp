@@ -56,9 +56,9 @@ public class TokenService {
 
 	private final RedisCache redisCache;
 
-    public TokenService(RedisCache redisCache) {
-        this.redisCache = redisCache;
-    }
+	public TokenService(RedisCache redisCache) {
+		this.redisCache = redisCache;
+	}
 
 	/**
 	 * 获取用户身份信息
@@ -74,7 +74,7 @@ public class TokenService {
 				// 解析对应的权限以及用户信息
 				String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
 				String userKey = getTokenKey(uuid);
-                return redisCache.getCacheObject(userKey);
+				return redisCache.getCacheObject(userKey);
 			} catch (Exception e) {
 				log.error("获取用户信息异常'{}'", e.getMessage());
 			}
@@ -166,7 +166,7 @@ public class TokenService {
 	 * @return 令牌
 	 */
 	private String createToken(Map<String, Object> claims) {
-        return Jwts.builder()
+		return Jwts.builder()
 				.setClaims(claims)
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
 	}

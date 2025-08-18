@@ -23,7 +23,7 @@ public class Resp<T> implements Serializable {
 
 	private String msg;
 
-	private  T data;
+	private T data;
 
 	public static <T> Resp<T> ok() {
 		return restResult(null, SUCCESS, "操作成功");

@@ -133,7 +133,7 @@ public class FileUtils {
 		if (StringUtils.contains(resource, "..")) {
 			return true;
 		}
-        return !MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION.contains(FileTypeUtils.getFileType(resource));
+		return !MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION.contains(FileTypeUtils.getFileType(resource));
 	}
 
 	/**

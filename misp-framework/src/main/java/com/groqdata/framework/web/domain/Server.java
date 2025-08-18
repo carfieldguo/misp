@@ -93,7 +93,7 @@ public class Server {
 		this.sysFiles = sysFiles;
 	}
 
-	public void copyTo()  {
+	public void copyTo() {
 		SystemInfo si = new SystemInfo();
 		HardwareAbstractionLayer hal = si.getHardware();
 
@@ -157,7 +157,7 @@ public class Server {
 	/**
 	 * 设置Java虚拟机
 	 */
-	private void setJvmInfo()  {
+	private void setJvmInfo() {
 		Properties props = System.getProperties();
 		jvm.setTotal(Runtime.getRuntime().totalMemory());
 		jvm.setMax(Runtime.getRuntime().maxMemory());

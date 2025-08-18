@@ -25,7 +25,7 @@ import com.groqdata.common.utils.StringHelper;
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, Serializable {
 	@Serial
-    private static final long serialVersionUID = -8970718410437077606L;
+	private static final long serialVersionUID = -8970718410437077606L;
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e)

@@ -29,31 +29,31 @@ import com.groqdata.framework.web.service.TokenService;
 @Configuration
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 
-    private final TokenService tokenService;
+	private final TokenService tokenService;
 
-    public LogoutSuccessHandlerImpl(TokenService tokenService) {
-        this.tokenService = tokenService;
-    }
+	public LogoutSuccessHandlerImpl(TokenService tokenService) {
+		this.tokenService = tokenService;
+	}
 
-    /**
-     * 退出处理
-     *
-     * @return
-     */
-    @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
-        LoginUser loginUser = tokenService.getLoginUser(request);
-        if (StringHelper.isNotNull(loginUser)) {
-            String userName = loginUser.getUsername();
-            // 删除用户缓存记录
-            tokenService.delLoginUser(loginUser.getToken());
-            // 记录用户退出日志
-            AsyncManager.me().execute(
-                    AsyncFactory.recordLogininfor(userName, Constants.LOGOUT,
-                            MessageUtils.message("user.logout.success")));
-        }
-        ServletUtils.renderString(response,
-                JSON.toJSONString(AjaxResult.success(MessageUtils.message("user.logout.success"))));
-    }
+	/**
+	 * 退出处理
+	 *
+	 * @return
+	 */
+	@Override
+	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+			throws IOException, ServletException {
+		LoginUser loginUser = tokenService.getLoginUser(request);
+		if (StringHelper.isNotNull(loginUser)) {
+			String userName = loginUser.getUsername();
+			// 删除用户缓存记录
+			tokenService.delLoginUser(loginUser.getToken());
+			// 记录用户退出日志
+			AsyncManager.me().execute(
+					AsyncFactory.recordLogininfor(userName, Constants.LOGOUT,
+							MessageUtils.message("user.logout.success")));
+		}
+		ServletUtils.renderString(response,
+				JSON.toJSONString(AjaxResult.success(MessageUtils.message("user.logout.success"))));
+	}
 }

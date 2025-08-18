@@ -10,10 +10,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class FileTypeUtils {
 
-    private FileTypeUtils() {
-        // 防止实例化
-        throw new IllegalStateException("工具类直接使用不需要实例化");
-    }
+	private FileTypeUtils() {
+		// 防止实例化
+		throw new IllegalStateException("工具类直接使用不需要实例化");
+	}
 	/**
 	 * 获取文件类型
 	 * <p>

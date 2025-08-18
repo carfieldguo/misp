@@ -30,7 +30,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final SysPermissionService permissionService;
 
-    public UserDetailsServiceImpl(ISysUserService userService, SysPasswordService passwordService, SysPermissionService permissionService) {
+	public UserDetailsServiceImpl(ISysUserService userService, SysPasswordService passwordService,
+			SysPermissionService permissionService) {
 		this.userService = userService;
 		this.passwordService = passwordService;
 		this.permissionService = permissionService;

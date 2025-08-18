@@ -37,21 +37,21 @@ public class BaseException extends RuntimeException {
 		this.args = args;
 		this.defaultMessage = defaultMessage;
 	}
-    public BaseException(String module, String code, Object[] args, String defaultMessage, Throwable cause) {
-        super(defaultMessage, cause);
-        this.module = module;
-        this.code = code;
-        this.args = args;
-        this.defaultMessage = defaultMessage;
-    }
+	public BaseException(String module, String code, Object[] args, String defaultMessage, Throwable cause) {
+		super(defaultMessage, cause);
+		this.module = module;
+		this.code = code;
+		this.args = args;
+		this.defaultMessage = defaultMessage;
+	}
 
-    public BaseException(String defaultMessage, Throwable cause) {
-        super(defaultMessage, cause);
-        this.module = null;
-        this.code = null;
-        this.args = null;
-        this.defaultMessage = defaultMessage;
-    }
+	public BaseException(String defaultMessage, Throwable cause) {
+		super(defaultMessage, cause);
+		this.module = null;
+		this.code = null;
+		this.args = null;
+		this.defaultMessage = defaultMessage;
+	}
 
 	public BaseException(String module, String code, Object[] args) {
 		this(module, code, args, null);
@@ -69,9 +69,7 @@ public class BaseException extends RuntimeException {
 		this(null, null, null, defaultMessage);
 	}
 
-
-
-    @Override
+	@Override
 	public String getMessage() {
 		String message = null;
 		if (!StringUtils.isEmpty(code)) {

@@ -36,9 +36,9 @@ public class HttpUtils {
 
 	private static final String RECEIVED_RESPONSE_MSG = "Received response: {}";
 
-    private HttpUtils() {
-        throw new IllegalStateException("工具类不可实例化");
-    }
+	private HttpUtils() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
 	/**
 	 * 向指定 URL 发送GET方法的请求
 	 *

@@ -7,13 +7,13 @@ package com.groqdata.common.constant;
  */
 public class CacheConstants {
 
-    /**
-     * 私有构造函数，防止实例化
-     */
-    private CacheConstants() {
-        throw new IllegalStateException("常量类直接使用不需要实例化");
-    }
-    /**
+	/**
+	 * 私有构造函数，防止实例化
+	 */
+	private CacheConstants() {
+		throw new IllegalStateException("常量类直接使用不需要实例化");
+	}
+	/**
 	 * 登录用户 redis key
 	 */
 	public static final String LOGIN_TOKEN_KEY = "login_tokens:";

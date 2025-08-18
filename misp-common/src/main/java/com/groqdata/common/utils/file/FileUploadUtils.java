@@ -29,10 +29,10 @@ import com.groqdata.common.utils.DateHelper;
 public class FileUploadUtils {
 	private static final Logger log = LoggerFactory.getLogger(FileUploadUtils.class);
 
-    private FileUploadUtils() {
-        // 防止实例化
-        throw new IllegalStateException("工具类直接使用不需要实例化");
-    }
+	private FileUploadUtils() {
+		// 防止实例化
+		throw new IllegalStateException("工具类直接使用不需要实例化");
+	}
 	/**
 	 * 默认大小 50M
 	 */

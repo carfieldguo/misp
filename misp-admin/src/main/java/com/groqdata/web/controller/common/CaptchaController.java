@@ -75,19 +75,19 @@ public class CaptchaController {
 
 		redisCache.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
 		// 转换流信息写出
-        try (FastByteArrayOutputStream os = new FastByteArrayOutputStream()) {
-            try {
-                if (image == null) {
-                    return AjaxResult.error("不支持的验证码类型");
-                }
-                ImageIO.write(image, "jpg", os);
-            } catch (IOException e) {
-                return AjaxResult.error(e.getMessage());
-            }
+		try (FastByteArrayOutputStream os = new FastByteArrayOutputStream()) {
+			try {
+				if (image == null) {
+					return AjaxResult.error("不支持的验证码类型");
+				}
+				ImageIO.write(image, "jpg", os);
+			} catch (IOException e) {
+				return AjaxResult.error(e.getMessage());
+			}
 
-            ajax.put("uuid", uuid);
-            ajax.put("img", Base64Utils.encodeToString(os.toByteArray()));
-        }
-        return ajax;
+			ajax.put("uuid", uuid);
+			ajax.put("img", Base64Utils.encodeToString(os.toByteArray()));
+		}
+		return ajax;
 	}
 }

@@ -17,12 +17,12 @@ import java.util.regex.Pattern;
  */
 public final class HTMLFilter {
 
-    private static final String TAG_STRONG = "strong";
-    private static final String TAG_B = "b";
-    private static final String TAG_I = "i";
-    private static final String TAG_EM = "em";
-    private static final String TAG_A = "a";
-    private static final String TAG_IMG = "img";
+	private static final String TAG_STRONG = "strong";
+	private static final String TAG_B = "b";
+	private static final String TAG_I = "i";
+	private static final String TAG_EM = "em";
+	private static final String TAG_A = "a";
+	private static final String TAG_IMG = "img";
 
 	/**
 	 * regex flag union representing /si modifiers in php
@@ -40,7 +40,7 @@ public final class HTMLFilter {
 	private static final Pattern P_ENTITY_UNICODE = Pattern.compile("&#x([0-9a-f]+);?");
 	private static final Pattern P_ENCODE = Pattern.compile("%([0-9a-f]{2});?");
 	private static final Pattern P_VALID_ENTITIES = Pattern.compile("&([^&;]*)(?=(;|&|$))");
-    private static final Pattern P_VALID_QUOTES = Pattern.compile("(>|^)([^<]+)(<|$)", Pattern.DOTALL);
+	private static final Pattern P_VALID_QUOTES = Pattern.compile("(>|^)([^<]+)(<|$)", Pattern.DOTALL);
 	private static final Pattern P_END_ARROW = Pattern.compile("^>");
 	private static final Pattern P_BODY_TO_END = Pattern.compile("<([^>]*?)(?=<|$)");
 	private static final Pattern P_XML_CONTENT = Pattern.compile("(^|>)([^<]*?)(?=>)");
@@ -110,28 +110,27 @@ public final class HTMLFilter {
 	public HTMLFilter() {
 		vAllowed = new HashMap<>();
 
-        final ArrayList<String> hrefAttributes = new ArrayList<>();
-        hrefAttributes.add("href");
-        hrefAttributes.add("target");
-        vAllowed.put(TAG_A, hrefAttributes);
+		final ArrayList<String> hrefAttributes = new ArrayList<>();
+		hrefAttributes.add("href");
+		hrefAttributes.add("target");
+		vAllowed.put(TAG_A, hrefAttributes);
 
-        final ArrayList<String> imgAttributes = new ArrayList<>();
-        imgAttributes.add("src");
-        imgAttributes.add("width");
-        imgAttributes.add("height");
-        imgAttributes.add("alt");
-        vAllowed.put(TAG_IMG, imgAttributes);
+		final ArrayList<String> imgAttributes = new ArrayList<>();
+		imgAttributes.add("src");
+		imgAttributes.add("width");
+		imgAttributes.add("height");
+		imgAttributes.add("alt");
+		vAllowed.put(TAG_IMG, imgAttributes);
 
-        final ArrayList<String> fontAttributes = new ArrayList<>();
-        vAllowed.put(TAG_B, fontAttributes);
-        vAllowed.put(TAG_STRONG, fontAttributes);
-        vAllowed.put(TAG_I, fontAttributes);
-        vAllowed.put(TAG_EM, fontAttributes);
+		final ArrayList<String> fontAttributes = new ArrayList<>();
+		vAllowed.put(TAG_B, fontAttributes);
+		vAllowed.put(TAG_STRONG, fontAttributes);
+		vAllowed.put(TAG_I, fontAttributes);
+		vAllowed.put(TAG_EM, fontAttributes);
 
-
-        vSelfClosingTags = new String[]{TAG_IMG};
-        vNeedClosingTags = new String[]{TAG_A, TAG_B, TAG_STRONG, TAG_I, TAG_EM};
-        vRemoveBlanks = new String[]{TAG_A, TAG_B, TAG_STRONG, TAG_I, TAG_EM};
+		vSelfClosingTags = new String[]{TAG_IMG };
+		vNeedClosingTags = new String[]{TAG_A, TAG_B, TAG_STRONG, TAG_I, TAG_EM };
+		vRemoveBlanks = new String[]{TAG_A, TAG_B, TAG_STRONG, TAG_I, TAG_EM };
 		vDisallowed = new String[]{};
 		vAllowedProtocols = new String[]{"http", "mailto", "https" }; // no ftp.
 		vProtocolAtts = new String[]{"src", "href" };
@@ -149,30 +148,30 @@ public final class HTMLFilter {
 	@SuppressWarnings("unchecked")
 	public HTMLFilter(final Map<String, Object> conf) {
 
-        if (!conf.containsKey("vAllowed")) {
-            throw new IllegalArgumentException("configuration requires vAllowed");
-        }
-        if (!conf.containsKey("vSelfClosingTags")) {
-            throw new IllegalArgumentException("configuration requires vSelfClosingTags");
-        }
-        if (!conf.containsKey("vNeedClosingTags")) {
-            throw new IllegalArgumentException("configuration requires vNeedClosingTags");
-        }
-        if (!conf.containsKey("vDisallowed")) {
-            throw new IllegalArgumentException("configuration requires vDisallowed");
-        }
-        if (!conf.containsKey("vAllowedProtocols")) {
-            throw new IllegalArgumentException("configuration requires vAllowedProtocols");
-        }
-        if (!conf.containsKey("vProtocolAtts")) {
-            throw new IllegalArgumentException("configuration requires vProtocolAtts");
-        }
-        if (!conf.containsKey("vRemoveBlanks")) {
-            throw new IllegalArgumentException("configuration requires vRemoveBlanks");
-        }
-        if (!conf.containsKey("vAllowedEntities")) {
-            throw new IllegalArgumentException("configuration requires vAllowedEntities");
-        }
+		if (!conf.containsKey("vAllowed")) {
+			throw new IllegalArgumentException("configuration requires vAllowed");
+		}
+		if (!conf.containsKey("vSelfClosingTags")) {
+			throw new IllegalArgumentException("configuration requires vSelfClosingTags");
+		}
+		if (!conf.containsKey("vNeedClosingTags")) {
+			throw new IllegalArgumentException("configuration requires vNeedClosingTags");
+		}
+		if (!conf.containsKey("vDisallowed")) {
+			throw new IllegalArgumentException("configuration requires vDisallowed");
+		}
+		if (!conf.containsKey("vAllowedProtocols")) {
+			throw new IllegalArgumentException("configuration requires vAllowedProtocols");
+		}
+		if (!conf.containsKey("vProtocolAtts")) {
+			throw new IllegalArgumentException("configuration requires vProtocolAtts");
+		}
+		if (!conf.containsKey("vRemoveBlanks")) {
+			throw new IllegalArgumentException("configuration requires vRemoveBlanks");
+		}
+		if (!conf.containsKey("vAllowedEntities")) {
+			throw new IllegalArgumentException("configuration requires vAllowedEntities");
+		}
 
 		vAllowed = Collections.unmodifiableMap((HashMap<String, List<String>>) conf.get("vAllowed"));
 		vSelfClosingTags = (String[]) conf.get("vSelfClosingTags");
@@ -182,10 +181,10 @@ public final class HTMLFilter {
 		vProtocolAtts = (String[]) conf.get("vProtocolAtts");
 		vRemoveBlanks = (String[]) conf.get("vRemoveBlanks");
 		vAllowedEntities = (String[]) conf.get("vAllowedEntities");
-		stripComment = !conf.containsKey("stripComment")  || (Boolean) conf.get("stripComment");
-		encodeQuotes = !conf.containsKey("encodeQuotes")  || (Boolean) conf.get("encodeQuotes");
-        alwaysMakeTags = !conf.containsKey("alwaysMakeTags") || (Boolean) conf.get("alwaysMakeTags");
-    }
+		stripComment = !conf.containsKey("stripComment") || (Boolean) conf.get("stripComment");
+		encodeQuotes = !conf.containsKey("encodeQuotes") || (Boolean) conf.get("encodeQuotes");
+		alwaysMakeTags = !conf.containsKey("alwaysMakeTags") || (Boolean) conf.get("alwaysMakeTags");
+	}
 
 	private void reset() {
 		vTagCounts.clear();
@@ -237,12 +236,12 @@ public final class HTMLFilter {
 		return stripComment;
 	}
 
-    private String escapeComments(final String s) {
-        return processMatcher(P_COMMENTS, s, (m, buf) -> {
-            final String match = m.group(1);
-            m.appendReplacement(buf, Matcher.quoteReplacement("<!--" + htmlSpecialChars(match) + "-->"));
-        });
-    }
+	private String escapeComments(final String s) {
+		return processMatcher(P_COMMENTS, s, (m, buf) -> {
+			final String match = m.group(1);
+			m.appendReplacement(buf, Matcher.quoteReplacement("<!--" + htmlSpecialChars(match) + "-->"));
+		});
+	}
 
 	private String balanceHTML(String s) {
 		if (alwaysMakeTags) {
@@ -272,25 +271,24 @@ public final class HTMLFilter {
 		return s;
 	}
 
-    private String checkTags(String s) {
-        String result = processMatcher(P_TAGS, s, (m, buf) -> {
-            String replaceStr = m.group(1);
-            replaceStr = processTag(replaceStr);
-            m.appendReplacement(buf, Matcher.quoteReplacement(replaceStr));
-        });
+	private String checkTags(String s) {
+		String result = processMatcher(P_TAGS, s, (m, buf) -> {
+			String replaceStr = m.group(1);
+			replaceStr = processTag(replaceStr);
+			m.appendReplacement(buf, Matcher.quoteReplacement(replaceStr));
+		});
 
-        // these get tallied in processTag
-        final StringBuilder sBuilder = new StringBuilder(result);
-        for (Map.Entry<String, Integer> entry : vTagCounts.entrySet()) {
-            String key = entry.getKey();
-            Integer count = entry.getValue();
-            for (int ii = 0; ii < count; ii++) {
-                sBuilder.append("</").append(key).append(">");
-            }
-        }
-        return sBuilder.toString();
-    }
-
+		// these get tallied in processTag
+		final StringBuilder sBuilder = new StringBuilder(result);
+		for (Map.Entry<String, Integer> entry : vTagCounts.entrySet()) {
+			String key = entry.getKey();
+			Integer count = entry.getValue();
+			for (int ii = 0; ii < count; ii++) {
+				sBuilder.append("</").append(key).append(">");
+			}
+		}
+		return sBuilder.toString();
+	}
 
 	private String processRemoveBlanks(final String s) {
 		String result = s;
@@ -313,88 +311,88 @@ public final class HTMLFilter {
 		return m.replaceAll(replacement);
 	}
 
-    private String processTag(final String s) {
-        // ending tags
-        Matcher m = P_END_TAG.matcher(s);
-        if (m.find()) {
-            return processEndTag(m.group(1));
-        }
+	private String processTag(final String s) {
+		// ending tags
+		Matcher m = P_END_TAG.matcher(s);
+		if (m.find()) {
+			return processEndTag(m.group(1));
+		}
 
-        // starting tags
-        m = P_START_TAG.matcher(s);
-        if (m.find()) {
-            return processStartTag(m.group(1), m.group(2), m.group(3));
-        }
+		// starting tags
+		m = P_START_TAG.matcher(s);
+		if (m.find()) {
+			return processStartTag(m.group(1), m.group(2), m.group(3));
+		}
 
-        // comments
-        m = P_COMMENT.matcher(s);
-        if (!stripComment && m.find()) {
-            return "<" + m.group() + ">";
-        }
+		// comments
+		m = P_COMMENT.matcher(s);
+		if (!stripComment && m.find()) {
+			return "<" + m.group() + ">";
+		}
 
-        return "";
-    }
+		return "";
+	}
 
-    private String processEndTag(String name) {
-        name = name.toLowerCase();
-        if (allowed(name) && !inArray(name, vSelfClosingTags) && vTagCounts.computeIfPresent(name, (key, value) -> value - 1) != null) {
-            return "</" + name + ">";
-        }
-        return "";
-    }
+	private String processEndTag(String name) {
+		name = name.toLowerCase();
+		if (allowed(name) && !inArray(name, vSelfClosingTags)
+				&& vTagCounts.computeIfPresent(name, (key, value) -> value - 1) != null) {
+			return "</" + name + ">";
+		}
+		return "";
+	}
 
-    private String processStartTag(String name, String body, String ending) {
-        name = name.toLowerCase();
-        if (!allowed(name)) {
-            return "";
-        }
+	private String processStartTag(String name, String body, String ending) {
+		name = name.toLowerCase();
+		if (!allowed(name)) {
+			return "";
+		}
 
-        StringBuilder params = new StringBuilder();
-        List<String> paramNames = new ArrayList<>();
-        List<String> paramValues = new ArrayList<>();
+		StringBuilder params = new StringBuilder();
+		List<String> paramNames = new ArrayList<>();
+		List<String> paramValues = new ArrayList<>();
 
-        Matcher m2 = P_QUOTED_ATTRIBUTES.matcher(body);
-        while (m2.find()) {
-            paramNames.add(m2.group(1));
-            paramValues.add(m2.group(3));
-        }
+		Matcher m2 = P_QUOTED_ATTRIBUTES.matcher(body);
+		while (m2.find()) {
+			paramNames.add(m2.group(1));
+			paramValues.add(m2.group(3));
+		}
 
-        Matcher m3 = P_UNQUOTED_ATTRIBUTES.matcher(body);
-        while (m3.find()) {
-            paramNames.add(m3.group(1));
-            paramValues.add(m3.group(3));
-        }
+		Matcher m3 = P_UNQUOTED_ATTRIBUTES.matcher(body);
+		while (m3.find()) {
+			paramNames.add(m3.group(1));
+			paramValues.add(m3.group(3));
+		}
 
-        for (int ii = 0; ii < paramNames.size(); ii++) {
-            String paramName = paramNames.get(ii).toLowerCase();
-            String paramValue = paramValues.get(ii);
+		for (int ii = 0; ii < paramNames.size(); ii++) {
+			String paramName = paramNames.get(ii).toLowerCase();
+			String paramValue = paramValues.get(ii);
 
-            if (allowedAttribute(name, paramName)) {
-                if (inArray(paramName, vProtocolAtts)) {
-                    paramValue = processParamProtocol(paramValue);
-                }
-                params.append(' ').append(paramName).append("=\\\"").append(paramValue).append("\\\"");
-            }
-        }
+			if (allowedAttribute(name, paramName)) {
+				if (inArray(paramName, vProtocolAtts)) {
+					paramValue = processParamProtocol(paramValue);
+				}
+				params.append(' ').append(paramName).append("=\\\"").append(paramValue).append("\\\"");
+			}
+		}
 
-        if (inArray(name, vSelfClosingTags)) {
-            ending = " /";
-        } else if (inArray(name, vNeedClosingTags)) {
-            ending = "";
-        }
+		if (inArray(name, vSelfClosingTags)) {
+			ending = " /";
+		} else if (inArray(name, vNeedClosingTags)) {
+			ending = "";
+		}
 
-        if (ending == null || ending.isEmpty()) {
-            vTagCounts.put(name, vTagCounts.getOrDefault(name, 0) + 1);
-            ending = "";
-        } else {
-            ending = " /";
-        }
+		if (ending == null || ending.isEmpty()) {
+			vTagCounts.put(name, vTagCounts.getOrDefault(name, 0) + 1);
+			ending = "";
+		} else {
+			ending = " /";
+		}
 
-        return "<" + name + params + ending + ">";
-    }
+		return "<" + name + params + ending + ">";
+	}
 
-
-    private String processParamProtocol(String s) {
+	private String processParamProtocol(String s) {
 		s = decodeEntities(s);
 		final Matcher m = P_PROTOCOL.matcher(s);
 		if (m.find()) {
@@ -411,67 +409,65 @@ public final class HTMLFilter {
 		return s;
 	}
 
-    private String decodeEntities(String s) {
-        // 处理 P_ENTITY 匹配
-        s = processMatcher(P_ENTITY, s, (m, buf) -> {
-            final String match = m.group(1);
-            final int decimal = Integer.decode(match);
-            m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
-        });
+	private String decodeEntities(String s) {
+		// 处理 P_ENTITY 匹配
+		s = processMatcher(P_ENTITY, s, (m, buf) -> {
+			final String match = m.group(1);
+			final int decimal = Integer.decode(match);
+			m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
+		});
 
-        // 处理 P_ENTITY_UNICODE 匹配
-        s = processMatcher(P_ENTITY_UNICODE, s, (m, buf) -> {
-            final String match = m.group(1);
-            final int decimal = Integer.valueOf(match, 16);
-            m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
-        });
+		// 处理 P_ENTITY_UNICODE 匹配
+		s = processMatcher(P_ENTITY_UNICODE, s, (m, buf) -> {
+			final String match = m.group(1);
+			final int decimal = Integer.valueOf(match, 16);
+			m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
+		});
 
-        // 处理 P_ENCODE 匹配
-        s = processMatcher(P_ENCODE, s, (m, buf) -> {
-            final String match = m.group(1);
-            final int decimal = Integer.valueOf(match, 16);
-            m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
-        });
+		// 处理 P_ENCODE 匹配
+		s = processMatcher(P_ENCODE, s, (m, buf) -> {
+			final String match = m.group(1);
+			final int decimal = Integer.valueOf(match, 16);
+			m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
+		});
 
-        s = validateEntities(s);
-        return s;
-    }
+		s = validateEntities(s);
+		return s;
+	}
 
+	private String processMatcher(Pattern pattern, String input,
+			java.util.function.BiConsumer<Matcher, StringBuffer> handler) {
+		Matcher m = pattern.matcher(input);
+		StringBuffer buf = new StringBuffer();
+		while (m.find()) {
+			handler.accept(m, buf);
+		}
+		m.appendTail(buf);
+		return buf.toString();
+	}
 
-    private String processMatcher(Pattern pattern, String input, java.util.function.BiConsumer<Matcher, StringBuffer> handler) {
-        Matcher m = pattern.matcher(input);
-        StringBuffer buf = new StringBuffer();
-        while (m.find()) {
-            handler.accept(m, buf);
-        }
-        m.appendTail(buf);
-        return buf.toString();
-    }
+	private String validateEntities(final String s) {
+		String result = processMatcher(P_VALID_ENTITIES, s, (m, buf) -> {
+			final String one = m.group(1);
+			final String two = m.group(2);
+			m.appendReplacement(buf, Matcher.quoteReplacement(checkEntity(one, two)));
+		});
 
-    private String validateEntities(final String s) {
-        String result = processMatcher(P_VALID_ENTITIES, s, (m, buf) -> {
-            final String one = m.group(1);
-            final String two = m.group(2);
-            m.appendReplacement(buf, Matcher.quoteReplacement(checkEntity(one, two)));
-        });
+		return encodeQuotes(result);
+	}
 
-        return encodeQuotes(result);
-    }
-
-
-    private String encodeQuotes(final String s) {
-        if (encodeQuotes) {
-            return processMatcher(P_VALID_QUOTES, s, (m, buf) -> {
-                final String one = m.group(1);
-                final String two = m.group(2);
-                final String three = m.group(3);
-                m.appendReplacement(buf, Matcher.quoteReplacement(one + two + three));
-            });
-        } else {
-            return s;
-        }
-    }
-
+	private String encodeQuotes(final String s) {
+		if (encodeQuotes) {
+			return processMatcher(P_VALID_QUOTES, s, (m, buf) -> {
+				final String one = m.group(1);
+				final String two = m.group(2);
+				final String three = m.group(3);
+				m.appendReplacement(buf, Matcher.quoteReplacement(one + two + three));
+			});
+		} else {
+			return s;
+		}
+	}
 
 	private String checkEntity(final String preamble, final String term) {
 

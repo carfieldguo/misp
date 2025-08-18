@@ -24,10 +24,9 @@ import eu.bitwalker.useragentutils.UserAgent;
 public class AsyncFactory {
 	private static final Logger sys_user_logger = LoggerFactory.getLogger("sys-user");
 
-
-    private AsyncFactory() {
-        throw new IllegalStateException("工具类不能被实例化");
-    }
+	private AsyncFactory() {
+		throw new IllegalStateException("工具类不能被实例化");
+	}
 	/**
 	 * 记录登录信息
 	 * 
@@ -45,11 +44,11 @@ public class AsyncFactory {
 			@Override
 			public void run() {
 				String address = AddressUtils.getRealAddressByIP(ip);
-                String logContent = LogUtils.getBlock(ip) +
-                        address +
-                        LogUtils.getBlock(username) +
-                        LogUtils.getBlock(status) +
-                        LogUtils.getBlock(message);
+				String logContent = LogUtils.getBlock(ip) +
+						address +
+						LogUtils.getBlock(username) +
+						LogUtils.getBlock(status) +
+						LogUtils.getBlock(message);
 				// 打印信息到日志
 				sys_user_logger.info(logContent, args);
 				// 获取客户端操作系统

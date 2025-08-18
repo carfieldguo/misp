@@ -49,7 +49,7 @@ public class BaseEntity implements Serializable {
 	/** 请求参数 */
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	@ApiModelProperty("其他费对象格式的请求参数,Map格式")
-	private  Map<String, Object> params;
+	private Map<String, Object> params;
 
 	public String getSearchValue() {
 		return searchValue;

@@ -6,13 +6,13 @@ package com.groqdata.common.constant;
  * @author MISP TEAM
  */
 public class ScheduleConstants {
-    /**
-     * 私有构造函数，防止实例化
-     */
-    private ScheduleConstants() {
-        throw new IllegalStateException("常量类直接使用不需要实例化");
-    }
-    public static final String TASK_CLASS_NAME = "TASK_CLASS_NAME";
+	/**
+	 * 私有构造函数，防止实例化
+	 */
+	private ScheduleConstants() {
+		throw new IllegalStateException("常量类直接使用不需要实例化");
+	}
+	public static final String TASK_CLASS_NAME = "TASK_CLASS_NAME";
 
 	/** 执行目标key */
 	public static final String TASK_PROPERTIES = "TASK_PROPERTIES";

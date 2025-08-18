@@ -18,20 +18,20 @@ import com.groqdata.common.utils.ServletUtils;
  */
 @Component
 public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
-        if (handler instanceof HandlerMethod handlerMethod) {
-            Method method = handlerMethod.getMethod();
-            RepeatSubmit annotation = method.getAnnotation(RepeatSubmit.class);
-            if (annotation != null && this.isRepeatSubmit(request, annotation)) {
-                AjaxResult ajaxResult = AjaxResult.error(annotation.message());
-                ServletUtils.renderString(response, JSON.toJSONString(ajaxResult));
-                return false;
-            }
-        }
-        return true;
-    }
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+		if (handler instanceof HandlerMethod handlerMethod) {
+			Method method = handlerMethod.getMethod();
+			RepeatSubmit annotation = method.getAnnotation(RepeatSubmit.class);
+			if (annotation != null && this.isRepeatSubmit(request, annotation)) {
+				AjaxResult ajaxResult = AjaxResult.error(annotation.message());
+				ServletUtils.renderString(response, JSON.toJSONString(ajaxResult));
+				return false;
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * 验证是否重复提交由子类实现具体的防重复提交的规则

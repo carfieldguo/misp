@@ -12,9 +12,9 @@ import com.groqdata.common.core.text.Convert;
 public class PermissionContextHolder {
 	private static final String PERMISSION_CONTEXT_ATTRIBUTES = "PERMISSION_CONTEXT";
 
-    // 添加私有构造函数
-    private PermissionContextHolder() {
-    }
+	// 添加私有构造函数
+	private PermissionContextHolder() {
+	}
 	public static void setContext(String permission) {
 		RequestContextHolder.currentRequestAttributes().setAttribute(PERMISSION_CONTEXT_ATTRIBUTES, permission,
 				RequestAttributes.SCOPE_REQUEST);

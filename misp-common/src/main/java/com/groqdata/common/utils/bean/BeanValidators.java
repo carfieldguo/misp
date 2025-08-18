@@ -12,10 +12,10 @@ import javax.validation.Validator;
  */
 public class BeanValidators {
 
-    private BeanValidators() {
-        // 防止实例化
-        throw new IllegalStateException("工具类直接使用不需要实例化");
-    }
+	private BeanValidators() {
+		// 防止实例化
+		throw new IllegalStateException("工具类直接使用不需要实例化");
+	}
 	public static void validateWithException(Validator validator, Object object, Class<?>... groups)
 			throws ConstraintViolationException {
 		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object, groups);
