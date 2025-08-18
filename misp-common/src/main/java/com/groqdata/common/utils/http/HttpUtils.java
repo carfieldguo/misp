@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -39,10 +36,9 @@ public class HttpUtils {
 
 	private static final String RECEIVED_RESPONSE_MSG = "Received response: {}";
 
-	private HttpUtils() {
-		throw new IllegalStateException("Utility class");
-	}
-
+    private HttpUtils() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
 	/**
 	 * 向指定 URL 发送GET方法的请求
 	 *
@@ -78,7 +74,7 @@ public class HttpUtils {
 		log.info("Sending GET request to URL: {}", urlNameString);
 
 		try {
-			URL realUrl = new URL(urlNameString);
+			URL realUrl = URI.create(urlNameString).toURL();
 			URLConnection connection = realUrl.openConnection();
 			setCommonRequestProperties(connection);
 			connection.connect();
@@ -112,7 +108,7 @@ public class HttpUtils {
 		log.info("Sending POST request to URL: {}", url);
 
 		try {
-			URL realUrl = new URL(url);
+			URL realUrl = URI.create(url).toURL();
 			URLConnection conn = realUrl.openConnection();
 			setCommonRequestProperties(conn);
 			conn.setDoOutput(true);
@@ -154,7 +150,7 @@ public class HttpUtils {
 
 		try {
 			SSLContext sc = createSSLContext();
-			URL console = new URL(urlNameString);
+			URL console = URI.create(urlNameString).toURL();
 			HttpsURLConnection conn = (HttpsURLConnection) console.openConnection();
 			setCommonRequestProperties(conn);
 			conn.setDoOutput(true);

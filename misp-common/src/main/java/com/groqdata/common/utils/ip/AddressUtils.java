@@ -17,6 +17,9 @@ import com.groqdata.common.utils.http.HttpUtils;
 public class AddressUtils {
 	private static final Logger log = LoggerFactory.getLogger(AddressUtils.class);
 
+    private AddressUtils() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
 	// IP地址查询
 	public static final String IP_URL = "http://whois.pconline.com.cn/ipJson.jsp";
 

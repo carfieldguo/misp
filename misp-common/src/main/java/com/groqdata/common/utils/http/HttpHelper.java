@@ -18,6 +18,10 @@ import org.slf4j.LoggerFactory;
 public class HttpHelper {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HttpHelper.class);
 
+    private HttpHelper() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
+
 	public static String getBodyString(ServletRequest request) {
 		StringBuilder sb = new StringBuilder();
 		BufferedReader reader = null;
