@@ -3,7 +3,6 @@ package com.groqdata.framework.web.service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import com.groqdata.common.core.domain.entity.SysRole;
@@ -18,11 +17,15 @@ import com.groqdata.system.service.ISysRoleService;
  */
 @Component
 public class SysPermissionService {
-	@Autowired
-	private ISysRoleService roleService;
 
-	@Autowired
-	private ISysMenuService menuService;
+	private final ISysRoleService roleService;
+
+	private final ISysMenuService menuService;
+
+    public SysPermissionService(ISysRoleService roleService, ISysMenuService menuService) {
+        this.roleService = roleService;
+        this.menuService = menuService;
+    }
 
 	/**
 	 * 获取角色数据权限
@@ -31,7 +34,7 @@ public class SysPermissionService {
 	 * @return 角色权限信息
 	 */
 	public Set<String> getRolePermission(SysUser user) {
-		Set<String> roles = new HashSet<String>();
+		Set<String> roles = new HashSet<>();
 		// 管理员拥有所有权限
 		if (user.isAdmin()) {
 			roles.add("admin");
@@ -48,7 +51,7 @@ public class SysPermissionService {
 	 * @return 菜单权限信息
 	 */
 	public Set<String> getMenuPermission(SysUser user) {
-		Set<String> perms = new HashSet<String>();
+		Set<String> perms = new HashSet<>();
 		// 管理员拥有所有权限
 		if (user.isAdmin()) {
 			perms.add("*:*:*");

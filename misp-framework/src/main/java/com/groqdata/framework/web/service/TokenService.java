@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -55,8 +54,11 @@ public class TokenService {
 
 	private static final Long MILLIS_MINUTE_TEN = 20 * 60 * 1000L;
 
-	@Autowired
-	private RedisCache redisCache;
+	private final RedisCache redisCache;
+
+    public TokenService(RedisCache redisCache) {
+        this.redisCache = redisCache;
+    }
 
 	/**
 	 * 获取用户身份信息
@@ -72,8 +74,7 @@ public class TokenService {
 				// 解析对应的权限以及用户信息
 				String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
 				String userKey = getTokenKey(uuid);
-				LoginUser user = redisCache.getCacheObject(userKey);
-				return user;
+                return redisCache.getCacheObject(userKey);
 			} catch (Exception e) {
 				log.error("获取用户信息异常'{}'", e.getMessage());
 			}
@@ -124,9 +125,9 @@ public class TokenService {
 	 * @return 令牌
 	 */
 	public void verifyToken(LoginUser loginUser) {
-		long expireTime = loginUser.getExpireTime();
+		long userExpireTime = loginUser.getExpireTime();
 		long currentTime = System.currentTimeMillis();
-		if (expireTime - currentTime <= MILLIS_MINUTE_TEN) {
+		if (userExpireTime - currentTime <= MILLIS_MINUTE_TEN) {
 			refreshToken(loginUser);
 		}
 	}
@@ -165,10 +166,9 @@ public class TokenService {
 	 * @return 令牌
 	 */
 	private String createToken(Map<String, Object> claims) {
-		String token = Jwts.builder()
+        return Jwts.builder()
 				.setClaims(claims)
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
-		return token;
 	}
 
 	/**

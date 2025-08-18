@@ -1,9 +1,6 @@
 package com.groqdata.framework.web.service;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,21 +36,26 @@ import com.groqdata.system.service.ISysUserService;
  */
 @Component
 public class SysLoginService {
-	@Autowired
-	private TokenService tokenService;
+    private final TokenService tokenService;
+    private final AuthenticationManager authenticationManager;
+    private final RedisCache redisCache;
+    private final ISysUserService userService;
+    private final ISysConfigService configService;
 
-	@Resource
-	private AuthenticationManager authenticationManager;
 
-	@Autowired
-	private RedisCache redisCache;
+    public SysLoginService(TokenService tokenService,
+                           AuthenticationManager authenticationManager,
+                           RedisCache redisCache,
+                           ISysUserService userService,
+                           ISysConfigService configService) {
+        this.tokenService = tokenService;
+        this.authenticationManager = authenticationManager;
+        this.redisCache = redisCache;
+        this.userService = userService;
+        this.configService = configService;
+    }
 
-	@Autowired
-	private ISysUserService userService;
-
-	@Autowired
-	private ISysConfigService configService;
-
+    private static final String USER_PASSWORD_NOT_MATCH = "user.password.not.match";
 	/**
 	 * 登录验证
 	 * 
@@ -69,26 +71,23 @@ public class SysLoginService {
 		// 登录前置校验
 		loginPreCheck(username, password);
 		// 用户验证
-		Authentication authentication = null;
-		try {
-			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
-					password);
-			AuthenticationContextHolder.setContext(authenticationToken);
-			// 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
-			authentication = authenticationManager.authenticate(authenticationToken);
-		} catch (Exception e) {
-			if (e instanceof BadCredentialsException) {
-				AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL,
-						MessageUtils.message("user.password.not.match")));
-				throw new UserPasswordNotMatchException();
-			} else {
-				AsyncManager.me()
-						.execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
-				throw new ServiceException(e.getMessage());
-			}
-		} finally {
-			AuthenticationContextHolder.clearContext();
-		}
+        Authentication authentication = null;
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+            AuthenticationContextHolder.setContext(authenticationToken);
+            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
+            authentication = authenticationManager.authenticate(authenticationToken);
+        } catch (BadCredentialsException e) {
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL,
+                    MessageUtils.message(USER_PASSWORD_NOT_MATCH)));
+            throw new UserPasswordNotMatchException();
+        } catch (Exception e) {
+            AsyncManager.me()
+                    .execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
+            throw new ServiceException(e.getMessage());
+        } finally {
+            AuthenticationContextHolder.clearContext();
+        }
 		AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS,
 				MessageUtils.message("user.login.success")));
 		LoginUser loginUser = (LoginUser) authentication.getPrincipal();
@@ -140,14 +139,14 @@ public class SysLoginService {
 		if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
 				|| password.length() > UserConstants.PASSWORD_MAX_LENGTH) {
 			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL,
-					MessageUtils.message("user.password.not.match")));
+					MessageUtils.message(USER_PASSWORD_NOT_MATCH)));
 			throw new UserPasswordNotMatchException();
 		}
 		// 用户名不在指定范围内 错误
 		if (username.length() < UserConstants.USERNAME_MIN_LENGTH
 				|| username.length() > UserConstants.USERNAME_MAX_LENGTH) {
 			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL,
-					MessageUtils.message("user.password.not.match")));
+					MessageUtils.message(USER_PASSWORD_NOT_MATCH)));
 			throw new UserPasswordNotMatchException();
 		}
 		// IP黑名单校验

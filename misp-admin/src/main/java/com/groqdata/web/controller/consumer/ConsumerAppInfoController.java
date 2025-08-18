@@ -52,7 +52,7 @@ public class ConsumerAppInfoController extends BaseController {
 	/**
 	 * 查询应用信息列表
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:app-info:list')")
+	@PreAuthorize("@ss.hasPermit('consumer:app-info:list')")
 	@ApiOperation("查询应用信息列表")
 	@GetMapping("/list")
 	@ApiImplicitParams({
@@ -68,7 +68,7 @@ public class ConsumerAppInfoController extends BaseController {
 	/**
 	 * 导出应用信息列表
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:app-info:export')")
+	@PreAuthorize("@ss.hasPermit('consumer:app-info:export')")
 	@ApiOperation("导出应用信息列表")
 	@Log(title = "应用信息", businessType = BusinessType.EXPORT)
 	@PostMapping("/export")
@@ -81,7 +81,7 @@ public class ConsumerAppInfoController extends BaseController {
 	/**
 	 * 获取应用信息详细信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:app-info:query')")
+	@PreAuthorize("@ss.hasPermit('consumer:app-info:query')")
 	@ApiOperation("获取应用信息详细信息")
 	@ApiImplicitParam(name = "id", value = "应用信息主键", required = true, dataType = "Long", paramType = "path")
 	@GetMapping(value = "/{id}")
@@ -92,7 +92,7 @@ public class ConsumerAppInfoController extends BaseController {
 	/**
 	 * 新增应用信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:app-info:add')")
+	@PreAuthorize("@ss.hasPermit('consumer:app-info:add')")
 	@ApiOperation("新增应用信息")
 	@Log(title = "应用信息", businessType = BusinessType.INSERT)
 	@PostMapping
@@ -104,7 +104,7 @@ public class ConsumerAppInfoController extends BaseController {
 	/**
 	 * 修改应用信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:app-info:edit')")
+	@PreAuthorize("@ss.hasPermit('consumer:app-info:edit')")
 	@ApiOperation("修改应用信息")
 	@Log(title = "应用信息", businessType = BusinessType.UPDATE)
 	@PutMapping
@@ -116,7 +116,7 @@ public class ConsumerAppInfoController extends BaseController {
 	/**
 	 * 审核通过应用信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:enterprise-info:audit')")
+	@PreAuthorize("@ss.hasPermit('consumer:enterprise-info:audit')")
 	@ApiOperation("审核通过应用信息")
 	@ApiImplicitParam(name = "id", value = "应用信息主键", required = true, dataType = "Long", paramType = "path")
 	@PutMapping("/audit-pass/{id}")
@@ -131,7 +131,7 @@ public class ConsumerAppInfoController extends BaseController {
 	/**
 	 * 审核驳回应用信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:enterprise-info:audit')")
+	@PreAuthorize("@ss.hasPermit('consumer:enterprise-info:audit')")
 	@ApiOperation("审核驳回应用信息")
 	@ApiImplicitParam(name = "id", value = "应用信息主键", required = true, dataType = "Long", paramType = "path")
 	@PutMapping("/audit-reject/{id}")
@@ -145,7 +145,7 @@ public class ConsumerAppInfoController extends BaseController {
 	/**
 	 * 删除应用信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:app-info:remove')")
+	@PreAuthorize("@ss.hasPermit('consumer:app-info:remove')")
 	@ApiOperation("删除应用信息")
 	@ApiImplicitParam(name = "ids", value = "应用信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
 	@Log(title = "应用信息", businessType = BusinessType.DELETE)

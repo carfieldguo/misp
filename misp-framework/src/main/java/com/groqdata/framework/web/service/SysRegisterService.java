@@ -1,7 +1,6 @@
 package com.groqdata.framework.web.service;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.groqdata.common.constant.CacheConstants;
@@ -27,20 +26,25 @@ import com.groqdata.system.service.ISysUserService;
  */
 @Component
 public class SysRegisterService {
-	@Autowired
-	private ISysUserService userService;
+	private final ISysUserService userService;
 
-	@Autowired
-	private ISysConfigService configService;
+	private final ISysConfigService configService;
 
-	@Autowired
-	private RedisCache redisCache;
+	private final RedisCache redisCache;
+
+    public SysRegisterService(ISysUserService userService, ISysConfigService configService, RedisCache redisCache) {
+		this.userService = userService;
+		this.configService = configService;
+		this.redisCache = redisCache;
+	}
 
 	/**
 	 * 注册
 	 */
 	public String register(RegisterBody registerBody) {
-		String msg = "", username = registerBody.getUsername(), password = registerBody.getPassword();
+		String msg = "";
+        String username = registerBody.getUsername();
+        String password = registerBody.getPassword();
 		SysUser sysUser = new SysUser();
 		sysUser.setUserName(username);
 

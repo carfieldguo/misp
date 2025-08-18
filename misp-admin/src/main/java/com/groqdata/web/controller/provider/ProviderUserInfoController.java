@@ -47,7 +47,7 @@ public class ProviderUserInfoController extends BaseController {
 	/**
 	 * 查询账号信息列表
 	 */
-	@PreAuthorize("@ss.hasPermi('provider:user-info:list')")
+	@PreAuthorize("@ss.hasPermit('provider:user-info:list')")
 	@ApiOperation("查询账号信息列表")
 	@GetMapping("/list")
 	@ApiImplicitParams({
@@ -63,7 +63,7 @@ public class ProviderUserInfoController extends BaseController {
 	/**
 	 * 导出账号信息列表
 	 */
-	@PreAuthorize("@ss.hasPermi('provider:user-info:export')")
+	@PreAuthorize("@ss.hasPermit('provider:user-info:export')")
 	@ApiOperation("导出账号信息列表")
 	@Log(title = "账号信息", businessType = BusinessType.EXPORT)
 	@PostMapping("/export")
@@ -76,7 +76,7 @@ public class ProviderUserInfoController extends BaseController {
 	/**
 	 * 获取账号信息详细信息
 	 */
-	@PreAuthorize("@ss.hasPermi('provider:user-info:query')")
+	@PreAuthorize("@ss.hasPermit('provider:user-info:query')")
 	@ApiOperation("获取账号信息详细信息")
 	@ApiImplicitParam(name = "id", value = "账号信息主键", required = true, dataType = "Long", paramType = "path")
 	@GetMapping(value = "/{id}")
@@ -87,7 +87,7 @@ public class ProviderUserInfoController extends BaseController {
 	/**
 	 * 获取账号信息详细信息
 	 */
-	@PreAuthorize("@ss.hasPermi('provider:user-info:query')")
+	@PreAuthorize("@ss.hasPermit('provider:user-info:query')")
 	@ApiOperation("获取账号信息详细信息")
 	@ApiImplicitParam(name = "id", value = "账号信息主键", required = true, dataType = "Long", paramType = "path")
 	@GetMapping(value = "/find-by-account/{account}")
@@ -98,7 +98,7 @@ public class ProviderUserInfoController extends BaseController {
 	/**
 	 * 新增账号信息
 	 */
-	@PreAuthorize("@ss.hasPermi('provider:user-info:add')")
+	@PreAuthorize("@ss.hasPermit('provider:user-info:add')")
 	@ApiOperation("新增账号信息")
 	@Log(title = "账号信息", businessType = BusinessType.INSERT)
 	@PostMapping
@@ -110,7 +110,7 @@ public class ProviderUserInfoController extends BaseController {
 	/**
 	 * 修改账号信息
 	 */
-	@PreAuthorize("@ss.hasPermi('provider:user-info:edit')")
+	@PreAuthorize("@ss.hasPermit('provider:user-info:edit')")
 	@ApiOperation("修改账号信息")
 	@Log(title = "账号信息", businessType = BusinessType.UPDATE)
 	@PutMapping
@@ -122,7 +122,7 @@ public class ProviderUserInfoController extends BaseController {
 	/**
 	 * 删除账号信息
 	 */
-	@PreAuthorize("@ss.hasPermi('provider:user-info:remove')")
+	@PreAuthorize("@ss.hasPermit('provider:user-info:remove')")
 	@ApiOperation("删除账号信息")
 	@ApiImplicitParam(name = "ids", value = "账号信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
 	@Log(title = "账号信息", businessType = BusinessType.DELETE)

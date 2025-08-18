@@ -48,7 +48,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	/**
 	 * 查询企业信息列表
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:enterprise-info:list')")
+	@PreAuthorize("@ss.hasPermit('consumer:enterprise-info:list')")
 	@ApiOperation("查询企业信息列表")
 	@GetMapping("/list")
 	@ApiImplicitParams({
@@ -65,7 +65,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	/**
 	 * 导出企业信息列表
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:enterprise-info:export')")
+	@PreAuthorize("@ss.hasPermit('consumer:enterprise-info:export')")
 	@ApiOperation("导出企业信息列表")
 	@Log(title = "企业信息", businessType = BusinessType.EXPORT)
 	@PostMapping("/export")
@@ -79,7 +79,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	/**
 	 * 获取企业信息详细信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:enterprise-info:query')")
+	@PreAuthorize("@ss.hasPermit('consumer:enterprise-info:query')")
 	@ApiOperation("获取企业信息详细信息")
 	@ApiImplicitParam(name = "id", value = "企业信息主键", required = true, dataType = "Long", paramType = "path")
 	@GetMapping(value = "/{id}")
@@ -90,7 +90,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	/**
 	 * 获取账号信息详细信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:user-info:query')")
+	@PreAuthorize("@ss.hasPermit('consumer:user-info:query')")
 	@ApiOperation("根据账号获取企业信息详细信息")
 	@ApiImplicitParam(name = "account", value = "服务购买方账号信息", required = true, dataType = "String", paramType = "path")
 	@GetMapping(value = "/find-by-account/{account}")
@@ -101,7 +101,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	/**
 	 * 新增企业信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:enterprise-info:add')")
+	@PreAuthorize("@ss.hasPermit('consumer:enterprise-info:add')")
 	@ApiOperation("新增企业信息")
 	@Log(title = "企业信息", businessType = BusinessType.INSERT)
 	@PostMapping
@@ -113,7 +113,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	/**
 	 * 修改企业信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:enterprise-info:edit')")
+	@PreAuthorize("@ss.hasPermit('consumer:enterprise-info:edit')")
 	@ApiOperation("修改企业信息")
 	@Log(title = "企业信息", businessType = BusinessType.UPDATE)
 	@PutMapping
@@ -125,7 +125,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	/**
 	 * 审核通过企业信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:enterprise-info:audit')")
+	@PreAuthorize("@ss.hasPermit('consumer:enterprise-info:audit')")
 	@ApiOperation("审核通过企业信息")
 	@ApiImplicitParam(name = "id", value = "企业信息主键", required = true, dataType = "Long", paramType = "path")
 	@PutMapping("/audit-pass/{id}")
@@ -140,7 +140,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	/**
 	 * 审核驳回企业信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:enterprise-info:audit')")
+	@PreAuthorize("@ss.hasPermit('consumer:enterprise-info:audit')")
 	@ApiOperation("审核驳回企业信息")
 	@ApiImplicitParam(name = "id", value = "企业信息主键", required = true, dataType = "Long", paramType = "path")
 	@PutMapping("/audit-reject/{id}")
@@ -155,7 +155,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 	/**
 	 * 删除企业信息
 	 */
-	@PreAuthorize("@ss.hasPermi('consumer:enterprise-info:remove')")
+	@PreAuthorize("@ss.hasPermit('consumer:enterprise-info:remove')")
 	@ApiOperation("删除企业信息")
 	@ApiImplicitParam(name = "ids", value = "企业信息主键集合，以逗号分隔的数组", required = true, dataType = "Long", paramType = "path")
 	@Log(title = "企业信息", businessType = BusinessType.DELETE)

@@ -1,7 +1,6 @@
 package com.groqdata.framework.web.service;
 
 import java.util.concurrent.TimeUnit;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -15,61 +14,65 @@ import com.groqdata.framework.security.context.AuthenticationContextHolder;
 
 /**
  * 登录密码方法
- * 
+ *
  * @author MISP TEAM
  */
 @Component
 public class SysPasswordService {
-	@Autowired
-	private RedisCache redisCache;
 
-	@Value(value = "${user.password.maxRetryCount}")
-	private int maxRetryCount;
+    private final RedisCache redisCache;
 
-	@Value(value = "${user.password.lockTime}")
-	private int lockTime;
+    @Value("${user.password.maxRetryCount}")
+    private int maxRetryCount;
 
-	/**
-	 * 登录账户密码错误次数缓存键名
-	 * 
-	 * @param username 用户名
-	 * @return 缓存键key
-	 */
-	private String getCacheKey(String username) {
-		return CacheConstants.PWD_ERR_CNT_KEY + username;
-	}
+    @Value("${user.password.lockTime}")
+    private int lockTime;
 
-	public void validate(SysUser user) {
-		Authentication usernamePasswordAuthenticationToken = AuthenticationContextHolder.getContext();
-		String username = usernamePasswordAuthenticationToken.getName();
-		String password = usernamePasswordAuthenticationToken.getCredentials().toString();
+    public SysPasswordService(RedisCache redisCache) {
+        this.redisCache = redisCache;
+    }
 
-		Integer retryCount = redisCache.getCacheObject(getCacheKey(username));
+    /**
+     * 登录账户密码错误次数缓存键名
+     *
+     * @param username 用户名
+     * @return 缓存键key
+     */
+    private String getCacheKey(String username) {
+        return CacheConstants.PWD_ERR_CNT_KEY + username;
+    }
 
-		if (retryCount == null) {
-			retryCount = 0;
-		}
+    public void validate(SysUser user) {
+        Authentication usernamePasswordAuthenticationToken = AuthenticationContextHolder.getContext();
+        String username = usernamePasswordAuthenticationToken.getName();
+        String password = usernamePasswordAuthenticationToken.getCredentials().toString();
 
-		if (retryCount >= Integer.valueOf(maxRetryCount).intValue()) {
-			throw new UserPasswordRetryLimitExceedException(maxRetryCount, lockTime);
-		}
+        Integer retryCount = redisCache.getCacheObject(getCacheKey(username));
 
-		if (!matches(user, password)) {
-			retryCount = retryCount + 1;
-			redisCache.setCacheObject(getCacheKey(username), retryCount, lockTime, TimeUnit.MINUTES);
-			throw new UserPasswordNotMatchException();
-		} else {
-			clearLoginRecordCache(username);
-		}
-	}
+        if (retryCount == null) {
+            retryCount = 0;
+        }
 
-	public boolean matches(SysUser user, String rawPassword) {
-		return SecurityUtils.matchesPassword(rawPassword, user.getPassword());
-	}
+        if (retryCount >= maxRetryCount) {
+            throw new UserPasswordRetryLimitExceedException(maxRetryCount, lockTime);
+        }
 
-	public void clearLoginRecordCache(String loginName) {
-		if (redisCache.hasKey(getCacheKey(loginName))) {
-			redisCache.deleteObject(getCacheKey(loginName));
-		}
-	}
+        if (!matches(user, password)) {
+            retryCount = retryCount + 1;
+            redisCache.setCacheObject(getCacheKey(username), retryCount, lockTime, TimeUnit.MINUTES);
+            throw new UserPasswordNotMatchException();
+        } else {
+            clearLoginRecordCache(username);
+        }
+    }
+
+    public boolean matches(SysUser user, String rawPassword) {
+        return SecurityUtils.matchesPassword(rawPassword, user.getPassword());
+    }
+
+    public void clearLoginRecordCache(String loginName) {
+        if (Boolean.TRUE.equals( redisCache.hasKey(getCacheKey(loginName)))) {
+            redisCache.deleteObject(getCacheKey(loginName));
+        }
+    }
 }
