@@ -121,11 +121,11 @@ public class ScheduleUtils {
 		String packageName = StringUtils.substringBefore(invokeTarget, "(");
 		int count = StringUtils.countMatches(packageName, ".");
 		if (count > 1) {
-			return StringUtils.containsAnyIgnoreCase(invokeTarget, Constants.JOB_WHITELIST_STR);
+			return StringUtils.containsAnyIgnoreCase(invokeTarget, Constants.JOB_WHITELIST_STR.toArray(new String[0]));
 		}
 		Object obj = SpringUtils.getBean(StringUtils.split(invokeTarget, ".")[0]);
 		String beanPackageName = obj.getClass().getPackage().getName();
-		return StringUtils.containsAnyIgnoreCase(beanPackageName, Constants.JOB_WHITELIST_STR)
-				&& !StringUtils.containsAnyIgnoreCase(beanPackageName, Constants.JOB_ERROR_STR);
+		return StringUtils.containsAnyIgnoreCase(beanPackageName, Constants.JOB_WHITELIST_STR.toArray(new String[0]))
+				&& !StringUtils.containsAnyIgnoreCase(beanPackageName, Constants.JOB_ERROR_STR.toArray(new String[0]));
 	}
 }
