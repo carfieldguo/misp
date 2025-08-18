@@ -84,9 +84,12 @@ public class GlobalExceptionHandler {
 			value = EscapeUtil.clean(value);
 		}
 		log.error("请求参数类型不匹配'{}',发生系统异常.", requestURI, e);
-		return AjaxResult.error(
-				String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'", e.getName(), e.getRequiredType().getName(),
-						value));
+        String requiredType = e.getRequiredType() != null
+                ? e.getRequiredType().getSimpleName()
+                : "未知类型";
+        return AjaxResult.error(
+                String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'",
+                        e.getName(), requiredType, value));
 	}
 
 	/**
@@ -125,8 +128,10 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public Object handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.error(e.getMessage(), e);
-		String message = e.getBindingResult().getFieldError().getDefaultMessage();
-		return AjaxResult.error(message);
+        String message = e.getBindingResult().getFieldError() != null
+                ? e.getBindingResult().getFieldError().getDefaultMessage()
+                : "参数校验失败";
+        return AjaxResult.error(message);
 	}
 
 	/**
