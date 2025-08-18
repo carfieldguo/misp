@@ -29,6 +29,10 @@ import com.groqdata.common.utils.DateHelper;
 public class FileUploadUtils {
 	private static final Logger log = LoggerFactory.getLogger(FileUploadUtils.class);
 
+    private FileUploadUtils() {
+        // 防止实例化
+        throw new IllegalStateException("工具类直接使用不需要实例化");
+    }
 	/**
 	 * 默认大小 50M
 	 */
@@ -63,10 +67,6 @@ public class FileUploadUtils {
 	private static final String[] DEFAULT_DENIED_EXTENSION = {
 		"jsp", "jspx", "java", "class", "sh", "bat", "exe", "js", "html", "htm"
 	};
-
-	private FileUploadUtils() {
-		// 私有构造函数，防止实例化
-	}
 
 	/**
 	 * 以默认配置进行文件上传

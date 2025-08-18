@@ -8,7 +8,12 @@ import org.apache.commons.lang3.StringUtils;
  * @author MISP TEAM
  */
 public class EscapeUtil {
-	public static final String RE_HTML_MARK = "(<[^<]*?>)|(<[\\s]*?/[^<]*?>)|(<[^<]*?/[\\s]*?>)";
+    private EscapeUtil() {
+        // 防止实例化
+        throw new IllegalStateException("工具类直接使用不需要实例化");
+    }
+
+    public static final String RE_HTML_MARK = "(<[^<]*?>)|(<[\\s]*?/[^<]*?>)|(<[^<]*?/[\\s]*?>)";
 
 	private static final char[][] TEXT = new char[64][];
 
@@ -100,7 +105,8 @@ public class EscapeUtil {
 		}
 
 		StringBuilder tmp = new StringBuilder(content.length());
-		int lastPos = 0, pos = 0;
+		int lastPos = 0;
+        int pos = 0;
 		char ch;
 		while (lastPos < content.length()) {
 			pos = content.indexOf("%", lastPos);
@@ -127,14 +133,4 @@ public class EscapeUtil {
 		return tmp.toString();
 	}
 
-	public static void main(String[] args) {
-		String html = "<script>alert(1);</script>";
-		String escape = EscapeUtil.escape(html);
-		// String html = "<scr<script>ipt>alert(\"XSS\")</scr<script>ipt>";
-		// String html = "<123";
-		// String html = "123>";
-		System.out.println("clean: " + EscapeUtil.clean(html));
-		System.out.println("escape: " + escape);
-		System.out.println("unescape: " + EscapeUtil.unescape(escape));
-	}
 }

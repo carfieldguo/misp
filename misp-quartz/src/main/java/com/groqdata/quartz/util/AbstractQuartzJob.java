@@ -1,6 +1,8 @@
 package com.groqdata.quartz.util;
 
 import java.util.Date;
+
+import com.groqdata.common.utils.bean.BeanHelper;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -10,7 +12,6 @@ import com.groqdata.common.constant.Constants;
 import com.groqdata.common.constant.ScheduleConstants;
 import com.groqdata.common.utils.ExceptionUtil;
 import org.apache.commons.lang3.StringUtils;
-import com.groqdata.common.utils.bean.BeanUtils;
 import com.groqdata.common.utils.spring.SpringUtils;
 import com.groqdata.quartz.domain.SysJob;
 import com.groqdata.quartz.domain.SysJobLog;
@@ -32,7 +33,7 @@ public abstract class AbstractQuartzJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		SysJob sysJob = new SysJob();
-		BeanUtils.copyBeanProp(sysJob, context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES));
+		BeanHelper.copyBeanProp(sysJob, context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES));
 		try {
 			before(context, sysJob);
 			if (sysJob != null) {

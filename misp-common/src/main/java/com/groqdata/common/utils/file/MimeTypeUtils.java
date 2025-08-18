@@ -1,12 +1,18 @@
 package com.groqdata.common.utils.file;
 
+import java.util.List;
+
 /**
  * 媒体类型工具类
  * 
  * @author MISP TEAM
  */
 public class MimeTypeUtils {
-	public static final String IMAGE_PNG = "image/png";
+    private MimeTypeUtils() {
+        // 防止实例化
+        throw new IllegalStateException("工具类直接使用不需要实例化");
+    }
+    public static final String IMAGE_PNG = "image/png";
 
 	public static final String IMAGE_JPG = "image/jpg";
 
@@ -16,16 +22,16 @@ public class MimeTypeUtils {
 
 	public static final String IMAGE_GIF = "image/gif";
 
-	public static final String[] IMAGE_EXTENSION = {"bmp", "gif", "jpg", "jpeg", "png" };
+	public static final List<String> IMAGE_EXTENSION = List.of("bmp", "gif", "jpg", "jpeg", "png" );
 
-	public static final String[] FLASH_EXTENSION = {"swf", "flv" };
+	public static final List<String> FLASH_EXTENSION = List.of("swf", "flv" );
 
-	public static final String[] MEDIA_EXTENSION = {"swf", "flv", "mp3", "wav", "wma", "wmv", "mid", "avi", "mpg",
-		"asf", "rm", "rmvb" };
+	public static final List<String> MEDIA_EXTENSION = List.of("swf", "flv", "mp3", "wav", "wma", "wmv", "mid", "avi", "mpg",
+		"asf", "rm", "rmvb" );
 
-	public static final String[] VIDEO_EXTENSION = {"mp4", "avi", "rmvb" };
+	public static final List<String> VIDEO_EXTENSION = List.of("mp4", "avi", "rmvb" );
 
-	public static final String[] DEFAULT_ALLOWED_EXTENSION = {
+	public static final List<String> DEFAULT_ALLOWED_EXTENSION = List.of(
 		// 图片
 		"bmp", "gif", "jpg", "jpeg", "png",
 		// word excel powerpoint
@@ -35,22 +41,16 @@ public class MimeTypeUtils {
 		// 视频格式
 		"mp4", "avi", "rmvb",
 		// pdf
-		"pdf" };
+		"pdf" );
 
 	public static String getExtension(String prefix) {
-		switch (prefix) {
-			case IMAGE_PNG :
-				return "png";
-			case IMAGE_JPG :
-				return "jpg";
-			case IMAGE_JPEG :
-				return "jpeg";
-			case IMAGE_BMP :
-				return "bmp";
-			case IMAGE_GIF :
-				return "gif";
-			default :
-				return "";
-		}
+        return switch (prefix) {
+            case IMAGE_PNG -> "png";
+            case IMAGE_JPG -> "jpg";
+            case IMAGE_JPEG -> "jpeg";
+            case IMAGE_BMP -> "bmp";
+            case IMAGE_GIF -> "gif";
+            default -> "";
+        };
 	}
 }
