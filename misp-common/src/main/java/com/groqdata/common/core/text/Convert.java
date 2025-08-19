@@ -15,6 +15,10 @@ import org.apache.commons.lang3.ArrayUtils;
  * @author MISP TEAM
  */
 public class Convert {
+    private Convert() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
+
 	/**
 	 * 转换为字符串<br>
 	 * 如果给定的值为null，或者转换失败，返回默认值<br>
@@ -28,8 +32,8 @@ public class Convert {
 		if (null == value) {
 			return defaultValue;
 		}
-		if (value instanceof String) {
-			return (String) value;
+		if (value instanceof String val) {
+			return val;
 		}
 		return value.toString();
 	}
@@ -59,8 +63,8 @@ public class Convert {
 		if (null == value) {
 			return defaultValue;
 		}
-		if (value instanceof Character) {
-			return (Character) value;
+		if (value instanceof Character character) {
+			return character;
 		}
 
 		final String valueStr = toStr(value, null);
@@ -92,11 +96,11 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof Byte) {
-			return (Byte) value;
+		if (value instanceof Byte byteVal) {
+			return byteVal;
 		}
-		if (value instanceof Number) {
-			return ((Number) value).byteValue();
+		if (value instanceof Number  number) {
+			return number.byteValue();
 		}
 		final String valueStr = toStr(value, null);
 		if (StringUtils.isEmpty(valueStr)) {
@@ -134,11 +138,11 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof Short) {
-			return (Short) value;
+		if (value instanceof Short shortVal) {
+			return shortVal;
 		}
-		if (value instanceof Number) {
-			return ((Number) value).shortValue();
+		if (value instanceof Number number) {
+			return number.shortValue();
 		}
 		final String valueStr = toStr(value, null);
 		if (StringUtils.isEmpty(valueStr)) {
@@ -176,8 +180,8 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof Number) {
-			return (Number) value;
+		if (value instanceof Number  number) {
+			return number;
 		}
 		final String valueStr = toStr(value, null);
 		if (StringUtils.isEmpty(valueStr)) {
@@ -215,11 +219,11 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof Integer) {
-			return (Integer) value;
+		if (value instanceof Integer  integer) {
+			return integer;
 		}
-		if (value instanceof Number) {
-			return ((Number) value).intValue();
+		if (value instanceof Number  number) {
+			return number.intValue();
 		}
 		final String valueStr = toStr(value, null);
 		if (StringUtils.isEmpty(valueStr)) {
@@ -341,11 +345,11 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof Long) {
-			return (Long) value;
+		if (value instanceof Long longVal) {
+			return longVal;
 		}
-		if (value instanceof Number) {
-			return ((Number) value).longValue();
+		if (value instanceof Number  number) {
+			return number.longValue();
 		}
 		final String valueStr = toStr(value, null);
 		if (StringUtils.isEmpty(valueStr)) {
@@ -384,11 +388,11 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof Double) {
-			return (Double) value;
+		if (value instanceof Double doubleVal) {
+			return doubleVal;
 		}
-		if (value instanceof Number) {
-			return ((Number) value).doubleValue();
+		if (value instanceof Number number) {
+			return number.doubleValue();
 		}
 		final String valueStr = toStr(value, null);
 		if (StringUtils.isEmpty(valueStr)) {
@@ -427,11 +431,11 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof Float) {
-			return (Float) value;
+		if (value instanceof Float floatVal) {
+			return floatVal;
 		}
-		if (value instanceof Number) {
-			return ((Number) value).floatValue();
+		if (value instanceof Number  number) {
+			return number.floatValue();
 		}
 		final String valueStr = toStr(value, null);
 		if (StringUtils.isEmpty(valueStr)) {
@@ -469,27 +473,19 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof Boolean) {
-			return (Boolean) value;
+		if (value instanceof Boolean boolVal) {
+			return boolVal;
 		}
 		String valueStr = toStr(value, null);
 		if (StringUtils.isEmpty(valueStr)) {
 			return defaultValue;
 		}
 		valueStr = valueStr.trim().toLowerCase();
-		switch (valueStr) {
-			case "true" :
-			case "yes" :
-			case "ok" :
-			case "1" :
-				return true;
-			case "false" :
-			case "no" :
-			case "0" :
-				return false;
-			default :
-				return defaultValue;
-		}
+        return switch (valueStr) {
+            case "true", "yes", "ok", "1" -> true;
+            case "false", "no", "0" -> false;
+            default -> defaultValue;
+        };
 	}
 
 	/**
@@ -558,11 +554,11 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof BigInteger) {
-			return (BigInteger) value;
+		if (value instanceof BigInteger bigIntVal) {
+			return bigIntVal;
 		}
-		if (value instanceof Long) {
-			return BigInteger.valueOf((Long) value);
+		if (value instanceof Long longVal) {
+			return BigInteger.valueOf(longVal);
 		}
 		final String valueStr = toStr(value, null);
 		if (StringUtils.isEmpty(valueStr)) {
@@ -600,17 +596,17 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof BigDecimal) {
-			return (BigDecimal) value;
+		if (value instanceof BigDecimal bigDecVal) {
+			return bigDecVal;
 		}
-		if (value instanceof Long) {
-			return new BigDecimal((Long) value);
+		if (value instanceof Long longVal) {
+			return new BigDecimal(longVal);
 		}
-		if (value instanceof Double) {
-			return BigDecimal.valueOf((Double) value);
+		if (value instanceof Double doubleVal) {
+			return BigDecimal.valueOf(doubleVal);
 		}
-		if (value instanceof Integer) {
-			return new BigDecimal((Integer) value);
+		if (value instanceof Integer intVal) {
+			return new BigDecimal(intVal);
 		}
 		final String valueStr = toStr(value, null);
 		if (StringUtils.isEmpty(valueStr)) {
@@ -671,15 +667,15 @@ public class Convert {
 			return null;
 		}
 
-		if (obj instanceof String) {
-			return (String) obj;
-		} else if (obj instanceof byte[]) {
-			return str((byte[]) obj, charset);
-		} else if (obj instanceof Byte[]) {
-			byte[] bytes = ArrayUtils.toPrimitive((Byte[]) obj);
+		if (obj instanceof String strVal) {
+			return strVal;
+		} else if (obj instanceof byte[] bytesVal) {
+			return str(bytesVal, charset);
+		} else if (obj instanceof Byte[] bytesVal) {
+			byte[] bytes = ArrayUtils.toPrimitive(bytesVal);
 			return str(bytes, charset);
-		} else if (obj instanceof ByteBuffer) {
-			return str((ByteBuffer) obj, charset);
+		} else if (obj instanceof ByteBuffer byteBuffer) {
+			return str(byteBuffer, charset);
 		}
 		return obj.toString();
 	}
@@ -796,22 +792,21 @@ public class Convert {
 	 * @return 替换后的字符
 	 */
 	public static String toDBC(String text, Set<Character> notConvertSet) {
-		char[] c = text.toCharArray();
-		for (int i = 0; i < c.length; i++) {
-			if (null != notConvertSet && notConvertSet.contains(c[i])) {
+		char[] chars = text.toCharArray();
+		for (int i = 0; i < chars.length; i++) {
+			if (null != notConvertSet && notConvertSet.contains(chars[i])) {
 				// 跳过不替换的字符
 				continue;
 			}
 
-			if (c[i] == '\u3000') {
-				c[i] = ' ';
-			} else if (c[i] > '\uFF00' && c[i] < '\uFF5F') {
-				c[i] = (char) (c[i] - 65248);
+			if (chars[i] == '\u3000') {
+				chars[i] = ' ';
+			} else if (chars[i] > '\uFF00' && chars[i] < '\uFF5F') {
+				chars[i] = (char) (chars[i] - 65248);
 			}
 		}
-		String returnString = new String(c);
 
-		return returnString;
+		return  new String(chars);
 	}
 
 }
