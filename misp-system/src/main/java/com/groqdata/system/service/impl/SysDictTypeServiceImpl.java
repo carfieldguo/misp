@@ -20,6 +20,7 @@ import com.groqdata.common.utils.StringHelper;
 import com.groqdata.system.mapper.SysDictDataMapper;
 import com.groqdata.system.mapper.SysDictTypeMapper;
 import com.groqdata.system.service.ISysDictTypeService;
+import java.util.Collections;
 
 /**
  * 字典 业务层处理
@@ -89,7 +90,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
 			DictUtils.setDictCache(dictType, dictDatas);
 			return dictDatas;
 		}
-		return null;
+		return Collections.emptyList();
 	}
 
 	/**
@@ -142,7 +143,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
 				.collect(Collectors.groupingBy(SysDictData::getDictType));
 		for (Map.Entry<String, List<SysDictData>> entry : dictDataMap.entrySet()) {
 			DictUtils.setDictCache(entry.getKey(), entry.getValue().stream()
-					.sorted(Comparator.comparing(SysDictData::getDictSort)).collect(Collectors.toList()));
+					.sorted(Comparator.comparing(SysDictData::getDictSort)).toList());
 		}
 	}
 

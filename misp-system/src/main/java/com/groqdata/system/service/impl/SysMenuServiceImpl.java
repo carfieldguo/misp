@@ -3,11 +3,9 @@ package com.groqdata.system.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,7 +159,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	 */
 	@Override
 	public List<RouterVo> buildMenus(List<SysMenu> menus) {
-		List<RouterVo> routers = new LinkedList<RouterVo>();
+		List<RouterVo> routers = new LinkedList<>();
 		for (SysMenu menu : menus) {
 			RouterVo router = new RouterVo();
 			router.setHidden("1".equals(menu.getVisible()));
@@ -178,7 +176,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 				router.setChildren(buildMenus(cMenus));
 			} else if (isMenuFrame(menu)) {
 				router.setMeta(null);
-				List<RouterVo> childrenList = new ArrayList<RouterVo>();
+				List<RouterVo> childrenList = new ArrayList<>();
 				RouterVo children = new RouterVo();
 				children.setPath(menu.getPath());
 				children.setComponent(menu.getComponent());
@@ -191,7 +189,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 			} else if (menu.getParentId().intValue() == 0 && isInnerLink(menu)) {
 				router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon()));
 				router.setPath("/");
-				List<RouterVo> childrenList = new ArrayList<RouterVo>();
+				List<RouterVo> childrenList = new ArrayList<>();
 				RouterVo children = new RouterVo();
 				String routerPath = innerLinkReplaceEach(menu.getPath());
 				children.setPath(routerPath);
@@ -214,16 +212,15 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	 */
 	@Override
 	public List<SysMenu> buildMenuTree(List<SysMenu> menus) {
-		List<SysMenu> returnList = new ArrayList<SysMenu>();
-		List<Long> tempList = menus.stream().map(SysMenu::getMenuId).collect(Collectors.toList());
-		for (Iterator<SysMenu> iterator = menus.iterator(); iterator.hasNext();) {
-			SysMenu menu = (SysMenu) iterator.next();
-			// 如果是顶级节点, 遍历该父节点的所有子节点
-			if (!tempList.contains(menu.getParentId())) {
-				recursionFn(menus, menu);
-				returnList.add(menu);
-			}
-		}
+		List<SysMenu> returnList = new ArrayList<>();
+		List<Long> tempList = menus.stream().map(SysMenu::getMenuId).toList();
+        for (SysMenu menu : menus) {
+            // 如果是顶级节点, 遍历该父节点的所有子节点
+            if (!tempList.contains(menu.getParentId())) {
+                recursionFn(menus, menu);
+                returnList.add(menu);
+            }
+        }
 		if (returnList.isEmpty()) {
 			returnList = menus;
 		}
@@ -239,7 +236,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	@Override
 	public List<TreeSelect> buildMenuTreeSelect(List<SysMenu> menus) {
 		List<SysMenu> menuTrees = buildMenuTree(menus);
-		return menuTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
+		return menuTrees.stream().map(TreeSelect::new).toList();
 	}
 
 	/**
@@ -364,7 +361,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 		}
 
 		// 移除最后一个斜杠
-		if (fullPath.length() > 0) {
+		if (!fullPath.isEmpty()) {
 			fullPath.deleteCharAt(fullPath.length() - 1);
 		}
 
@@ -374,7 +371,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	/**
 	 * 获取路由名称，如没有配置路由名称则取路由地址
 	 * 
-	 * @param routerName 路由名称
+	 * @param name 路由名称
 	 * @param path 路由地址
 	 * @return 路由名称（驼峰格式）
 	 */
@@ -465,15 +462,14 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	 * @return String
 	 */
 	public List<SysMenu> getChildPerms(List<SysMenu> list, int parentId) {
-		List<SysMenu> returnList = new ArrayList<SysMenu>();
-		for (Iterator<SysMenu> iterator = list.iterator(); iterator.hasNext();) {
-			SysMenu t = (SysMenu) iterator.next();
-			// 一、根据传入的某个父节点ID,遍历该父节点的所有子节点
-			if (t.getParentId() == parentId) {
-				recursionFn(list, t);
-				returnList.add(t);
-			}
-		}
+		List<SysMenu> returnList = new ArrayList<>();
+        for (SysMenu t : list) {
+            // 根据传入的某个父节点ID,遍历该父节点的所有子节点
+            if (t.getParentId() == parentId) {
+                recursionFn(list, t);
+                returnList.add(t);
+            }
+        }
 		return returnList;
 	}
 
@@ -498,14 +494,12 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	 * 得到子节点列表
 	 */
 	private List<SysMenu> getChildList(List<SysMenu> list, SysMenu t) {
-		List<SysMenu> tlist = new ArrayList<SysMenu>();
-		Iterator<SysMenu> it = list.iterator();
-		while (it.hasNext()) {
-			SysMenu n = (SysMenu) it.next();
-			if (n.getParentId().longValue() == t.getMenuId().longValue()) {
-				tlist.add(n);
-			}
-		}
+		List<SysMenu> tlist = new ArrayList<>();
+        for (SysMenu n : list) {
+            if (n.getParentId().longValue() == t.getMenuId().longValue()) {
+                tlist.add(n);
+            }
+        }
 		return tlist;
 	}
 
@@ -513,7 +507,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	 * 判断是否有子节点
 	 */
 	private boolean hasChild(List<SysMenu> list, SysMenu t) {
-		return getChildList(list, t).size() > 0;
+		return !getChildList(list, t).isEmpty();
 	}
 
 	/**

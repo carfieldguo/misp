@@ -1,9 +1,7 @@
 package com.groqdata.system.service.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,8 +76,8 @@ public class SysDeptServiceImpl implements ISysDeptService {
 	 */
 	@Override
 	public List<SysDept> buildDeptTree(List<SysDept> depts) {
-		List<SysDept> returnList = new ArrayList<SysDept>();
-		List<Long> tempList = depts.stream().map(SysDept::getDeptId).collect(Collectors.toList());
+		List<SysDept> returnList = new ArrayList<>();
+		List<Long> tempList = depts.stream().map(SysDept::getDeptId).toList();
 		for (SysDept dept : depts) {
 			// 如果是顶级节点, 遍历该父节点的所有子节点
 			if (!tempList.contains(dept.getParentId())) {
@@ -102,7 +100,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
 	@Override
 	public List<TreeSelect> buildDeptTreeSelect(List<SysDept> depts) {
 		List<SysDept> deptTrees = buildDeptTree(depts);
-		return deptTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
+		return deptTrees.stream().map(TreeSelect::new).toList();
 	}
 
 	/**
@@ -261,7 +259,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
 		for (SysDept child : children) {
 			child.setAncestors(child.getAncestors().replaceFirst(oldAncestors, newAncestors));
 		}
-		if (children.size() > 0) {
+		if (!children.isEmpty()) {
 			deptMapper.updateDeptChildren(children);
 		}
 	}
@@ -295,14 +293,12 @@ public class SysDeptServiceImpl implements ISysDeptService {
 	 * 得到子节点列表
 	 */
 	private List<SysDept> getChildList(List<SysDept> list, SysDept t) {
-		List<SysDept> tlist = new ArrayList<SysDept>();
-		Iterator<SysDept> it = list.iterator();
-		while (it.hasNext()) {
-			SysDept n = (SysDept) it.next();
-			if (StringHelper.isNotNull(n.getParentId()) && n.getParentId().longValue() == t.getDeptId().longValue()) {
-				tlist.add(n);
-			}
-		}
+		List<SysDept> tlist = new ArrayList<>();
+        for (SysDept n : list) {
+            if (StringHelper.isNotNull(n.getParentId()) && n.getParentId().longValue() == t.getDeptId().longValue()) {
+                tlist.add(n);
+            }
+        }
 		return tlist;
 	}
 
@@ -310,6 +306,6 @@ public class SysDeptServiceImpl implements ISysDeptService {
 	 * 判断是否有子节点
 	 */
 	private boolean hasChild(List<SysDept> list, SysDept t) {
-		return getChildList(list, t).size() > 0;
+		return !getChildList(list, t).isEmpty();
 	}
 }

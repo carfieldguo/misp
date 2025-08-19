@@ -43,6 +43,7 @@ import com.groqdata.system.service.ISysUserService;
 @Service
 public class SysUserServiceImpl implements ISysUserService {
 	private static final Logger log = LoggerFactory.getLogger(SysUserServiceImpl.class);
+	public static final String HTML_TAG_BR = "<br/>";
 
 	private SysUserMapper userMapper;
 
@@ -403,7 +404,7 @@ public class SysUserServiceImpl implements ISysUserService {
 		Long[] posts = user.getPostIds();
 		if (StringHelper.isNotEmpty(posts)) {
 			// 新增用户与岗位管理
-			List<SysUserPost> list = new ArrayList<SysUserPost>(posts.length);
+			List<SysUserPost> list = new ArrayList<>(posts.length);
 			for (Long postId : posts) {
 				SysUserPost up = new SysUserPost();
 				up.setUserId(user.getUserId());
@@ -423,7 +424,7 @@ public class SysUserServiceImpl implements ISysUserService {
 	public void insertUserRole(Long userId, Long[] roleIds) {
 		if (StringHelper.isNotEmpty(roleIds)) {
 			// 新增用户与角色管理
-			List<SysUserRole> list = new ArrayList<SysUserRole>(roleIds.length);
+			List<SysUserRole> list = new ArrayList<>(roleIds.length);
 			for (Long roleId : roleIds) {
 				SysUserRole ur = new SysUserRole();
 				ur.setUserId(userId);
@@ -480,7 +481,7 @@ public class SysUserServiceImpl implements ISysUserService {
 	 */
 	@Override
 	public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName) {
-		if (StringHelper.isNull(userList) || userList.size() == 0) {
+		if (StringHelper.isNull(userList) || userList.isEmpty()) {
 			throw new ServiceException("导入用户数据不能为空！");
 		}
 		int successNum = 0;
@@ -499,8 +500,8 @@ public class SysUserServiceImpl implements ISysUserService {
 					user.setCreateBy(operName);
 					userMapper.insertUser(user);
 					successNum++;
-					successMsg.append("<br/>" + successNum + "、账号 " + user.getUserName() + " 导入成功");
-				} else if (isUpdateSupport) {
+					successMsg.append(HTML_TAG_BR).append(successNum).append("、账号 ").append(user.getUserName()).append(" 导入成功");
+				} else if (Boolean.TRUE.equals(isUpdateSupport)) {
 					BeanValidators.validateWithException(validator, user);
 					checkUserAllowed(u);
 					checkUserDataScope(u.getUserId());
@@ -509,15 +510,15 @@ public class SysUserServiceImpl implements ISysUserService {
 					user.setUpdateBy(operName);
 					userMapper.updateUser(user);
 					successNum++;
-					successMsg.append("<br/>" + successNum + "、账号 " + user.getUserName() + " 更新成功");
+					successMsg.append(HTML_TAG_BR).append(successNum).append("、账号 ").append(user.getUserName()).append(" 更新成功");
 				} else {
 					failureNum++;
-					failureMsg.append("<br/>" + failureNum + "、账号 " + user.getUserName() + " 已存在");
+					failureMsg.append(HTML_TAG_BR).append(failureNum).append("、账号 ").append(user.getUserName()).append(" 已存在");
 				}
 			} catch (Exception e) {
 				failureNum++;
-				String msg = "<br/>" + failureNum + "、账号 " + user.getUserName() + " 导入失败：";
-				failureMsg.append(msg + e.getMessage());
+				String msg = HTML_TAG_BR + failureNum + "、账号 " + user.getUserName() + " 导入失败：";
+				failureMsg.append(msg).append(e.getMessage());
 				log.error(msg, e);
 			}
 		}
