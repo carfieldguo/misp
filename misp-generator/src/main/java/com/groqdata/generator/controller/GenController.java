@@ -128,10 +128,11 @@ public class GenController extends BaseController {
 			List<SQLStatement> sqlStatements = SQLUtils.parseStatements(sql, DbType.mysql);
 			List<String> tableNames = new ArrayList<>();
 			for (SQLStatement sqlStatement : sqlStatements) {
-				if (sqlStatement instanceof MySqlCreateTableStatement createTableStatement && genTableService.createTable(createTableStatement.toString())) {
-						String tableName = createTableStatement.getTableName().replace("`", "");
-						tableNames.add(tableName);
-					}
+				if (sqlStatement instanceof MySqlCreateTableStatement createTableStatement
+						&& genTableService.createTable(createTableStatement.toString())) {
+					String tableName = createTableStatement.getTableName().replace("`", "");
+					tableNames.add(tableName);
+				}
 			}
 			List<GenTable> tableList = genTableService
 					.selectDbTableListByNames(tableNames.toArray(new String[0]));
@@ -172,7 +173,7 @@ public class GenController extends BaseController {
 	 */
 	@PreAuthorize("@ss.hasPermi('tool:gen:preview')")
 	@GetMapping("/preview/{tableId}")
-	public AjaxResult preview(@PathVariable("tableId") Long tableId)  {
+	public AjaxResult preview(@PathVariable("tableId") Long tableId) {
 		Map<String, String> dataMap = genTableService.previewCode(tableId);
 		return success(dataMap);
 	}
