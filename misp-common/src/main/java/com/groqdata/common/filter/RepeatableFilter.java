@@ -13,32 +13,32 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Repeatable 过滤器
- * 
+ *
  * @author MISP TEAM
  */
 public class RepeatableFilter implements Filter {
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        // 与父级相同
+    }
 
-	}
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        ServletRequest requestWrapper = null;
+        if (request instanceof HttpServletRequest httpServletRequest
+                && StringUtils.startsWithIgnoreCase(request.getContentType(), MediaType.APPLICATION_JSON_VALUE)) {
+            requestWrapper = new RepeatedlyRequestWrapper(httpServletRequest, response);
+        }
+        if (null == requestWrapper) {
+            chain.doFilter(request, response);
+        } else {
+            chain.doFilter(requestWrapper, response);
+        }
+    }
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-		ServletRequest requestWrapper = null;
-		if (request instanceof HttpServletRequest
-				&& StringUtils.startsWithIgnoreCase(request.getContentType(), MediaType.APPLICATION_JSON_VALUE)) {
-			requestWrapper = new RepeatedlyRequestWrapper((HttpServletRequest) request, response);
-		}
-		if (null == requestWrapper) {
-			chain.doFilter(request, response);
-		} else {
-			chain.doFilter(requestWrapper, response);
-		}
-	}
-
-	@Override
-	public void destroy() {
-
-	}
+    @Override
+    public void destroy() {
+        // 与父级相同
+    }
 }
