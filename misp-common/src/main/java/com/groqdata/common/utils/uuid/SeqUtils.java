@@ -10,9 +10,9 @@ import com.groqdata.common.utils.StringHelper;
  */
 public class SeqUtils {
 
-    private SeqUtils() {
-        throw new IllegalStateException("工具类不可实例化");
-    }
+	private SeqUtils() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
 
 	// 通用序列类型
 	public static final String COMM_SEQ_TYPE = "COMMON";
@@ -70,7 +70,7 @@ public class SeqUtils {
 	 * 
 	 * @return 序列值
 	 */
-	private static synchronized  String getSeq(AtomicInteger atomicInt, int length) {
+	private static synchronized String getSeq(AtomicInteger atomicInt, int length) {
 		// 先取值再+1
 		int value = atomicInt.getAndIncrement();
 

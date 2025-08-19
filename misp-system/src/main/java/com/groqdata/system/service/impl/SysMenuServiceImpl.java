@@ -214,13 +214,13 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	public List<SysMenu> buildMenuTree(List<SysMenu> menus) {
 		List<SysMenu> returnList = new ArrayList<>();
 		List<Long> tempList = menus.stream().map(SysMenu::getMenuId).toList();
-        for (SysMenu menu : menus) {
-            // 如果是顶级节点, 遍历该父节点的所有子节点
-            if (!tempList.contains(menu.getParentId())) {
-                recursionFn(menus, menu);
-                returnList.add(menu);
-            }
-        }
+		for (SysMenu menu : menus) {
+			// 如果是顶级节点, 遍历该父节点的所有子节点
+			if (!tempList.contains(menu.getParentId())) {
+				recursionFn(menus, menu);
+				returnList.add(menu);
+			}
+		}
 		if (returnList.isEmpty()) {
 			returnList = menus;
 		}
@@ -463,13 +463,13 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	 */
 	public List<SysMenu> getChildPerms(List<SysMenu> list, int parentId) {
 		List<SysMenu> returnList = new ArrayList<>();
-        for (SysMenu t : list) {
-            // 根据传入的某个父节点ID,遍历该父节点的所有子节点
-            if (t.getParentId() == parentId) {
-                recursionFn(list, t);
-                returnList.add(t);
-            }
-        }
+		for (SysMenu t : list) {
+			// 根据传入的某个父节点ID,遍历该父节点的所有子节点
+			if (t.getParentId() == parentId) {
+				recursionFn(list, t);
+				returnList.add(t);
+			}
+		}
 		return returnList;
 	}
 
@@ -495,11 +495,11 @@ public class SysMenuServiceImpl implements ISysMenuService {
 	 */
 	private List<SysMenu> getChildList(List<SysMenu> list, SysMenu t) {
 		List<SysMenu> tlist = new ArrayList<>();
-        for (SysMenu n : list) {
-            if (n.getParentId().longValue() == t.getMenuId().longValue()) {
-                tlist.add(n);
-            }
-        }
+		for (SysMenu n : list) {
+			if (n.getParentId().longValue() == t.getMenuId().longValue()) {
+				tlist.add(n);
+			}
+		}
 		return tlist;
 	}
 

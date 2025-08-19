@@ -294,11 +294,11 @@ public class SysDeptServiceImpl implements ISysDeptService {
 	 */
 	private List<SysDept> getChildList(List<SysDept> list, SysDept t) {
 		List<SysDept> tlist = new ArrayList<>();
-        for (SysDept n : list) {
-            if (StringHelper.isNotNull(n.getParentId()) && n.getParentId().longValue() == t.getDeptId().longValue()) {
-                tlist.add(n);
-            }
-        }
+		for (SysDept n : list) {
+			if (StringHelper.isNotNull(n.getParentId()) && n.getParentId().longValue() == t.getDeptId().longValue()) {
+				tlist.add(n);
+			}
+		}
 		return tlist;
 	}
 

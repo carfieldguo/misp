@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
  */
 public class Threads {
 	private static final Logger logger = LoggerFactory.getLogger(Threads.class);
-    private Threads() {
-        throw new IllegalStateException("工具类不可实例化");
-    }
+	private Threads() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
 	/**
 	 * sleep等待,单位为毫秒
 	 */

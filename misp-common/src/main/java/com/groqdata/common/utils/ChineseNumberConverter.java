@@ -8,9 +8,9 @@ import java.math.RoundingMode;
  * 处理范围：支持正负数字，精确到分
  */
 public class ChineseNumberConverter {
-    private ChineseNumberConverter() {
-        throw new IllegalStateException("工具类不可实例化");
-    }
+	private ChineseNumberConverter() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
 
 	// 小数部分单位（角、分）
 	private static final String[] FRACTION_UNITS = {"角", "分" };
@@ -54,54 +54,54 @@ public class ChineseNumberConverter {
 	/**
 	 * 处理整数部分
 	 */
-    private static void processIntegerPart(BigDecimal integerPart, StringBuilder result) {
-        if (integerPart.compareTo(BigDecimal.ZERO) == 0) {
-            return;
-        }
+	private static void processIntegerPart(BigDecimal integerPart, StringBuilder result) {
+		if (integerPart.compareTo(BigDecimal.ZERO) == 0) {
+			return;
+		}
 
-        long integer = integerPart.longValue();
-        int groupIndex = 0;
-        boolean hasNonZero = false;
+		long integer = integerPart.longValue();
+		int groupIndex = 0;
+		boolean hasNonZero = false;
 
-        while (integer > 0) {
-            long group = integer % 10000;
-            if (group != 0) {
-                String groupStr = convertGroupToChinese(group);
-                groupStr += INTEGER_GROUP_UNITS[groupIndex];
-                result.insert(0, groupStr);
-                hasNonZero = true;
-            } else if (hasNonZero) {
-                result.insert(0, DIGITS[0]);
-            }
+		while (integer > 0) {
+			long group = integer % 10000;
+			if (group != 0) {
+				String groupStr = convertGroupToChinese(group);
+				groupStr += INTEGER_GROUP_UNITS[groupIndex];
+				result.insert(0, groupStr);
+				hasNonZero = true;
+			} else if (hasNonZero) {
+				result.insert(0, DIGITS[0]);
+			}
 
-            integer /= 10000;
-            groupIndex++;
-        }
-    }
+			integer /= 10000;
+			groupIndex++;
+		}
+	}
 
-    /**
-     * 将四位数以内的数字转换为中文表示
-     */
-    private static String convertGroupToChinese(long group) {
-        StringBuilder groupStr = new StringBuilder();
-        boolean needZero = false;
+	/**
+	 * 将四位数以内的数字转换为中文表示
+	 */
+	private static String convertGroupToChinese(long group) {
+		StringBuilder groupStr = new StringBuilder();
+		boolean needZero = false;
 
-        for (int i = 0; i < 4; i++) {
-            int digit = (int) (group % 10);
-            if (digit != 0) {
-                groupStr.insert(0, DIGITS[digit] + GROUP_INNER_UNITS[i]);
-                needZero = false;
-            } else {
-                if (!groupStr.isEmpty() && !needZero) {
-                    groupStr.insert(0, DIGITS[0]);
-                    needZero = true;
-                }
-            }
-            group /= 10;
-        }
+		for (int i = 0; i < 4; i++) {
+			int digit = (int) (group % 10);
+			if (digit != 0) {
+				groupStr.insert(0, DIGITS[digit] + GROUP_INNER_UNITS[i]);
+				needZero = false;
+			} else {
+				if (!groupStr.isEmpty() && !needZero) {
+					groupStr.insert(0, DIGITS[0]);
+					needZero = true;
+				}
+			}
+			group /= 10;
+		}
 
-        return groupStr.toString();
-    }
+		return groupStr.toString();
+	}
 
 	/**
 	 * 处理小数部分（角、分）

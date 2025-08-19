@@ -12,10 +12,10 @@ import com.groqdata.common.utils.sql.SqlUtil;
  * @author MISP TEAM
  */
 public class PageUtils extends PageHelper {
-    private PageUtils() {
-        throw new IllegalStateException("工具类不可实例化");
-    }
-    /**
+	private PageUtils() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
+	/**
 	 * 设置请求分页数据
 	 */
 	public static void startPage() {
@@ -24,13 +24,13 @@ public class PageUtils extends PageHelper {
 		Integer pageSize = pageDomain.getPageSize();
 		String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
 		Boolean reasonable = pageDomain.getReasonable();
-        PageMethod.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);
+		PageMethod.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);
 	}
 
 	/**
 	 * 清理分页的线程变量
 	 */
 	public static void clearPage() {
-        PageMethod.clearPage();
+		PageMethod.clearPage();
 	}
 }

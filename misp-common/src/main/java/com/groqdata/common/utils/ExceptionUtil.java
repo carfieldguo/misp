@@ -12,10 +12,10 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  * @author MISP TEAM
  */
 public class ExceptionUtil {
-    private ExceptionUtil() {
-        throw new IllegalStateException("工具类不可实例化");
-    }
-    /**
+	private ExceptionUtil() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
+	/**
 	 * 获取exception的详细错误信息。
 	 */
 	public static String getExceptionMessage(Throwable e) {

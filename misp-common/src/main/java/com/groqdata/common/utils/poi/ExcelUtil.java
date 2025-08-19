@@ -177,36 +177,35 @@ public class ExcelUtil<T> {
 	/**
 	 * 实体对象
 	 */
-    private final Class<T> clazz;
+	private final Class<T> clazz;
 
-    public Class<T> getClazz() {
-        return clazz;
-    }
+	public Class<T> getClazz() {
+		return clazz;
+	}
 	/**
 	 * 需要排除列属性
 	 */
-    private String[] excludeFields;
+	private String[] excludeFields;
 
-    public String[] getExcludeFields() {
-        return excludeFields;
-    }
+	public String[] getExcludeFields() {
+		return excludeFields;
+	}
 
-    public void setExcludeFields(String[] excludeFields) {
-        this.excludeFields = excludeFields;
-    }
+	public void setExcludeFields(String[] excludeFields) {
+		this.excludeFields = excludeFields;
+	}
 
 	public ExcelUtil(Class<T> clazz) {
 		this.clazz = clazz;
 	}
 
+	public String getDictValue(String key) {
+		return sysDictMap.get(key);
+	}
 
-    public String getDictValue(String key) {
-        return sysDictMap.get(key);
-    }
-
-    public void putDictValue(String key, String value) {
-        sysDictMap.put(key, value);
-    }
+	public void putDictValue(String key, String value) {
+		sysDictMap.put(key, value);
+	}
 
 	/**
 	 * 隐藏Excel中列属性
@@ -319,227 +318,225 @@ public class ExcelUtil<T> {
 		return importExcel(StringUtils.EMPTY, inputStream, titleNum);
 	}
 
-
 	/**
-     * 对excel表单指定表格索引名转换成list
-     *
-     * @param sheetNameParam 表格索引名
-     * @param titleNum 标题占用行数
-     * @param inputStream 输入流
-     * @return 转换后集合
-     */
-    public List<T> importExcel(String sheetNameParam, InputStream inputStream, int titleNum) throws ExcelException {
-        this.type = Type.IMPORT;
+	 * 对excel表单指定表格索引名转换成list
+	 *
+	 * @param sheetNameParam 表格索引名
+	 * @param titleNum 标题占用行数
+	 * @param inputStream 输入流
+	 * @return 转换后集合
+	 */
+	public List<T> importExcel(String sheetNameParam, InputStream inputStream, int titleNum) throws ExcelException {
+		this.type = Type.IMPORT;
 
-        try {
-            this.wb = WorkbookFactory.create(inputStream);
-        } catch (Exception e) {
-            throw new ExcelException("创建Excel工作簿失败", e);
-        }
+		try {
+			this.wb = WorkbookFactory.create(inputStream);
+		} catch (Exception e) {
+			throw new ExcelException("创建Excel工作簿失败", e);
+		}
 
-        List<T> resultList = new ArrayList<>();
-        Sheet targetSheet = getTargetSheet(sheetNameParam);
-        boolean isXSSFWorkbook = !(wb instanceof HSSFWorkbook);
-        Map<String, PictureData> pictures = loadPictures(targetSheet, isXSSFWorkbook);
+		List<T> resultList = new ArrayList<>();
+		Sheet targetSheet = getTargetSheet(sheetNameParam);
+		boolean isXSSFWorkbook = !(wb instanceof HSSFWorkbook);
+		Map<String, PictureData> pictures = loadPictures(targetSheet, isXSSFWorkbook);
 
-        int rows = targetSheet.getLastRowNum();
-        if (rows <= titleNum) {
-            return resultList;
-        }
+		int rows = targetSheet.getLastRowNum();
+		if (rows <= titleNum) {
+			return resultList;
+		}
 
-        Row headerRow = targetSheet.getRow(titleNum);
-        if (headerRow == null) {
-            throw new ExcelException("表头行不存在");
-        }
+		Row headerRow = targetSheet.getRow(titleNum);
+		if (headerRow == null) {
+			throw new ExcelException("表头行不存在");
+		}
 
-        Map<String, Integer> cellMap = buildHeaderMap(headerRow);
-        List<Object[]> fieldList = this.getFields();
-        Map<Integer, Object[]> fieldsMap = buildFieldsMap(cellMap, fieldList);
+		Map<String, Integer> cellMap = buildHeaderMap(headerRow);
+		List<Object[]> fieldList = this.getFields();
+		Map<Integer, Object[]> fieldsMap = buildFieldsMap(cellMap, fieldList);
 
-        for (int i = titleNum + 1; i <= rows; i++) {
-            Row row = targetSheet.getRow(i);
-            if (isRowEmpty(row)) {
-                continue;
-            }
-            T entity = convertRowToEntity(row, fieldsMap, pictures);
-            resultList.add(entity);
-        }
+		for (int i = titleNum + 1; i <= rows; i++) {
+			Row row = targetSheet.getRow(i);
+			if (isRowEmpty(row)) {
+				continue;
+			}
+			T entity = convertRowToEntity(row, fieldsMap, pictures);
+			resultList.add(entity);
+		}
 
-        return resultList;
-    }
+		return resultList;
+	}
 
-    private Sheet getTargetSheet(String sheetNameParam) throws ExcelException {
-        Sheet targetSheet = StringUtils.isNotEmpty(sheetNameParam) ? wb.getSheet(sheetNameParam) : wb.getSheetAt(0);
-        if (targetSheet == null) {
-            throw new ExcelException("指定的Sheet不存在");
-        }
-        return targetSheet;
-    }
+	private Sheet getTargetSheet(String sheetNameParam) throws ExcelException {
+		Sheet targetSheet = StringUtils.isNotEmpty(sheetNameParam) ? wb.getSheet(sheetNameParam) : wb.getSheetAt(0);
+		if (targetSheet == null) {
+			throw new ExcelException("指定的Sheet不存在");
+		}
+		return targetSheet;
+	}
 
-    private Map<String, PictureData> loadPictures(Sheet sheet, boolean isXSSF) {
-        if (isXSSF) {
-            return getSheetPictures07((XSSFSheet) sheet);
-        } else {
-            return getSheetPictures03((HSSFSheet) sheet, (HSSFWorkbook) wb);
-        }
-    }
+	private Map<String, PictureData> loadPictures(Sheet sheet, boolean isXSSF) {
+		if (isXSSF) {
+			return getSheetPictures07((XSSFSheet) sheet);
+		} else {
+			return getSheetPictures03((HSSFSheet) sheet, (HSSFWorkbook) wb);
+		}
+	}
 
-    private Map<String, Integer> buildHeaderMap(Row headerRow) {
-        Map<String, Integer> cellMap = new HashMap<>();
-        for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
-            Cell cell = headerRow.getCell(i);
-            String value = StringHelper.isNotNull(cell) ? getCellValue(headerRow, i).toString() : null;
-            cellMap.put(value, i);
-        }
-        return cellMap;
-    }
+	private Map<String, Integer> buildHeaderMap(Row headerRow) {
+		Map<String, Integer> cellMap = new HashMap<>();
+		for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
+			Cell cell = headerRow.getCell(i);
+			String value = StringHelper.isNotNull(cell) ? getCellValue(headerRow, i).toString() : null;
+			cellMap.put(value, i);
+		}
+		return cellMap;
+	}
 
-    private Map<Integer, Object[]> buildFieldsMap(Map<String, Integer> cellMap, List<Object[]> fieldList) {
-        Map<Integer, Object[]> fieldsMap = new HashMap<>();
-        for (Object[] objects : fieldList) {
-            Excel attr = (Excel) objects[1];
-            Integer column = cellMap.get(attr.name());
-            if (column != null) {
-                fieldsMap.put(column, objects);
-            }
-        }
-        return fieldsMap;
-    }
+	private Map<Integer, Object[]> buildFieldsMap(Map<String, Integer> cellMap, List<Object[]> fieldList) {
+		Map<Integer, Object[]> fieldsMap = new HashMap<>();
+		for (Object[] objects : fieldList) {
+			Excel attr = (Excel) objects[1];
+			Integer column = cellMap.get(attr.name());
+			if (column != null) {
+				fieldsMap.put(column, objects);
+			}
+		}
+		return fieldsMap;
+	}
 
-    private T convertRowToEntity(Row row, Map<Integer, Object[]> fieldsMap, Map<String, PictureData> pictures) throws ExcelException {
-        T entity = null;
-        try {
-            for (Map.Entry<Integer, Object[]> entry : fieldsMap.entrySet()) {
-                Object val = getCellValue(row, entry.getKey());
-                entity = (entity == null ? clazz.getDeclaredConstructor().newInstance() : entity);
+	private T convertRowToEntity(Row row, Map<Integer, Object[]> fieldsMap, Map<String, PictureData> pictures)
+			throws ExcelException {
+		T entity = null;
+		try {
+			for (Map.Entry<Integer, Object[]> entry : fieldsMap.entrySet()) {
+				Object val = getCellValue(row, entry.getKey());
+				entity = (entity == null ? clazz.getDeclaredConstructor().newInstance() : entity);
 
-                Field field = (Field) entry.getValue()[0];
-                Excel attr = (Excel) entry.getValue()[1];
-                val = convertCellValue(val, field, attr, row, entry.getKey(), pictures);
-                String propertyName = buildPropertyName(field, attr);
-                ReflectUtils.invokeSetter(entity, propertyName, val);
-            }
-        } catch (Exception e) {
-            throw new ExcelException("转换行数据失败", e);
-        }
-        return entity;
-    }
+				Field field = (Field) entry.getValue()[0];
+				Excel attr = (Excel) entry.getValue()[1];
+				val = convertCellValue(val, field, attr, row, entry.getKey(), pictures);
+				String propertyName = buildPropertyName(field, attr);
+				ReflectUtils.invokeSetter(entity, propertyName, val);
+			}
+		} catch (Exception e) {
+			throw new ExcelException("转换行数据失败", e);
+		}
+		return entity;
+	}
 
-    private Object convertCellValue(Object val, Field field, Excel attr, Row row, int columnIndex,
-                                    Map<String, PictureData> pictures) {
-        Class<?> fieldType = field.getType();
+	private Object convertCellValue(Object val, Field field, Excel attr, Row row, int columnIndex,
+			Map<String, PictureData> pictures) {
+		Class<?> fieldType = field.getType();
 
-        // 根据字段类型进行转换
-        val = convertByFieldType(val, fieldType, attr);
+		// 根据字段类型进行转换
+		val = convertByFieldType(val, fieldType, attr);
 
-        // 根据注解属性进行进一步处理
-        val = processByAnnotation(val, attr, row, columnIndex, pictures);
+		// 根据注解属性进行进一步处理
+		val = processByAnnotation(val, attr, row, columnIndex, pictures);
 
-        return val;
-    }
+		return val;
+	}
 
-    private Object convertByFieldType(Object val, Class<?> fieldType, Excel attr) {
-        if (String.class == fieldType) {
-            return convertToString(val, attr);
-        } else if (isIntegerType(fieldType) && StringUtils.isNumeric(Convert.toStr(val))) {
-            return Convert.toInt(val);
-        } else if (isLongType(fieldType) && StringUtils.isNumeric(Convert.toStr(val))) {
-            return Convert.toLong(val);
-        } else if (isDoubleType(fieldType)) {
-            return Convert.toDouble(val);
-        } else if (isFloatType(fieldType)) {
-            return Convert.toFloat(val);
-        } else if (BigDecimal.class == fieldType) {
-            return Convert.toBigDecimal(val);
-        } else if (Date.class == fieldType) {
-            return convertToDate(val);
-        } else if (isBooleanType(fieldType)) {
-            return Convert.toBool(val, false);
-        }
-        return val;
-    }
+	private Object convertByFieldType(Object val, Class<?> fieldType, Excel attr) {
+		if (String.class == fieldType) {
+			return convertToString(val, attr);
+		} else if (isIntegerType(fieldType) && StringUtils.isNumeric(Convert.toStr(val))) {
+			return Convert.toInt(val);
+		} else if (isLongType(fieldType) && StringUtils.isNumeric(Convert.toStr(val))) {
+			return Convert.toLong(val);
+		} else if (isDoubleType(fieldType)) {
+			return Convert.toDouble(val);
+		} else if (isFloatType(fieldType)) {
+			return Convert.toFloat(val);
+		} else if (BigDecimal.class == fieldType) {
+			return Convert.toBigDecimal(val);
+		} else if (Date.class == fieldType) {
+			return convertToDate(val);
+		} else if (isBooleanType(fieldType)) {
+			return Convert.toBool(val, false);
+		}
+		return val;
+	}
 
-    private Object convertToString(Object val, Excel attr) {
-        String s = Convert.toStr(val);
-        if (StringUtils.endsWith(s, ".0")) {
-            return StringUtils.substringBefore(s, ".0");
-        } else {
-            String dateFormat = attr.dateFormat();
-            if (StringUtils.isNotEmpty(dateFormat)) {
-                return parseDateToStr(dateFormat, val);
-            } else {
-                return Convert.toStr(val);
-            }
-        }
-    }
+	private Object convertToString(Object val, Excel attr) {
+		String s = Convert.toStr(val);
+		if (StringUtils.endsWith(s, ".0")) {
+			return StringUtils.substringBefore(s, ".0");
+		} else {
+			String dateFormat = attr.dateFormat();
+			if (StringUtils.isNotEmpty(dateFormat)) {
+				return parseDateToStr(dateFormat, val);
+			} else {
+				return Convert.toStr(val);
+			}
+		}
+	}
 
-    private Object convertToDate(Object val) {
-        if (val instanceof String) {
-            return DateHelper.parseDate(val);
-        } else if (val instanceof Double doubleVal) {
-            return DateUtil.getJavaDate(doubleVal);
-        }
-        return val;
-    }
+	private Object convertToDate(Object val) {
+		if (val instanceof String) {
+			return DateHelper.parseDate(val);
+		} else if (val instanceof Double doubleVal) {
+			return DateUtil.getJavaDate(doubleVal);
+		}
+		return val;
+	}
 
-    private boolean isIntegerType(Class<?> fieldType) {
-        return Integer.TYPE == fieldType || Integer.class == fieldType;
-    }
+	private boolean isIntegerType(Class<?> fieldType) {
+		return Integer.TYPE == fieldType || Integer.class == fieldType;
+	}
 
-    private boolean isLongType(Class<?> fieldType) {
-        return Long.TYPE == fieldType || Long.class == fieldType;
-    }
+	private boolean isLongType(Class<?> fieldType) {
+		return Long.TYPE == fieldType || Long.class == fieldType;
+	}
 
-    private boolean isDoubleType(Class<?> fieldType) {
-        return Double.TYPE == fieldType || Double.class == fieldType;
-    }
+	private boolean isDoubleType(Class<?> fieldType) {
+		return Double.TYPE == fieldType || Double.class == fieldType;
+	}
 
-    private boolean isFloatType(Class<?> fieldType) {
-        return Float.TYPE == fieldType || Float.class == fieldType;
-    }
+	private boolean isFloatType(Class<?> fieldType) {
+		return Float.TYPE == fieldType || Float.class == fieldType;
+	}
 
-    private boolean isBooleanType(Class<?> fieldType) {
-        return Boolean.TYPE == fieldType || Boolean.class == fieldType;
-    }
+	private boolean isBooleanType(Class<?> fieldType) {
+		return Boolean.TYPE == fieldType || Boolean.class == fieldType;
+	}
 
-    private Object processByAnnotation(Object val, Excel attr, Row row, int columnIndex,
-                                       Map<String, PictureData> pictures) {
-        if (StringUtils.isNotEmpty(attr.readConverterExp())) {
-            val = reverseByExp(Convert.toStr(val), attr.readConverterExp(), attr.separator());
-        } else if (StringUtils.isNotEmpty(attr.dictType())) {
-            String key = attr.dictType() + val;
-            if (!sysDictMap.containsKey(key)) {
-                String dictValue = reverseDictByExp(Convert.toStr(val), attr.dictType(), attr.separator());
-                sysDictMap.put(key, dictValue);
-            }
-            val = sysDictMap.get(key);
-        } else if (!attr.handler().equals(ExcelHandlerAdapter.class)) {
-            val = dataFormatHandlerAdapter(val, attr, null);
-        } else if (ColumnType.IMAGE == attr.cellType() && StringHelper.isNotEmpty(pictures)) {
-            PictureData image = pictures.get(row.getRowNum() + "_" + columnIndex);
-            if (image == null) {
-                val = "";
-            } else {
-                try {
-                    byte[] data = image.getData();
-                    val = FileUtils.writeImportBytes(data);
-                } catch (Exception e) {
-                    val = "";
-                }
-            }
-        }
-        return val;
-    }
+	private Object processByAnnotation(Object val, Excel attr, Row row, int columnIndex,
+			Map<String, PictureData> pictures) {
+		if (StringUtils.isNotEmpty(attr.readConverterExp())) {
+			val = reverseByExp(Convert.toStr(val), attr.readConverterExp(), attr.separator());
+		} else if (StringUtils.isNotEmpty(attr.dictType())) {
+			String key = attr.dictType() + val;
+			if (!sysDictMap.containsKey(key)) {
+				String dictValue = reverseDictByExp(Convert.toStr(val), attr.dictType(), attr.separator());
+				sysDictMap.put(key, dictValue);
+			}
+			val = sysDictMap.get(key);
+		} else if (!attr.handler().equals(ExcelHandlerAdapter.class)) {
+			val = dataFormatHandlerAdapter(val, attr, null);
+		} else if (ColumnType.IMAGE == attr.cellType() && StringHelper.isNotEmpty(pictures)) {
+			PictureData image = pictures.get(row.getRowNum() + "_" + columnIndex);
+			if (image == null) {
+				val = "";
+			} else {
+				try {
+					byte[] data = image.getData();
+					val = FileUtils.writeImportBytes(data);
+				} catch (Exception e) {
+					val = "";
+				}
+			}
+		}
+		return val;
+	}
 
-
-    private String buildPropertyName(Field field, Excel attr) {
-        String propertyName = field.getName();
-        if (StringUtils.isNotEmpty(attr.targetAttr())) {
-            propertyName = field.getName() + "." + attr.targetAttr();
-        }
-        return propertyName;
-    }
-
+	private String buildPropertyName(Field field, Excel attr) {
+		String propertyName = field.getName();
+		if (StringUtils.isNotEmpty(attr.targetAttr())) {
+			propertyName = field.getName() + "." + attr.targetAttr();
+		}
+		return propertyName;
+	}
 
 	/**
 	 * 对list数据源将其里面的数据导入到excel表单
@@ -708,136 +705,135 @@ public class ExcelUtil<T> {
 	}
 
 	/**
-     * 填充excel数据
-     *
-     * @param sheetIndex 序号
-     * @param targetRow 单元格行
-     */
-    public void fillExcelData(int sheetIndex, Row targetRow) {
-        int startNo = sheetIndex * ExcelConstants.DEFAULT_MAX_SHEET_SIZE;
-        int endNo = Math.min(startNo + ExcelConstants.DEFAULT_MAX_SHEET_SIZE, list.size());
+	 * 填充excel数据
+	 *
+	 * @param sheetIndex 序号
+	 * @param targetRow 单元格行
+	 */
+	public void fillExcelData(int sheetIndex, Row targetRow) {
+		int startNo = sheetIndex * ExcelConstants.DEFAULT_MAX_SHEET_SIZE;
+		int endNo = Math.min(startNo + ExcelConstants.DEFAULT_MAX_SHEET_SIZE, list.size());
 
-        for (int i = startNo; i < endNo; i++) {
-            int rowNo = calculateRowNumber(i, startNo);
-            Row currentRow = sheet.createRow(rowNo);
+		for (int i = startNo; i < endNo; i++) {
+			int rowNo = calculateRowNumber(i, startNo);
+			Row currentRow = sheet.createRow(rowNo);
 
-            // 得到导出对象.
-            T vo = list.get(i);
-            Collection<?> subList = getSubListIfApplicable(vo);
+			// 得到导出对象.
+			T vo = list.get(i);
+			Collection<?> subList = getSubListIfApplicable(vo);
 
-            int column = 0;
-            for (Object[] os : fields) {
-                Field field = (Field) os[0];
-                Excel excel = (Excel) os[1];
+			int column = 0;
+			for (Object[] os : fields) {
+				Field field = (Field) os[0];
+				Excel excel = (Excel) os[1];
 
-                if (shouldProcessSubList(field, subList)) {
-                    processSubListField(currentRow, subList,  column, rowNo);
-                    column += subFields.size();
-                } else {
-                    addCell(excel, currentRow, vo, field, column++);
-                }
-            }
-        }
-    }
+				if (shouldProcessSubList(field, subList)) {
+					processSubListField(currentRow, subList, column, rowNo);
+					column += subFields.size();
+				} else {
+					addCell(excel, currentRow, vo, field, column++);
+				}
+			}
+		}
+	}
 
-    /**
-     * 计算行号
-     *
-     * @param index 当前索引
-     * @param startNo 起始编号
-     * @return 行号
-     */
-    private int calculateRowNumber(int index, int startNo) {
-        if (isSubList()) {
-            if (index > 1) {
-                return (1 + rownum) - startNo + index - 1;
-            } else {
-                return (1 + rownum) - startNo + index;
-            }
-        } else {
-            return index + 1 + rownum - startNo;
-        }
-    }
+	/**
+	 * 计算行号
+	 *
+	 * @param index 当前索引
+	 * @param startNo 起始编号
+	 * @return 行号
+	 */
+	private int calculateRowNumber(int index, int startNo) {
+		if (isSubList()) {
+			if (index > 1) {
+				return (1 + rownum) - startNo + index - 1;
+			} else {
+				return (1 + rownum) - startNo + index;
+			}
+		} else {
+			return index + 1 + rownum - startNo;
+		}
+	}
 
-    /**
-     * 获取子列表（如果适用）
-     *
-     * @param vo 对象实例
-     * @return 子列表
-     */
-    private Collection<?> getSubListIfApplicable(T vo) {
-        if (isSubList()) {
-            if (isSubListValue(vo)) {
-                Collection<?> subList = getListCellValue(vo);
-                subMergedLastRowNum = subMergedLastRowNum + subList.size();
-                return subList;
-            } else {
-                subMergedFirstRowNum++;
-                subMergedLastRowNum++;
-            }
-        }
-        return Collections.emptyList();
-    }
+	/**
+	 * 获取子列表（如果适用）
+	 *
+	 * @param vo 对象实例
+	 * @return 子列表
+	 */
+	private Collection<?> getSubListIfApplicable(T vo) {
+		if (isSubList()) {
+			if (isSubListValue(vo)) {
+				Collection<?> subList = getListCellValue(vo);
+				subMergedLastRowNum = subMergedLastRowNum + subList.size();
+				return subList;
+			} else {
+				subMergedFirstRowNum++;
+				subMergedLastRowNum++;
+			}
+		}
+		return Collections.emptyList();
+	}
 
-    /**
-     * 判断是否应该处理子列表字段
-     *
-     * @param field 字段
-     * @param subList 子列表
-     * @return 是否应该处理子列表
-     */
-    private boolean shouldProcessSubList(Field field, Collection<?> subList) {
-        return Collection.class.isAssignableFrom(field.getType()) && StringHelper.isNotNull(subList);
-    }
+	/**
+	 * 判断是否应该处理子列表字段
+	 *
+	 * @param field 字段
+	 * @param subList 子列表
+	 * @return 是否应该处理子列表
+	 */
+	private boolean shouldProcessSubList(Field field, Collection<?> subList) {
+		return Collection.class.isAssignableFrom(field.getType()) && StringHelper.isNotNull(subList);
+	}
 
-    /**
-     * 处理子列表字段
-     *
-     * @param currentRow 当前行
-     * @param subList 子列表
-     * @param column 列索引
-     * @param rowNo 行号
-     */
-    private void processSubListField(Row currentRow, Collection<?> subList,
-                                     int column, int rowNo) {
-        boolean subFirst = false;
-        int currentRowNum = rowNo;
+	/**
+	 * 处理子列表字段
+	 *
+	 * @param currentRow 当前行
+	 * @param subList 子列表
+	 * @param column 列索引
+	 * @param rowNo 行号
+	 */
+	private void processSubListField(Row currentRow, Collection<?> subList,
+			int column, int rowNo) {
+		boolean subFirst = false;
+		int currentRowNum = rowNo;
 
-        for (Object obj : subList) {
-            if (subFirst) {
-                currentRowNum++;
-                currentRow = sheet.createRow(currentRowNum);
-            }
+		for (Object obj : subList) {
+			if (subFirst) {
+				currentRowNum++;
+				currentRow = sheet.createRow(currentRowNum);
+			}
 
-            List<Field> subFieldsList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), Excel.class);
-            processSubFields(currentRow, obj, subFieldsList, column);
+			List<Field> subFieldsList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), Excel.class);
+			processSubFields(currentRow, obj, subFieldsList, column);
 
-            subFirst = true;
-        }
+			subFirst = true;
+		}
 
-        subMergedFirstRowNum = subMergedFirstRowNum + subList.size();
-    }
+		subMergedFirstRowNum = subMergedFirstRowNum + subList.size();
+	}
 
-    /**
-     * 处理子字段
-     *
-     * @param currentRow 当前行
-     * @param obj 对象实例
-     * @param subFieldsList 子字段列表
-     * @param column 列索引
-     */
-    private void processSubFields(Row currentRow, Object obj, List<Field> subFieldsList, int column) {
-        int subIndex = 0;
-        for (Field subField : subFieldsList) {
-            if (subField.isAnnotationPresent(Excel.class)) {
-                setFieldAccessible(subField);
-                Excel attr = subField.getAnnotation(Excel.class);
-                addCell(attr, currentRow, (T) obj, subField, column + subIndex);
-            }
-            subIndex++;
-        }
-    }
-
+	/**
+	 * 处理子字段
+	 *
+	 * @param currentRow 当前行
+	 * @param obj 对象实例
+	 * @param subFieldsList 子字段列表
+	 * @param column 列索引
+	 */
+	private void processSubFields(Row currentRow, Object obj, List<Field> subFieldsList, int column) {
+		int subIndex = 0;
+		for (Field subField : subFieldsList) {
+			if (subField.isAnnotationPresent(Excel.class)) {
+				setFieldAccessible(subField);
+				Excel attr = subField.getAnnotation(Excel.class);
+				addCell(attr, currentRow, (T) obj, subField, column + subIndex);
+			}
+			subIndex++;
+		}
+	}
 
 	/**
 	 * 创建表格样式
@@ -906,25 +902,25 @@ public class ExcelUtil<T> {
 			Excel excel = (Excel) os[1];
 			String key = StringHelper.format(ExcelConstants.HEADER_ID_FORMAT, excel.headerColor(),
 					excel.headerBackgroundColor());
-            headerStyles.computeIfAbsent(key, k -> {
-                CellStyle style = workbook.createCellStyle();
-                style.cloneStyleFrom(targetStyles.get(ExcelConstants.STYLE_TYPE_DATA));
-                style.setAlignment(HorizontalAlignment.CENTER);
-                style.setVerticalAlignment(VerticalAlignment.CENTER);
-                style.setFillForegroundColor(excel.headerBackgroundColor().index);
-                style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-                Font headerFont = workbook.createFont();
-                headerFont.setFontName(ExcelConstants.DEFAULT_FONT_NAME);
-                headerFont.setFontHeightInPoints((short) 10);
-                headerFont.setBold(true);
-                headerFont.setColor(excel.headerColor().index);
-                style.setFont(headerFont);
-                DataFormat dataFormat = workbook.createDataFormat();
-                style.setDataFormat(dataFormat.getFormat("@"));
-                return style;
-            });
+			headerStyles.computeIfAbsent(key, k -> {
+				CellStyle style = workbook.createCellStyle();
+				style.cloneStyleFrom(targetStyles.get(ExcelConstants.STYLE_TYPE_DATA));
+				style.setAlignment(HorizontalAlignment.CENTER);
+				style.setVerticalAlignment(VerticalAlignment.CENTER);
+				style.setFillForegroundColor(excel.headerBackgroundColor().index);
+				style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+				Font headerFont = workbook.createFont();
+				headerFont.setFontName(ExcelConstants.DEFAULT_FONT_NAME);
+				headerFont.setFontHeightInPoints((short) 10);
+				headerFont.setBold(true);
+				headerFont.setColor(excel.headerColor().index);
+				style.setFont(headerFont);
+				DataFormat dataFormat = workbook.createDataFormat();
+				style.setDataFormat(dataFormat.getFormat("@"));
+				return style;
+			});
 
-        }
+		}
 		return headerStyles;
 	}
 
@@ -1021,112 +1017,111 @@ public class ExcelUtil<T> {
 	}
 
 	/**
- * 设置单元格信息
- *
- * @param cellValue 单元格值
- * @param excelAnnotation 注解相关
- * @param cell 单元格信息
- */
-public void setCellVo(Object cellValue, Excel excelAnnotation, Cell cell) {
-    if (isStringOrTextType(excelAnnotation)) {
-        handleStringOrTextType(cellValue, excelAnnotation, cell);
-    } else if (isNumericType(excelAnnotation)) {
-        handleNumericType(cellValue, cell);
-    } else if (isImageType(excelAnnotation)) {
-        handleImageType(cellValue, cell);
-    }
-}
+	* 设置单元格信息
+	*
+	* @param cellValue 单元格值
+	* @param excelAnnotation 注解相关
+	* @param cell 单元格信息
+	*/
+	public void setCellVo(Object cellValue, Excel excelAnnotation, Cell cell) {
+		if (isStringOrTextType(excelAnnotation)) {
+			handleStringOrTextType(cellValue, excelAnnotation, cell);
+		} else if (isNumericType(excelAnnotation)) {
+			handleNumericType(cellValue, cell);
+		} else if (isImageType(excelAnnotation)) {
+			handleImageType(cellValue, cell);
+		}
+	}
 
-/**
- * 判断是否为字符串或文本类型
- *
- * @param excel Excel注解
- * @return 是否为字符串或文本类型
- */
-private boolean isStringOrTextType(Excel excel) {
-    return ColumnType.STRING == excel.cellType() || ColumnType.TEXT == excel.cellType();
-}
+	/**
+	 * 判断是否为字符串或文本类型
+	 *
+	 * @param excel Excel注解
+	 * @return 是否为字符串或文本类型
+	 */
+	private boolean isStringOrTextType(Excel excel) {
+		return ColumnType.STRING == excel.cellType() || ColumnType.TEXT == excel.cellType();
+	}
 
-/**
- * 判断是否为数值类型
- *
- * @param excel Excel注解
- * @return 是否为数值类型
- */
-private boolean isNumericType(Excel excel) {
-    return ColumnType.NUMERIC == excel.cellType();
-}
+	/**
+	 * 判断是否为数值类型
+	 *
+	 * @param excel Excel注解
+	 * @return 是否为数值类型
+	 */
+	private boolean isNumericType(Excel excel) {
+		return ColumnType.NUMERIC == excel.cellType();
+	}
 
-/**
- * 判断是否为图片类型
- *
- * @param excel Excel注解
- * @return 是否为图片类型
- */
-private boolean isImageType(Excel excel) {
-    return ColumnType.IMAGE == excel.cellType();
-}
+	/**
+	 * 判断是否为图片类型
+	 *
+	 * @param excel Excel注解
+	 * @return 是否为图片类型
+	 */
+	private boolean isImageType(Excel excel) {
+		return ColumnType.IMAGE == excel.cellType();
+	}
 
-/**
- * 处理字符串或文本类型
- *
- * @param cellValue 单元格值
- * @param excel Excel注解
- * @param cell 单元格
- */
-private void handleStringOrTextType(Object cellValue, Excel excel, Cell cell) {
-    String cellValueStr = Convert.toStr(cellValue);
+	/**
+	 * 处理字符串或文本类型
+	 *
+	 * @param cellValue 单元格值
+	 * @param excel Excel注解
+	 * @param cell 单元格
+	 */
+	private void handleStringOrTextType(Object cellValue, Excel excel, Cell cell) {
+		String cellValueStr = Convert.toStr(cellValue);
 
-    // 对于任何以表达式触发字符 =-+@开头的单元格，直接使用tab字符作为前缀，防止CSV注入。
-    if (StringUtils.startsWithAny(cellValueStr, ExcelConstants.FORMULA_STR.toArray(new String[0]))) {
-        cellValueStr = RegExUtils.replaceFirst(cellValueStr, ExcelConstants.FORMULA_REGEX_STR, "\t$0");
-    }
+		// 对于任何以表达式触发字符 =-+@开头的单元格，直接使用tab字符作为前缀，防止CSV注入。
+		if (StringUtils.startsWithAny(cellValueStr, ExcelConstants.FORMULA_STR.toArray(new String[0]))) {
+			cellValueStr = RegExUtils.replaceFirst(cellValueStr, ExcelConstants.FORMULA_REGEX_STR, "\t$0");
+		}
 
-    if (cellValue instanceof Collection && StringUtils.equals("[]", cellValueStr)) {
-        cellValueStr = StringUtils.EMPTY;
-    }
+		if (cellValue instanceof Collection && StringUtils.equals("[]", cellValueStr)) {
+			cellValueStr = StringUtils.EMPTY;
+		}
 
-    cell.setCellValue(StringHelper.isNull(cellValueStr)
-            ? excel.defaultValue()
-            : cellValueStr + excel.suffix());
-}
+		cell.setCellValue(StringHelper.isNull(cellValueStr)
+				? excel.defaultValue()
+				: cellValueStr + excel.suffix());
+	}
 
-/**
- * 处理数值类型
- *
- * @param cellValue 单元格值
- * @param cell 单元格
- */
-private void handleNumericType(Object cellValue, Cell cell) {
-    if (!StringHelper.isNotNull(cellValue)) {
-        return;
-    }
+	/**
+	 * 处理数值类型
+	 *
+	 * @param cellValue 单元格值
+	 * @param cell 单元格
+	 */
+	private void handleNumericType(Object cellValue, Cell cell) {
+		if (!StringHelper.isNotNull(cellValue)) {
+			return;
+		}
 
-    String valueStr = Convert.toStr(cellValue);
-    if (StringUtils.contains(valueStr, ".")) {
-        cell.setCellValue(Convert.toDouble(cellValue));
-    } else {
-        cell.setCellValue(Convert.toInt(cellValue));
-    }
-}
+		String valueStr = Convert.toStr(cellValue);
+		if (StringUtils.contains(valueStr, ".")) {
+			cell.setCellValue(Convert.toDouble(cellValue));
+		} else {
+			cell.setCellValue(Convert.toInt(cellValue));
+		}
+	}
 
-/**
- * 处理图片类型
- *
- * @param cellValue 单元格值
- * @param cell 单元格
- */
-private void handleImageType(Object cellValue, Cell cell) {
-    ClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, (short) cell.getColumnIndex(),
-            cell.getRow().getRowNum(), (short) (cell.getColumnIndex() + 1), cell.getRow().getRowNum() + 1);
-    String imagePath = Convert.toStr(cellValue);
-    if (StringUtils.isNotEmpty(imagePath)) {
-        byte[] data = ImageUtils.getImage(imagePath);
-        getDrawingPatriarch(cell.getSheet()).createPicture(anchor,
-                cell.getSheet().getWorkbook().addPicture(data, getImageType(data)));
-    }
-}
-
+	/**
+	 * 处理图片类型
+	 *
+	 * @param cellValue 单元格值
+	 * @param cell 单元格
+	 */
+	private void handleImageType(Object cellValue, Cell cell) {
+		ClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, (short) cell.getColumnIndex(),
+				cell.getRow().getRowNum(), (short) (cell.getColumnIndex() + 1), cell.getRow().getRowNum() + 1);
+		String imagePath = Convert.toStr(cellValue);
+		if (StringUtils.isNotEmpty(imagePath)) {
+			byte[] data = ImageUtils.getImage(imagePath);
+			getDrawingPatriarch(cell.getSheet()).createPicture(anchor,
+					cell.getSheet().getWorkbook().addPicture(data, getImageType(data)));
+		}
+	}
 
 	/**
 	 * 获取画布
@@ -1194,160 +1189,159 @@ private void handleImageType(Object cellValue, Cell cell) {
 	}
 
 	/**
-     * 添加单元格
-     *
-     * @param excelAttr Excel注解
-     * @param dataRow 数据行
-     * @param vo 对象实例
-     * @param targetField 字段
-     * @param columnIndex 列索引
-     * @return 单元格对象
-     */
-    public Cell addCell(Excel excelAttr, Row dataRow, T vo, Field targetField, int columnIndex) {
-        Cell cell = null;
-        try {
-            // 设置行高
-            dataRow.setHeight(maxHeight);
-            // 根据Excel中设置情况决定是否导出,有些情况需要保持为空,希望用户填写这一列.
-            if (excelAttr.isExport()) {
-                cell = createAndConfigureCell(excelAttr, dataRow, vo, columnIndex);
-                Object value = getTargetValue(vo, targetField, excelAttr);
-                setCellValueByType(cell, value, excelAttr);
-                addStatisticsData(columnIndex, Convert.toStr(value), excelAttr);
-            }
-        } catch (Exception e) {
-            log.error("导出Excel失败{}", e.getMessage(), e);
-        }
-        return cell;
-    }
+	 * 添加单元格
+	 *
+	 * @param excelAttr Excel注解
+	 * @param dataRow 数据行
+	 * @param vo 对象实例
+	 * @param targetField 字段
+	 * @param columnIndex 列索引
+	 * @return 单元格对象
+	 */
+	public Cell addCell(Excel excelAttr, Row dataRow, T vo, Field targetField, int columnIndex) {
+		Cell cell = null;
+		try {
+			// 设置行高
+			dataRow.setHeight(maxHeight);
+			// 根据Excel中设置情况决定是否导出,有些情况需要保持为空,希望用户填写这一列.
+			if (excelAttr.isExport()) {
+				cell = createAndConfigureCell(excelAttr, dataRow, vo, columnIndex);
+				Object value = getTargetValue(vo, targetField, excelAttr);
+				setCellValueByType(cell, value, excelAttr);
+				addStatisticsData(columnIndex, Convert.toStr(value), excelAttr);
+			}
+		} catch (Exception e) {
+			log.error("导出Excel失败{}", e.getMessage(), e);
+		}
+		return cell;
+	}
 
-    /**
-     * 创建并配置单元格
-     *
-     * @param excelAttr Excel注解
-     * @param dataRow 数据行
-     * @param vo 对象实例
-     * @param columnIndex 列索引
-     * @return 单元格对象
-     */
-    private Cell createAndConfigureCell(Excel excelAttr, Row dataRow, T vo, int columnIndex) {
-        Cell cell = dataRow.createCell(columnIndex);
-        if (isSubListValue(vo) && getListCellValue(vo).size() > 1 && excelAttr.needMerge()) {
-            CellRangeAddress cellAddress = new CellRangeAddress(subMergedFirstRowNum, subMergedLastRowNum,
-                    columnIndex, columnIndex);
-            sheet.addMergedRegion(cellAddress);
-        }
-        cell.setCellStyle(styles
-                .get(StringHelper.format(ExcelConstants.DATA_ID_FORMAT, excelAttr.align(), excelAttr.color(),
-                        excelAttr.backgroundColor(), excelAttr.cellType())));
-        return cell;
-    }
+	/**
+	 * 创建并配置单元格
+	 *
+	 * @param excelAttr Excel注解
+	 * @param dataRow 数据行
+	 * @param vo 对象实例
+	 * @param columnIndex 列索引
+	 * @return 单元格对象
+	 */
+	private Cell createAndConfigureCell(Excel excelAttr, Row dataRow, T vo, int columnIndex) {
+		Cell cell = dataRow.createCell(columnIndex);
+		if (isSubListValue(vo) && getListCellValue(vo).size() > 1 && excelAttr.needMerge()) {
+			CellRangeAddress cellAddress = new CellRangeAddress(subMergedFirstRowNum, subMergedLastRowNum,
+					columnIndex, columnIndex);
+			sheet.addMergedRegion(cellAddress);
+		}
+		cell.setCellStyle(styles
+				.get(StringHelper.format(ExcelConstants.DATA_ID_FORMAT, excelAttr.align(), excelAttr.color(),
+						excelAttr.backgroundColor(), excelAttr.cellType())));
+		return cell;
+	}
 
-    /**
-     * 根据不同类型设置单元格值
-     *
-     * @param cell 单元格
-     * @param value 值
-     * @param excelAttr Excel注解
-     */
-    private void setCellValueByType(Cell cell, Object value, Excel excelAttr) {
-        if (!shouldSetValue(value, excelAttr)) {
-            return;
-        }
+	/**
+	 * 根据不同类型设置单元格值
+	 *
+	 * @param cell 单元格
+	 * @param value 值
+	 * @param excelAttr Excel注解
+	 */
+	private void setCellValueByType(Cell cell, Object value, Excel excelAttr) {
+		if (!shouldSetValue(value, excelAttr)) {
+			return;
+		}
 
-        String dateFormat = excelAttr.dateFormat();
-        String readConverterExp = excelAttr.readConverterExp();
-        String dictType = excelAttr.dictType();
+		String dateFormat = excelAttr.dateFormat();
+		String readConverterExp = excelAttr.readConverterExp();
+		String dictType = excelAttr.dictType();
 
-        if (StringUtils.isNotEmpty(dateFormat) && StringHelper.isNotNull(value)) {
-            handleDateType(cell, value, dateFormat);
-        } else if (StringUtils.isNotEmpty(readConverterExp) && StringHelper.isNotNull(value)) {
-            handleReadConverterExpType(cell, value, readConverterExp, excelAttr.separator());
-        } else if (StringUtils.isNotEmpty(dictType) && StringHelper.isNotNull(value)) {
-            handleDictType(cell, value, dictType, excelAttr.separator());
-        } else if (value instanceof BigDecimal bigDecimal && -1 != excelAttr.scale()) {
-            handleBigDecimalType(cell, bigDecimal, excelAttr);
-        } else if (!excelAttr.handler().equals(ExcelHandlerAdapter.class)) {
-            handleCustomHandlerType(cell, value, excelAttr);
-        } else {
-            // 设置列类型
-            setCellVo(value, excelAttr, cell);
-        }
-    }
+		if (StringUtils.isNotEmpty(dateFormat) && StringHelper.isNotNull(value)) {
+			handleDateType(cell, value, dateFormat);
+		} else if (StringUtils.isNotEmpty(readConverterExp) && StringHelper.isNotNull(value)) {
+			handleReadConverterExpType(cell, value, readConverterExp, excelAttr.separator());
+		} else if (StringUtils.isNotEmpty(dictType) && StringHelper.isNotNull(value)) {
+			handleDictType(cell, value, dictType, excelAttr.separator());
+		} else if (value instanceof BigDecimal bigDecimal && -1 != excelAttr.scale()) {
+			handleBigDecimalType(cell, bigDecimal, excelAttr);
+		} else if (!excelAttr.handler().equals(ExcelHandlerAdapter.class)) {
+			handleCustomHandlerType(cell, value, excelAttr);
+		} else {
+			// 设置列类型
+			setCellVo(value, excelAttr, cell);
+		}
+	}
 
-    /**
-     * 判断是否应该设置值
-     *
-     * @param value 值
-     * @param excelAttr Excel注解
-     * @return 是否应该设置值
-     */
-    private boolean shouldSetValue(Object value, Excel excelAttr) {
-        return excelAttr.isExport() && StringHelper.isNotNull(value);
-    }
+	/**
+	 * 判断是否应该设置值
+	 *
+	 * @param value 值
+	 * @param excelAttr Excel注解
+	 * @return 是否应该设置值
+	 */
+	private boolean shouldSetValue(Object value, Excel excelAttr) {
+		return excelAttr.isExport() && StringHelper.isNotNull(value);
+	}
 
-    /**
-     * 处理日期类型
-     *
-     * @param cell 单元格
-     * @param value 值
-     * @param dateFormat 日期格式
-     */
-    private void handleDateType(Cell cell, Object value, String dateFormat) {
-        cell.setCellValue(parseDateToStr(dateFormat, value));
-    }
+	/**
+	 * 处理日期类型
+	 *
+	 * @param cell 单元格
+	 * @param value 值
+	 * @param dateFormat 日期格式
+	 */
+	private void handleDateType(Cell cell, Object value, String dateFormat) {
+		cell.setCellValue(parseDateToStr(dateFormat, value));
+	}
 
-    /**
-     * 处理读取转换表达式类型
-     *
-     * @param cell 单元格
-     * @param value 值
-     * @param readConverterExp 转换表达式
-     * @param separator 分隔符
-     */
-    private void handleReadConverterExpType(Cell cell, Object value, String readConverterExp, String separator) {
-        cell.setCellValue(convertByExp(Convert.toStr(value), readConverterExp, separator));
-    }
+	/**
+	 * 处理读取转换表达式类型
+	 *
+	 * @param cell 单元格
+	 * @param value 值
+	 * @param readConverterExp 转换表达式
+	 * @param separator 分隔符
+	 */
+	private void handleReadConverterExpType(Cell cell, Object value, String readConverterExp, String separator) {
+		cell.setCellValue(convertByExp(Convert.toStr(value), readConverterExp, separator));
+	}
 
-    /**
-     * 处理字典类型
-     *
-     * @param cell 单元格
-     * @param value 值
-     * @param dictType 字典类型
-     * @param separator 分隔符
-     */
-    private void handleDictType(Cell cell, Object value, String dictType, String separator) {
-        String key = dictType + value;
-        if (!sysDictMap.containsKey(key)) {
-            String label = convertDictByExp(Convert.toStr(value), dictType, separator);
-            sysDictMap.put(key, label);
-        }
-        cell.setCellValue(sysDictMap.get(key));
-    }
+	/**
+	 * 处理字典类型
+	 *
+	 * @param cell 单元格
+	 * @param value 值
+	 * @param dictType 字典类型
+	 * @param separator 分隔符
+	 */
+	private void handleDictType(Cell cell, Object value, String dictType, String separator) {
+		String key = dictType + value;
+		if (!sysDictMap.containsKey(key)) {
+			String label = convertDictByExp(Convert.toStr(value), dictType, separator);
+			sysDictMap.put(key, label);
+		}
+		cell.setCellValue(sysDictMap.get(key));
+	}
 
-    /**
-     * 处理BigDecimal类型
-     *
-     * @param cell 单元格
-     * @param value 值
-     * @param excelAttr Excel注解
-     */
-    private void handleBigDecimalType(Cell cell, BigDecimal value, Excel excelAttr) {
-        cell.setCellValue(value.setScale(excelAttr.scale(), excelAttr.roundingMode()).doubleValue());
-    }
+	/**
+	 * 处理BigDecimal类型
+	 *
+	 * @param cell 单元格
+	 * @param value 值
+	 * @param excelAttr Excel注解
+	 */
+	private void handleBigDecimalType(Cell cell, BigDecimal value, Excel excelAttr) {
+		cell.setCellValue(value.setScale(excelAttr.scale(), excelAttr.roundingMode()).doubleValue());
+	}
 
-    /**
-     * 处理自定义处理器类型
-     *
-     * @param cell 单元格
-     * @param value 值
-     * @param excelAttr Excel注解
-     */
-    private void handleCustomHandlerType(Cell cell, Object value, Excel excelAttr) {
-        cell.setCellValue(dataFormatHandlerAdapter(value, excelAttr, cell));
-    }
-
+	/**
+	 * 处理自定义处理器类型
+	 *
+	 * @param cell 单元格
+	 * @param value 值
+	 * @param excelAttr Excel注解
+	 */
+	private void handleCustomHandlerType(Cell cell, Object value, Excel excelAttr) {
+		cell.setCellValue(dataFormatHandlerAdapter(value, excelAttr, cell));
+	}
 
 	/**
 	 * 设置 POI XSSFSheet 单元格提示或选择框
@@ -1540,17 +1534,17 @@ private void handleImageType(Object cellValue, Cell cell) {
 	 * @param text 文本值
 	 * @param entity Excel注解
 	 */
-    private void addStatisticsData(Integer index, String text, Excel entity) {
-        if (entity != null && entity.isStatistics()) {
-            try {
-                double value = Double.parseDouble(text);
-                statistics.merge(index, value, Double::sum);
-            } catch (NumberFormatException e) {
-                // 忽略无法解析为数字的值
-                log.debug("无法将文本 '{}' 解析为数字，跳过统计", text);
-            }
-        }
-    }
+	private void addStatisticsData(Integer index, String text, Excel entity) {
+		if (entity != null && entity.isStatistics()) {
+			try {
+				double value = Double.parseDouble(text);
+				statistics.merge(index, value, Double::sum);
+			} catch (NumberFormatException e) {
+				// 忽略无法解析为数字的值
+				log.debug("无法将文本 '{}' 解析为数字，跳过统计", text);
+			}
+		}
+	}
 
 	/**
 	 * 创建统计行
@@ -1598,46 +1592,46 @@ private void handleImageType(Object cellValue, Cell cell) {
 		return downloadPath;
 	}
 
-    /**
-     * 获取bean中的属性值
-     *
-     * @param vo 实体对象
-     * @param targetField 字段
-     * @param excel 注解
-     * @return 最终的属性值
-     */
-    private Object getTargetValue(T vo, Field targetField, Excel excel) throws Exception {
-        Object o = targetField.get(vo);
-        if (StringUtils.isNotEmpty(excel.targetAttr())) {
-            String target = excel.targetAttr();
-            if (target.contains(".")) {
-                String[] targets = target.split("[.]");
-                for (String name : targets) {
-                    o = getValue(o, name);
-                }
-            } else {
-                o = getValue(o, target);
-            }
-        }
-        return o;
-    }
+	/**
+	 * 获取bean中的属性值
+	 *
+	 * @param vo 实体对象
+	 * @param targetField 字段
+	 * @param excel 注解
+	 * @return 最终的属性值
+	 */
+	private Object getTargetValue(T vo, Field targetField, Excel excel) throws Exception {
+		Object o = targetField.get(vo);
+		if (StringUtils.isNotEmpty(excel.targetAttr())) {
+			String target = excel.targetAttr();
+			if (target.contains(".")) {
+				String[] targets = target.split("[.]");
+				for (String name : targets) {
+					o = getValue(o, name);
+				}
+			} else {
+				o = getValue(o, target);
+			}
+		}
+		return o;
+	}
 
-    /**
-     * 以类的属性的get方法方法形式获取值
-     *
-     * @param obj 对象实例
-     * @param fieldName 字段名称
-     * @return value 属性值
-     */
-    private Object getValue(Object obj, String fieldName) throws Exception {
-        if (StringHelper.isNotNull(obj) && StringUtils.isNotEmpty(fieldName)) {
-            Class<?> objClass = obj.getClass();
-            Field field = objClass.getDeclaredField(fieldName);
-            setFieldAccessible(field);
-            obj = field.get(obj);
-        }
-        return obj;
-    }
+	/**
+	 * 以类的属性的get方法方法形式获取值
+	 *
+	 * @param obj 对象实例
+	 * @param fieldName 字段名称
+	 * @return value 属性值
+	 */
+	private Object getValue(Object obj, String fieldName) throws Exception {
+		if (StringHelper.isNotNull(obj) && StringUtils.isNotEmpty(fieldName)) {
+			Class<?> objClass = obj.getClass();
+			Field field = objClass.getDeclaredField(fieldName);
+			setFieldAccessible(field);
+			obj = field.get(obj);
+		}
+		return obj;
+	}
 
 	/**
 	 * 得到所有定义字段
@@ -1650,122 +1644,121 @@ private void handleImageType(Object cellValue, Cell cell) {
 	}
 
 	/**
-     * 获取字段注解信息
-     *
-     * @return 字段注解信息列表
-     */
-    public List<Object[]> getFields() {
-        List<Object[]> fieldList = new ArrayList<>();
-        List<Field> tempFields = new ArrayList<>();
+	 * 获取字段注解信息
+	 *
+	 * @return 字段注解信息列表
+	 */
+	public List<Object[]> getFields() {
+		List<Object[]> fieldList = new ArrayList<>();
+		List<Field> tempFields = new ArrayList<>();
 
-        // 添加父类和当前类的字段
-        tempFields.addAll(Arrays.asList(clazz.getSuperclass().getDeclaredFields()));
-        tempFields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+		// 添加父类和当前类的字段
+		tempFields.addAll(Arrays.asList(clazz.getSuperclass().getDeclaredFields()));
+		tempFields.addAll(Arrays.asList(clazz.getDeclaredFields()));
 
-        for (Field field : tempFields) {
-            if (shouldSkipField(field)) {
-                continue;
-            }
+		for (Field field : tempFields) {
+			if (shouldSkipField(field)) {
+				continue;
+			}
 
-            processField(field, fieldList);
-        }
+			processField(field, fieldList);
+		}
 
-        return fieldList;
-    }
+		return fieldList;
+	}
 
-    /**
-     * 判断是否应该跳过字段
-     *
-     * @param field 字段
-     * @return 是否应该跳过
-     */
-    private boolean shouldSkipField(Field field) {
-        return ArrayUtils.contains(this.excludeFields, field.getName());
-    }
+	/**
+	 * 判断是否应该跳过字段
+	 *
+	 * @param field 字段
+	 * @return 是否应该跳过
+	 */
+	private boolean shouldSkipField(Field field) {
+		return ArrayUtils.contains(this.excludeFields, field.getName());
+	}
 
-    /**
-     * 处理单个字段
-     *
-     * @param field 字段
-     * @param fieldList 字段列表
-     */
-    private void processField(Field field, List<Object[]> fieldList) {
-        // 处理单注解
-        if (field.isAnnotationPresent(Excel.class)) {
-            processExcelAnnotation(field, fieldList);
-        }
+	/**
+	 * 处理单个字段
+	 *
+	 * @param field 字段
+	 * @param fieldList 字段列表
+	 */
+	private void processField(Field field, List<Object[]> fieldList) {
+		// 处理单注解
+		if (field.isAnnotationPresent(Excel.class)) {
+			processExcelAnnotation(field, fieldList);
+		}
 
-        // 处理多注解
-        if (field.isAnnotationPresent(Excels.class)) {
-            processExcelsAnnotation(field, fieldList);
-        }
-    }
+		// 处理多注解
+		if (field.isAnnotationPresent(Excels.class)) {
+			processExcelsAnnotation(field, fieldList);
+		}
+	}
 
-    /**
-     * 处理Excel单注解
-     *
-     * @param field 字段
-     * @param fieldList 字段列表
-     */
-    private void processExcelAnnotation(Field field, List<Object[]> fieldList) {
-        Excel attr = field.getAnnotation(Excel.class);
-        if (attr != null && (attr.type() == Type.ALL || attr.type() == type)) {
-            setFieldAccessible(field);
-            fieldList.add(new Object[]{field, attr});
-        }
+	/**
+	 * 处理Excel单注解
+	 *
+	 * @param field 字段
+	 * @param fieldList 字段列表
+	 */
+	private void processExcelAnnotation(Field field, List<Object[]> fieldList) {
+		Excel attr = field.getAnnotation(Excel.class);
+		if (attr != null && (attr.type() == Type.ALL || attr.type() == type)) {
+			setFieldAccessible(field);
+			fieldList.add(new Object[]{field, attr });
+		}
 
-        // 如果是集合类型，获取子字段信息
-        if (Collection.class.isAssignableFrom(field.getType())) {
-            subMethod = getSubMethod(field.getName(), clazz);
-            ParameterizedType pt = (ParameterizedType) field.getGenericType();
-            Class<?> subClass = (Class<?>) pt.getActualTypeArguments()[0];
-            this.subFields = FieldUtils.getFieldsListWithAnnotation(subClass, Excel.class);
-        }
-    }
+		// 如果是集合类型，获取子字段信息
+		if (Collection.class.isAssignableFrom(field.getType())) {
+			subMethod = getSubMethod(field.getName(), clazz);
+			ParameterizedType pt = (ParameterizedType) field.getGenericType();
+			Class<?> subClass = (Class<?>) pt.getActualTypeArguments()[0];
+			this.subFields = FieldUtils.getFieldsListWithAnnotation(subClass, Excel.class);
+		}
+	}
 
-    /**
-     * 设置字段访问权限
-     *
-     * @param field 要设置的字段
-     */
-    private void setFieldAccessible(Field field) {
-        try {
-            field.setAccessible(true);
-        } catch (InaccessibleObjectException e) {
-            log.warn("无法直接访问字段 {}: {}", field.getName(), e.getMessage());
-            // 可以在这里添加备选方案，如使用getter方法
-        }
-    }
+	/**
+	 * 设置字段访问权限
+	 *
+	 * @param field 要设置的字段
+	 */
+	private void setFieldAccessible(Field field) {
+		try {
+			field.setAccessible(true);
+		} catch (InaccessibleObjectException e) {
+			log.warn("无法直接访问字段 {}: {}", field.getName(), e.getMessage());
+			// 可以在这里添加备选方案，如使用getter方法
+		}
+	}
 
-    /**
-     * 处理Excels多注解
-     *
-     * @param field 字段
-     * @param fieldList 字段列表
-     */
-    private void processExcelsAnnotation(Field field, List<Object[]> fieldList) {
-        Excels attrs = field.getAnnotation(Excels.class);
-        Excel[] excels = attrs.value();
+	/**
+	 * 处理Excels多注解
+	 *
+	 * @param field 字段
+	 * @param fieldList 字段列表
+	 */
+	private void processExcelsAnnotation(Field field, List<Object[]> fieldList) {
+		Excels attrs = field.getAnnotation(Excels.class);
+		Excel[] excels = attrs.value();
 
-        for (Excel attr : excels) {
-            if (shouldIncludeExcelField(field, attr)) {
-                fieldList.add(new Object[]{field, attr});
-            }
-        }
-    }
+		for (Excel attr : excels) {
+			if (shouldIncludeExcelField(field, attr)) {
+				fieldList.add(new Object[]{field, attr });
+			}
+		}
+	}
 
-    /**
-     * 判断是否应该包含Excel字段
-     *
-     * @param field 字段
-     * @param attr Excel注解
-     * @return 是否应该包含
-     */
-    private boolean shouldIncludeExcelField(Field field, Excel attr) {
-        return !ArrayUtils.contains(this.excludeFields, field.getName() + "." + attr.targetAttr())
-                && (attr.type() == Type.ALL || attr.type() == type);
-    }
-
+	/**
+	 * 判断是否应该包含Excel字段
+	 *
+	 * @param field 字段
+	 * @param attr Excel注解
+	 * @return 是否应该包含
+	 */
+	private boolean shouldIncludeExcelField(Field field, Excel attr) {
+		return !ArrayUtils.contains(this.excludeFields, field.getName() + "." + attr.targetAttr())
+				&& (attr.type() == Type.ALL || attr.type() == type);
+	}
 
 	/**
 	 * 根据注解获取最大行高
@@ -1805,76 +1798,75 @@ private void handleImageType(Object cellValue, Cell cell) {
 			wb.setSheetName(sheetIndex, sheetName + sheetIndex);
 		}
 	}
-    /**
-     * 获取单元格值
-     *
-     * @param targetRow 获取的行
-     * @param columnIndex 获取单元格列号
-     * @return 单元格值
-     */
-    public Object getCellValue(Row targetRow, int columnIndex) {
-        if (targetRow == null) {
-            return targetRow;
-        }
+	/**
+	 * 获取单元格值
+	 *
+	 * @param targetRow 获取的行
+	 * @param columnIndex 获取单元格列号
+	 * @return 单元格值
+	 */
+	public Object getCellValue(Row targetRow, int columnIndex) {
+		if (targetRow == null) {
+			return targetRow;
+		}
 
-        try {
-            Cell cell = targetRow.getCell(columnIndex);
-            if (StringHelper.isNotNull(cell)) {
-                return getCellValueByCellType(cell);
-            }
-        } catch (Exception e) {
-            log.debug("获取单元格值异常: {}", e.getMessage());
-        }
+		try {
+			Cell cell = targetRow.getCell(columnIndex);
+			if (StringHelper.isNotNull(cell)) {
+				return getCellValueByCellType(cell);
+			}
+		} catch (Exception e) {
+			log.debug("获取单元格值异常: {}", e.getMessage());
+		}
 
-        return "";
-    }
+		return "";
+	}
 
-    /**
-     * 根据单元格类型获取值
-     *
-     * @param cell 单元格
-     * @return 单元格值
-     */
-    private Object getCellValueByCellType(Cell cell) {
-        return switch (cell.getCellType()) {
-            case NUMERIC, FORMULA -> handleNumericOrFormulaCell(cell);
-            case STRING -> cell.getStringCellValue();
-            case BOOLEAN -> cell.getBooleanCellValue();
-            case ERROR -> cell.getErrorCellValue();
-            default -> "";
-        };
-    }
+	/**
+	 * 根据单元格类型获取值
+	 *
+	 * @param cell 单元格
+	 * @return 单元格值
+	 */
+	private Object getCellValueByCellType(Cell cell) {
+		return switch (cell.getCellType()) {
+			case NUMERIC, FORMULA -> handleNumericOrFormulaCell(cell);
+			case STRING -> cell.getStringCellValue();
+			case BOOLEAN -> cell.getBooleanCellValue();
+			case ERROR -> cell.getErrorCellValue();
+			default -> "";
+		};
+	}
 
-    /**
-     * 处理数值或公式单元格
-     *
-     * @param cell 单元格
-     * @return 单元格值
-     */
-    private Object handleNumericOrFormulaCell(Cell cell) {
-        Object val = cell.getNumericCellValue();
+	/**
+	 * 处理数值或公式单元格
+	 *
+	 * @param cell 单元格
+	 * @return 单元格值
+	 */
+	private Object handleNumericOrFormulaCell(Cell cell) {
+		Object val = cell.getNumericCellValue();
 
-        if (DateUtil.isCellDateFormatted(cell)) {
-            return DateUtil.getJavaDate((Double) val); // POI Excel 日期格式转换
-        } else {
-            return formatNumericValue(val);
-        }
-    }
+		if (DateUtil.isCellDateFormatted(cell)) {
+			return DateUtil.getJavaDate((Double) val); // POI Excel 日期格式转换
+		} else {
+			return formatNumericValue(val);
+		}
+	}
 
-    /**
-     * 格式化数值
-     *
-     * @param val 值
-     * @return 格式化后的值
-     */
-    private Object formatNumericValue(Object val) {
-        if ((Double) val % 1 != 0) {
-            return new BigDecimal(val.toString());
-        } else {
-            return new DecimalFormat("0").format(val);
-        }
-    }
-
+	/**
+	 * 格式化数值
+	 *
+	 * @param val 值
+	 * @return 格式化后的值
+	 */
+	private Object formatNumericValue(Object val) {
+		if ((Double) val % 1 != 0) {
+			return new BigDecimal(val.toString());
+		} else {
+			return new DecimalFormat("0").format(val);
+		}
+	}
 
 	/**
 	 * 判断是否是空行

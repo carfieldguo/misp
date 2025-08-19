@@ -29,11 +29,11 @@ import com.groqdata.common.core.text.Convert;
  * @author MISP TEAM
  */
 public class ServletUtils {
-    private ServletUtils() {
-        throw new IllegalStateException("工具类不可实例化");
-    }
-    private static final Logger log = LoggerFactory.getLogger(ServletUtils.class);
-    /**
+	private ServletUtils() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
+	private static final Logger log = LoggerFactory.getLogger(ServletUtils.class);
+	/**
 	 * 获取String参数
 	 */
 	public static String getParameter(String name) {
@@ -122,11 +122,11 @@ public class ServletUtils {
 	}
 
 	public static ServletRequestAttributes getRequestAttributes() {
-        RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
-        if (attributes == null) {
-            throw new IllegalStateException("无法获取到 RequestAttributes，请确保当前线程绑定到了请求上下文。");
-        }
-        return (ServletRequestAttributes) attributes;
+		RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+		if (attributes == null) {
+			throw new IllegalStateException("无法获取到 RequestAttributes，请确保当前线程绑定到了请求上下文。");
+		}
+		return (ServletRequestAttributes) attributes;
 	}
 
 	/**
@@ -142,8 +142,8 @@ public class ServletUtils {
 			response.setCharacterEncoding("utf-8");
 			response.getWriter().print(string);
 		} catch (IOException e) {
-            log.error("渲染字符串到客户端时发生IO异常", e); // 使用日志记录异常
-        }
+			log.error("渲染字符串到客户端时发生IO异常", e); // 使用日志记录异常
+		}
 	}
 
 	/**

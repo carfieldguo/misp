@@ -15,9 +15,9 @@ import org.apache.commons.lang3.ArrayUtils;
  * @author MISP TEAM
  */
 public class Convert {
-    private Convert() {
-        throw new IllegalStateException("工具类不可实例化");
-    }
+	private Convert() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
 
 	/**
 	 * 转换为字符串<br>
@@ -99,7 +99,7 @@ public class Convert {
 		if (value instanceof Byte byteVal) {
 			return byteVal;
 		}
-		if (value instanceof Number  number) {
+		if (value instanceof Number number) {
 			return number.byteValue();
 		}
 		final String valueStr = toStr(value, null);
@@ -180,7 +180,7 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof Number  number) {
+		if (value instanceof Number number) {
 			return number;
 		}
 		final String valueStr = toStr(value, null);
@@ -219,10 +219,10 @@ public class Convert {
 		if (value == null) {
 			return defaultValue;
 		}
-		if (value instanceof Integer  integer) {
+		if (value instanceof Integer integer) {
 			return integer;
 		}
-		if (value instanceof Number  number) {
+		if (value instanceof Number number) {
 			return number.intValue();
 		}
 		final String valueStr = toStr(value, null);
@@ -348,7 +348,7 @@ public class Convert {
 		if (value instanceof Long longVal) {
 			return longVal;
 		}
-		if (value instanceof Number  number) {
+		if (value instanceof Number number) {
 			return number.longValue();
 		}
 		final String valueStr = toStr(value, null);
@@ -434,7 +434,7 @@ public class Convert {
 		if (value instanceof Float floatVal) {
 			return floatVal;
 		}
-		if (value instanceof Number  number) {
+		if (value instanceof Number number) {
 			return number.floatValue();
 		}
 		final String valueStr = toStr(value, null);
@@ -481,11 +481,11 @@ public class Convert {
 			return defaultValue;
 		}
 		valueStr = valueStr.trim().toLowerCase();
-        return switch (valueStr) {
-            case "true", "yes", "ok", "1" -> true;
-            case "false", "no", "0" -> false;
-            default -> defaultValue;
-        };
+		return switch (valueStr) {
+			case "true", "yes", "ok", "1" -> true;
+			case "false", "no", "0" -> false;
+			default -> defaultValue;
+		};
 	}
 
 	/**
@@ -806,7 +806,7 @@ public class Convert {
 			}
 		}
 
-		return  new String(chars);
+		return new String(chars);
 	}
 
 }

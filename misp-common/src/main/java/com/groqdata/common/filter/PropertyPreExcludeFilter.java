@@ -9,8 +9,8 @@ import com.alibaba.fastjson2.filter.SimplePropertyPreFilter;
  */
 public class PropertyPreExcludeFilter extends SimplePropertyPreFilter {
 	public PropertyPreExcludeFilter() {
-        // 默认构造函数
-    }
+		// 默认构造函数
+	}
 
 	public PropertyPreExcludeFilter addExcludes(String... filters) {
 		for (int i = 0; i < filters.length; i++) {

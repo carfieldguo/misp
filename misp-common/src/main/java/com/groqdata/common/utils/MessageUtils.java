@@ -10,10 +10,10 @@ import com.groqdata.common.utils.spring.SpringUtils;
  * @author MISP TEAM
  */
 public class MessageUtils {
-    private MessageUtils() {
-        throw new IllegalStateException("工具类不可实例化");
-    }
-    /**
+	private MessageUtils() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
+	/**
 	 * 根据消息键和参数 获取消息 委托给spring messageSource
 	 *
 	 * @param code 消息键

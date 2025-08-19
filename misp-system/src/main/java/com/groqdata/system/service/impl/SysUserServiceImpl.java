@@ -500,7 +500,8 @@ public class SysUserServiceImpl implements ISysUserService {
 					user.setCreateBy(operName);
 					userMapper.insertUser(user);
 					successNum++;
-					successMsg.append(HTML_TAG_BR).append(successNum).append("、账号 ").append(user.getUserName()).append(" 导入成功");
+					successMsg.append(HTML_TAG_BR).append(successNum).append("、账号 ").append(user.getUserName())
+							.append(" 导入成功");
 				} else if (Boolean.TRUE.equals(isUpdateSupport)) {
 					BeanValidators.validateWithException(validator, user);
 					checkUserAllowed(u);
@@ -510,10 +511,12 @@ public class SysUserServiceImpl implements ISysUserService {
 					user.setUpdateBy(operName);
 					userMapper.updateUser(user);
 					successNum++;
-					successMsg.append(HTML_TAG_BR).append(successNum).append("、账号 ").append(user.getUserName()).append(" 更新成功");
+					successMsg.append(HTML_TAG_BR).append(successNum).append("、账号 ").append(user.getUserName())
+							.append(" 更新成功");
 				} else {
 					failureNum++;
-					failureMsg.append(HTML_TAG_BR).append(failureNum).append("、账号 ").append(user.getUserName()).append(" 已存在");
+					failureMsg.append(HTML_TAG_BR).append(failureNum).append("、账号 ").append(user.getUserName())
+							.append(" 已存在");
 				}
 			} catch (Exception e) {
 				failureNum++;

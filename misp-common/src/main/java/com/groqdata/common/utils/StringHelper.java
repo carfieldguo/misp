@@ -18,10 +18,10 @@ import com.groqdata.common.core.text.StrFormatter;
  * @author MISP TEAM
  */
 public class StringHelper {
-    private StringHelper() {
-        throw new IllegalStateException("工具类不可实例化");
-    }
-    /** 空字符串 */
+	private StringHelper() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
+	/** 空字符串 */
 	private static final String NULLSTR = "";
 
 	/** 下划线 */
@@ -391,32 +391,32 @@ public class StringHelper {
 	/**
 	 * 驼峰转下划线命名
 	 */
-    public static String toUnderScoreCase(String str) {
-        if (str == null || str.isEmpty()) {
-            return str;
-        }
+	public static String toUnderScoreCase(String str) {
+		if (str == null || str.isEmpty()) {
+			return str;
+		}
 
-        StringBuilder sb = new StringBuilder();
-        boolean firstChar = true;
+		StringBuilder sb = new StringBuilder();
+		boolean firstChar = true;
 
-        for (int i = 0; i < str.length(); i++) {
-            char c = str.charAt(i);
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
 
-            if (Character.isUpperCase(c)) {
-                // 非首字符且前一个字符不是下划线时添加下划线
-                if (!firstChar && sb.charAt(sb.length() - 1) != SEPARATOR) {
-                    sb.append(SEPARATOR);
-                }
-                sb.append(Character.toLowerCase(c));
-            } else {
-                sb.append(c);
-            }
+			if (Character.isUpperCase(c)) {
+				// 非首字符且前一个字符不是下划线时添加下划线
+				if (!firstChar && sb.charAt(sb.length() - 1) != SEPARATOR) {
+					sb.append(SEPARATOR);
+				}
+				sb.append(Character.toLowerCase(c));
+			} else {
+				sb.append(c);
+			}
 
-            firstChar = false;
-        }
+			firstChar = false;
+		}
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
 	/**
 	 * 是否包含字符串

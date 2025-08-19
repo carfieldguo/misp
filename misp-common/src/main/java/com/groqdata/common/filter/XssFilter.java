@@ -24,48 +24,48 @@ import com.groqdata.common.utils.StringHelper;
  * @author MISP TEAM
  */
 public class XssFilter implements Filter {
-    /**
-     * 排除链接
-     */
-    private List<String> excludes = new ArrayList<>();
+	/**
+	 * 排除链接
+	 */
+	private List<String> excludes = new ArrayList<>();
 
-    public List<String> getExcludes() {
-        return excludes;
-    }
+	public List<String> getExcludes() {
+		return excludes;
+	}
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        String tempExcludes = filterConfig.getInitParameter("excludes");
-        if (StringUtils.isNotEmpty(tempExcludes)) {
-            String[] urls = tempExcludes.split(",");
-            Collections.addAll(excludes, urls);
-        }
-    }
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		String tempExcludes = filterConfig.getInitParameter("excludes");
+		if (StringUtils.isNotEmpty(tempExcludes)) {
+			String[] urls = tempExcludes.split(",");
+			Collections.addAll(excludes, urls);
+		}
+	}
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        if (handleExcludeURL(req)) {
-            chain.doFilter(request, response);
-            return;
-        }
-        XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper((HttpServletRequest) request);
-        chain.doFilter(xssRequest, response);
-    }
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		HttpServletRequest req = (HttpServletRequest) request;
+		if (handleExcludeURL(req)) {
+			chain.doFilter(request, response);
+			return;
+		}
+		XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper((HttpServletRequest) request);
+		chain.doFilter(xssRequest, response);
+	}
 
-    private boolean handleExcludeURL(HttpServletRequest request) {
-        String url = request.getServletPath();
-        String method = request.getMethod();
-        // GET DELETE 不过滤
-        if (method == null || HttpMethod.GET.matches(method) || HttpMethod.DELETE.matches(method)) {
-            return true;
-        }
-        return StringHelper.matches(url, excludes);
-    }
+	private boolean handleExcludeURL(HttpServletRequest request) {
+		String url = request.getServletPath();
+		String method = request.getMethod();
+		// GET DELETE 不过滤
+		if (method == null || HttpMethod.GET.matches(method) || HttpMethod.DELETE.matches(method)) {
+			return true;
+		}
+		return StringHelper.matches(url, excludes);
+	}
 
-    @Override
-    public void destroy() {
-        // 与父级相同
-    }
+	@Override
+	public void destroy() {
+		// 与父级相同
+	}
 }

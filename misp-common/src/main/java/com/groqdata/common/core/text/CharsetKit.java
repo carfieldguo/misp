@@ -10,10 +10,10 @@ import org.apache.commons.lang3.StringUtils;
  * @author MISP TEAM
  */
 public class CharsetKit {
-    private CharsetKit() {
-        throw new IllegalStateException("工具类不可实例化");
-    }
-    /** ISO-8859-1 */
+	private CharsetKit() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
+	/** ISO-8859-1 */
 	public static final String ISO_8859_1 = "ISO-8859-1";
 	/** UTF-8 */
 	public static final String UTF_8 = "UTF-8";

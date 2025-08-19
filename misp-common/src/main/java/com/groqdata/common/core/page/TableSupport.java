@@ -9,9 +9,9 @@ import com.groqdata.common.utils.ServletUtils;
  * @author MISP TEAM
  */
 public class TableSupport {
-    private TableSupport() {
-        throw new UnsupportedOperationException("Utility class cannot be instantiated");
-    }
+	private TableSupport() {
+		throw new UnsupportedOperationException("Utility class cannot be instantiated");
+	}
 
 	/**
 	 * 当前记录起始索引
