@@ -13,7 +13,7 @@ import com.groqdata.common.utils.StringHelper;
 
 /**
  * spring工具类 方便在非spring管理环境中获取bean
- * 
+ *
  * @author MISP TEAM
  */
 @Component
@@ -24,12 +24,12 @@ public final class SpringUtils implements BeanFactoryPostProcessor, ApplicationC
 	private static ApplicationContext applicationContext;
 
 	@Override
-	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+	public synchronized void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		SpringUtils.beanFactory = beanFactory;
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+	public synchronized void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		SpringUtils.applicationContext = applicationContext;
 	}
 
@@ -55,8 +55,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor, ApplicationC
 	 *
 	 */
 	public static <T> T getBean(Class<T> clz) throws BeansException {
-		T result = (T) beanFactory.getBean(clz);
-		return result;
+        return beanFactory.getBean(clz);
 	}
 
 	/**
@@ -105,7 +104,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor, ApplicationC
 
 	/**
 	 * 获取aop代理对象
-	 * 
+	 *
 	 * @param invoker
 	 * @return
 	 */
