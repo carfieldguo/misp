@@ -43,7 +43,7 @@ public class SysConfigController extends BaseController {
 	 */
 	@PreAuthorize("@ss.hasPermit('system:config:list')")
 	@GetMapping("/list")
-	public TableDataInfo list(SysConfig config) {
+	public TableDataInfo<SysConfig> list(SysConfig config) {
 		startPage();
 		List<SysConfig> list = configService.selectConfigList(config);
 		return getDataTable(list);
@@ -54,7 +54,7 @@ public class SysConfigController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, SysConfig config) {
 		List<SysConfig> list = configService.selectConfigList(config);
-		ExcelUtil<SysConfig> util = new ExcelUtil<SysConfig>(SysConfig.class);
+		ExcelUtil<SysConfig> util = new ExcelUtil<>(SysConfig.class);
 		util.exportExcel(response, list, "参数数据");
 	}
 

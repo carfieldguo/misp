@@ -58,7 +58,7 @@ public class ConsumerPersonalInfoController extends BaseController {
 		@ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
 		@ApiImplicitParam(name = "pageSize", value = "每页条数", defaultValue = "10"),
 	})
-	public TableDataInfo list(ConsumerPersonalInfo consumerPersonalInfo) {
+	public TableDataInfo<ConsumerPersonalInfo>  list(ConsumerPersonalInfo consumerPersonalInfo) {
 		startPage();
 		List<ConsumerPersonalInfo> list = consumerPersonalInfoService
 				.selectConsumerPersonalInfoList(consumerPersonalInfo);
@@ -75,7 +75,7 @@ public class ConsumerPersonalInfoController extends BaseController {
 	public void export(HttpServletResponse response, ConsumerPersonalInfo consumerPersonalInfo) {
 		List<ConsumerPersonalInfo> list = consumerPersonalInfoService
 				.selectConsumerPersonalInfoList(consumerPersonalInfo);
-		ExcelUtil<ConsumerPersonalInfo> util = new ExcelUtil<ConsumerPersonalInfo>(ConsumerPersonalInfo.class);
+		ExcelUtil<ConsumerPersonalInfo> util = new ExcelUtil<>(ConsumerPersonalInfo.class);
 		util.exportExcel(response, list, "个人信息数据");
 	}
 

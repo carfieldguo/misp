@@ -53,7 +53,7 @@ public class SysDictDataController extends BaseController {
 
 	@PreAuthorize("@ss.hasPermit('system:dict:list')")
 	@GetMapping("/list")
-	public TableDataInfo list(SysDictData dictData) {
+	public TableDataInfo<SysDictData> list(SysDictData dictData) {
 		startPage();
 		List<SysDictData> list = dictDataService.selectDictDataList(dictData);
 		return getDataTable(list);
@@ -64,7 +64,7 @@ public class SysDictDataController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, SysDictData dictData) {
 		List<SysDictData> list = dictDataService.selectDictDataList(dictData);
-		ExcelUtil<SysDictData> util = new ExcelUtil<SysDictData>(SysDictData.class);
+		ExcelUtil<SysDictData> util = new ExcelUtil<>(SysDictData.class);
 		util.exportExcel(response, list, "字典数据");
 	}
 
@@ -84,7 +84,7 @@ public class SysDictDataController extends BaseController {
 	public AjaxResult dictType(@PathVariable String dictType) {
 		List<SysDictData> data = dictTypeService.selectDictDataByType(dictType);
 		if (StringHelper.isNull(data)) {
-			data = new ArrayList<SysDictData>();
+			data = new ArrayList<>();
 		}
 		return success(data);
 	}

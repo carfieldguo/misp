@@ -54,7 +54,7 @@ public class ProviderUserInfoController extends BaseController {
 		@ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
 		@ApiImplicitParam(name = "pageSize", value = "每页条数", defaultValue = "10"),
 	})
-	public TableDataInfo list(ProviderUserInfo providerUserInfo) {
+	public TableDataInfo<ProviderUserInfo> list(ProviderUserInfo providerUserInfo) {
 		startPage();
 		List<ProviderUserInfo> list = providerUserInfoService.selectProviderUserInfoList(providerUserInfo);
 		return getDataTable(list);
@@ -69,7 +69,7 @@ public class ProviderUserInfoController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, ProviderUserInfo providerUserInfo) {
 		List<ProviderUserInfo> list = providerUserInfoService.selectProviderUserInfoList(providerUserInfo);
-		ExcelUtil<ProviderUserInfo> util = new ExcelUtil<ProviderUserInfo>(ProviderUserInfo.class);
+		ExcelUtil<ProviderUserInfo> util = new ExcelUtil<>(ProviderUserInfo.class);
 		util.exportExcel(response, list, "账号信息数据");
 	}
 

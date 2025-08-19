@@ -59,7 +59,7 @@ public class ConsumerAppInfoController extends BaseController {
 		@ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
 		@ApiImplicitParam(name = "pageSize", value = "每页条数", defaultValue = "10"),
 	})
-	public TableDataInfo list(ConsumerAppInfo consumerAppInfo) {
+	public TableDataInfo<ConsumerAppInfo>  list(ConsumerAppInfo consumerAppInfo) {
 		startPage();
 		List<ConsumerAppInfo> list = consumerAppInfoService.selectConsumerAppInfoList(consumerAppInfo);
 		return getDataTable(list);
@@ -74,7 +74,7 @@ public class ConsumerAppInfoController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, ConsumerAppInfo consumerAppInfo) {
 		List<ConsumerAppInfo> list = consumerAppInfoService.selectConsumerAppInfoList(consumerAppInfo);
-		ExcelUtil<ConsumerAppInfo> util = new ExcelUtil<ConsumerAppInfo>(ConsumerAppInfo.class);
+		ExcelUtil<ConsumerAppInfo> util = new ExcelUtil<>(ConsumerAppInfo.class);
 		util.exportExcel(response, list, "应用信息数据");
 	}
 

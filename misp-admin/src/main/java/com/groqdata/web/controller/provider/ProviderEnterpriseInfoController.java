@@ -58,7 +58,7 @@ public class ProviderEnterpriseInfoController extends BaseController {
 		@ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
 		@ApiImplicitParam(name = "pageSize", value = "每页条数", defaultValue = "10"),
 	})
-	public TableDataInfo list(ProviderEnterpriseInfo providerEnterpriseInfo) {
+	public TableDataInfo<ProviderEnterpriseInfo> list(ProviderEnterpriseInfo providerEnterpriseInfo) {
 		startPage();
 		List<ProviderEnterpriseInfo> list = providerEnterpriseInfoService
 				.selectProviderEnterpriseInfoList(providerEnterpriseInfo);
@@ -75,7 +75,7 @@ public class ProviderEnterpriseInfoController extends BaseController {
 	public void export(HttpServletResponse response, ProviderEnterpriseInfo providerEnterpriseInfo) {
 		List<ProviderEnterpriseInfo> list = providerEnterpriseInfoService
 				.selectProviderEnterpriseInfoList(providerEnterpriseInfo);
-		ExcelUtil<ProviderEnterpriseInfo> util = new ExcelUtil<ProviderEnterpriseInfo>(ProviderEnterpriseInfo.class);
+		ExcelUtil<ProviderEnterpriseInfo> util = new ExcelUtil<>(ProviderEnterpriseInfo.class);
 		util.exportExcel(response, list, "企业信息数据");
 	}
 

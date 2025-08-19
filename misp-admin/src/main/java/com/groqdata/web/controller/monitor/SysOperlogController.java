@@ -37,7 +37,7 @@ public class SysOperlogController extends BaseController {
 
 	@PreAuthorize("@ss.hasPermit('monitor:operlog:list')")
 	@GetMapping("/list")
-	public TableDataInfo list(SysOperLog operLog) {
+	public TableDataInfo<SysOperLog> list(SysOperLog operLog) {
 		startPage();
 		List<SysOperLog> list = operLogService.selectOperLogList(operLog);
 		return getDataTable(list);
@@ -48,7 +48,7 @@ public class SysOperlogController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, SysOperLog operLog) {
 		List<SysOperLog> list = operLogService.selectOperLogList(operLog);
-		ExcelUtil<SysOperLog> util = new ExcelUtil<SysOperLog>(SysOperLog.class);
+		ExcelUtil<SysOperLog> util = new ExcelUtil<>(SysOperLog.class);
 		util.exportExcel(response, list, "操作日志");
 	}
 

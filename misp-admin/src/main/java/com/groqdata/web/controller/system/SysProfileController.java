@@ -1,5 +1,6 @@
 package com.groqdata.web.controller.system;
 
+import com.groqdata.common.exception.file.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -115,7 +116,7 @@ public class SysProfileController extends BaseController {
 	 */
 	@Log(title = "用户头像", businessType = BusinessType.UPDATE)
 	@PostMapping("/avatar")
-	public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file) throws Exception {
+	public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file) throws FileUploadException {
 		if (!file.isEmpty()) {
 			LoginUser loginUser = getLoginUser();
 			String avatar = FileUploadUtils.upload(MispConfig.getAvatarPath(), file,

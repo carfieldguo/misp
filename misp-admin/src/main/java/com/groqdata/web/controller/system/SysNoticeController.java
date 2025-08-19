@@ -41,7 +41,7 @@ public class SysNoticeController extends BaseController {
 	 */
 	@PreAuthorize("@ss.hasPermit('system:notice:list')")
 	@GetMapping("/list")
-	public TableDataInfo list(SysNotice notice) {
+	public TableDataInfo<SysNotice> list(SysNotice notice) {
 		startPage();
 		List<SysNotice> list = noticeService.selectNoticeList(notice);
 		return getDataTable(list);

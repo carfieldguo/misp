@@ -118,13 +118,14 @@ public class JobInvokeUtil {
 			}
 			// long长整形，以L结尾
 			else if (StringUtils.endsWith(trimmedStr, "L")) {
-				classs.add(new Object[]{Long.valueOf(StringUtils.substring(trimmedStr, 0, trimmedStr.length() - 1)), Long.class });
+				classs.add(new Object[]{Long.valueOf(StringUtils.substring(trimmedStr, 0, trimmedStr.length() - 1)),
+					Long.class });
 			}
 			// double浮点类型，以D结尾
 			else if (StringUtils.endsWith(trimmedStr, "D")) {
 				classs
 						.add(new Object[]{Double.valueOf(StringUtils.substring(trimmedStr, 0, trimmedStr.length() - 1)),
-								Double.class });
+							Double.class });
 			}
 			// 其他类型归类为整形
 			else {
@@ -203,7 +204,7 @@ public class JobInvokeUtil {
 		Object[] classs = new Object[methodParams.size()];
 		int index = 0;
 		for (Object[] os : methodParams) {
-			classs[index] =  os[0];
+			classs[index] = os[0];
 			index++;
 		}
 		return classs;

@@ -43,6 +43,7 @@ import com.groqdata.system.service.ISysUserService;
 @RequestMapping("/system/role")
 public class SysRoleController extends BaseController {
 
+	private static final String CN_EDIT_ROLE = "修改角色'";
 	private ISysRoleService roleService;
 
 	@Autowired
@@ -80,7 +81,7 @@ public class SysRoleController extends BaseController {
 
 	@PreAuthorize("@ss.hasPermit('system:role:list')")
 	@GetMapping("/list")
-	public TableDataInfo list(SysRole role) {
+	public TableDataInfo<SysRole> list(SysRole role) {
 		startPage();
 		List<SysRole> list = roleService.selectRoleList(role);
 		return getDataTable(list);
@@ -91,7 +92,7 @@ public class SysRoleController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, SysRole role) {
 		List<SysRole> list = roleService.selectRoleList(role);
-		ExcelUtil<SysRole> util = new ExcelUtil<SysRole>(SysRole.class);
+		ExcelUtil<SysRole> util = new ExcelUtil<>(SysRole.class);
 		util.exportExcel(response, list, "角色数据");
 	}
 
@@ -132,9 +133,9 @@ public class SysRoleController extends BaseController {
 		roleService.checkRoleAllowed(role);
 		roleService.checkRoleDataScope(role.getRoleId());
 		if (!roleService.checkRoleNameUnique(role)) {
-			return error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
+			return error(CN_EDIT_ROLE + role.getRoleName() + "'失败，角色名称已存在");
 		} else if (!roleService.checkRoleKeyUnique(role)) {
-			return error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
+			return error(CN_EDIT_ROLE + role.getRoleName() + "'失败，角色权限已存在");
 		}
 		role.setUpdateBy(getUsername());
 
@@ -148,7 +149,7 @@ public class SysRoleController extends BaseController {
 			}
 			return success();
 		}
-		return error("修改角色'" + role.getRoleName() + "'失败，请联系管理员");
+		return error(CN_EDIT_ROLE + role.getRoleName() + "'失败，请联系管理员");
 	}
 
 	/**
@@ -200,7 +201,7 @@ public class SysRoleController extends BaseController {
 	 */
 	@PreAuthorize("@ss.hasPermit('system:role:list')")
 	@GetMapping("/authUser/allocatedList")
-	public TableDataInfo allocatedList(SysUser user) {
+	public TableDataInfo<SysUser> allocatedList(SysUser user) {
 		startPage();
 		List<SysUser> list = userService.selectAllocatedList(user);
 		return getDataTable(list);
@@ -211,7 +212,7 @@ public class SysRoleController extends BaseController {
 	 */
 	@PreAuthorize("@ss.hasPermit('system:role:list')")
 	@GetMapping("/authUser/unallocatedList")
-	public TableDataInfo unallocatedList(SysUser user) {
+	public TableDataInfo<SysUser> unallocatedList(SysUser user) {
 		startPage();
 		List<SysUser> list = userService.selectUnallocatedList(user);
 		return getDataTable(list);

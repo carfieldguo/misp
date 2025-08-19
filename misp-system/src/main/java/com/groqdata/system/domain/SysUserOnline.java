@@ -1,11 +1,13 @@
 package com.groqdata.system.domain;
 
+import java.io.Serializable;
+
 /**
  * 当前在线会话
  * 
  * @author MISP TEAM
  */
-public class SysUserOnline {
+public class SysUserOnline implements Serializable {
 	/** 会话编号 */
 	private String tokenId;
 

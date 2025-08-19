@@ -16,11 +16,11 @@ import com.groqdata.common.utils.StringHelper;
 public class SysIndexController {
 	/** 系统基础配置 */
 
-	private MispConfig ruoyiConfig;
+	private MispConfig mispConfig;
 
 	@Autowired
-	public void setRuoyiConfig(MispConfig ruoyiConfig) {
-		this.ruoyiConfig = ruoyiConfig;
+	public void setMispConfig(MispConfig mispConfig) {
+		this.mispConfig = mispConfig;
 	}
 
 	/**
@@ -28,6 +28,6 @@ public class SysIndexController {
 	 */
 	@RequestMapping("/")
 	public String index() {
-		return StringHelper.format("欢迎使用{}后台管理框架，当前版本：v{}，请通过前端地址访问。", ruoyiConfig.getName(), ruoyiConfig.getVersion());
+		return StringHelper.format("欢迎使用{}后台管理框架，当前版本：v{}，请通过前端地址访问。", mispConfig.getName(), mispConfig.getVersion());
 	}
 }
