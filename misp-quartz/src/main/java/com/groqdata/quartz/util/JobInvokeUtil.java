@@ -17,6 +17,10 @@ import com.groqdata.quartz.domain.SysJob;
  * @author MISP TEAM
  */
 public class JobInvokeUtil {
+	private JobInvokeUtil() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
+
 	/**
 	 * 执行方法
 	 *

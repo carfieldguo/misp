@@ -2,7 +2,6 @@ package com.groqdata.quartz.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,15 +26,18 @@ import com.groqdata.quartz.service.ISysJobLogService;
 @RestController
 @RequestMapping("/monitor/jobLog")
 public class SysJobLogController extends BaseController {
-	@Autowired
-	private ISysJobLogService jobLogService;
+	private final ISysJobLogService jobLogService;
+
+	public SysJobLogController(ISysJobLogService jobLogService) {
+		this.jobLogService = jobLogService;
+	}
 
 	/**
 	 * 查询定时任务调度日志列表
 	 */
 	@PreAuthorize("@ss.hasPermi('monitor:job:list')")
 	@GetMapping("/list")
-	public TableDataInfo list(SysJobLog sysJobLog) {
+	public TableDataInfo<SysJobLog> list(SysJobLog sysJobLog) {
 		startPage();
 		List<SysJobLog> list = jobLogService.selectJobLogList(sysJobLog);
 		return getDataTable(list);
@@ -49,7 +51,7 @@ public class SysJobLogController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, SysJobLog sysJobLog) {
 		List<SysJobLog> list = jobLogService.selectJobLogList(sysJobLog);
-		ExcelUtil<SysJobLog> util = new ExcelUtil<SysJobLog>(SysJobLog.class);
+		ExcelUtil<SysJobLog> util = new ExcelUtil<>(SysJobLog.class);
 		util.exportExcel(response, list, "调度日志");
 	}
 

@@ -27,6 +27,10 @@ import com.groqdata.quartz.domain.SysJob;
  *
  */
 public class ScheduleUtils {
+	private ScheduleUtils() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
+
 	/**
 	 * 得到quartz任务类
 	 *

@@ -6,6 +6,8 @@ import org.quartz.JobDataMap;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.groqdata.common.constant.ScheduleConstants;
@@ -18,18 +20,29 @@ import com.groqdata.quartz.util.ScheduleUtils;
 
 /**
  * 定时任务调度信息 服务层
- * 
+ *
  * @author MISP TEAM
  */
 @Service
-public class SysJobServiceImpl implements ISysJobService {
+public class SysJobServiceImpl implements ISysJobService, ApplicationContextAware {
 	private final Scheduler scheduler;
 
 	private final SysJobMapper jobMapper;
 
+	private ApplicationContext applicationContext;
+
 	public SysJobServiceImpl(Scheduler scheduler, SysJobMapper jobMapper) {
 		this.scheduler = scheduler;
 		this.jobMapper = jobMapper;
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+	}
+
+	private ISysJobService getSelf() {
+		return applicationContext.getBean(ISysJobService.class);
 	}
 
 	/**
@@ -46,7 +59,7 @@ public class SysJobServiceImpl implements ISysJobService {
 
 	/**
 	 * 获取quartz调度器的计划任务列表
-	 * 
+	 *
 	 * @param job 调度信息
 	 * @return
 	 */
@@ -57,7 +70,7 @@ public class SysJobServiceImpl implements ISysJobService {
 
 	/**
 	 * 通过调度任务ID查询调度信息
-	 * 
+	 *
 	 * @param jobId 调度任务ID
 	 * @return 调度任务对象信息
 	 */
@@ -68,7 +81,7 @@ public class SysJobServiceImpl implements ISysJobService {
 
 	/**
 	 * 暂停任务
-	 * 
+	 *
 	 * @param job 调度信息
 	 */
 	@Override
@@ -86,7 +99,7 @@ public class SysJobServiceImpl implements ISysJobService {
 
 	/**
 	 * 恢复任务
-	 * 
+	 *
 	 * @param job 调度信息
 	 */
 	@Override
@@ -104,7 +117,7 @@ public class SysJobServiceImpl implements ISysJobService {
 
 	/**
 	 * 删除任务后，所对应的trigger也将被删除
-	 * 
+	 *
 	 * @param job 调度信息
 	 */
 	@Override
@@ -121,7 +134,7 @@ public class SysJobServiceImpl implements ISysJobService {
 
 	/**
 	 * 批量删除调度信息
-	 * 
+	 *
 	 * @param jobIds 需要删除的任务ID
 	 * @return 结果
 	 */
@@ -130,13 +143,14 @@ public class SysJobServiceImpl implements ISysJobService {
 	public void deleteJobByIds(Long[] jobIds) throws SchedulerException {
 		for (Long jobId : jobIds) {
 			SysJob job = jobMapper.selectJobById(jobId);
-			deleteJob(job);
+			// 通过代理调用事务方法，确保事务生效
+			getSelf().deleteJob(job);
 		}
 	}
 
 	/**
 	 * 任务调度状态修改
-	 * 
+	 *
 	 * @param job 调度信息
 	 */
 	@Override
@@ -145,16 +159,16 @@ public class SysJobServiceImpl implements ISysJobService {
 		int rows = 0;
 		String status = job.getStatus();
 		if (ScheduleConstants.Status.NORMAL.getValue().equals(status)) {
-			rows = resumeJob(job);
+			rows = getSelf().resumeJob(job);
 		} else if (ScheduleConstants.Status.PAUSE.getValue().equals(status)) {
-			rows = pauseJob(job);
+			rows = getSelf().pauseJob(job);
 		}
 		return rows;
 	}
 
 	/**
 	 * 立即运行任务
-	 * 
+	 *
 	 * @param job 调度信息
 	 */
 	@Override
@@ -177,7 +191,7 @@ public class SysJobServiceImpl implements ISysJobService {
 
 	/**
 	 * 新增任务
-	 * 
+	 *
 	 * @param job 调度信息 调度信息
 	 */
 	@Override
@@ -193,7 +207,7 @@ public class SysJobServiceImpl implements ISysJobService {
 
 	/**
 	 * 更新任务的时间表达式
-	 * 
+	 *
 	 * @param job 调度信息
 	 */
 	@Override
@@ -209,7 +223,7 @@ public class SysJobServiceImpl implements ISysJobService {
 
 	/**
 	 * 更新任务
-	 * 
+	 *
 	 * @param job 任务对象
 	 * @param jobGroup 任务组名
 	 */
@@ -226,7 +240,7 @@ public class SysJobServiceImpl implements ISysJobService {
 
 	/**
 	 * 校验cron表达式是否有效
-	 * 
+	 *
 	 * @param cronExpression 表达式
 	 * @return 结果
 	 */
