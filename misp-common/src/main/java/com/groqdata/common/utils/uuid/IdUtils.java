@@ -6,7 +6,12 @@ package com.groqdata.common.utils.uuid;
  * @author MISP TEAM
  */
 public class IdUtils {
-	/**
+
+    private IdUtils() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
+
+    /**
 	 * 获取随机UUID
 	 * 
 	 * @return 随机UUID

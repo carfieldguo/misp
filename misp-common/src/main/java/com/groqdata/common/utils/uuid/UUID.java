@@ -15,6 +15,10 @@ import com.groqdata.common.exception.UtilException;
 public final class UUID implements java.io.Serializable, Comparable<UUID> {
 	private static final long serialVersionUID = -1185015143654744140L;
 
+    private UUID() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
+
 	/**
 	 * SecureRandom 的单例
 	 *
@@ -384,16 +388,20 @@ public final class UUID implements java.io.Serializable, Comparable<UUID> {
 	 * @return 在此 UUID 小于、等于或大于 val 时，分别返回 -1、0 或 1。
 	 *
 	 */
-	@Override
-	public int compareTo(UUID val) {
-		// The ordering is intentionally set up so that the UUIDs
-		// can simply be numerically compared as two numbers
-		return (this.mostSigBits < val.mostSigBits ? -1 : //
-				(this.mostSigBits > val.mostSigBits ? 1 : //
-						(this.leastSigBits < val.leastSigBits ? -1 : //
-								(this.leastSigBits > val.leastSigBits ? 1 : //
-										0))));
-	}
+    @Override
+    public int compareTo(UUID val) {
+        if (this.mostSigBits < val.mostSigBits) {
+            return -1;
+        } else if (this.mostSigBits > val.mostSigBits) {
+            return 1;
+        } else if (this.leastSigBits < val.leastSigBits) {
+            return -1;
+        } else if (this.leastSigBits > val.leastSigBits) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 
 	// -------------------------------------------------------------------------------------------------------------------
 	// Private method start
