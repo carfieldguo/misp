@@ -1,8 +1,11 @@
 package com.groqdata.generator.util;
 
 import java.util.Properties;
+
+import com.groqdata.common.exception.UtilException;
 import org.apache.velocity.app.Velocity;
 import com.groqdata.common.constant.Constants;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * VelocityEngine工厂
@@ -10,6 +13,9 @@ import com.groqdata.common.constant.Constants;
  * @author MISP TEAM
  */
 public class VelocityInitializer {
+	private VelocityInitializer() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
 	/**
 	 * 初始化vm方法
 	 */
@@ -20,11 +26,11 @@ public class VelocityInitializer {
 			p.setProperty("resource.loader.file.class",
 					"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 			// 定义字符集
-			p.setProperty(Velocity.INPUT_ENCODING, Constants.UTF8);
+			p.setProperty(RuntimeConstants.INPUT_ENCODING, Constants.UTF8);
 			// 初始化Velocity引擎，指定配置Properties
 			Velocity.init(p);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new UtilException(e);
 		}
 	}
 }

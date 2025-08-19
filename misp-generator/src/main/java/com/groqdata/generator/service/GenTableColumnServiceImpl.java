@@ -1,7 +1,6 @@
 package com.groqdata.generator.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.groqdata.common.core.text.Convert;
 import com.groqdata.generator.domain.GenTableColumn;
@@ -14,8 +13,11 @@ import com.groqdata.generator.mapper.GenTableColumnMapper;
  */
 @Service
 public class GenTableColumnServiceImpl implements IGenTableColumnService {
-	@Autowired
-	private GenTableColumnMapper genTableColumnMapper;
+	private final GenTableColumnMapper genTableColumnMapper;
+
+	public GenTableColumnServiceImpl(GenTableColumnMapper genTableColumnMapper) {
+		this.genTableColumnMapper = genTableColumnMapper;
+	}
 
 	/**
 	 * 查询业务字段列表

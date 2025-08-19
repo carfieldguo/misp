@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,6 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +28,6 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.generator.constants.GenConstants;
-import com.groqdata.common.core.text.CharsetKit;
 import com.groqdata.common.exception.ServiceException;
 import com.groqdata.common.utils.StringHelper;
 import com.groqdata.generator.domain.GenTable;
@@ -48,11 +47,14 @@ import com.groqdata.generator.util.VelocityUtils;
 public class GenTableServiceImpl implements IGenTableService {
 	private static final Logger log = LoggerFactory.getLogger(GenTableServiceImpl.class);
 
-	@Autowired
-	private GenTableMapper genTableMapper;
+	private final GenTableMapper genTableMapper;
 
-	@Autowired
-	private GenTableColumnMapper genTableColumnMapper;
+	private final GenTableColumnMapper genTableColumnMapper;
+
+	public GenTableServiceImpl(GenTableMapper genTableMapper, GenTableColumnMapper genTableColumnMapper) {
+		this.genTableMapper = genTableMapper;
+		this.genTableColumnMapper = genTableColumnMapper;
+	}
 
 	/**
 	 * 查询业务信息
@@ -258,7 +260,7 @@ public class GenTableServiceImpl implements IGenTableService {
 				tpl.merge(context, sw);
 				try {
 					String path = getGenPath(table, template);
-					FileUtils.writeStringToFile(new File(path), sw.toString(), CharsetKit.UTF_8);
+					FileUtils.writeStringToFile(new File(path), sw.toString(), StandardCharsets.UTF_8);
 				} catch (IOException e) {
 					throw new ServiceException("渲染模板失败，表名：" + table.getTableName());
 				}
@@ -284,7 +286,7 @@ public class GenTableServiceImpl implements IGenTableService {
 			throw new ServiceException("同步数据失败，原表结构不存在");
 		}
 		List<String> dbTableColumnNames = dbTableColumns.stream().map(GenTableColumn::getColumnName)
-				.collect(Collectors.toList());
+				.toList();
 
 		dbTableColumns.forEach(column -> {
 			GenUtils.initColumnField(column, table);
@@ -310,7 +312,7 @@ public class GenTableServiceImpl implements IGenTableService {
 		});
 
 		List<GenTableColumn> delColumns = tableColumns.stream()
-				.filter(column -> !dbTableColumnNames.contains(column.getColumnName())).collect(Collectors.toList());
+				.filter(column -> !dbTableColumnNames.contains(column.getColumnName())).toList();
 		if (StringHelper.isNotEmpty(delColumns)) {
 			genTableColumnMapper.deleteGenTableColumns(delColumns);
 		}
@@ -361,7 +363,7 @@ public class GenTableServiceImpl implements IGenTableService {
 			try {
 				// 添加到zip
 				zip.putNextEntry(new ZipEntry(VelocityUtils.getFileName(template, table)));
-				IOUtils.write(sw.toString(), zip, Constants.UTF8);
+				IOUtils.write(sw.toString(), zip, StandardCharsets.UTF_8);
 				IOUtils.closeQuietly(sw);
 				zip.flush();
 				zip.closeEntry();

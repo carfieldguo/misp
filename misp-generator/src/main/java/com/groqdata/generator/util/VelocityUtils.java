@@ -23,6 +23,9 @@ import com.groqdata.generator.domain.GenTableColumn;
  * @author MISP TEAM
  */
 public class VelocityUtils {
+	private VelocityUtils() {
+		throw new IllegalStateException("工具类不可实例化");
+	}
 	/** 项目空间路径 */
 	private static final String PROJECT_PATH = "main/java";
 
@@ -134,7 +137,7 @@ public class VelocityUtils {
 		if ("element-plus".equals(tplWebType)) {
 			useWebType = "vm/vue/v3";
 		}
-		List<String> templates = new ArrayList<String>();
+		List<String> templates = new ArrayList<>();
 		templates.add("vm/java/domain.java.vm");
 		templates.add("vm/java/mapper.java.vm");
 		templates.add("vm/java/service.java.vm");
@@ -218,10 +221,10 @@ public class VelocityUtils {
 	 * @param genTable 业务表对象
 	 * @return 返回需要导入的包列表
 	 */
-	public static HashSet<String> getImportList(GenTable genTable) {
+	public static Set<String> getImportList(GenTable genTable) {
 		List<GenTableColumn> columns = genTable.getColumns();
 		GenTable subGenTable = genTable.getSubTable();
-		HashSet<String> importList = new HashSet<String>();
+		HashSet<String> importList = new HashSet<>();
 		if (StringHelper.isNotNull(subGenTable)) {
 			importList.add("java.util.List");
 		}
@@ -247,7 +250,7 @@ public class VelocityUtils {
 	 */
 	public static String getDicts(GenTable genTable) {
 		List<GenTableColumn> columns = genTable.getColumns();
-		Set<String> dicts = new HashSet<String>();
+		Set<String> dicts = new HashSet<>();
 		addDicts(dicts, columns);
 		if (StringHelper.isNotNull(genTable.getSubTable())) {
 			List<GenTableColumn> subColumns = genTable.getSubTable().getColumns();
@@ -266,7 +269,7 @@ public class VelocityUtils {
 		for (GenTableColumn column : columns) {
 			if (!column.isSuperColumn() && StringUtils.isNotEmpty(column.getDictType()) && StringUtils.equalsAny(
 					column.getHtmlType(),
-					new String[]{GenConstants.HTML_SELECT, GenConstants.HTML_RADIO, GenConstants.HTML_CHECKBOX })) {
+					GenConstants.HTML_SELECT, GenConstants.HTML_RADIO, GenConstants.HTML_CHECKBOX)) {
 				dicts.add("'" + column.getDictType() + "'");
 			}
 		}

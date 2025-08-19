@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiOperation;
 public class TestController extends BaseController {
 	private static final String USER_NOT_EXIST = "用户不存在";
 
-	private static final  Map<Integer, UserEntity> users = new LinkedHashMap<>();
+	private static final Map<Integer, UserEntity> users = new LinkedHashMap<>();
 	static {
 		users.put(1, new UserEntity(1, "admin", "admin123", "15888888888"));
 		users.put(2, new UserEntity(2, "ry", "admin123", "15666666666"));
