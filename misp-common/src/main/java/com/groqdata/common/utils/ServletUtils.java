@@ -120,8 +120,11 @@ public class ServletUtils {
 	}
 
 	public static ServletRequestAttributes getRequestAttributes() {
-		RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
-		return (ServletRequestAttributes) attributes;
+        RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+        if (attributes == null) {
+            throw new IllegalStateException("无法获取到 RequestAttributes，请确保当前线程绑定到了请求上下文。");
+        }
+        return (ServletRequestAttributes) attributes;
 	}
 
 	/**
