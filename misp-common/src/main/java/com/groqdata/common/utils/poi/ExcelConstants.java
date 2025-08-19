@@ -50,13 +50,18 @@ public class ExcelConstants {
 	public static final String DICT_COMBO_PREFIX = "combo_";
 	public static final String DATA_ID_FORMAT = "data_{}_{}_{}_{}";
 	public static final String HEADER_ID_FORMAT = "header_{}_{}";
-	public static final String OFFICE_SPREADSHEETML_SHEET = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+
+	public static final String OFFICE_SPREAD_SHEET = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 	public static final String DEFAULT_FONT_NAME = "Arial";
 	public static final String STYLE_TYPE_TOTAL = "total";
 	public static final String STYLE_TYPE_DATA = "data";
 	public static final String STYLE_TYPE_TITLE = "title";
 
-	private ExcelConstants() {
+    public static final int DEFAULT_MAX_SHEET_SIZE = 65536;
+
+
+    private ExcelConstants() {
 		// 私有构造函数防止实例化
 	}
 }
