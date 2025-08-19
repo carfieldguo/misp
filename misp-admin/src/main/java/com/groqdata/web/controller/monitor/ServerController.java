@@ -17,7 +17,7 @@ import com.groqdata.framework.web.domain.Server;
 public class ServerController {
 	@PreAuthorize("@ss.hasPermit('monitor:server:list')")
 	@GetMapping()
-	public AjaxResult getInfo()  {
+	public AjaxResult getInfo() {
 		Server server = new Server();
 		server.copyTo();
 		return AjaxResult.success(server);

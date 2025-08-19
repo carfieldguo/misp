@@ -34,8 +34,10 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/test/user")
 public class TestController extends BaseController {
-	private final static Map<Integer, UserEntity> users = new LinkedHashMap<Integer, UserEntity>();
-	{
+	private static final String USER_NOT_EXIST = "用户不存在";
+
+	private static final  Map<Integer, UserEntity> users = new LinkedHashMap<>();
+	static {
 		users.put(1, new UserEntity(1, "admin", "admin123", "15888888888"));
 		users.put(2, new UserEntity(2, "ry", "admin123", "15666666666"));
 	}
@@ -43,7 +45,7 @@ public class TestController extends BaseController {
 	@ApiOperation("获取用户列表")
 	@GetMapping("/list")
 	public Resp<List<UserEntity>> userList() {
-		List<UserEntity> userList = new ArrayList<UserEntity>(users.values());
+		List<UserEntity> userList = new ArrayList<>(users.values());
 		return Resp.ok(userList);
 	}
 
@@ -54,7 +56,7 @@ public class TestController extends BaseController {
 		if (!users.isEmpty() && users.containsKey(userId)) {
 			return Resp.ok(users.get(userId));
 		} else {
-			return Resp.error("用户不存在");
+			return Resp.error(USER_NOT_EXIST);
 		}
 	}
 
@@ -81,7 +83,7 @@ public class TestController extends BaseController {
 			return Resp.error("用户ID不能为空");
 		}
 		if (users.isEmpty() || !users.containsKey(user.getUserId())) {
-			return Resp.error("用户不存在");
+			return Resp.error(USER_NOT_EXIST);
 		}
 		users.remove(user.getUserId());
 		users.put(user.getUserId(), user);
@@ -96,7 +98,7 @@ public class TestController extends BaseController {
 			users.remove(userId);
 			return Resp.ok();
 		} else {
-			return Resp.error("用户不存在");
+			return Resp.error(USER_NOT_EXIST);
 		}
 	}
 }

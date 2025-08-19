@@ -55,7 +55,7 @@ public class ConsumerEnterpriseInfoController extends BaseController {
 		@ApiImplicitParam(name = "pageNum", value = "当前页码", defaultValue = "1"),
 		@ApiImplicitParam(name = "pageSize", value = "每页条数", defaultValue = "10"),
 	})
-	public TableDataInfo<ConsumerEnterpriseInfo>  list(ConsumerEnterpriseInfo consumerEnterpriseInfo) {
+	public TableDataInfo<ConsumerEnterpriseInfo> list(ConsumerEnterpriseInfo consumerEnterpriseInfo) {
 		startPage();
 		List<ConsumerEnterpriseInfo> list = consumerEnterpriseInfoService
 				.selectConsumerEnterpriseInfoList(consumerEnterpriseInfo);
