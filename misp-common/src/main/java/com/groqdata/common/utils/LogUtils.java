@@ -6,6 +6,9 @@ package com.groqdata.common.utils;
  * @author MISP TEAM
  */
 public class LogUtils {
+    private LogUtils() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
 	public static String getBlock(Object msg) {
 		if (msg == null) {
 			msg = "";

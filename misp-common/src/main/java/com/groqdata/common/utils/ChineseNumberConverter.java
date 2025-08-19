@@ -8,6 +8,10 @@ import java.math.RoundingMode;
  * 处理范围：支持正负数字，精确到分
  */
 public class ChineseNumberConverter {
+    private ChineseNumberConverter() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
+
 	// 小数部分单位（角、分）
 	private static final String[] FRACTION_UNITS = {"角", "分" };
 	// 数字对应中文
@@ -50,47 +54,54 @@ public class ChineseNumberConverter {
 	/**
 	 * 处理整数部分
 	 */
-	private static void processIntegerPart(BigDecimal integerPart, StringBuilder result) {
-		if (integerPart.compareTo(BigDecimal.ZERO) == 0) {
-			return; // 整数部分为0时先不处理，后续统一处理
-		}
+    private static void processIntegerPart(BigDecimal integerPart, StringBuilder result) {
+        if (integerPart.compareTo(BigDecimal.ZERO) == 0) {
+            return;
+        }
 
-		long integer = integerPart.longValue();
-		int groupIndex = 0;
-		boolean hasNonZero = false;
+        long integer = integerPart.longValue();
+        int groupIndex = 0;
+        boolean hasNonZero = false;
 
-		while (integer > 0) {
-			// 每次处理4位数字（一个组：个、拾、佰、仟）
-			long group = integer % 10000;
-			if (group != 0) {
-				StringBuilder groupStr = new StringBuilder();
-				for (int i = 0; i < 4; i++) {
-					int digit = (int) (group % 10);
-					if (digit != 0) {
-						// 非零数字：数字 + 单位
-						groupStr.insert(0, DIGITS[digit] + GROUP_INNER_UNITS[i]);
-						hasNonZero = true;
-					} else {
-						// 零数字：前面有非零数字时才加零，避免多个连续零
-						if (groupStr.length() > 0 && groupStr.charAt(0) != '零') {
-							groupStr.insert(0, DIGITS[0]);
-						}
-					}
-					group /= 10;
-				}
-				// 加上组单位（元、万、亿）
-				groupStr.append(INTEGER_GROUP_UNITS[groupIndex]);
-				// 插入到结果前面
-				result.insert(0, groupStr);
-			} else if (hasNonZero) {
-				// 组为零但前面有非零组，需要加零
-				result.insert(0, DIGITS[0]);
-			}
+        while (integer > 0) {
+            long group = integer % 10000;
+            if (group != 0) {
+                String groupStr = convertGroupToChinese(group);
+                groupStr += INTEGER_GROUP_UNITS[groupIndex];
+                result.insert(0, groupStr);
+                hasNonZero = true;
+            } else if (hasNonZero) {
+                result.insert(0, DIGITS[0]);
+            }
 
-			integer /= 10000;
-			groupIndex++;
-		}
-	}
+            integer /= 10000;
+            groupIndex++;
+        }
+    }
+
+    /**
+     * 将四位数以内的数字转换为中文表示
+     */
+    private static String convertGroupToChinese(long group) {
+        StringBuilder groupStr = new StringBuilder();
+        boolean needZero = false;
+
+        for (int i = 0; i < 4; i++) {
+            int digit = (int) (group % 10);
+            if (digit != 0) {
+                groupStr.insert(0, DIGITS[digit] + GROUP_INNER_UNITS[i]);
+                needZero = false;
+            } else {
+                if (!groupStr.isEmpty() && !needZero) {
+                    groupStr.insert(0, DIGITS[0]);
+                    needZero = true;
+                }
+            }
+            group /= 10;
+        }
+
+        return groupStr.toString();
+    }
 
 	/**
 	 * 处理小数部分（角、分）
@@ -108,7 +119,7 @@ public class ChineseNumberConverter {
 		// 处理角
 		if (jiao != 0) {
 			result.append(DIGITS[jiao]).append(FRACTION_UNITS[0]);
-		} else if (result.length() > 0) { // 角为零但有整数部分或负数标记，需加零
+		} else if (!result.isEmpty()) { // 角为零但有整数部分或负数标记，需加零
 			result.append(DIGITS[0]);
 		}
 

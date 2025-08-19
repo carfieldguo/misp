@@ -8,6 +8,10 @@ import org.apache.commons.lang3.StringUtils;
  * @author MISP TEAM
  */
 public class DesensitizedUtil {
+    private DesensitizedUtil() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
+
 	/**
 	 * 密码的全部字符都用*代替，比如：******
 	 *

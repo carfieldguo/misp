@@ -27,7 +27,11 @@ import com.groqdata.common.core.text.Convert;
  * @author MISP TEAM
  */
 public class ServletUtils {
-	/**
+    private ServletUtils() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
+
+    /**
 	 * 获取String参数
 	 */
 	public static String getParameter(String name) {

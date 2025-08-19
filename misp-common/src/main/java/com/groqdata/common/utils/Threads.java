@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory;
  */
 public class Threads {
 	private static final Logger logger = LoggerFactory.getLogger(Threads.class);
-
+    private Threads() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
 	/**
 	 * sleep等待,单位为毫秒
 	 */
@@ -59,9 +61,8 @@ public class Threads {
 	 * 打印线程异常信息
 	 */
 	public static void printException(Runnable r, Throwable t) {
-		if (t == null && r instanceof Future<?>) {
+		if (t == null && r instanceof Future<?> future) {
 			try {
-				Future<?> future = (Future<?>) r;
 				if (future.isDone()) {
 					future.get();
 				}

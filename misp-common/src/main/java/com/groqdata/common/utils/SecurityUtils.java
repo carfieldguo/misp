@@ -21,7 +21,9 @@ import com.groqdata.common.exception.ServiceException;
  * @author MISP TEAM
  */
 public class SecurityUtils {
-
+    private SecurityUtils() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
 	/**
 	 * 用户ID
 	 **/

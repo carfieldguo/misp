@@ -18,7 +18,10 @@ import com.groqdata.common.core.text.StrFormatter;
  * @author MISP TEAM
  */
 public class StringHelper {
-	/** 空字符串 */
+    private StringHelper() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
+    /** 空字符串 */
 	private static final String NULLSTR = "";
 
 	/** 下划线 */
@@ -309,8 +312,8 @@ public class StringHelper {
 	 * @param sep 分隔符
 	 * @return set集合
 	 */
-	public static final Set<String> str2Set(String str, String sep) {
-		return new HashSet<String>(str2List(str, sep, true, false));
+	public static Set<String> str2Set(String str, String sep) {
+		return new HashSet<>(str2List(str, sep, true, false));
 	}
 
 	/**
@@ -322,8 +325,8 @@ public class StringHelper {
 	 * @param trim 去掉首尾空白
 	 * @return list集合
 	 */
-	public static final List<String> str2List(String str, String sep, boolean filterBlank, boolean trim) {
-		List<String> list = new ArrayList<String>();
+	public static List<String> str2List(String str, String sep, boolean filterBlank, boolean trim) {
+		List<String> list = new ArrayList<>();
 		if (StringHelper.isEmpty(str)) {
 			return list;
 		}
@@ -388,41 +391,32 @@ public class StringHelper {
 	/**
 	 * 驼峰转下划线命名
 	 */
-	public static String toUnderScoreCase(String str) {
-		if (str == null) {
-			return null;
-		}
-		StringBuilder sb = new StringBuilder();
-		// 前置字符是否大写
-		boolean preCharIsUpperCase = true;
-		// 当前字符是否大写
-		boolean curreCharIsUpperCase = true;
-		// 下一字符是否大写
-		boolean nexteCharIsUpperCase = true;
-		for (int i = 0; i < str.length(); i++) {
-			char c = str.charAt(i);
-			if (i > 0) {
-				preCharIsUpperCase = Character.isUpperCase(str.charAt(i - 1));
-			} else {
-				preCharIsUpperCase = false;
-			}
+    public static String toUnderScoreCase(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
 
-			curreCharIsUpperCase = Character.isUpperCase(c);
+        StringBuilder sb = new StringBuilder();
+        boolean firstChar = true;
 
-			if (i < (str.length() - 1)) {
-				nexteCharIsUpperCase = Character.isUpperCase(str.charAt(i + 1));
-			}
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
 
-			if (preCharIsUpperCase && curreCharIsUpperCase && !nexteCharIsUpperCase) {
-				sb.append(SEPARATOR);
-			} else if ((i != 0 && !preCharIsUpperCase) && curreCharIsUpperCase) {
-				sb.append(SEPARATOR);
-			}
-			sb.append(Character.toLowerCase(c));
-		}
+            if (Character.isUpperCase(c)) {
+                // 非首字符且前一个字符不是下划线时添加下划线
+                if (!firstChar && sb.charAt(sb.length() - 1) != SEPARATOR) {
+                    sb.append(SEPARATOR);
+                }
+                sb.append(Character.toLowerCase(c));
+            } else {
+                sb.append(c);
+            }
 
-		return sb.toString();
-	}
+            firstChar = false;
+        }
+
+        return sb.toString();
+    }
 
 	/**
 	 * 是否包含字符串

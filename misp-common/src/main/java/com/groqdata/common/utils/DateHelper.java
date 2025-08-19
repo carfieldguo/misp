@@ -9,6 +9,8 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
+
+import com.groqdata.common.exception.UtilException;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -18,18 +20,22 @@ import org.apache.commons.lang3.time.DateUtils;
  * @author MISP TEAM
  */
 public class DateHelper {
-	public static String YYYY = "yyyy";
+    private DateHelper() {
+        throw new IllegalStateException("工具类不可实例化");
+    }
 
-	public static String YYYY_MM = "yyyy-MM";
+	public static final String YYYY = "yyyy";
 
-	public static String YYYY_MM_DD = "yyyy-MM-dd";
+	public static final String YYYY_MM = "yyyy-MM";
 
-	public static String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
+	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
-	public static String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+	public static final String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 
-	private static String[] parsePatterns = {
-		"yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM",
+	public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+
+	private static final String[] parsePatterns = {
+            YYYY_MM_DD, YYYY_MM_DD_HH_MM_SS, "yyyy-MM-dd HH:mm", YYYY_MM,
 		"yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM",
 		"yyyy.MM.dd", "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM" };
 
@@ -75,7 +81,7 @@ public class DateHelper {
 		try {
 			return new SimpleDateFormat(format).parse(ts);
 		} catch (ParseException e) {
-			throw new RuntimeException(e);
+			throw new UtilException(e);
 		}
 	}
 
@@ -132,10 +138,9 @@ public class DateHelper {
 	 * @return 时间差（天/小时/分钟）
 	 */
 	public static String timeDistance(Date endDate, Date startTime) {
-		long nd = 1000 * 24 * 60 * 60;
-		long nh = 1000 * 60 * 60;
-		long nm = 1000 * 60;
-		// long ns = 1000;
+		long nd = 1000L * 24 * 60 * 60;
+		long nh = 1000L * 60 * 60;
+		long nm = 1000L * 60;
 		// 获得两个时间的毫秒时间差异
 		long diff = endDate.getTime() - startTime.getTime();
 		// 计算差多少天
@@ -144,8 +149,6 @@ public class DateHelper {
 		long hour = diff % nd / nh;
 		// 计算差多少分钟
 		long min = diff % nd % nh / nm;
-		// 计算差多少秒//输出结果
-		// long sec = diff % nd % nh % nm / ns;
 		return day + "天" + hour + "小时" + min + "分钟";
 	}
 
