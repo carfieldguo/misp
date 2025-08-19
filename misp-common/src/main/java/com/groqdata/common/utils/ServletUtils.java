@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -30,7 +32,7 @@ public class ServletUtils {
     private ServletUtils() {
         throw new IllegalStateException("工具类不可实例化");
     }
-
+    private static final Logger log = LoggerFactory.getLogger(ServletUtils.class);
     /**
 	 * 获取String参数
 	 */
@@ -140,8 +142,8 @@ public class ServletUtils {
 			response.setCharacterEncoding("utf-8");
 			response.getWriter().print(string);
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            log.error("渲染字符串到客户端时发生IO异常", e); // 使用日志记录异常
+        }
 	}
 
 	/**
