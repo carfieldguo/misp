@@ -92,7 +92,7 @@ public final class Base64Utils {
 	 */
 	public static byte[] decode(String base64Str) {
 		if (base64Str == null) {
-			return null;
+			return new byte[0];
 		}
 		try {
 			return STANDARD_DECODER.decode(base64Str);
@@ -123,7 +123,7 @@ public final class Base64Utils {
 	 */
 	public static byte[] decodeUrlSafe(String base64Str) {
 		if (base64Str == null) {
-			return null;
+			return new byte[0];
 		}
 		try {
 			return URL_DECODER.decode(base64Str);
