@@ -32,6 +32,8 @@ import com.groqdata.system.service.ISysMenuService;
 @RequestMapping("/system/menu")
 public class SysMenuController extends BaseController {
 
+	private static final String CN_EDIT_MENU = "修改菜单'";
+	private static final String CN_ADD_MENU = "新增菜单'";
 	private ISysMenuService menuService;
 
 	@Autowired
@@ -87,9 +89,9 @@ public class SysMenuController extends BaseController {
 	@PostMapping
 	public AjaxResult add(@Validated @RequestBody SysMenu menu) {
 		if (!menuService.checkMenuNameUnique(menu)) {
-			return error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
+			return error(CN_ADD_MENU + menu.getMenuName() + "'失败，菜单名称已存在");
 		} else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringHelper.ishttp(menu.getPath())) {
-			return error("新增菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
+			return error(CN_ADD_MENU + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
 		}
 		menu.setCreateBy(getUsername());
 		return toAjax(menuService.insertMenu(menu));
@@ -103,11 +105,11 @@ public class SysMenuController extends BaseController {
 	@PutMapping
 	public AjaxResult edit(@Validated @RequestBody SysMenu menu) {
 		if (!menuService.checkMenuNameUnique(menu)) {
-			return error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
+			return error(CN_EDIT_MENU + menu.getMenuName() + "'失败，菜单名称已存在");
 		} else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringHelper.ishttp(menu.getPath())) {
-			return error("修改菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
+			return error(CN_EDIT_MENU + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
 		} else if (menu.getMenuId().equals(menu.getParentId())) {
-			return error("修改菜单'" + menu.getMenuName() + "'失败，上级菜单不能选择自己");
+			return error(CN_EDIT_MENU + menu.getMenuName() + "'失败，上级菜单不能选择自己");
 		}
 		menu.setUpdateBy(getUsername());
 		return toAjax(menuService.updateMenu(menu));

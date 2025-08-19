@@ -1,7 +1,7 @@
 package com.groqdata.web.controller.system;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,6 +45,8 @@ import com.groqdata.system.service.ISysUserService;
 @RequestMapping("/system/user")
 public class SysUserController extends BaseController {
 
+	private static final String CN_ADD_USER = "新增用户'";
+	private static final String CN_EDIT_USER = "修改用户'";
 	private ISysUserService userService;
 
 	@Autowired
@@ -78,7 +80,7 @@ public class SysUserController extends BaseController {
 	 */
 	@PreAuthorize("@ss.hasPermit('system:user:list')")
 	@GetMapping("/list")
-	public TableDataInfo list(SysUser user) {
+	public TableDataInfo<SysUser> list(SysUser user) {
 		startPage();
 		List<SysUser> list = userService.selectUserList(user);
 		return getDataTable(list);
@@ -89,15 +91,15 @@ public class SysUserController extends BaseController {
 	@PostMapping("/export")
 	public void export(HttpServletResponse response, SysUser user) {
 		List<SysUser> list = userService.selectUserList(user);
-		ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
+		ExcelUtil<SysUser> util = new ExcelUtil<>(SysUser.class);
 		util.exportExcel(response, list, "用户数据");
 	}
 
 	@Log(title = "用户管理", businessType = BusinessType.IMPORT)
 	@PreAuthorize("@ss.hasPermit('system:user:import')")
 	@PostMapping("/importData")
-	public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
-		ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
+	public AjaxResult importData(MultipartFile file, boolean updateSupport) throws IOException {
+		ExcelUtil<SysUser> util = new ExcelUtil<>(SysUser.class);
 		List<SysUser> userList = util.importExcel(file.getInputStream());
 		String operName = getUsername();
 		String message = userService.importUser(userList, updateSupport, operName);
@@ -106,7 +108,7 @@ public class SysUserController extends BaseController {
 
 	@PostMapping("/importTemplate")
 	public void importTemplate(HttpServletResponse response) {
-		ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
+		ExcelUtil<SysUser> util = new ExcelUtil<>(SysUser.class);
 		util.importTemplateExcel(response, "用户数据");
 	}
 
@@ -122,13 +124,13 @@ public class SysUserController extends BaseController {
 		ajax.put("roles",
 				SysUser.isAdmin(userId)
 						? roles
-						: roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+						: roles.stream().filter(r -> !r.isAdmin()).toList());
 		ajax.put("posts", postService.selectPostAll());
 		if (StringHelper.isNotNull(userId)) {
 			SysUser sysUser = userService.selectUserById(userId);
 			ajax.put(AjaxResult.DATA_TAG, sysUser);
 			ajax.put("postIds", postService.selectPostListByUserId(userId));
-			ajax.put("roleIds", sysUser.getRoles().stream().map(SysRole::getRoleId).collect(Collectors.toList()));
+			ajax.put("roleIds", sysUser.getRoles().stream().map(SysRole::getRoleId).toList());
 		}
 		return ajax;
 	}
@@ -143,11 +145,11 @@ public class SysUserController extends BaseController {
 		deptService.checkDeptDataScope(user.getDeptId());
 		roleService.checkRoleDataScope(user.getRoleIds());
 		if (!userService.checkUserNameUnique(user)) {
-			return error("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
+			return error(CN_ADD_USER + user.getUserName() + "'失败，登录账号已存在");
 		} else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user)) {
-			return error("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
+			return error(CN_ADD_USER + user.getUserName() + "'失败，手机号码已存在");
 		} else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user)) {
-			return error("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+			return error(CN_ADD_USER + user.getUserName() + "'失败，邮箱账号已存在");
 		}
 		user.setCreateBy(getUsername());
 		user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
@@ -166,11 +168,11 @@ public class SysUserController extends BaseController {
 		deptService.checkDeptDataScope(user.getDeptId());
 		roleService.checkRoleDataScope(user.getRoleIds());
 		if (!userService.checkUserNameUnique(user)) {
-			return error("修改用户'" + user.getUserName() + "'失败，登录账号已存在");
+			return error(CN_EDIT_USER + user.getUserName() + "'失败，登录账号已存在");
 		} else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user)) {
-			return error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
+			return error(CN_EDIT_USER + user.getUserName() + "'失败，手机号码已存在");
 		} else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user)) {
-			return error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+			return error(CN_EDIT_USER + user.getUserName() + "'失败，邮箱账号已存在");
 		}
 		user.setUpdateBy(getUsername());
 		return toAjax(userService.updateUser(user));
@@ -229,7 +231,7 @@ public class SysUserController extends BaseController {
 		ajax.put("roles",
 				SysUser.isAdmin(userId)
 						? roles
-						: roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+						: roles.stream().filter(r -> !r.isAdmin()).toList());
 		return ajax;
 	}
 
