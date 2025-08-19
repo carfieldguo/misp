@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-
 /**
  * 定时任务调度测试
  * 
@@ -19,7 +18,7 @@ public class RyTask {
 	}
 
 	public void ryParams(String params) {
-		log.info("执行有参方法：{}" , params);
+		log.info("执行有参方法：{}", params);
 	}
 
 	public void ryNoParams() {
