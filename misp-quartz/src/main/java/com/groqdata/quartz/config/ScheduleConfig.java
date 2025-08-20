@@ -1,7 +1,6 @@
 package com.groqdata.quartz.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import javax.sql.DataSource;
@@ -12,7 +11,7 @@ import java.util.Properties;
  *
  * @author MISP TEAM
  */
-@Configuration
+//@Configuration
 public class ScheduleConfig {
 	@Bean
 	public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource) {
