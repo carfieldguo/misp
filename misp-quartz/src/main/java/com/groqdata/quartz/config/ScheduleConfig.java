@@ -11,7 +11,7 @@ import java.util.Properties;
  *
  * @author MISP TEAM
  */
-//@Configuration
+// @Configuration
 public class ScheduleConfig {
 	@Bean
 	public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource) {
