@@ -1,5 +1,4 @@
 # RuoYi-Vue3-PostgreSQL
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=MaoTouHU&show_icons=true&theme=cobalt)
 
   **项目简介**
 
