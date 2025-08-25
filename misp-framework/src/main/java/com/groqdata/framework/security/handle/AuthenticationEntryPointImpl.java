@@ -15,7 +15,7 @@ import com.alibaba.fastjson2.JSON;
 import com.groqdata.common.constant.HttpStatus;
 import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.utils.ServletUtils;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 
 /**
  * 认证失败处理类 返回未授权

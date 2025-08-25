@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.groqdata.common.core.controller.BaseController;
 import com.groqdata.common.core.domain.Resp;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

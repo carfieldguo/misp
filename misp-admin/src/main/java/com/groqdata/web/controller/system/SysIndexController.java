@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.groqdata.common.config.MispConfig;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 
 /**
  * 首页

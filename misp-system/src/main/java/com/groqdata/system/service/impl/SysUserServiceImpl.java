@@ -20,7 +20,7 @@ import com.groqdata.common.core.domain.entity.SysRole;
 import com.groqdata.common.core.domain.entity.SysUser;
 import com.groqdata.common.exception.ServiceException;
 import com.groqdata.common.utils.SecurityUtils;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.common.utils.bean.BeanValidators;
 import com.groqdata.common.utils.spring.SpringUtils;
 import com.groqdata.system.domain.SysPost;

@@ -12,7 +12,7 @@ import com.groqdata.common.core.domain.model.LoginUser;
 import com.groqdata.common.enums.UserStatus;
 import com.groqdata.common.exception.ServiceException;
 import com.groqdata.common.utils.MessageUtils;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.system.service.ISysUserService;
 
 /**

@@ -23,7 +23,7 @@ import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.core.domain.entity.SysDictData;
 import com.groqdata.common.core.page.TableDataInfo;
 import com.groqdata.common.enums.BusinessType;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.common.utils.poi.ExcelUtil;
 import com.groqdata.system.service.ISysDictDataService;
 import com.groqdata.system.service.ISysDictTypeService;

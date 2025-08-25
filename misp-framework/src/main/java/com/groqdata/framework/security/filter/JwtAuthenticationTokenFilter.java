@@ -15,7 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.groqdata.common.core.domain.model.LoginUser;
 import com.groqdata.common.utils.SecurityUtils;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.framework.web.service.TokenService;
 
 /**

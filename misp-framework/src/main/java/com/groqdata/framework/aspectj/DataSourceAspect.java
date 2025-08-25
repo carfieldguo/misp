@@ -14,7 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.groqdata.common.annotation.DataSource;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.framework.datasource.DynamicDataSourceContextHolder;
 
 /**

@@ -16,7 +16,7 @@ import com.groqdata.common.constant.Constants;
 import com.groqdata.common.constant.ScheduleConstants;
 import com.groqdata.common.exception.job.TaskException;
 import com.groqdata.common.exception.job.TaskException.Code;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.common.utils.spring.SpringUtils;
 import com.groqdata.quartz.domain.SysJob;
 

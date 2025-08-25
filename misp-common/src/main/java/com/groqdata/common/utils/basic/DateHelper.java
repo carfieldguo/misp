@@ -1,4 +1,4 @@
-package com.groqdata.common.utils;
+package com.groqdata.common.utils.basic;
 
 import java.lang.management.ManagementFactory;
 import java.text.ParseException;

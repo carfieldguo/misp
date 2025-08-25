@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.groqdata.common.constant.UserConstants;
 import com.groqdata.common.exception.ServiceException;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.system.domain.SysPost;
 import com.groqdata.system.mapper.SysPostMapper;
 import com.groqdata.system.mapper.SysUserPostMapper;

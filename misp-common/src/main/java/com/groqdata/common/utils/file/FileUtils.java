@@ -20,7 +20,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.groqdata.common.config.MispConfig;
-import com.groqdata.common.utils.DateHelper;
+import com.groqdata.common.utils.basic.DateHelper;
 import com.groqdata.common.utils.uuid.IdUtils;
 
 /**

@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.groqdata.consumer.mapper.ConsumerAppInfoMapper;
-import com.groqdata.common.utils.DateHelper;
+import com.groqdata.common.utils.basic.DateHelper;
 import com.groqdata.consumer.domain.ConsumerAppInfo;
 import com.groqdata.consumer.service.ConsumerAppInfoService;
 

@@ -13,7 +13,7 @@ import com.groqdata.common.exception.user.CaptchaException;
 import com.groqdata.common.exception.user.CaptchaExpireException;
 import com.groqdata.common.utils.MessageUtils;
 import com.groqdata.common.utils.SecurityUtils;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.framework.manager.AsyncManager;
 import com.groqdata.framework.manager.factory.AsyncFactory;
 import com.groqdata.system.service.ISysConfigService;

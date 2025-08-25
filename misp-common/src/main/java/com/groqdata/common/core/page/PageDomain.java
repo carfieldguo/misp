@@ -2,7 +2,7 @@ package com.groqdata.common.core.page;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 
 /**
  * 分页数据

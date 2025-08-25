@@ -1,4 +1,4 @@
-package com.groqdata.common.utils.sign;
+package com.groqdata.common.utils.crypto;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

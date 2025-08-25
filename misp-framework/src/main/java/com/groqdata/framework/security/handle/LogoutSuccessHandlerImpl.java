@@ -16,7 +16,7 @@ import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.core.domain.model.LoginUser;
 import com.groqdata.common.utils.MessageUtils;
 import com.groqdata.common.utils.ServletUtils;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.framework.manager.AsyncManager;
 import com.groqdata.framework.manager.factory.AsyncFactory;
 import com.groqdata.framework.web.service.TokenService;

@@ -1,4 +1,4 @@
-package com.groqdata.common.utils.sign;
+package com.groqdata.common.utils.crypto;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

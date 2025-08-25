@@ -4,7 +4,7 @@ import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.groqdata.generator.constants.GenConstants;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.generator.config.GenConfig;
 import com.groqdata.generator.domain.GenTable;
 import com.groqdata.generator.domain.GenTableColumn;

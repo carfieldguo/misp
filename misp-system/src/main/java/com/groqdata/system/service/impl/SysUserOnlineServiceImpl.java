@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.groqdata.common.core.domain.model.LoginUser;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.system.domain.SysUserOnline;
 import com.groqdata.system.service.ISysUserOnlineService;
 

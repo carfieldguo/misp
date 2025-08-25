@@ -16,7 +16,7 @@ import com.groqdata.common.core.domain.entity.SysDictData;
 import com.groqdata.common.core.domain.entity.SysDictType;
 import com.groqdata.common.exception.ServiceException;
 import com.groqdata.common.utils.DictUtils;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.system.mapper.SysDictDataMapper;
 import com.groqdata.system.mapper.SysDictTypeMapper;
 import com.groqdata.system.service.ISysDictTypeService;

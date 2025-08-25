@@ -18,7 +18,7 @@ import com.groqdata.common.core.domain.entity.SysMenu;
 import com.groqdata.common.core.domain.entity.SysRole;
 import com.groqdata.common.core.domain.entity.SysUser;
 import com.groqdata.common.utils.SecurityUtils;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.system.domain.vo.MetaVo;
 import com.groqdata.system.domain.vo.RouterVo;
 import com.groqdata.system.mapper.SysMenuMapper;

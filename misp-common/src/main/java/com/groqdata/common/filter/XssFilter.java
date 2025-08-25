@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 
 import com.groqdata.common.enums.HttpMethod;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 
 /**
  * 防止XSS攻击的过滤器

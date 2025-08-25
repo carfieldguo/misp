@@ -17,7 +17,7 @@ import com.groqdata.common.constant.Constants;
 import com.groqdata.common.core.domain.model.LoginUser;
 import com.groqdata.common.core.redis.RedisCache;
 import com.groqdata.common.utils.ServletUtils;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.common.utils.ip.AddressUtils;
 import com.groqdata.common.utils.ip.IpUtils;
 import com.groqdata.common.utils.uuid.IdUtils;

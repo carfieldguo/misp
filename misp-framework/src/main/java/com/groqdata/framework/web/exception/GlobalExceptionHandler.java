@@ -19,7 +19,7 @@ import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.core.text.Convert;
 import com.groqdata.common.exception.DemoModeException;
 import com.groqdata.common.exception.ServiceException;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.common.utils.html.EscapeUtil;
 
 /**

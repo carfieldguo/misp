@@ -30,7 +30,7 @@ import com.groqdata.common.enums.HttpMethod;
 import com.groqdata.common.filter.PropertyPreExcludeFilter;
 import com.groqdata.common.utils.SecurityUtils;
 import com.groqdata.common.utils.ServletUtils;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.common.utils.ip.IpUtils;
 import com.groqdata.framework.manager.AsyncManager;
 import com.groqdata.framework.manager.factory.AsyncFactory;

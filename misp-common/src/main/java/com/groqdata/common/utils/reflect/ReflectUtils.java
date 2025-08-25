@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.groqdata.common.core.text.Convert;
-import com.groqdata.common.utils.DateHelper;
+import com.groqdata.common.utils.basic.DateHelper;
 
 /**
  * 反射工具类. 提供调用getter/setter方法, 访问私有变量, 调用私有方法, 获取泛型类型Class, 被AOP过的真实类等工具函数.

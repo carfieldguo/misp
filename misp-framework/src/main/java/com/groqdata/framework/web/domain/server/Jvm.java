@@ -3,7 +3,7 @@ package com.groqdata.framework.web.domain.server;
 import java.lang.management.ManagementFactory;
 
 import com.groqdata.common.utils.ArithUtils;
-import com.groqdata.common.utils.DateHelper;
+import com.groqdata.common.utils.basic.DateHelper;
 
 /**
  * JVM相关信息

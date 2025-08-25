@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.groqdata.common.config.MispConfig;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.common.core.domain.AjaxResult;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.common.utils.file.FileUploadUtils;
 import com.groqdata.common.utils.file.FileUtils;
 import com.groqdata.framework.config.ServerConfig;

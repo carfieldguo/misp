@@ -29,7 +29,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.groqdata.common.constant.Constants;
 import com.groqdata.generator.constants.GenConstants;
 import com.groqdata.common.exception.ServiceException;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.generator.domain.GenTable;
 import com.groqdata.generator.domain.GenTableColumn;
 import com.groqdata.generator.mapper.GenTableColumnMapper;

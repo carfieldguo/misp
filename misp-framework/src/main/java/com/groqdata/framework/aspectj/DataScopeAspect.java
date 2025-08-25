@@ -16,7 +16,7 @@ import com.groqdata.common.core.domain.entity.SysUser;
 import com.groqdata.common.core.domain.model.LoginUser;
 import com.groqdata.common.core.text.Convert;
 import com.groqdata.common.utils.SecurityUtils;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.framework.security.context.PermissionContextHolder;
 
 /**

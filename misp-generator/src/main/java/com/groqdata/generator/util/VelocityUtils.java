@@ -12,8 +12,8 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.groqdata.generator.constants.GenConstants;
 
-import com.groqdata.common.utils.DateHelper;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.DateHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.generator.domain.GenTable;
 import com.groqdata.generator.domain.GenTableColumn;
 

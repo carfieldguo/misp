@@ -20,7 +20,7 @@ import com.groqdata.common.core.controller.BaseController;
 import com.groqdata.common.core.domain.AjaxResult;
 import com.groqdata.common.core.domain.entity.SysMenu;
 import com.groqdata.common.enums.BusinessType;
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 import com.groqdata.system.service.ISysMenuService;
 
 /**

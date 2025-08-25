@@ -19,7 +19,7 @@ import com.groqdata.common.exception.file.FileUploadException;
 import com.groqdata.common.exception.file.FileNameLengthLimitExceededException;
 import com.groqdata.common.exception.file.InvalidExtensionException;
 import com.groqdata.common.exception.file.FileSizeLimitExceededException;
-import com.groqdata.common.utils.DateHelper;
+import com.groqdata.common.utils.basic.DateHelper;
 
 /**
  * 文件上传工具类

@@ -1,6 +1,6 @@
 package com.groqdata.system.domain.vo;
 
-import com.groqdata.common.utils.StringHelper;
+import com.groqdata.common.utils.basic.StringHelper;
 
 /**
  * 路由显示信息
